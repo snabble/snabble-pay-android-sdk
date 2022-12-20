@@ -5,6 +5,11 @@ on: [ push ]
 jobs:
   ktlint:
     runs-on: ubuntu-latest
+    # Permission are required to use upload-sarif@v2
+    permissions:
+      security-events: write
+      actions: read
+      contents: read
     steps:
       - name: Checkout
         uses: actions/checkout@v3

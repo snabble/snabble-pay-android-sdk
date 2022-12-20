@@ -38,12 +38,14 @@ dependencies {
     implementation(libs.androidx.core)
     implementation(libs.androidx.appcompat)
 
+    implementation(libs.bundles.koin)
+
     implementation(libs.kotlin.serialization)
 
-    testImplementation(libs.kotest.runner)
-    testImplementation(libs.kotest.assertions)
-    testImplementation(libs.mockk)
+    implementation(libs.bundles.retrofit)
 
-    androidTestImplementation(libs.test.junit)
-    androidTestImplementation(libs.test.espresso)
+    implementation(libs.retrofit)
+
+    testImplementation(libs.bundles.testing)
+    androidTestImplementation(libs.bundles.testing.android)
 }

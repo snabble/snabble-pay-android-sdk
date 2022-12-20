@@ -7,25 +7,39 @@ gradle-android = "7.3.1"
 kotlin = "1.7.22"
 
 kotest = "5.5.4"
+koin = "3.2.0"
+
 
 [libraries]
 # Android
-androidx-core = { group = "androidx.core", name = "core-ktx", version = "1.9.0" }
-androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version = "1.5.1" }
+androidx-core = "androidx.core:core-ktx:1.9.0"
+androidx-appcompat = "androidx.appcompat:appcompat:1.5.1"
 
-koin = { group = "io.insert-koin", name = "koin-android", version = "3.3.0" }
+koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
+koin-android-compat = { module = "io.insert-koin:koin-android-compat", version.ref = "koin" }
+koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
 
-kotlin-serialization = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version = "1.4.1" }
+kotlin-serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1"
 
+retrofit = "com.squareup.retrofit2:retrofit:2.9.0"
+retrofit-kotlin-serialization = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0"
+
+## Android Testing
+test-junit = "androidx.test.ext:junit:1.1.4"
+test-espresso = "androidx.test.espresso:espresso-core:3.5.0"
 
 ## Testing
-test-junit = { group = "androidx.test.ext", name = "junit", version = "1.1.4" }
-test-espresso = { group = "androidx.test.espresso", name = "espresso-core", version = "3.5.0" }
+kotest-runner = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
+kotest-assertions = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
+mockk = "io.mockk:mockk:1.13.3"
 
-# Testing
-kotest-runner = { group = "io.kotest", name = "kotest-runner-junit5", version.ref = "kotest" }
-kotest-assertions = { group = "io.kotest", name = "kotest-assertions-core", version.ref = "kotest" }
-mockk = { group = "io.mockk", name = "mockk", version = "1.13.3" }
+
+[bundles]
+
+koin = ["koin-core", "koin-android", "koin-android-compat"]
+retrofit = ["retrofit", "retrofit-kotlin-serialization"]
+testing = ["kotest-runner", "kotest-assertions", "mockk"]
+testing-android = ["test-junit", "test-espresso"]
 
 
 [plugins]

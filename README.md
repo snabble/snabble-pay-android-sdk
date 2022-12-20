@@ -1,0 +1,1 @@
+# Snabble Pay Android SDK

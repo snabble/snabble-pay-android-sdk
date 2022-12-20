@@ -5,11 +5,6 @@ on: [ push ]
 jobs:
   ktlint:
     runs-on: ubuntu-latest
-    # Permission are required to use upload-sarif@v2
-    permissions:
-      security-events: write
-      actions: read
-      contents: read
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -29,9 +24,3 @@ jobs:
         with:
           name: Ktlint Results
           path: core/build/reports/ktlint/
-
-      - name: Upload SARIF file
-        uses: github/codeql-action/upload-sarif@v2
-        if: success() || failure()
-        with:
-          sarif_file: core/build/reports/ktlint/ktlintMainSourceSetCheck/ktlintMainSourceSetCheck.sarif

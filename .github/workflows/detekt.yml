@@ -24,3 +24,8 @@ jobs:
         with:
           name: Detekt Results
           path: core/build/reports/detekt/
+
+      - name: Upload SARIF file
+          uses: github/codeql-action/upload-sarif@v2
+          with:
+            sarif_file: core/build/reports/detekt/detekt.sarif

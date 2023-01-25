@@ -1,6 +1,3 @@
 package io.snabble.pay.core
 
-class Dummy {
-    init {
-    }
-}
+class Dummy

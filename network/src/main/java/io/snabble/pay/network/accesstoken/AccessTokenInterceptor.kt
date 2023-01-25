@@ -32,9 +32,7 @@ internal class AccessTokenInterceptor(
 private fun Interceptor.Chain.newRequestWithAccessToken(token: AccessToken): Request =
     request().newBuilder().addHeader("Authorization", "Bearer $token").build()
 
-internal class AccessTokenAuthenticator(
-
-) : Authenticator {
+internal class AccessTokenAuthenticator : Authenticator {
 
     override fun authenticate(route: Route?, response: Response): Request? {
         if (response.responseCount >= MAX_RETRIES) return null

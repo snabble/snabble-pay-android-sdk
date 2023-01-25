@@ -2,8 +2,8 @@
 
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
-    alias(libs.plugins.androidLibrary)
-    alias(libs.plugins.kotlin.android)
+    id(libs.plugins.androidLibrary.get().pluginId)
+    id(libs.plugins.kotlin.android.get().pluginId)
     alias(libs.plugins.kotlin.serialization)
 }
 
@@ -35,6 +35,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":network"))
 
     implementation(libs.androidx.core)
     implementation(libs.androidx.appcompat)

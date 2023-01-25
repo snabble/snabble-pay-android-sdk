@@ -9,6 +9,12 @@ plugins {
     alias(libs.plugins.versionCatalogUpdate)
 }
 
+buildscript {
+    dependencies {
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.0")
+    }
+}
+
 subprojects {
     apply {
         plugin(rootProject.libs.plugins.ktlint.get().pluginId)

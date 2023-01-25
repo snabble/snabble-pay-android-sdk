@@ -2,49 +2,54 @@
 sdk-compile = "33"
 sdk-target = "33"
 sdk-min = "21"
-
-gradle-android = "7.3.1"
-kotlin = "1.7.22"
-
+gradle-android = "7.4.0"
+kotlin = "1.8.0"
 kotest = "5.5.4"
-koin = "3.2.0"
-
+koin = "3.3.2"
 
 [libraries]
 # Android
 androidx-core = "androidx.core:core-ktx:1.9.0"
-androidx-appcompat = "androidx.appcompat:appcompat:1.5.1"
-
+androidx-appcompat = "androidx.appcompat:appcompat:1.6.0"
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 koin-android-compat = { module = "io.insert-koin:koin-android-compat", version.ref = "koin" }
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
-
 kotlin-serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1"
-
 retrofit = "com.squareup.retrofit2:retrofit:2.9.0"
 retrofit-kotlin-serialization = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0"
-
 ## Android Testing
-test-junit = "androidx.test.ext:junit:1.1.4"
-test-espresso = "androidx.test.espresso:espresso-core:3.5.0"
-
+test-junit = "androidx.test.ext:junit:1.1.5"
+test-espresso = "androidx.test.espresso:espresso-core:3.5.1"
 ## Testing
 kotest-runner = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
 kotest-assertions = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
 mockk = "io.mockk:mockk:1.13.3"
 
-
 [bundles]
-
-koin = ["koin-core", "koin-android", "koin-android-compat"]
-retrofit = ["retrofit", "retrofit-kotlin-serialization"]
-testing = ["kotest-runner", "kotest-assertions", "mockk"]
-testing-android = ["test-junit", "test-espresso"]
-
+koin = [
+    "koin-android",
+    "koin-android-compat",
+    "koin-core",
+]
+retrofit = [
+    "retrofit",
+    "retrofit-kotlin-serialization",
+]
+testing = [
+    "kotest-assertions",
+    "kotest-runner",
+    "mockk",
+]
+testing-android = [
+    "test-espresso",
+    "test-junit",
+]
 
 [plugins]
-android-library = { id = "com.android.library", version.ref = "gradle-android" }
+androidLibrary = { id = "com.android.library", version.ref = "gradle-android" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
-detekt = { id = "io.gitlab.arturbosch.detekt", version = "1.22.0" }
-ktlint = { id = "org.jlleitschuh.gradle.ktlint", version = "11.0.0" }
+detekt = "io.gitlab.arturbosch.detekt:1.22.0"
+ktlint = "org.jlleitschuh.gradle.ktlint:11.0.0"
+benManesVersions = "com.github.ben-manes.versions:0.44.0"
+versionCatalogUpdate = "nl.littlerobots.version-catalog-update:0.7.0"

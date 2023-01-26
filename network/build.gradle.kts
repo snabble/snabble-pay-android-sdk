@@ -11,4 +11,11 @@ java {
 dependencies {
     implementation(libs.okhttp)
     implementation(libs.kotlinx.coroutinesCore)
+
+    implementation(libs.bundles.testing)
+    testImplementation("com.squareup.okhttp3:mockwebserver:4.10.0")
+}
+
+tasks.withType<Test>().configureEach {
+    useJUnitPlatform()
 }

@@ -8,4 +8,4 @@ interface AccessTokenRepository {
 }
 
 @JvmInline
-value class AccessToken(val token: String)
+value class AccessToken(val value: String)

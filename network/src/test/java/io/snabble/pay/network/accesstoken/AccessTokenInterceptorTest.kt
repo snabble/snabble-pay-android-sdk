@@ -10,7 +10,7 @@ import io.snabble.pay.network.accesstoken.interceptor.AccessTokenInterceptor
 import io.snabble.pay.network.accesstoken.interceptor.usecase.ValidateAppUseCase
 import io.snabble.pay.network.accesstoken.repository.AccessToken
 import io.snabble.pay.network.accesstoken.repository.AccessTokenRepository
-import io.snabble.pay.network.accesstoken.repository.AppCredentials
+import io.snabble.pay.network.api.data.AppCredentials
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.mockwebserver.MockResponse

@@ -16,3 +16,6 @@ internal fun Interceptor.Chain.newRequestWithAccessToken(token: AccessToken): Re
 
 internal fun Response.newRequestWithAccessToken(token: AccessToken): Request =
     request.newBuilder().addHeader("Authorization", "Bearer ${token.value}").build()
+
+internal fun Interceptor.Chain.requestContainsHeader(header: String):Boolean =
+    request().headers.any { it.first == header }

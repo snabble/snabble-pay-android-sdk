@@ -1,7 +1,7 @@
 package io.snabble.pay.network.refreshtoken
 
-import io.snabble.pay.network.accesstoken.AccessToken
-import io.snabble.pay.network.accesstoken.AccessTokenRepository
+import io.snabble.pay.network.accesstoken.repository.AccessToken
+import io.snabble.pay.network.accesstoken.repository.AccessTokenRepository
 
 interface FetchNewAccessTokenUseCase {
 

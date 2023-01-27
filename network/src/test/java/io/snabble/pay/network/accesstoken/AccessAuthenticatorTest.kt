@@ -7,6 +7,7 @@ import io.mockk.coEvery
 import io.mockk.mockk
 import io.snabble.pay.network.accesstoken.authenticator.AccessTokenAuthenticator
 import io.snabble.pay.network.accesstoken.authenticator.usecase.RefreshTokenUseCase
+import io.snabble.pay.network.accesstoken.repository.AccessToken
 import io.snabble.pay.network.refreshtoken.responseCount
 import okhttp3.OkHttpClient
 import okhttp3.Request

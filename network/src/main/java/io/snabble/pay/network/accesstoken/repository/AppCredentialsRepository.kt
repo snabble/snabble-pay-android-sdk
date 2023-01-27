@@ -1,4 +1,4 @@
-package io.snabble.pay.network.accesstoken
+package io.snabble.pay.network.accesstoken.repository
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

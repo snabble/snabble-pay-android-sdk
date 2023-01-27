@@ -1,6 +1,6 @@
 package io.snabble.pay.network
 
-import io.snabble.pay.network.accesstoken.AccessToken
+import io.snabble.pay.network.accesstoken.repository.AccessToken
 import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response

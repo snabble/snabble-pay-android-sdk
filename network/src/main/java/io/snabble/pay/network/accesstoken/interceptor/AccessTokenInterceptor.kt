@@ -1,6 +1,7 @@
-package io.snabble.pay.network.accesstoken
+package io.snabble.pay.network.accesstoken.interceptor
 
-import io.snabble.pay.network.accesstoken.usecase.ValidateAppUseCase
+import io.snabble.pay.network.accesstoken.AccessTokenRepository
+import io.snabble.pay.network.accesstoken.interceptor.usecase.ValidateAppUseCase
 import io.snabble.pay.network.addAccessToken
 import io.snabble.pay.network.newRequestWithAccessToken
 import io.snabble.pay.network.requestContainsHeader

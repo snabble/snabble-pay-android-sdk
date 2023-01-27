@@ -6,7 +6,8 @@ import io.kotest.matchers.shouldBe
 import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.mockk
-import io.snabble.pay.network.accesstoken.usecase.ValidateAppUseCase
+import io.snabble.pay.network.accesstoken.interceptor.AccessTokenInterceptor
+import io.snabble.pay.network.accesstoken.interceptor.usecase.ValidateAppUseCase
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.mockwebserver.MockResponse

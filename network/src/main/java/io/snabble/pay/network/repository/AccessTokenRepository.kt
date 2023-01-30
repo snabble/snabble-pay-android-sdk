@@ -1,4 +1,4 @@
-package io.snabble.pay.network.accesstoken.repository
+package io.snabble.pay.network.repository
 
 interface AccessTokenRepository {
 

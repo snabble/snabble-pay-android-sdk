@@ -4,11 +4,11 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class AccessToken(
+data class ApiAccessToken(
     @SerialName("token") val token: String
 )
 
 @Serializable
-data class Response(
-    @SerialName("AppCredentials") val credentials: AppCredentials
+data class ApiResponse(
+    @SerialName("AppCredentials") val credentials: ApiAppCredentials
 )

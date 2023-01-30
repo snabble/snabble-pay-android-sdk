@@ -1,12 +1,12 @@
-package io.snabble.pay.network.accesstoken.interceptor
+package io.snabble.pay.network.okhttp.interceptor
 
-import io.snabble.pay.network.accesstoken.repository.AccessTokenRepository
-import io.snabble.pay.network.newWithAccessToken
+import io.snabble.pay.network.repository.AccessTokenRepository
+import io.snabble.pay.network.newWithAuthenticationHeader
 import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
 import okhttp3.Response
 
-internal class AccessTokenInterceptor(
+internal class AuthenticationHeaderInterceptor(
     private val accessTokenRepository: AccessTokenRepository
 ) : Interceptor {
 
@@ -14,6 +14,6 @@ internal class AccessTokenInterceptor(
         val token = runBlocking { accessTokenRepository.getAccessToken() }
             ?: return chain.proceed(chain.request())
 
-        return chain.proceed(chain.request().newWithAccessToken(token))
+        return chain.proceed(chain.request().newWithAuthenticationHeader(token))
     }
 }

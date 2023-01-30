@@ -1,6 +1,6 @@
 package io.snabble.pay.network.api.interfaces
 
-import io.snabble.pay.network.api.data.Response
+import io.snabble.pay.network.api.data.ApiResponse
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.POST
@@ -17,5 +17,5 @@ import retrofit2.http.POST
 interface GetAppCredentials {
 
     @POST("/register")
-    fun getAppCredentials(@Body appUrlScheme: String = "snabble-pay"): Call<Response>
+    fun getAppCredentials(@Body appUrlScheme: String = "snabble-pay"): Call<ApiResponse>
 }

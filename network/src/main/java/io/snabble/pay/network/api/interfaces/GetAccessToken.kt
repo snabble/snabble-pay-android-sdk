@@ -1,6 +1,6 @@
 package io.snabble.pay.network.api.interfaces
 
-import io.snabble.pay.network.api.data.AccessToken
+import io.snabble.pay.network.api.data.ApiAccessToken
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -13,5 +13,5 @@ interface GetAccessToken {
         @Query("client_id") appIdentifier: String,
         @Query("client_secret") appSecret: String,
         @Query("scope") scope: String = "all"
-    ): Call<AccessToken>
+    ): Call<ApiAccessToken>
 }

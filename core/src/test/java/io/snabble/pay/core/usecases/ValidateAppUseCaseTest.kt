@@ -1,16 +1,19 @@
-package io.snabble.pay.network.appcredentials
+package io.snabble.pay.core.usecases
 
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.mockk
-import io.snabble.pay.network.accesstoken.interceptor.usecase.FetchAppCredentialsUseCase
-import io.snabble.pay.network.accesstoken.interceptor.usecase.ValidateAppUseCaseImpl
-import io.snabble.pay.network.accesstoken.repository.AppCredentialsRepository
-import io.snabble.pay.network.api.data.AppCredentials
+import io.snabble.pay.core.usecase.FetchAppCredentialsUseCase
+import io.snabble.pay.core.usecase.ValidateAppUseCaseImpl
+import io.snabble.pay.network.repository.AppCredentialsRepository
+import io.snabble.pay.network.repository.AppIdentifier
+import io.snabble.pay.network.repository.AppSecret
+import io.snabble.pay.network.repository.AppUrlScheme
+import io.snabble.pay.network.repository.AppCredentials
 
-class ValidateAppUseCaseTest : FreeSpec({
+internal class ValidateAppUseCaseTest : FreeSpec({
 
     val appCredentialsRepository: AppCredentialsRepository = mockk(relaxed = true)
     val fetchAppCredentials: FetchAppCredentialsUseCase = mockk(relaxed = true)
@@ -25,7 +28,7 @@ class ValidateAppUseCaseTest : FreeSpec({
 
         "it can load the credentials locally" {
             val expected = AppCredentials(
-                "", "", ""
+                AppIdentifier(""), AppSecret(""), AppUrlScheme("")
             )
             coEvery { appCredentialsRepository.getAppCredentials() } returns expected
 
@@ -36,7 +39,7 @@ class ValidateAppUseCaseTest : FreeSpec({
 
         "local load fails but fetching is successfully" {
             val expected = AppCredentials(
-                "", "", ""
+                AppIdentifier(""), AppSecret(""), AppUrlScheme("")
             )
             coEvery { appCredentialsRepository.getAppCredentials() } returns null
             coEvery { fetchAppCredentials.invoke() } returns expected

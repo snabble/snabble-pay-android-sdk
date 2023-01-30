@@ -5,9 +5,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 @SerialName("AppCredentials")
-data class AppCredentials(
+data class ApiAppCredentials(
     @SerialName("appIdentifier") val appId: String,
     @SerialName("appSecret") val appSecret: String,
     @SerialName("appUrlScheme") val appUrlScheme: String,
-
 )

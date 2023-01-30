@@ -1,7 +1,8 @@
 package io.snabble.pay.network.refreshtoken
 
-import io.snabble.pay.network.accesstoken.repository.AccessToken
-import io.snabble.pay.network.accesstoken.repository.AccessTokenRepository
+import io.snabble.pay.network.repository.AccessToken
+import io.snabble.pay.network.repository.AccessTokenRepository
+import io.snabble.pay.network.repository.AppCredentialsRepository
 
 interface FetchNewAccessTokenUseCase {
 
@@ -9,7 +10,7 @@ interface FetchNewAccessTokenUseCase {
 }
 
 class FetchNewAccessTokenUseCaseImpl(
-    val credentialsRepository: AuthCredentialsRepository,
+    val credentialsRepository: AppCredentialsRepository,
     val accessTokenRepository: AccessTokenRepository
 ) : FetchNewAccessTokenUseCase {
 

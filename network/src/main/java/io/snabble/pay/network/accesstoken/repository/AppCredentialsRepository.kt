@@ -8,14 +8,3 @@ interface AppCredentialsRepository {
 
     suspend fun saveAppCredentials(appCredentials: AppCredentials)
 }
-
-class AppCredentialsRepositoryImpl : AppCredentialsRepository {
-
-    override suspend fun getAppCredentials(): AppCredentials? {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun saveAppCredentials(appCredentials: AppCredentials) {
-        TODO("Not yet implemented")
-    }
-}

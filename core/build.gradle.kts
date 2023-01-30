@@ -42,12 +42,9 @@ dependencies {
     implementation(libs.androidx.appcompat)
 
     implementation(libs.bundles.koin)
-
-    implementation(libs.kotlin.serialization)
-
     implementation(libs.bundles.retrofit)
 
-    implementation(libs.retrofit)
+    implementation(libs.kotlin.serialization)
 
     testImplementation(libs.bundles.testing)
     androidTestImplementation(libs.bundles.testing.android)

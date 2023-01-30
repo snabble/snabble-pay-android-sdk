@@ -36,11 +36,9 @@ class AccessTokenInterceptorTest : FreeSpec({
         coEvery { accessTokenRepo.getAccessToken() } returns AccessToken("qwerty345")
     }
 
-
     "A request" - {
 
         "that's failed to receive app credentials should return without continuation" {
-
             coEvery { validateApp.invoke() } returns null
 
             val okHttpClient = OkHttpClient.Builder()
@@ -62,7 +60,6 @@ class AccessTokenInterceptorTest : FreeSpec({
         }
 
         "that's missing an access token should result in a new one w/ an access token" {
-
             coEvery { validateApp.invoke() } returns AppCredentials("asdasd", "", "")
 
             val okHttpClient = OkHttpClient.Builder()

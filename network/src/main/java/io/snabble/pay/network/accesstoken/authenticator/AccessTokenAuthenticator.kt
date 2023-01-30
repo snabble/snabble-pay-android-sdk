@@ -13,12 +13,9 @@ class AccessTokenAuthenticator(
 ) : Authenticator {
 
     override fun authenticate(route: Route?, response: Response): Request? {
-
         if (response.responseCount > MAX_RETRIES) return null
 
-        val accessToken = runBlocking { refreshToken() }
-
-        accessToken ?: return null
+        val accessToken = runBlocking { refreshToken() } ?: return null
 
         return response.newRequestWithAccessToken(accessToken)
     }

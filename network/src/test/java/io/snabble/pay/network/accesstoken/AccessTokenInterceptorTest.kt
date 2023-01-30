@@ -29,6 +29,16 @@ class AccessTokenInterceptorTest : FreeSpec({
     val accessTokenRepo: AccessTokenRepository = mockk(relaxed = true)
     val validateApp: ValidateAppUseCase = mockk(relaxed = true)
 
+    fun createRequest(header: Pair<String, String>? = null) = Request.Builder()
+        .url(server.url(""))
+        .apply {
+            if (header != null) addHeader(header.first, header.second)
+        }
+        .build()
+
+    fun sut(): OkHttpClient = OkHttpClient.Builder()
+        .addInterceptor(AccessTokenInterceptor(accessTokenRepo, validateApp))
+        .build()
 
     beforeEach {
         clearAllMocks()
@@ -40,59 +50,30 @@ class AccessTokenInterceptorTest : FreeSpec({
 
         "that's failed to receive app credentials should return without continuation" {
             coEvery { validateApp.invoke() } returns null
+            val request = createRequest()
 
-            val okHttpClient = OkHttpClient.Builder()
-                .addInterceptor(AccessTokenInterceptor(accessTokenRepo, validateApp))
-                .build()
-
-            val response = okHttpClient
-                .newCall(
-                    Request.Builder()
-                        .url(server.url(""))
-                        .build()
-                )
-                .execute()
-
-            println(response.message)
+            val sut: OkHttpClient = sut()
+            val response = sut.newCall(request).execute()
 
             response.code.shouldBe(401)
-            clearAllMocks()
         }
 
         "that's missing an access token should result in a new one w/ an access token" {
             coEvery { validateApp.invoke() } returns AppCredentials("asdasd", "", "")
+            val request = createRequest()
 
-            val okHttpClient = OkHttpClient.Builder()
-                .addInterceptor(AccessTokenInterceptor(accessTokenRepo, validateApp))
-                .build()
-
-            val response = okHttpClient
-                .newCall(
-                    Request.Builder()
-                        .url(server.url(""))
-                        .build()
-                )
-                .execute()
+            val sut: OkHttpClient = sut()
+            val response = sut.newCall(request).execute()
 
             response.request.headers.shouldContainOnly("Authorization" to "Bearer qwerty345")
         }
 
         "that's already got an access token should be overridden" {
-
             coEvery { validateApp.invoke() } returns AppCredentials("asdasd", "", "")
+            val request = createRequest("Authorization" to "Bearer asdfgh")
 
-            val okHttpClient = OkHttpClient.Builder()
-                .addInterceptor(AccessTokenInterceptor(accessTokenRepo, validateApp))
-                .build()
-
-            val response = okHttpClient
-                .newCall(
-                    Request.Builder()
-                        .url(server.url(""))
-                        .addHeader("Authorization", "Bearer asdfgh")
-                        .build()
-                )
-                .execute()
+            val sut: OkHttpClient = sut()
+            val response = sut.newCall(request).execute()
 
             response.request.headers.shouldContainOnly("Authorization" to "Bearer qwerty345")
         }

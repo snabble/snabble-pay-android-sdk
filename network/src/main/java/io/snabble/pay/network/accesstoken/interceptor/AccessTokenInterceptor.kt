@@ -11,10 +11,9 @@ class AccessTokenInterceptor(
 ) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
-        val request = chain.request()
         val token = runBlocking { accessTokenRepository.getAccessToken() }
-            ?: return chain.proceed(request)
+            ?: return chain.proceed(chain.request())
 
-        return chain.proceed(request.newWithAccessToken(token))
+        return chain.proceed(chain.request().newWithAccessToken(token))
     }
 }

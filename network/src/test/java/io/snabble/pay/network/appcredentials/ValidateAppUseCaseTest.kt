@@ -21,7 +21,6 @@ class ValidateAppUseCaseTest : FreeSpec({
         clearAllMocks()
     }
 
-
     "A validation succeeds if: " - {
 
         "it can load the credentials locally" {
@@ -33,8 +32,8 @@ class ValidateAppUseCaseTest : FreeSpec({
             val appCredentials = sut()
 
             appCredentials shouldBe expected
-
         }
+
         "local load fails but fetching is successfully" {
             val expected = AppCredentials(
                 "", "", ""
@@ -44,11 +43,11 @@ class ValidateAppUseCaseTest : FreeSpec({
             val appCredentials = sut()
 
             appCredentials shouldBe expected
-
         }
     }
 
-    "A validation fails if:" -{
+    "A validation fails if:" - {
+
         "local load and fetching fails " {
             coEvery { appCredentialsRepository.getAppCredentials() } returns null
             coEvery { fetchAppCredentials.invoke() } returns null

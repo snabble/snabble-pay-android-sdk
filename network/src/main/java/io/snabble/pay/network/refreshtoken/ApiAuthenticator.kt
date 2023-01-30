@@ -1,6 +1,6 @@
 package io.snabble.pay.network.refreshtoken
 
-import io.snabble.pay.network.newRequestWithAccessToken
+import io.snabble.pay.network.newWithAccessToken
 import kotlinx.coroutines.runBlocking
 import okhttp3.Authenticator
 import okhttp3.Request
@@ -16,7 +16,7 @@ internal class ApiAuthenticator(
 
         val accessToken = runBlocking { fetchNewAccessToken() }
 
-        return response.newRequestWithAccessToken(accessToken)
+        return response.request.newWithAccessToken(accessToken)
     }
 
     private companion object {

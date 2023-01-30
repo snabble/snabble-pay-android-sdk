@@ -1,21 +1,12 @@
 package io.snabble.pay.network
 
 import io.snabble.pay.network.accesstoken.repository.AccessToken
-import okhttp3.Interceptor
 import okhttp3.Request
-import okhttp3.Response
 
-internal fun Request.Builder.addAccessToken(token: AccessToken): Request.Builder =
-    addHeader("Authorization", "Bearer ${token.value}")
+internal fun Request.newWithAccessToken(token: AccessToken): Request = newBuilder()
+    .removeHeader(AUTH_HEADER)
+    .header(AUTH_HEADER, "$AUTH_HEADER_VALUE ${token.value}")
+    .build()
 
-internal fun Request.newWithAccessToken(token: AccessToken): Request =
-    newBuilder().addHeader("Authorization", "Bearer ${token.value}").build()
-
-internal fun Interceptor.Chain.newRequestWithAccessToken(token: AccessToken): Request =
-    request().newBuilder().addHeader("Authorization", "Bearer ${token.value}").build()
-
-internal fun Response.newRequestWithAccessToken(token: AccessToken): Request =
-    request.newBuilder().addHeader("Authorization", "Bearer ${token.value}").build()
-
-internal fun Interceptor.Chain.requestContainsHeader(header: String):Boolean =
-    request().headers.any { it.first == header }
+internal const val AUTH_HEADER = "Authorization"
+internal const val AUTH_HEADER_VALUE = "Bearer"

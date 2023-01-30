@@ -6,11 +6,10 @@ import io.kotest.matchers.shouldBe
 import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.mockk
+import io.snabble.pay.network.AUTH_HEADER
 import io.snabble.pay.network.accesstoken.interceptor.AccessTokenInterceptor
-import io.snabble.pay.network.accesstoken.interceptor.usecase.ValidateAppUseCase
 import io.snabble.pay.network.accesstoken.repository.AccessToken
 import io.snabble.pay.network.accesstoken.repository.AccessTokenRepository
-import io.snabble.pay.network.api.data.AppCredentials
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.mockwebserver.MockResponse
@@ -20,24 +19,21 @@ class AccessTokenInterceptorTest : FreeSpec({
 
     fun createMockWebServer() = MockWebServer()
         .apply {
-            enqueue(MockResponse().setResponseCode(200).setBody("Successful"))
+            enqueue(MockResponse().setResponseCode(200))
             start()
         }
 
     var server = createMockWebServer()
 
     val accessTokenRepo: AccessTokenRepository = mockk(relaxed = true)
-    val validateApp: ValidateAppUseCase = mockk(relaxed = true)
 
     fun createRequest(header: Pair<String, String>? = null) = Request.Builder()
         .url(server.url(""))
-        .apply {
-            if (header != null) addHeader(header.first, header.second)
-        }
+        .apply { if (header != null) addHeader(header.first, header.second) }
         .build()
 
     fun sut(): OkHttpClient = OkHttpClient.Builder()
-        .addInterceptor(AccessTokenInterceptor(accessTokenRepo, validateApp))
+        .addInterceptor(AccessTokenInterceptor(accessTokenRepo))
         .build()
 
     beforeEach {
@@ -46,36 +42,34 @@ class AccessTokenInterceptorTest : FreeSpec({
         coEvery { accessTokenRepo.getAccessToken() } returns AccessToken("qwerty345")
     }
 
-    "A request" - {
+    "A request that" - {
 
-        "that's failed to receive app credentials should return without continuation" {
-            coEvery { validateApp.invoke() } returns null
+        "has no access token and no access token is available, is sent w/o the auth header" {
+            coEvery { accessTokenRepo.getAccessToken() } returns null
             val request = createRequest()
 
             val sut: OkHttpClient = sut()
             val response = sut.newCall(request).execute()
 
-            response.code.shouldBe(401)
+            response.request.headers.any { it.first == AUTH_HEADER } shouldBe false
         }
 
-        "that's missing an access token should result in a new one w/ an access token" {
-            coEvery { validateApp.invoke() } returns AppCredentials("asdasd", "", "")
+        "is missing an access token should result in a new one w/ an access token" {
             val request = createRequest()
 
             val sut: OkHttpClient = sut()
             val response = sut.newCall(request).execute()
 
-            response.request.headers.shouldContainOnly("Authorization" to "Bearer qwerty345")
+            response.request.headers.shouldContainOnly(AUTH_HEADER to "Bearer qwerty345")
         }
 
-        "that's already got an access token should be overridden" {
-            coEvery { validateApp.invoke() } returns AppCredentials("asdasd", "", "")
+        "has already got an access token should be overridden" {
             val request = createRequest("Authorization" to "Bearer asdfgh")
 
             val sut: OkHttpClient = sut()
             val response = sut.newCall(request).execute()
 
-            response.request.headers.shouldContainOnly("Authorization" to "Bearer qwerty345")
+            response.request.headers.shouldContainOnly(AUTH_HEADER to "Bearer qwerty345")
         }
     }
 })

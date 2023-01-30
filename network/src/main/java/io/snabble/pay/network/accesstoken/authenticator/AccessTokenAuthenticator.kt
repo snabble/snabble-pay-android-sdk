@@ -2,7 +2,7 @@ package io.snabble.pay.network.accesstoken.authenticator
 
 import io.kotest.common.runBlocking
 import io.snabble.pay.network.accesstoken.authenticator.usecase.RefreshTokenUseCase
-import io.snabble.pay.network.newRequestWithAccessToken
+import io.snabble.pay.network.newWithAccessToken
 import okhttp3.Authenticator
 import okhttp3.Request
 import okhttp3.Response
@@ -17,7 +17,7 @@ class AccessTokenAuthenticator(
 
         val accessToken = runBlocking { refreshToken() } ?: return null
 
-        return response.newRequestWithAccessToken(accessToken)
+        return response.request.newWithAccessToken(accessToken)
     }
 
     private companion object {

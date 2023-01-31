@@ -1,4 +1,4 @@
-package io.snabble.pay.network.refreshtoken
+package io.snabble.pay.network
 
 import io.snabble.pay.network.repository.AccessToken
 import io.snabble.pay.network.repository.AccessTokenRepository

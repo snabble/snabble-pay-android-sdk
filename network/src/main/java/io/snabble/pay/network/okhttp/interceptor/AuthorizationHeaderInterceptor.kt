@@ -1,7 +1,7 @@
 package io.snabble.pay.network.okhttp.interceptor
 
-import io.snabble.pay.network.repository.AccessTokenRepository
 import io.snabble.pay.network.okhttp.newWithAuthorizationHeader
+import io.snabble.pay.network.repository.AccessTokenRepository
 import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
 import okhttp3.Response

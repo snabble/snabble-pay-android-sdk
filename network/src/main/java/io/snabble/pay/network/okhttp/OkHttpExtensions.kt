@@ -1,10 +1,9 @@
-package io.snabble.pay.network
+package io.snabble.pay.network.okhttp
 
 import io.snabble.pay.network.repository.AccessToken
 import okhttp3.Request
 
-internal fun Request.newWithAuthenticationHeader(token: AccessToken): Request = newBuilder()
-    .removeHeader(AUTH_HEADER)
+internal fun Request.newWithAuthorizationHeader(token: AccessToken): Request = newBuilder()
     .header(AUTH_HEADER, "$AUTH_HEADER_VALUE ${token.value}")
     .build()
 

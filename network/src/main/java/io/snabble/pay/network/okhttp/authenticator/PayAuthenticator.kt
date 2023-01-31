@@ -1,7 +1,7 @@
 package io.snabble.pay.network.okhttp.authenticator
 
 import io.snabble.pay.network.okhttp.authenticator.usecase.RefreshAccessTokenUseCase
-import io.snabble.pay.network.newWithAuthenticationHeader
+import io.snabble.pay.network.okhttp.newWithAuthorizationHeader
 import kotlinx.coroutines.runBlocking
 import okhttp3.Authenticator
 import okhttp3.Request
@@ -16,7 +16,7 @@ internal class PayAuthenticator(
         if (response.responseCount >= MAX_ATTEMPTS) return null
         val accessToken = runBlocking { refreshAccessToken() } ?: return null
 
-        return response.request.newWithAuthenticationHeader(accessToken)
+        return response.request.newWithAuthorizationHeader(accessToken)
     }
 
     private companion object {

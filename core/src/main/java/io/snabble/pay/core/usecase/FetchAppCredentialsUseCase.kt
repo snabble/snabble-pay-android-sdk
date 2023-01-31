@@ -1,6 +1,6 @@
 package io.snabble.pay.core.usecase
 
-import io.snabble.pay.network.api.interfaces.GetAppCredentials
+import io.snabble.pay.network.api.interfaces.RegistrationApi
 import io.snabble.pay.network.repository.AppCredentials
 import retrofit2.Retrofit
 
@@ -15,7 +15,7 @@ class FetchAppCredentialsUseCaseImpl : FetchAppCredentialsUseCase {
         val retrofit = Retrofit.Builder()
             .baseUrl("https://api.snabble.io/app/")
             .build()
-        val registerEndpoint = retrofit.create(GetAppCredentials::class.java)
+        val registerEndpoint = retrofit.create(RegistrationApi::class.java)
         val response = registerEndpoint.getAppCredentials().execute()
         //return response.body()?.credentials
         TODO()

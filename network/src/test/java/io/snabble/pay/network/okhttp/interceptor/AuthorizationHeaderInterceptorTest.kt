@@ -6,7 +6,7 @@ import io.kotest.matchers.shouldBe
 import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.mockk
-import io.snabble.pay.network.AUTH_HEADER
+import io.snabble.pay.network.okhttp.AUTH_HEADER
 import io.snabble.pay.network.repository.AccessToken
 import io.snabble.pay.network.repository.AccessTokenRepository
 import okhttp3.OkHttpClient
@@ -14,7 +14,7 @@ import okhttp3.Request
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 
-internal class AuthenticationHeaderInterceptorTest : FreeSpec({
+internal class AuthorizationHeaderInterceptorTest : FreeSpec({
 
     fun createMockWebServer() = MockWebServer()
         .apply {
@@ -32,7 +32,7 @@ internal class AuthenticationHeaderInterceptorTest : FreeSpec({
         .build()
 
     fun sut(): OkHttpClient = OkHttpClient.Builder()
-        .addInterceptor(AuthenticationHeaderInterceptor(accessTokenRepo))
+        .addInterceptor(AuthorizationHeaderInterceptor(accessTokenRepo))
         .build()
 
     beforeEach {

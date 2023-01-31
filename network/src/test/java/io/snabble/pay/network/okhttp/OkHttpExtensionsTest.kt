@@ -7,7 +7,7 @@ import okhttp3.Request
 
 class OkHttpExtensionsTest : FreeSpec({
 
-    "newWithAuthenticationHeader(AccessToken) should" - {
+    "newWithAuthorizationHeader(AccessToken) should" - {
 
         "add the auth header if missing" {
             val accessToken = AccessToken("qwerty")
@@ -19,17 +19,15 @@ class OkHttpExtensionsTest : FreeSpec({
             newRequest.headers.contains("Authorization" to "Bearer qwerty")
         }
 
-        "result in a new request only containing one auth header w/ the AccessToken value" {
+        "result in a new request only containing the the header w/ the given AccessToken value" {
             val accessToken = AccessToken("qwerty")
             val request = Request.Builder()
                 .url("https://example.com")
                 .header("Authorization", "Bearer asdfgh")
-                .header("Authorization", "Bearer 123456")
                 .build()
 
             val newRequest = request.newWithAuthorizationHeader(accessToken)
 
-            request.headers.count { it.first == "Authorization" } shouldBe 1
             newRequest.headers.count { it.first == "Authorization" } shouldBe 1
             newRequest.headers.contains("Authorization" to "Bearer qwerty")
         }

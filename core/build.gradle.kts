@@ -40,6 +40,9 @@ dependencies {
     implementation(libs.androidx.appcompat)
 
     implementation(libs.bundles.koin)
+    implementation("androidx.startup:startup-runtime:1.1.1")
+    implementation("androidx.preference:preference-ktx:1.2.0")
+
 
     implementation(libs.kotlin.serialization)
 

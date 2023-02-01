@@ -11,7 +11,6 @@ import io.snabble.pay.network.repository.AppCredentials
 import io.snabble.pay.network.repository.AppCredentialsRepository
 import io.snabble.pay.network.repository.AppIdentifier
 import io.snabble.pay.network.repository.AppSecret
-import io.snabble.pay.network.repository.AppUrlScheme
 
 internal class ValidateAppUseCaseTest : FreeSpec({
 
@@ -28,7 +27,8 @@ internal class ValidateAppUseCaseTest : FreeSpec({
 
         "it can load the credentials locally" {
             val expected = AppCredentials(
-                AppIdentifier(""), AppSecret(""), AppUrlScheme("")
+                AppIdentifier(""),
+                AppSecret("")
             )
             coEvery { appCredentialsRepository.getAppCredentials() } returns expected
 
@@ -39,7 +39,8 @@ internal class ValidateAppUseCaseTest : FreeSpec({
 
         "local load fails but fetching is successfully" {
             val expected = AppCredentials(
-                AppIdentifier(""), AppSecret(""), AppUrlScheme("")
+                AppIdentifier(""),
+                AppSecret("")
             )
             coEvery { appCredentialsRepository.getAppCredentials() } returns null
             coEvery { fetchAppCredentials.invoke() } returns expected

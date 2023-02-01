@@ -38,7 +38,7 @@ internal class AuthorizationHeaderInterceptorTest : FreeSpec({
     beforeEach {
         clearAllMocks()
         server = createMockWebServer()
-        coEvery { accessTokenRepo.getAccessToken() } returns AccessToken("qwerty345")
+        coEvery { accessTokenRepo.getAccessToken() } returns AccessToken("Bearer qwerty345")
     }
 
     "A request that" - {

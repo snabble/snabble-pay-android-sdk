@@ -1,12 +1,11 @@
-package io.snabble.pay.network.api.data
+package io.snabble.pay.network.service.register.dto
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
 @SerialName("AppCredentials")
-data class ApiAppCredentials(
+data class AppCredentialsDto(
     @SerialName("appIdentifier") val appId: String,
     @SerialName("appSecret") val appSecret: String,
-    @SerialName("appUrlScheme") val appUrlScheme: String,
 )

@@ -9,5 +9,4 @@ import org.koin.dsl.module
 internal val coreModule = module {
 
     factory { PreferenceManager.getDefaultSharedPreferences(androidContext()) } bind SharedPreferences::class
-
 }

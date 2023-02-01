@@ -3,7 +3,6 @@ package io.snabble.pay.core.di
 import android.content.Context
 import androidx.startup.Initializer
 import io.snabble.pay.core.BuildConfig
-import io.snabble.sdk.di.KoinProvider
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.Koin
 import org.koin.core.logger.Level

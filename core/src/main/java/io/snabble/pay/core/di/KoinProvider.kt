@@ -1,4 +1,4 @@
-package io.snabble.sdk.di
+package io.snabble.pay.core.di
 
 import org.koin.core.Koin
 import org.koin.core.component.KoinComponent
@@ -10,6 +10,6 @@ internal object KoinProvider : KoinComponent {
     private lateinit var koin: Koin
 
     fun setKoin(koin: Koin) {
-        this.koin = koin
+        KoinProvider.koin = koin
     }
 }

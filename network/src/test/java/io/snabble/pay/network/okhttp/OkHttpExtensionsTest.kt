@@ -38,9 +38,5 @@ class OkHttpExtensionsTest : FreeSpec({
         "for auth header should be correct" {
             AUTH_HEADER shouldBe "Authorization"
         }
-
-        "for auth header value should be correct" {
-            AUTH_HEADER_VALUE shouldBe "Bearer"
-        }
     }
 })

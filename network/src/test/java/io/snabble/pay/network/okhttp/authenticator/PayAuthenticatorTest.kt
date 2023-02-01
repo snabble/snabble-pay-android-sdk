@@ -81,7 +81,7 @@ internal class PayAuthenticatorTest : FreeSpec({
         }
 
         "that receives a refreshed access token should contain that access token" {
-            coEvery { refreshToken.invoke() } returns AccessToken("asdfg")
+            coEvery { refreshToken.invoke() } returns AccessToken("Bearer asdfg")
 
             val sut: OkHttpClient = sut(refreshToken)
             val response = sut.newCall(createRequest("Authorization" to "Bearer qwerty")).execute()

@@ -1,8 +1,8 @@
 package io.snabble.pay.core.usecase
 
-import io.snabble.pay.network.repository.AppCredentials
-import io.snabble.pay.network.repository.AppIdentifier
-import io.snabble.pay.network.repository.AppSecret
+import io.snabble.pay.network.AppCredentials
+import io.snabble.pay.network.AppIdentifier
+import io.snabble.pay.network.AppSecret
 import io.snabble.pay.network.service.register.AppRegistrationService
 import retrofit2.Retrofit
 

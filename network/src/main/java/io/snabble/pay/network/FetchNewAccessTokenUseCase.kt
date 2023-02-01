@@ -2,7 +2,6 @@ package io.snabble.pay.network
 
 import io.snabble.pay.network.repository.AccessToken
 import io.snabble.pay.network.repository.AccessTokenRepository
-import io.snabble.pay.network.repository.AppCredentialsRepository
 
 interface FetchNewAccessTokenUseCase {
 

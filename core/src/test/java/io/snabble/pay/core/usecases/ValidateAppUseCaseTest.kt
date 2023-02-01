@@ -7,10 +7,10 @@ import io.mockk.coEvery
 import io.mockk.mockk
 import io.snabble.pay.core.usecase.FetchAppCredentialsUseCase
 import io.snabble.pay.core.usecase.ValidateAppUseCaseImpl
-import io.snabble.pay.network.repository.AppCredentials
-import io.snabble.pay.network.repository.AppCredentialsRepository
-import io.snabble.pay.network.repository.AppIdentifier
-import io.snabble.pay.network.repository.AppSecret
+import io.snabble.pay.network.AppCredentials
+import io.snabble.pay.network.AppCredentialsRepository
+import io.snabble.pay.network.AppIdentifier
+import io.snabble.pay.network.AppSecret
 
 internal class ValidateAppUseCaseTest : FreeSpec({
 

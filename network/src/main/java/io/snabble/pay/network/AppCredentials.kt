@@ -1,9 +1,4 @@
-package io.snabble.pay.network.repository
-
-interface AppCredentialsRepository {
-
-    suspend fun getAppCredentials(): AppCredentials?
-}
+package io.snabble.pay.network
 
 data class AppCredentials(
     val id: AppIdentifier,

@@ -35,19 +35,15 @@ android {
 
 dependencies {
 
-    implementation(libs.androidx.core)
     implementation(libs.androidx.appcompat)
-
-    implementation(libs.bundles.koin)
-    implementation("androidx.startup:startup-runtime:1.1.1")
-    implementation("androidx.preference:preference-ktx:1.2.0")
-
+    implementation(libs.androidx.core)
+    implementation(libs.androidx.preferencesKtx)
+    implementation(libs.androidx.startupRuntime)
 
     implementation(libs.kotlin.serialization)
 
+    implementation(libs.bundles.koin)
     implementation(libs.bundles.retrofit)
-
-    implementation(libs.retrofit)
 
     testImplementation(libs.bundles.testing)
     androidTestImplementation(libs.bundles.testing.android)

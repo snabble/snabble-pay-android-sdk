@@ -1,6 +1,6 @@
 package io.snabble.pay.network.okhttp.authenticator.usecase
 
-import io.snabble.pay.network.repository.AccessToken
+import io.snabble.pay.network.okhttp.interceptor.AccessToken
 
 interface RefreshAccessTokenUseCase {
 

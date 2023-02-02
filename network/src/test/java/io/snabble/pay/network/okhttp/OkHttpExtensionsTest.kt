@@ -2,7 +2,7 @@ package io.snabble.pay.network.okhttp
 
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
-import io.snabble.pay.network.repository.AccessToken
+import io.snabble.pay.network.okhttp.interceptor.AccessToken
 import okhttp3.Request
 
 class OkHttpExtensionsTest : FreeSpec({

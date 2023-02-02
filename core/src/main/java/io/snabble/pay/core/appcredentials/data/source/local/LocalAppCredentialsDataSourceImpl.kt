@@ -2,6 +2,7 @@ package io.snabble.pay.core.appcredentials.data.source.local
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import io.snabble.pay.core.appcredentials.data.source.LocalAppCredentialsDataSource
 import io.snabble.pay.core.appcredentials.domain.model.AppCredentials
@@ -24,9 +25,12 @@ class LocalAppCredentialsDataSourceImpl(
     }
 
     override suspend fun saveAppCredentials(credentials: AppCredentials) {
-        TODO()
+        dataStore.edit { prefs ->
+            prefs[APP_ID] = credentials.id.id
+            prefs[APP_SECRET] = credentials.secret.secret
+        }
     }
 }
 
-private val APP_ID = stringPreferencesKey("appId")
-private val APP_SECRET = stringPreferencesKey("appSecret")
+internal val APP_ID = stringPreferencesKey("appId")
+internal val APP_SECRET = stringPreferencesKey("appSecret")

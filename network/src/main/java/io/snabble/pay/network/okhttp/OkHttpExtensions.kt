@@ -1,6 +1,6 @@
 package io.snabble.pay.network.okhttp
 
-import io.snabble.pay.network.repository.AccessToken
+import io.snabble.pay.network.okhttp.interceptor.AccessToken
 import okhttp3.Request
 
 internal fun Request.newWithAuthorizationHeader(token: AccessToken): Request = newBuilder()

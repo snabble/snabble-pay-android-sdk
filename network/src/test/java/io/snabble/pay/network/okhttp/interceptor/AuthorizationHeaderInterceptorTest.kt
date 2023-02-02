@@ -7,8 +7,6 @@ import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.mockk
 import io.snabble.pay.network.okhttp.AUTH_HEADER
-import io.snabble.pay.network.repository.AccessToken
-import io.snabble.pay.network.repository.AccessTokenRepository
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.mockwebserver.MockResponse
@@ -24,7 +22,7 @@ internal class AuthorizationHeaderInterceptorTest : FreeSpec({
 
     var server = createMockWebServer()
 
-    val accessTokenRepo: AccessTokenRepository = mockk(relaxed = true)
+    val accessTokenRepo: AccessTokenProvider = mockk(relaxed = true)
 
     fun createRequest(header: Pair<String, String>? = null) = Request.Builder()
         .url(server.url(""))

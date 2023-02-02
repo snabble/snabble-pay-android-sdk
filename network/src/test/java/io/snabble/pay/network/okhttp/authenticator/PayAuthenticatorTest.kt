@@ -8,7 +8,7 @@ import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.mockk
 import io.snabble.pay.network.okhttp.authenticator.usecase.RefreshAccessTokenUseCase
-import io.snabble.pay.network.repository.AccessToken
+import io.snabble.pay.network.okhttp.interceptor.AccessToken
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.mockwebserver.Dispatcher

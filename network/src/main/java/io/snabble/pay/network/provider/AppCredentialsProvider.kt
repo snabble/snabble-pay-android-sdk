@@ -4,5 +4,5 @@ import io.snabble.pay.network.service.register.dto.AppCredentialsDto
 
 interface AppCredentialsProvider {
 
-    suspend fun getAppCredentials(): AppCredentialsDto
+    suspend fun getAppCredentials(): AppCredentialsDto?
 }

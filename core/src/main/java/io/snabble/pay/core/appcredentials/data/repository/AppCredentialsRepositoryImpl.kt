@@ -10,15 +10,8 @@ class AppCredentialsRepositoryImpl(
     private val remoteDataSource: RemoteAppCredentialsDataSource,
 ) : AppCredentialsRepository {
 
-    override suspend fun getAppCredentials(): AppCredentials? {
-        val credentials = localDataSource.getAppCredentials()
-        val newCredentials = when (credentials) {
-            null -> remoteDataSource.fetchAppCredentials()
-            else -> credentials
+    override suspend fun getAppCredentials(): AppCredentials? =
+        localDataSource.getAppCredentials() ?: remoteDataSource.fetchAppCredentials().apply {
+            if (this != null) localDataSource.saveAppCredentials(this)
         }
-        if (credentials != newCredentials && newCredentials != null) {
-            localDataSource.saveAppCredentials(newCredentials)
-        }
-        return newCredentials
-    }
 }

@@ -5,12 +5,12 @@ import io.kotest.matchers.shouldBe
 import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.mockk
+import io.snabble.pay.core.appcredentials.domain.model.AppCredentials
+import io.snabble.pay.core.appcredentials.domain.model.AppIdentifier
+import io.snabble.pay.core.appcredentials.domain.model.AppSecret
+import io.snabble.pay.core.appcredentials.domain.repository.AppCredentialsRepository
 import io.snabble.pay.core.usecase.FetchAppCredentialsUseCase
 import io.snabble.pay.core.usecase.ValidateAppUseCaseImpl
-import io.snabble.pay.network.AppCredentials
-import io.snabble.pay.network.AppCredentialsRepository
-import io.snabble.pay.network.AppIdentifier
-import io.snabble.pay.network.AppSecret
 
 internal class ValidateAppUseCaseTest : FreeSpec({
 

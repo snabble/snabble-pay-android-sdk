@@ -1,7 +1,7 @@
 package io.snabble.pay.core.usecase
 
-import io.snabble.pay.network.AppCredentials
-import io.snabble.pay.network.AppCredentialsRepository
+import io.snabble.pay.core.appcredentials.domain.model.AppCredentials
+import io.snabble.pay.core.appcredentials.domain.repository.AppCredentialsRepository
 
 interface ValidateAppUseCase {
 

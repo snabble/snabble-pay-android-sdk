@@ -1,5 +1,6 @@
 package io.snabble.pay.network
 
+import io.snabble.pay.network.provider.AppCredentialsProvider
 import io.snabble.pay.network.repository.AccessToken
 import io.snabble.pay.network.repository.AccessTokenRepository
 
@@ -9,7 +10,7 @@ interface FetchNewAccessTokenUseCase {
 }
 
 class FetchNewAccessTokenUseCaseImpl(
-    val credentialsRepository: AppCredentialsRepository,
+    val appCredentialsProvider: AppCredentialsProvider,
     val accessTokenRepository: AccessTokenRepository
 ) : FetchNewAccessTokenUseCase {
 

@@ -1,4 +1,4 @@
-package io.snabble.pay.network
+package io.snabble.pay.core.appcredentials.domain.model
 
 data class AppCredentials(
     val id: AppIdentifier,

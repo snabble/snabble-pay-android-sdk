@@ -7,6 +7,12 @@ data class AppCredentials(
     val secret: AppSecret,
 )
 
+fun AppCredentials.toAppCredentialsDto(): AppCredentialsDto =
+    AppCredentialsDto(
+        appId = id.id,
+        appSecret = secret.secret
+    )
+
 fun AppCredentialsDto.toAppCredentials(): AppCredentials =
     AppCredentials(
         AppIdentifier(id = appId),

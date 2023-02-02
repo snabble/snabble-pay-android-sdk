@@ -25,48 +25,47 @@ class AppCredentialsRepositoryImplTest : FreeSpec({
         clearAllMocks()
     }
 
-    "the repository returns" - {
+    "the repository" - {
 
-        "app credentials that have been stored locally" {
+        "returns app credentials that have been stored locally" {
             coEvery { localDataSource.getAppCredentials() } returns expectedAppCredentials
 
             val appCredentials = sut.getAppCredentials()
 
             appCredentials.shouldBe(expectedAppCredentials)
-
         }
-        "tries to fetch app credentials if local data is null" {
 
+        "tries to fetch app credentials if local data is null" {
             coEvery { localDataSource.getAppCredentials() } returns null
             coEvery { remoteDataSource.fetchAppCredentials() } returns null
 
             sut.getAppCredentials()
 
             coVerify(exactly = 1) { remoteDataSource.fetchAppCredentials() }
-
-        }
-        "returns the fetched app credentials on success" {
-
-            coEvery { localDataSource.getAppCredentials() } returns null
-
-            coEvery { remoteDataSource.fetchAppCredentials() } returns expectedAppCredentials
-
-            val appCredentials = sut.getAppCredentials()
-
-            appCredentials.shouldBe(expectedAppCredentials)
         }
 
-        "returns the null on fail" {
-            coEvery { localDataSource.getAppCredentials() } returns null
-            coEvery { remoteDataSource.fetchAppCredentials() } returns null
+        "that failed to load app credentials locally, tries to fetch an returns" - {
 
-            val appCredentials = sut.getAppCredentials()
+            "app credentials on success" {
+                coEvery { localDataSource.getAppCredentials() } returns null
+                coEvery { remoteDataSource.fetchAppCredentials() } returns expectedAppCredentials
 
-            appCredentials.shouldBe(null)
+                val appCredentials = sut.getAppCredentials()
+
+                appCredentials.shouldBe(expectedAppCredentials)
+            }
+
+            "null if failed" {
+                coEvery { localDataSource.getAppCredentials() } returns null
+                coEvery { remoteDataSource.fetchAppCredentials() } returns null
+
+                val appCredentials = sut.getAppCredentials()
+
+                appCredentials.shouldBe(null)
+            }
         }
 
         "saves the app credentials if fetched successfully" {
-
             coEvery { localDataSource.getAppCredentials() } returns null
             coEvery { remoteDataSource.fetchAppCredentials() } returns expectedAppCredentials
 
@@ -74,6 +73,25 @@ class AppCredentialsRepositoryImplTest : FreeSpec({
 
             coVerify(exactly = 1) { localDataSource.saveAppCredentials(expectedAppCredentials) }
         }
-    }
 
+        "does not saves the app credentials" - {
+
+            "if available locally" {
+                coEvery { localDataSource.getAppCredentials() } returns expectedAppCredentials
+
+                sut.getAppCredentials()
+
+                coVerify(exactly = 0) { localDataSource.saveAppCredentials(expectedAppCredentials) }
+            }
+
+            "if local and remote credentials are not available" {
+                coEvery { localDataSource.getAppCredentials() } returns null
+                coEvery { remoteDataSource.fetchAppCredentials() } returns null
+
+                sut.getAppCredentials()
+
+                coVerify(exactly = 0) { localDataSource.saveAppCredentials(expectedAppCredentials) }
+            }
+        }
+    }
 })

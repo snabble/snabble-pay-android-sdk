@@ -1,4 +1,4 @@
-package io.snabble.pay.core.usecase
+package io.snabble.pay.core.register.usecase
 
 import io.snabble.pay.core.appcredentials.domain.model.AppCredentials
 import io.snabble.pay.core.appcredentials.domain.repository.AppCredentialsRepository

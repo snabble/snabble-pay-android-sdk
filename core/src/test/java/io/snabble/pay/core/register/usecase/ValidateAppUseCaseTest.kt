@@ -9,8 +9,8 @@ import io.snabble.pay.core.appcredentials.domain.model.AppCredentials
 import io.snabble.pay.core.appcredentials.domain.model.AppIdentifier
 import io.snabble.pay.core.appcredentials.domain.model.AppSecret
 import io.snabble.pay.core.appcredentials.domain.repository.AppCredentialsRepository
-import io.snabble.pay.core.usecase.FetchAppCredentialsUseCase
-import io.snabble.pay.core.usecase.ValidateAppUseCaseImpl
+import io.snabble.pay.core.register.usecase.FetchAppCredentialsUseCase
+import io.snabble.pay.core.register.usecase.ValidateAppUseCaseImpl
 
 internal class ValidateAppUseCaseTest : FreeSpec({
 

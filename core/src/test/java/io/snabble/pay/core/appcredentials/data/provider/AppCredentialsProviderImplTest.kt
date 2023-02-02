@@ -35,5 +35,4 @@ class AppCredentialsProviderImplTest : FreeSpec({
             appCredentialsDto?.shouldBe(null)
         }
     }
-
 })

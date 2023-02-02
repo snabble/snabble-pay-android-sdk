@@ -5,6 +5,7 @@ plugins {
     id(libs.plugins.androidLibrary.get().pluginId)
     id(libs.plugins.kotlin.android.get().pluginId)
     alias(libs.plugins.kotlin.serialization)
+    id("de.mannodermaus.android-junit5")
 }
 
 android {
@@ -12,9 +13,12 @@ android {
     compileSdk = libs.versions.sdk.compile.get().toInt()
 
     defaultConfig {
-        minSdk = libs.versions.sdk.min.get().toInt()
+        minSdk = 24
+        targetSdk = libs.versions.sdk.compile.get().toInt()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunnerArguments["runnerBuilder"] =
+            "de.mannodermaus.junit5.AndroidJUnit5Builder"
         consumerProguardFiles("consumer-rules.pro")
     }
 
@@ -35,6 +39,11 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    packagingOptions {
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+        }
+    }
 }
 
 dependencies {
@@ -54,4 +63,6 @@ dependencies {
 
     testImplementation(libs.bundles.testing)
     androidTestImplementation(libs.bundles.testing.android)
+
+    androidTestRuntimeOnly(libs.test.junit5.androidTestRunner)
 }

@@ -35,6 +35,11 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
+    packagingOptions {
+        resources.excludes.add("META-INF/*")
+    }
+
 }
 
 dependencies {
@@ -42,10 +47,10 @@ dependencies {
 
     implementation(project(":network"))
 
-    implementation("androidx.datastore:datastore-preferences:1.0.0")
 
-    implementation(libs.androidx.core)
     implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.core)
+    implementation(libs.androidx.datastorePreferences)
 
     implementation(libs.bundles.koin)
     implementation(libs.bundles.retrofit)

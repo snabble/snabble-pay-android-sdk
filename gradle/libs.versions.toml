@@ -10,6 +10,7 @@ koin = "3.3.2"
 [libraries]
 # Android
 android-desugarJdkLibs = "com.android.tools:desugar_jdk_libs:2.0.0"
+androidx-datastorePreferences = "androidx.datastore:datastore-preferences:1.0.0"
 androidx-core = "androidx.core:core-ktx:1.9.0"
 androidx-appcompat = "androidx.appcompat:appcompat:1.6.0"
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
@@ -22,6 +23,8 @@ okhttp = "com.squareup.okhttp3:okhttp:4.10.0"
 retrofit2 = "com.squareup.retrofit2:retrofit:2.9.0"
 retrofit-kotlinSerialization = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0"
 ## Android Testing
+junit = "junit:junit:4.13.2"
+test-coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4"
 test-junit = "androidx.test.ext:junit:1.1.5"
 test-espresso = "androidx.test.espresso:espresso-core:3.5.1"
 ## Testing
@@ -48,6 +51,8 @@ testing = [
     "squareup-mockWebServer"
 ]
 testing-android = [
+    "junit",
+    "test-coroutines",
     "test-espresso",
     "test-junit",
 ]

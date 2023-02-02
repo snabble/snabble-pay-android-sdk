@@ -39,14 +39,12 @@ android {
     packagingOptions {
         resources.excludes.add("META-INF/*")
     }
-
 }
 
 dependencies {
     coreLibraryDesugaring(libs.android.desugarJdkLibs)
 
     implementation(project(":network"))
-
 
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.core)

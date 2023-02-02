@@ -1,4 +1,4 @@
-package io.snabble.pay.core.usecases
+package io.snabble.pay.core.register.usecase
 
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
@@ -9,8 +9,6 @@ import io.snabble.pay.core.appcredentials.domain.model.AppCredentials
 import io.snabble.pay.core.appcredentials.domain.model.AppIdentifier
 import io.snabble.pay.core.appcredentials.domain.model.AppSecret
 import io.snabble.pay.core.appcredentials.domain.repository.AppCredentialsRepository
-import io.snabble.pay.core.register.usecase.FetchAppCredentialsUseCase
-import io.snabble.pay.core.register.usecase.ValidateAppUseCaseImpl
 
 internal class ValidateAppUseCaseTest : FreeSpec({
 

@@ -9,7 +9,6 @@ interface FetchNewAccessTokenUseCase {
 }
 
 class FetchNewAccessTokenUseCaseImpl(
-    val credentialsRepository: AppCredentialsRepository,
     val accessTokenProvider: AccessTokenProvider
 ) : FetchNewAccessTokenUseCase {
 

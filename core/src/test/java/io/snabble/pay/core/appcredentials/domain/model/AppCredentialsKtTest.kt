@@ -27,5 +27,4 @@ class AppCredentialsKtTest : FreeSpec({
         appCredentials.appId.shouldBe("")
         appCredentials.appSecret.shouldBe("secret")
     }
-
 })

@@ -9,8 +9,10 @@ import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.shouldBe
 import io.mockk.coEvery
 import io.mockk.every
+import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkStatic
+import io.mockk.runs
 import io.mockk.slot
 import io.snabble.pay.core.accesstoken.data.source.dto.AccessTokenDto
 import io.snabble.pay.core.accesstoken.data.source.local.LocalAccessTokenDataSourceImpl.Companion.KEY_ACCESS_TOKEN
@@ -78,10 +80,9 @@ class LocalAccessTokenDataSourceImplTest : FreeSpec({
         mockkStatic("androidx.datastore.preferences.core.PreferencesKt")
         val tokenSlot = slot<String>()
         val dateSlot = slot<String>()
-
         val mutablePrefs: MutablePreferences = mockk {
-            every { this@mockk[KEY_ACCESS_TOKEN] = capture(tokenSlot) }
-            every { this@mockk[KEY_EXPIRY_DATE] = capture(dateSlot) }
+            every { this@mockk[KEY_ACCESS_TOKEN] = capture(tokenSlot) } just runs
+            every { this@mockk[KEY_EXPIRY_DATE] = capture(dateSlot) } just runs
         }
         val editTransformSlot = slot<suspend (MutablePreferences) -> Unit>()
         coEvery {
@@ -95,7 +96,7 @@ class LocalAccessTokenDataSourceImplTest : FreeSpec({
         val sut = createSut()
         sut.saveAccessToken(accessToken)
 
-//        tokenSlot.captured shouldBe accessToken.accessToken.value
+        tokenSlot.captured shouldBe accessToken.accessToken.value
         dateSlot.captured shouldBe accessToken.expiryDate
     }
 })

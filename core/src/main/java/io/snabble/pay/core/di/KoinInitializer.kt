@@ -15,9 +15,7 @@ internal class KoinInitializer : Initializer<Koin> {
         koinApplication {
             if (BuildConfig.DEBUG) printLogger(level = Level.DEBUG)
             androidContext(context)
-            modules(
-                coreModule,
-            )
+            modules(modules = koinModules)
         }
             .koin
             .also(KoinProvider::setKoin)

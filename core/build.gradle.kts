@@ -21,7 +21,10 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
     compileOptions {
@@ -37,7 +40,6 @@ dependencies {
 
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.core)
-    implementation(libs.androidx.preferencesKtx)
     implementation(libs.androidx.startupRuntime)
 
     implementation(libs.kotlin.serialization)
@@ -47,4 +49,10 @@ dependencies {
 
     testImplementation(libs.bundles.testing)
     androidTestImplementation(libs.bundles.testing.android)
+}
+
+tasks.create("checkAll") {
+    dependsOn("detekt")
+    dependsOn("ktlintCheck")
+    dependsOn("test")
 }

@@ -11,7 +11,6 @@ koin = "3.3.2"
 # Android
 androidx-core = "androidx.core:core-ktx:1.9.0"
 androidx-appcompat = "androidx.appcompat:appcompat:1.6.0"
-androidx-preferencesKtx = "androidx.preference:preference-ktx:1.2.0"
 androidx-startupRuntime = "androidx.startup:startup-runtime:1.1.1"
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 koin-android-compat = { module = "io.insert-koin:koin-android-compat", version.ref = "koin" }

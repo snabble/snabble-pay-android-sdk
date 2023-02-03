@@ -36,6 +36,11 @@ tasks.register("clean", Delete::class) {
     delete(rootProject.buildDir)
 }
 
+tasks.create("checkstyle") {
+    dependsOn("detekt")
+    dependsOn("ktlintCheck")
+}
+
 versionCatalogUpdate {
     sortByKey.set(false)
     keep {

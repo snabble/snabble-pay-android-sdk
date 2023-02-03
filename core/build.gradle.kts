@@ -50,9 +50,3 @@ dependencies {
     testImplementation(libs.bundles.testing)
     androidTestImplementation(libs.bundles.testing.android)
 }
-
-tasks.create("checkAll") {
-    dependsOn("detekt")
-    dependsOn("ktlintCheck")
-    dependsOn("test")
-}

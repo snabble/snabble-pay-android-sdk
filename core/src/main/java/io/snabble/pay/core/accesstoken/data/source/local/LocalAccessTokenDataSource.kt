@@ -15,7 +15,7 @@ interface LocalAccessTokenDataSource {
     suspend fun saveAccessToken(accessTokenDto: AccessTokenDto)
 }
 
-class LocalAccessTokenDataSourceImpl(
+internal class LocalAccessTokenDataSourceImpl(
     private val dataStore: DataStore<Preferences>
 ) : LocalAccessTokenDataSource {
 
@@ -36,9 +36,9 @@ class LocalAccessTokenDataSourceImpl(
         }
     }
 
-    private companion object {
+    internal companion object {
 
-        private val KEY_ACCESS_TOKEN = stringPreferencesKey("access_token")
-        private val KEY_EXPIRY_DATE = stringPreferencesKey("expiry_date")
+        internal val KEY_ACCESS_TOKEN = stringPreferencesKey("access_token")
+        internal val KEY_EXPIRY_DATE = stringPreferencesKey("expiry_date")
     }
 }

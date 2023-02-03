@@ -48,7 +48,7 @@ tasks.register("clean", Delete::class) {
 }
 
 tasks.create("checkTest") {
-    dependsOn("checkstyle")
+    dependsOn("checkStyle")
 }
 
 tasks.create("checkStyle") {

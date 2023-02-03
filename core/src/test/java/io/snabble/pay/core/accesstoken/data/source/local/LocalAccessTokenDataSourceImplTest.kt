@@ -7,6 +7,7 @@ import androidx.datastore.preferences.core.edit
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.shouldBe
+import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.just
@@ -26,18 +27,18 @@ class LocalAccessTokenDataSourceImplTest : FreeSpec({
 
     fun createSut() = LocalAccessTokenDataSourceImpl(dataStore = dataStore)
 
+    beforeEach {
+        clearAllMocks()
+    }
+
     "getAccessToken() returns" - {
 
-        val prefs = mockk<Preferences> {
-            coEvery { get(KEY_ACCESS_TOKEN) } returns "qwerty"
-            coEvery { get(KEY_EXPIRY_DATE) } returns "July 5 2023"
-        }
+        val prefs = mockk<Preferences>()
 
         mockkStatic("kotlinx.coroutines.flow.FlowKt")
-        coEvery { dataStore.data.first().toPreferences() } returns prefs
-
-
         fun setPrefsMockToReturn(accessToken: String?, expiryDate: String?) {
+            coEvery { dataStore.data.first().toPreferences() } returns prefs
+
             coEvery { prefs[KEY_ACCESS_TOKEN] } returns accessToken
             coEvery { prefs[KEY_EXPIRY_DATE] } returns expiryDate
         }

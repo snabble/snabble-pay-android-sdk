@@ -1,7 +1,11 @@
 package io.snabble.pay.core.di.modules
 
+import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import io.snabble.pay.core.SnabblePay
 import io.snabble.pay.network.service.register.AppRegistrationService
+import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.json.Json
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import org.koin.core.qualifier.named
 import org.koin.dsl.bind
@@ -16,9 +20,11 @@ val services = module {
             .build()
     } bind OkHttpClient::class
 
+    @OptIn(ExperimentalSerializationApi::class)
     single {
         Retrofit.Builder()
             .client(get())
+            .addConverterFactory(Json.asConverterFactory("application/json".toMediaType()))
             .baseUrl(get<String>(named("snabblePayUrl")))
             .build()
     } bind Retrofit::class

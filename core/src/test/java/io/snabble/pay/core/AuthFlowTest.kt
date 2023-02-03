@@ -3,20 +3,42 @@ package io.snabble.pay.core
 import io.kotest.core.extensions.Extension
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.koin.KoinExtension
-import io.kotest.matchers.shouldNotBe
+import io.kotest.matchers.shouldBe
+import io.mockk.coEvery
+import io.mockk.coVerify
+import io.mockk.mockk
+import io.mockk.slot
+import io.snabble.pay.core.appcredentials.data.repository.AppCredentialsRepositoryImpl
+import io.snabble.pay.core.appcredentials.data.source.LocalAppCredentialsDataSource
+import io.snabble.pay.core.appcredentials.data.source.RemoteAppCredentialsDataSource
+import io.snabble.pay.core.appcredentials.data.source.remote.RemoteAppCredentialsDataSourceImpl
+import io.snabble.pay.core.appcredentials.domain.model.AppCredentials
+import io.snabble.pay.core.appcredentials.domain.model.AppIdentifier
+import io.snabble.pay.core.appcredentials.domain.model.AppSecret
+import io.snabble.pay.core.appcredentials.domain.repository.AppCredentialsRepository
 import io.snabble.pay.core.di.modules.services
+import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
+import org.koin.core.module.dsl.singleOf
+import org.koin.dsl.bind
+import org.koin.dsl.module
 import org.koin.test.KoinTest
 import org.koin.test.inject
-import retrofit2.Retrofit
 
 class AuthFlowTest : FreeSpec(), KoinTest {
 
-    override fun extensions(): List<Extension> = listOf(KoinExtension(services))
+    override fun extensions(): List<Extension> = listOf(
+        KoinExtension(listOf(services, testModule)),
+    )
 
-    private val retrofit: Retrofit by inject()
+    private val localeDataSource: LocalAppCredentialsDataSource by inject()
+    private val appCredentialsRepository: AppCredentialsRepository by inject()
 
-    private val mockWebServer = MockWebServer().apply { start() }
+    private val mockWebServer = MockWebServer()
+        .apply {
+            enqueue(MockResponse().setResponseCode(200).setBody(credentialsBody))
+            start()
+        }
 
     init {
         beforeSpec {
@@ -24,11 +46,37 @@ class AuthFlowTest : FreeSpec(), KoinTest {
         }
 
         "fun fun fun" {
-            retrofit.baseUrl().toString() shouldNotBe "https://example.com/"
-        }
+            val slot = slot<AppCredentials>()
+            val credentials = appCredentialsRepository.getAppCredentials()
+            val expectedCredentials = AppCredentials(AppIdentifier("qwerty"), AppSecret("123456"))
+            credentials shouldBe expectedCredentials
 
-        "fun fun fun fun" {
-            retrofit.baseUrl().toString() shouldNotBe "https://example.com/"
+            coVerify(exactly = 1) { localeDataSource.saveAppCredentials(capture(slot)) }
+            val captured = slot.captured
+            captured shouldBe expectedCredentials
         }
     }
+
+    private companion object {
+
+        const val credentialsBody = """
+            {
+                "appIdentifier": "qwerty",
+                "appSecret": "123456"
+            }
+            """
+    }
+}
+
+val testModule = module {
+
+    singleOf(::AppCredentialsRepositoryImpl) bind AppCredentialsRepository::class
+
+    single<LocalAppCredentialsDataSource> {
+        mockk(relaxed = true) {
+            coEvery { getAppCredentials() } returns null
+        }
+    }
+
+    singleOf(::RemoteAppCredentialsDataSourceImpl) bind RemoteAppCredentialsDataSource::class
 }

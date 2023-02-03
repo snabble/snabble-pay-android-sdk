@@ -13,7 +13,6 @@ android {
 
     defaultConfig {
         minSdk = libs.versions.sdk.min.get().toInt()
-        targetSdk = libs.versions.sdk.target.get().toInt()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -22,7 +21,10 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
     compileOptions {
@@ -36,16 +38,14 @@ android {
 
 dependencies {
 
-    implementation(libs.androidx.core)
     implementation(libs.androidx.appcompat)
-
-    implementation(libs.bundles.koin)
+    implementation(libs.androidx.core)
+    implementation(libs.androidx.startupRuntime)
 
     implementation(libs.kotlin.serialization)
 
+    implementation(libs.bundles.koin)
     implementation(libs.bundles.retrofit)
-
-    implementation(libs.retrofit)
 
     testImplementation(libs.bundles.testing)
     androidTestImplementation(libs.bundles.testing.android)

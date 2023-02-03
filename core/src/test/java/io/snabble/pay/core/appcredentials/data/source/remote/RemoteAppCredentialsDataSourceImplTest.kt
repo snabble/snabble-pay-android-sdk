@@ -13,28 +13,29 @@ class RemoteAppCredentialsDataSourceImplTest : FreeSpec({
 
     val appRegistrationService: AppRegistrationService = mockk(relaxed = true)
     val sut = RemoteAppCredentialsDataSourceImpl(appRegistrationService)
+
     beforeEach {
         clearAllMocks()
     }
 
     "The remote data source" - {
+
         "return app credentials on success" {
             coEvery {
                 appRegistrationService.getAppCredentials().execute()
-            } returns Response.success(
-                AppCredentialsDto("test", "secret")
-            )
+            } returns Response.success(AppCredentialsDto("test", "secret"))
+
             val appCredentials = sut.fetchAppCredentials()
 
             appCredentials?.id?.id.shouldBe("test")
             appCredentials?.secret?.secret.shouldBe("secret")
         }
+
         "return null on error" {
             coEvery {
                 appRegistrationService.getAppCredentials().execute()
-            } returns Response.success(
-                null
-            )
+            } returns Response.success(null)
+
             val appCredentials = sut.fetchAppCredentials()
 
             appCredentials.shouldBe(null)

@@ -13,7 +13,8 @@ import io.snabble.pay.network.okhttp.interceptor.AccessToken
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.runTest
-import org.junit.Assert.assertEquals
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.runner.RunWith
 
@@ -22,7 +23,6 @@ import org.junit.runner.RunWith
 class LocalAccessTokenDataSourceImplTest {
 
     private val testContext: Context = ApplicationProvider.getApplicationContext()
-
     private val testScope = TestScope()
 
     private var testDataStore: DataStore<Preferences> =
@@ -34,14 +34,16 @@ class LocalAccessTokenDataSourceImplTest {
     private val sut = LocalAccessTokenDataSourceImpl(dataStore = testDataStore)
 
     @Test
-    fun initially_the_access_token_is_null() = testScope.runTest {
+    @DisplayName("Initially the access token is null")
+    fun initiallyTheAccessTokenIsNull() = testScope.runTest {
         testDataStore.edit { it.clear() }
         val accessToken = sut.getAccessToken()
         assertEquals(accessToken, null)
     }
 
     @Test
-    fun if_an_access_token_is_saved_it_is_returned() = testScope.runTest {
+    @DisplayName("If an access token is saved it is returned")
+    fun ifAnAccessTokenIsSavedItIsReturned() = testScope.runTest {
         testDataStore.edit { it.clear() }
         val accessTokenDto = AccessTokenDto(AccessToken("Bearer 12345"), "time")
         sut.saveAccessToken(accessTokenDto)

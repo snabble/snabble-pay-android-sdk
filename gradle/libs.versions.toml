@@ -26,7 +26,6 @@ okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "com-squareup-o
 retrofit2 = "com.squareup.retrofit2:retrofit:2.9.0"
 retrofit-kotlinSerialization = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0"
 ## Android Testing
-junit = "junit:junit:4.13.2"
 test-junit = "androidx.test.ext:junit:1.1.5"
 test-espresso = "androidx.test.espresso:espresso-core:3.5.1"
 test-junit5-androidPlugin = "de.mannodermaus.gradle.plugins:android-junit5:1.8.2.1"
@@ -58,7 +57,6 @@ testing = [
     "squareup-mockWebServer",
 ]
 testing-android = [
-    "junit",
     "test-espresso",
     "test-junit",
     "test-junit5-androidTestCore",

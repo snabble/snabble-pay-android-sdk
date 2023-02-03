@@ -37,13 +37,21 @@ subprojects {
     tasks.withType<Test>().configureEach {
         useJUnitPlatform()
     }
+
+    tasks.register("checkTest") {
+        dependsOn(tasks.withType<Test>())
+    }
 }
 
 tasks.register("clean", Delete::class) {
     delete(rootProject.buildDir)
 }
 
-tasks.create("checkstyle") {
+tasks.create("checkTest") {
+    dependsOn("checkstyle")
+}
+
+tasks.create("checkStyle") {
     dependsOn("detekt")
     dependsOn("ktlintCheck")
 }

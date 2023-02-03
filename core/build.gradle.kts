@@ -14,6 +14,8 @@ android {
 
     defaultConfig {
         minSdk = libs.versions.sdk.min.get().toInt()
+        @Suppress("DEPRECATION")
+        targetSdk = libs.versions.sdk.target.get().toInt()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunnerArguments["runnerBuilder"] =
@@ -52,11 +54,12 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.core)
     implementation(libs.androidx.datastorePreferences)
+    implementation(libs.androidx.startupRuntime)
+
+    implementation(libs.kotlin.serialization)
 
     implementation(libs.bundles.koin)
     implementation(libs.bundles.retrofit)
-
-    implementation(libs.kotlin.serialization)
 
     testImplementation(libs.bundles.testing)
     androidTestImplementation(libs.bundles.testing.android)

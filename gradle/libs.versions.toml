@@ -16,6 +16,7 @@ android-desugarJdkLibs = "com.android.tools:desugar_jdk_libs:1.2.2"
 androidx-datastorePreferences = "androidx.datastore:datastore-preferences:1.0.0"
 androidx-core = "androidx.core:core-ktx:1.9.0"
 androidx-appcompat = "androidx.appcompat:appcompat:1.6.0"
+androidx-startupRuntime = "androidx.startup:startup-runtime:1.1.1"
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 koin-androidCompat = { module = "io.insert-koin:koin-android-compat", version.ref = "koin" }
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }

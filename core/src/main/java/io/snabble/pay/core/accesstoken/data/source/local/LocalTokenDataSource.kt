@@ -4,35 +4,36 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
-import io.snabble.pay.core.accesstoken.data.source.dto.AccessTokenDto
+import io.snabble.pay.core.accesstoken.data.source.dto.TokenDto
 import io.snabble.pay.network.okhttp.interceptor.AccessToken
 import kotlinx.coroutines.flow.first
+import java.time.ZonedDateTime
 
-interface LocalAccessTokenDataSource {
+interface LocalTokenDataSource {
 
-    suspend fun getAccessToken(): AccessTokenDto?
+    suspend fun getAccessToken(): TokenDto?
 
-    suspend fun saveAccessToken(accessTokenDto: AccessTokenDto)
+    suspend fun saveToken(tokenDto: TokenDto)
 }
 
-internal class LocalAccessTokenDataSourceImpl(
+internal class LocalTokenDataSourceImpl(
     private val dataStore: DataStore<Preferences>
-) : LocalAccessTokenDataSource {
+) : LocalTokenDataSource {
 
-    override suspend fun getAccessToken(): AccessTokenDto? {
+    override suspend fun getAccessToken(): TokenDto? {
         val prefs = dataStore.data.first().toPreferences()
         val token = prefs[KEY_ACCESS_TOKEN] ?: return null
         val expiryDate = prefs[KEY_EXPIRY_DATE] ?: return null
-        return AccessTokenDto(
+        return TokenDto(
             accessToken = AccessToken(token),
-            expiryDate = expiryDate
+            expiryDate = ZonedDateTime.parse(expiryDate)
         )
     }
 
-    override suspend fun saveAccessToken(accessTokenDto: AccessTokenDto) {
+    override suspend fun saveToken(tokenDto: TokenDto) {
         dataStore.edit { prefs ->
-            prefs[KEY_ACCESS_TOKEN] = accessTokenDto.accessToken.value
-            prefs[KEY_EXPIRY_DATE] = accessTokenDto.expiryDate
+            prefs[KEY_ACCESS_TOKEN] = tokenDto.accessToken.value
+            prefs[KEY_EXPIRY_DATE] = tokenDto.expiryDate.toString()
         }
     }
 

@@ -15,23 +15,24 @@ import io.mockk.mockk
 import io.mockk.mockkStatic
 import io.mockk.runs
 import io.mockk.slot
-import io.snabble.pay.core.accesstoken.data.source.dto.AccessTokenDto
-import io.snabble.pay.core.accesstoken.data.source.local.LocalAccessTokenDataSourceImpl.Companion.KEY_ACCESS_TOKEN
-import io.snabble.pay.core.accesstoken.data.source.local.LocalAccessTokenDataSourceImpl.Companion.KEY_EXPIRY_DATE
+import io.snabble.pay.core.accesstoken.data.source.dto.TokenDto
+import io.snabble.pay.core.accesstoken.data.source.local.LocalTokenDataSourceImpl.Companion.KEY_ACCESS_TOKEN
+import io.snabble.pay.core.accesstoken.data.source.local.LocalTokenDataSourceImpl.Companion.KEY_EXPIRY_DATE
 import io.snabble.pay.network.okhttp.interceptor.AccessToken
 import kotlinx.coroutines.flow.first
+import java.time.ZonedDateTime
 
-class LocalAccessTokenDataSourceImplTest : FreeSpec({
+class LocalTokenDataSourceImplTest : FreeSpec({
 
-    val dataStore: DataStore<Preferences> = mockk(relaxed = true)
+    val dataStore: DataStore<Preferences> = mockk()
 
-    fun createSut() = LocalAccessTokenDataSourceImpl(dataStore = dataStore)
+    fun createSut() = LocalTokenDataSourceImpl(dataStore = dataStore)
 
     beforeEach {
         clearAllMocks()
     }
 
-    "getAccessToken() returns" - {
+    "getToken() returns" - {
 
         val prefs = mockk<Preferences>()
 
@@ -43,22 +44,25 @@ class LocalAccessTokenDataSourceImplTest : FreeSpec({
             coEvery { prefs[KEY_EXPIRY_DATE] } returns expiryDate
         }
 
-        "the access token that's been saved to the DataStore" {
-            setPrefsMockToReturn(accessToken = "qwerty", expiryDate = "July 5 2023")
+        "the token that's been saved to the DataStore" {
+            setPrefsMockToReturn(
+                accessToken = "Bearer qwerty",
+                expiryDate = "2023-03-21T08:56:17+01:00"
+            )
 
             val sut = createSut()
             val token = sut.getAccessToken()
 
-            token shouldBe AccessTokenDto(
-                accessToken = AccessToken("qwerty"),
-                expiryDate = "July 5 2023"
+            token shouldBe TokenDto(
+                accessToken = AccessToken("Bearer qwerty"),
+                expiryDate = ZonedDateTime.parse("2023-03-21T08:56:17+01:00")
             )
         }
 
         "null if the" - {
 
-            "access token is not available" {
-                setPrefsMockToReturn(accessToken = null, expiryDate = "July 5 2023")
+            "token is not available" {
+                setPrefsMockToReturn(accessToken = null, expiryDate = "2023-03-21T08:56:17+01:00")
 
                 val sut = createSut()
                 val token = sut.getAccessToken()
@@ -67,7 +71,7 @@ class LocalAccessTokenDataSourceImplTest : FreeSpec({
             }
 
             "expiry date is not available" {
-                setPrefsMockToReturn(accessToken = "qwerty", expiryDate = null)
+                setPrefsMockToReturn(accessToken = "Bearer qwerty", expiryDate = null)
 
                 val sut = createSut()
                 val token = sut.getAccessToken()
@@ -77,7 +81,7 @@ class LocalAccessTokenDataSourceImplTest : FreeSpec({
         }
     }
 
-    "saveAccessToken(AccessTokenDto) saves the access token in a DataStore" {
+    "saveToken(TokenDto) saves the access token in a DataStore" {
         mockkStatic("androidx.datastore.preferences.core.PreferencesKt")
         val tokenSlot = slot<String>()
         val dateSlot = slot<String>()
@@ -89,15 +93,15 @@ class LocalAccessTokenDataSourceImplTest : FreeSpec({
         coEvery {
             dataStore.edit(capture(editTransformSlot))
         } coAnswers { editTransformSlot.captured.invoke(mutablePrefs); mutablePrefs }
-        val accessToken = AccessTokenDto(
+        val token = TokenDto(
             accessToken = AccessToken("Bearer qwerty"),
-            expiryDate = "July 5 2023"
+            expiryDate = ZonedDateTime.parse("2023-03-21T08:56:17+01:00")
         )
 
         val sut = createSut()
-        sut.saveAccessToken(accessToken)
+        sut.saveToken(token)
 
-        tokenSlot.captured shouldBe accessToken.accessToken.value
-        dateSlot.captured shouldBe accessToken.expiryDate
+        tokenSlot.captured shouldBe token.accessToken.value
+        dateSlot.captured shouldBe token.expiryDate.toString()
     }
 })

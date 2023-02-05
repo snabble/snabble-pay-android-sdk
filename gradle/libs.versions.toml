@@ -34,7 +34,7 @@ test-junit5-androidTestRunner = { module = "de.mannodermaus.junit5:android-test-
 test-junit5-jupterApi = "org.junit.jupiter:junit-jupiter-api:5.9.2"
 test-kotlinx-coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4"
 ## Testing
-koinTest = "io.insert-koin:koin-test:3.1.6"
+koinTest = { module = "io.insert-koin:koin-test", version.ref = "koin" }
 kotest-runner = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
 kotest-assertions = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
 kotest-koin = "io.kotest.extensions:kotest-extensions-koin:1.1.0"
@@ -55,8 +55,8 @@ retrofit = [
 testing = [
     "koinTest",
     "kotest-assertions",
-    "kotest-runner",
     "kotest-koin",
+    "kotest-runner",
     "kotlin-reflect",
     "mockk",
     "squareup-mockWebServer",

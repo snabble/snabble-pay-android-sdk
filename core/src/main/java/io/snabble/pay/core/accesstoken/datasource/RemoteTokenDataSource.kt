@@ -1,18 +1,14 @@
-package io.snabble.pay.core.accesstoken.data.source.remote
+package io.snabble.pay.core.accesstoken.datasource
 
-import io.snabble.pay.core.accesstoken.data.source.dto.TokenDto
 import io.snabble.pay.core.appcredentials.domain.model.AppCredentials
 import io.snabble.pay.core.appcredentials.domain.repository.AppCredentialsRepository
 import io.snabble.pay.network.okhttp.interceptor.AccessToken
 import io.snabble.pay.network.service.register.AppRegistrationService
 import io.snabble.pay.network.service.register.dto.TokenDto as ApiTokenDto
 
-interface RemoteTokenDataSource {
+internal interface RemoteTokenDataSource : TokenDataSource
 
-    suspend fun getToken(): TokenDto?
-}
-
-class RemoteTokenDataSourceImpl(
+internal class RemoteTokenDataSourceImpl(
     private val appCredentialsRepository: AppCredentialsRepository,
     private val registrationService: AppRegistrationService,
 ) : RemoteTokenDataSource {

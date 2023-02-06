@@ -1,4 +1,4 @@
-package io.snabble.pay.core.appcredentials.data.provider
+package io.snabble.pay.core.appcredentials.data
 
 import io.snabble.pay.core.appcredentials.domain.model.toAppCredentialsDto
 import io.snabble.pay.core.appcredentials.domain.repository.AppCredentialsRepository

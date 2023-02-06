@@ -1,4 +1,4 @@
-package io.snabble.pay.core.accesstoken.datasource
+package io.snabble.pay.core.accesstoken.datasource.local
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.MutablePreferences
@@ -15,8 +15,9 @@ import io.mockk.mockk
 import io.mockk.mockkStatic
 import io.mockk.runs
 import io.mockk.slot
-import io.snabble.pay.core.accesstoken.datasource.LocalTokenDataSourceImpl.Companion.KEY_ACCESS_TOKEN
-import io.snabble.pay.core.accesstoken.datasource.LocalTokenDataSourceImpl.Companion.KEY_EXPIRY_DATE
+import io.snabble.pay.core.accesstoken.datasource.TokenDto
+import io.snabble.pay.core.accesstoken.datasource.local.LocalTokenDataSourceImpl.Companion.KEY_ACCESS_TOKEN
+import io.snabble.pay.core.accesstoken.datasource.local.LocalTokenDataSourceImpl.Companion.KEY_EXPIRY_DATE
 import io.snabble.pay.network.okhttp.interceptor.AccessToken
 import kotlinx.coroutines.flow.first
 import java.time.ZonedDateTime
@@ -80,8 +81,7 @@ class LocalTokenDataSourceImplTest : FreeSpec({
         }
     }
 
-    "saveToken(TokenDto) saves the access token in a DataStore" {
-        mockkStatic("androidx.datastore.preferences.core.PreferencesKt")
+    "saveToken(TokenDto) saves the token in a DataStore" {
         val tokenSlot = slot<String>()
         val dateSlot = slot<String>()
         val mutablePrefs: MutablePreferences = mockk {
@@ -89,9 +89,13 @@ class LocalTokenDataSourceImplTest : FreeSpec({
             every { this@mockk[KEY_EXPIRY_DATE] = capture(dateSlot) } just runs
         }
         val editTransformSlot = slot<suspend (MutablePreferences) -> Unit>()
-        coEvery {
-            dataStore.edit(capture(editTransformSlot))
-        } coAnswers { editTransformSlot.captured.invoke(mutablePrefs); mutablePrefs }
+        mockkStatic("androidx.datastore.preferences.core.PreferencesKt")
+        coEvery { dataStore.edit(capture(editTransformSlot)) } coAnswers {
+            // Invoke the captured edit transform slot to actually capture the slots of interest
+            editTransformSlot.captured.invoke(mutablePrefs)
+            mutablePrefs
+        }
+
         val token = TokenDto(
             accessToken = AccessToken("Bearer qwerty"),
             expiryDate = ZonedDateTime.parse("2023-03-21T08:56:17+01:00")

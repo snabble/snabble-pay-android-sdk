@@ -1,4 +1,4 @@
-package io.snabble.pay.core.appcredentials.data.repository
+package io.snabble.pay.core.appcredentials.data
 
 import io.snabble.pay.core.appcredentials.data.source.LocalAppCredentialsDataSource
 import io.snabble.pay.core.appcredentials.data.source.RemoteAppCredentialsDataSource

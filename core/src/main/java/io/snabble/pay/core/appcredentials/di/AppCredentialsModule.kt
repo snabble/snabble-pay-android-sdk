@@ -1,7 +1,7 @@
 package io.snabble.pay.core.appcredentials.di
 
-import io.snabble.pay.core.appcredentials.data.provider.AppCredentialsProviderImpl
-import io.snabble.pay.core.appcredentials.data.repository.AppCredentialsRepositoryImpl
+import io.snabble.pay.core.appcredentials.data.AppCredentialsProviderImpl
+import io.snabble.pay.core.appcredentials.data.AppCredentialsRepositoryImpl
 import io.snabble.pay.core.appcredentials.data.source.LocalAppCredentialsDataSource
 import io.snabble.pay.core.appcredentials.data.source.RemoteAppCredentialsDataSource
 import io.snabble.pay.core.appcredentials.data.source.local.LocalAppCredentialsDataSourceImpl

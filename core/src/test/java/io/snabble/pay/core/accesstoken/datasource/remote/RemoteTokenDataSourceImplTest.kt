@@ -1,4 +1,4 @@
-package io.snabble.pay.core.accesstoken.datasource
+package io.snabble.pay.core.accesstoken.datasource.remote
 
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.nulls.shouldBeNull
@@ -8,6 +8,7 @@ import io.mockk.coEvery
 import io.mockk.mockk
 import io.mockk.slot
 import io.mockk.verify
+import io.snabble.pay.core.accesstoken.datasource.TokenDto
 import io.snabble.pay.core.appcredentials.domain.model.AppCredentials
 import io.snabble.pay.core.appcredentials.domain.model.AppIdentifier
 import io.snabble.pay.core.appcredentials.domain.model.AppSecret

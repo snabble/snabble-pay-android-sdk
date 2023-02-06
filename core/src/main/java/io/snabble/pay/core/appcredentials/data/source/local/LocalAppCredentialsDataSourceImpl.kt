@@ -15,7 +15,7 @@ class LocalAppCredentialsDataSourceImpl(
 ) : LocalAppCredentialsDataSource {
 
     override suspend fun getAppCredentials(): AppCredentials? {
-        val prefs = dataStore.data.first()
+        val prefs = dataStore.data.first().toPreferences()
         val appIdentifier = prefs[APP_ID] ?: return null
         val appSecret = prefs[APP_SECRET] ?: return null
         return AppCredentials(

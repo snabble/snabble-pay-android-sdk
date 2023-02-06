@@ -10,8 +10,6 @@ import io.snabble.pay.core.appcredentials.data.AppCredentialsRepositoryImpl
 import io.snabble.pay.core.appcredentials.data.source.LocalAppCredentialsDataSource
 import io.snabble.pay.core.appcredentials.data.source.RemoteAppCredentialsDataSource
 import io.snabble.pay.core.appcredentials.domain.model.AppCredentials
-import io.snabble.pay.core.appcredentials.domain.model.AppIdentifier
-import io.snabble.pay.core.appcredentials.domain.model.AppSecret
 import io.snabble.pay.network.response.Response
 
 class AppCredentialsRepositoryImplTest : FreeSpec({
@@ -21,7 +19,7 @@ class AppCredentialsRepositoryImplTest : FreeSpec({
 
     val response: okhttp3.Response = mockk(relaxed = true)
 
-    val expectedAppCredentials = AppCredentials(AppIdentifier("test"), AppSecret("secret"))
+    val expectedAppCredentials: AppCredentials = mockk(relaxed = true)
 
     val sut = AppCredentialsRepositoryImpl(localDataSource, remoteDataSource)
 

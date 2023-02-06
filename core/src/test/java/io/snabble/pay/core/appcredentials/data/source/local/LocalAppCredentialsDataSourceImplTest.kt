@@ -26,8 +26,6 @@ class LocalAppCredentialsDataSourceImplTest : FreeSpec({
 
     fun createSut() = LocalAppCredentialsDataSourceImpl(dataStore)
 
-
-
     beforeEach {
         clearAllMocks()
     }

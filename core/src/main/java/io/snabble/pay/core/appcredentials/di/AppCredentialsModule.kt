@@ -19,5 +19,4 @@ val appCredentials = module {
     factoryOf(::RemoteAppCredentialsDataSourceImpl) bind RemoteAppCredentialsDataSource::class
 
     factoryOf(::AppCredentialsProviderImpl) bind AppCredentialsProvider::class
-
 }

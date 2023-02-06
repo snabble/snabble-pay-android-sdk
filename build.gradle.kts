@@ -54,7 +54,6 @@ tasks.register("clean", Delete::class) {
     delete(rootProject.buildDir)
 }
 
-
 versionCatalogUpdate {
     sortByKey.set(false)
     keep {

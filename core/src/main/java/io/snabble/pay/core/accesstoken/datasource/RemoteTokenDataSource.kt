@@ -1,3 +1,6 @@
 package io.snabble.pay.core.accesstoken.datasource
 
-internal interface RemoteTokenDataSource : TokenDataSource
+internal interface RemoteTokenDataSource {
+
+    suspend fun getToken(): TokenDto?
+}

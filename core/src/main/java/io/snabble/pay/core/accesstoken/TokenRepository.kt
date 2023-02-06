@@ -3,7 +3,6 @@ package io.snabble.pay.core.accesstoken
 import io.snabble.pay.core.accesstoken.datasource.LocalTokenDataSource
 import io.snabble.pay.core.accesstoken.datasource.RemoteTokenDataSource
 import io.snabble.pay.core.accesstoken.datasource.TokenDto
-import io.snabble.pay.core.accesstoken.datasource.getValidToken
 
 internal interface TokenRepository {
 
@@ -16,8 +15,8 @@ internal class TokenRepositoryImpl(
 ) : TokenRepository {
 
     override suspend fun getToken(): TokenDto? {
-        return localTokenDataSource.getValidToken()
-            ?: remoteTokenDataSource.getValidToken()
+        return localTokenDataSource.getToken()
+            ?: remoteTokenDataSource.getToken()
                 ?.also { localTokenDataSource.saveToken(it) }
     }
 }

@@ -11,7 +11,7 @@ class AppCredentialsRepositoryImpl(
 ) : AppCredentialsRepository {
 
     override suspend fun getAppCredentials(): AppCredentials? =
-        localDataSource.getAppCredentials() ?: remoteDataSource.fetchAppCredentials().apply {
+        localDataSource.getAppCredentials() ?: remoteDataSource.fetchAppCredentials().data.apply {
             if (this != null) localDataSource.saveAppCredentials(this)
         }
 }

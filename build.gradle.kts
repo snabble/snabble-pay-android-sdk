@@ -38,8 +38,10 @@ subprojects {
         useJUnitPlatform()
     }
 
-    tasks.register("checkTest") {
+    tasks.register("checkStyle") {
         dependsOn(tasks.withType<Test>())
+        dependsOn("detekt")
+        dependsOn("ktlintCheck")
     }
 }
 
@@ -47,14 +49,6 @@ tasks.register("clean", Delete::class) {
     delete(rootProject.buildDir)
 }
 
-tasks.create("checkTest") {
-    dependsOn("checkStyle")
-}
-
-tasks.create("checkStyle") {
-    dependsOn("detekt")
-    dependsOn("ktlintCheck")
-}
 
 versionCatalogUpdate {
     sortByKey.set(false)

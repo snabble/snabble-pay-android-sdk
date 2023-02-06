@@ -5,6 +5,7 @@ import io.kotest.matchers.shouldBe
 import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.mockk
+import io.snabble.pay.core.appcredentials.data.AppCredentialsProviderImpl
 import io.snabble.pay.core.appcredentials.domain.model.AppCredentials
 import io.snabble.pay.core.appcredentials.domain.repository.AppCredentialsRepository
 

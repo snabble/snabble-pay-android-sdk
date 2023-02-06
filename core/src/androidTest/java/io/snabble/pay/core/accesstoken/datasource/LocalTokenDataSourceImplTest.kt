@@ -1,4 +1,4 @@
-package io.snabble.pay.core.accesstoken.data.source.local
+package io.snabble.pay.core.accesstoken.datasource
 
 import android.content.Context
 import androidx.datastore.core.DataStore
@@ -8,7 +8,6 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.preferencesDataStoreFile
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import io.snabble.pay.core.accesstoken.data.source.dto.TokenDto
 import io.snabble.pay.network.okhttp.interceptor.AccessToken
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestScope
@@ -17,6 +16,7 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.runner.RunWith
+import java.time.ZonedDateTime
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @RunWith(AndroidJUnit4::class)
@@ -37,7 +37,7 @@ class LocalTokenDataSourceImplTest {
     @DisplayName("Initially the access token is null")
     fun initiallyTheAccessTokenIsNull() = testScope.runTest {
         testDataStore.edit { it.clear() }
-        val accessToken = sut.getAccessToken()
+        val accessToken = sut.getToken()
         assertEquals(accessToken, null)
     }
 
@@ -45,12 +45,15 @@ class LocalTokenDataSourceImplTest {
     @DisplayName("If an access token is saved it is returned")
     fun ifAnAccessTokenIsSavedItIsReturned() = testScope.runTest {
         testDataStore.edit { it.clear() }
-        val tokenDto = TokenDto(AccessToken("Bearer 12345"), "time")
-        sut.saveToken(tokenDto)
+        val expectedToken = TokenDto(
+            AccessToken("Bearer 12345"),
+            ZonedDateTime.parse("2023-03-21T08:56:17+01:00")
+        )
+        sut.saveToken(expectedToken)
 
-        val accessToken = sut.getAccessToken()
+        val token = sut.getToken()
 
-        assertEquals(accessToken, tokenDto)
+        assertEquals(token, expectedToken)
     }
 
     private companion object {

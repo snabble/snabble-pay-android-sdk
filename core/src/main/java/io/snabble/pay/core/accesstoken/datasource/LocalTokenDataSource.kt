@@ -1,17 +1,14 @@
-package io.snabble.pay.core.accesstoken.data.source.local
+package io.snabble.pay.core.accesstoken.datasource
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
-import io.snabble.pay.core.accesstoken.data.source.dto.TokenDto
 import io.snabble.pay.network.okhttp.interceptor.AccessToken
 import kotlinx.coroutines.flow.first
 import java.time.ZonedDateTime
 
-interface LocalTokenDataSource {
-
-    suspend fun getAccessToken(): TokenDto?
+internal interface LocalTokenDataSource : TokenDataSource {
 
     suspend fun saveToken(tokenDto: TokenDto)
 }
@@ -20,7 +17,7 @@ internal class LocalTokenDataSourceImpl(
     private val dataStore: DataStore<Preferences>
 ) : LocalTokenDataSource {
 
-    override suspend fun getAccessToken(): TokenDto? {
+    override suspend fun getToken(): TokenDto? {
         val prefs = dataStore.data.first().toPreferences()
         val token = prefs[KEY_ACCESS_TOKEN] ?: return null
         val expiryDate = prefs[KEY_EXPIRY_DATE] ?: return null

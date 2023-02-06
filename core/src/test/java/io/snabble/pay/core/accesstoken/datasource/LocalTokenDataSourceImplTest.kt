@@ -1,4 +1,4 @@
-package io.snabble.pay.core.accesstoken.data.source.local
+package io.snabble.pay.core.accesstoken.datasource
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.MutablePreferences
@@ -15,9 +15,10 @@ import io.mockk.mockk
 import io.mockk.mockkStatic
 import io.mockk.runs
 import io.mockk.slot
-import io.snabble.pay.core.accesstoken.data.source.dto.TokenDto
-import io.snabble.pay.core.accesstoken.data.source.local.LocalTokenDataSourceImpl.Companion.KEY_ACCESS_TOKEN
-import io.snabble.pay.core.accesstoken.data.source.local.LocalTokenDataSourceImpl.Companion.KEY_EXPIRY_DATE
+import io.snabble.pay.core.accesstoken.datasource.LocalTokenDataSourceImpl
+import io.snabble.pay.core.accesstoken.datasource.LocalTokenDataSourceImpl.Companion.KEY_ACCESS_TOKEN
+import io.snabble.pay.core.accesstoken.datasource.LocalTokenDataSourceImpl.Companion.KEY_EXPIRY_DATE
+import io.snabble.pay.core.accesstoken.datasource.TokenDto
 import io.snabble.pay.network.okhttp.interceptor.AccessToken
 import kotlinx.coroutines.flow.first
 import java.time.ZonedDateTime
@@ -51,7 +52,7 @@ class LocalTokenDataSourceImplTest : FreeSpec({
             )
 
             val sut = createSut()
-            val token = sut.getAccessToken()
+            val token = sut.getToken()
 
             token shouldBe TokenDto(
                 accessToken = AccessToken("Bearer qwerty"),
@@ -65,7 +66,7 @@ class LocalTokenDataSourceImplTest : FreeSpec({
                 setPrefsMockToReturn(accessToken = null, expiryDate = "2023-03-21T08:56:17+01:00")
 
                 val sut = createSut()
-                val token = sut.getAccessToken()
+                val token = sut.getToken()
 
                 token.shouldBeNull()
             }
@@ -74,7 +75,7 @@ class LocalTokenDataSourceImplTest : FreeSpec({
                 setPrefsMockToReturn(accessToken = "Bearer qwerty", expiryDate = null)
 
                 val sut = createSut()
-                val token = sut.getAccessToken()
+                val token = sut.getToken()
 
                 token.shouldBeNull()
             }

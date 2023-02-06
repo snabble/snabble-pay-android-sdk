@@ -40,14 +40,14 @@ subprojects {
 
     tasks.register("checkAll") {
         dependsOn(tasks.withType<Test>())
+        dependsOn("checkStyle")
+    }
+
+    tasks.register("checkStyle") {
         dependsOn("detekt")
         dependsOn("ktlintCheck")
     }
-}
 
-tasks.register("checkStyle") {
-    dependsOn("detekt")
-    dependsOn("ktlintCheck")
 }
 
 tasks.register("clean", Delete::class) {

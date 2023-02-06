@@ -34,5 +34,4 @@ class RegisterUseCaseImplTest : FreeSpec({
 
         appCredentials.shouldBe(null)
     }
-
 })

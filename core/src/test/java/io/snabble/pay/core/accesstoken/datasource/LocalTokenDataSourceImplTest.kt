@@ -15,10 +15,8 @@ import io.mockk.mockk
 import io.mockk.mockkStatic
 import io.mockk.runs
 import io.mockk.slot
-import io.snabble.pay.core.accesstoken.datasource.LocalTokenDataSourceImpl
 import io.snabble.pay.core.accesstoken.datasource.LocalTokenDataSourceImpl.Companion.KEY_ACCESS_TOKEN
 import io.snabble.pay.core.accesstoken.datasource.LocalTokenDataSourceImpl.Companion.KEY_EXPIRY_DATE
-import io.snabble.pay.core.accesstoken.datasource.TokenDto
 import io.snabble.pay.network.okhttp.interceptor.AccessToken
 import kotlinx.coroutines.flow.first
 import java.time.ZonedDateTime

@@ -68,7 +68,7 @@ class TokenRepositoryImplTest : FreeSpec({
             "from local source" {
                 coEvery { localDataSource.getToken() } returns mockk {
                     every { expiryDate } returns
-                            ZonedDateTime.parse("2023-03-21T08:56:17+01:00")
+                        ZonedDateTime.parse("2023-03-21T08:56:17+01:00")
                 }
 
                 val sut = createSut()
@@ -84,7 +84,7 @@ class TokenRepositoryImplTest : FreeSpec({
                 coEvery { localDataSource.getToken() } returns null
                 coEvery { remoteDataSource.getToken() } returns mockk {
                     every { expiryDate } returns
-                            ZonedDateTime.parse("2023-03-21T08:56:17+01:00")
+                        ZonedDateTime.parse("2023-03-21T08:56:17+01:00")
                 }
 
                 val sut = createSut()

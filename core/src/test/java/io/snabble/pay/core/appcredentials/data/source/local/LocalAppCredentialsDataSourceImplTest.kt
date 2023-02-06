@@ -40,7 +40,7 @@ class LocalAppCredentialsDataSourceImplTest : FreeSpec({
             coEvery { prefs[APP_ID] } returns appId
             coEvery { prefs[APP_SECRET] } returns appSecret
         }
-        "the token that's been saved to the DataStore" {
+        "the appCredentials that's been saved to the DataStore" {
             setPrefsMockToReturn(
                 appId = "testId",
                 appSecret = "testSecret"
@@ -83,7 +83,7 @@ class LocalAppCredentialsDataSourceImplTest : FreeSpec({
         }
     }
 
-    "saveToken(TokenDto) saves the access token in a DataStore" {
+    "saveAppCredentials(appCredentials) saves the app credentials in a DataStore" {
         mockkStatic("androidx.datastore.preferences.core.PreferencesKt")
         val appId = slot<String>()
         val appSecret = slot<String>()

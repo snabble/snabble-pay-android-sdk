@@ -21,8 +21,8 @@ internal class RemoteTokenDataSourceImpl(
     private fun AppCredentials.fetchNewAccessToken(): ApiTokenDto? =
         registrationService
             .getToken(
-                appIdentifier = id.id,
-                appSecret = secret.secret,
+                appIdentifier = id.value,
+                appSecret = secret.value,
             )
             .execute()
             .body()

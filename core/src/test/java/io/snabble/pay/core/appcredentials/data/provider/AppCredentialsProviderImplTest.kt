@@ -25,7 +25,7 @@ class AppCredentialsProviderImplTest : FreeSpec({
 
             val appCredentialsDto = sut.getAppCredentials()
 
-            appCredentialsDto?.appId.shouldBe(expectedAppCredentials.id.id)
+            appCredentialsDto?.appId.shouldBe(expectedAppCredentials.id.value)
         }
         "null if not available" {
             coEvery { appCredentialsRepository.getAppCredentials() } returns null

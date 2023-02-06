@@ -26,8 +26,8 @@ class LocalAppCredentialsDataSourceImpl(
 
     override suspend fun saveAppCredentials(credentials: AppCredentials) {
         dataStore.edit { prefs ->
-            prefs[APP_ID] = credentials.id.id
-            prefs[APP_SECRET] = credentials.secret.secret
+            prefs[APP_ID] = credentials.id.value
+            prefs[APP_SECRET] = credentials.secret.value
         }
     }
 }

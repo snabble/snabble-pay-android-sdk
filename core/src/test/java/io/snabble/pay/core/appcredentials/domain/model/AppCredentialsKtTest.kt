@@ -13,13 +13,13 @@ class AppCredentialsKtTest : FreeSpec({
 
     beforeEach {
         every { testAppCredentialsDto.appId } returns "appId"
-        every { testAppCredentials.secret.secret } returns "secret"
+        every { testAppCredentials.secret.value } returns "secret"
     }
 
     "mapping to app credentials" {
         val appCredentialsDto = testAppCredentialsDto.toAppCredentials()
-        appCredentialsDto.id.id.shouldBe("appId")
-        appCredentialsDto.secret.secret.shouldBe("")
+        appCredentialsDto.id.value.shouldBe("appId")
+        appCredentialsDto.secret.value.shouldBe("")
     }
 
     "mapping to app credentials dto" {

@@ -43,8 +43,8 @@ class LocalAppCredentialsDataSourceImplTest {
         testDataStore.edit { it.clear() }
 
         testDataStore.edit { prefs ->
-            prefs[APP_ID] = testAppCredentials.id.id
-            prefs[APP_SECRET] = testAppCredentials.secret.secret
+            prefs[APP_ID] = testAppCredentials.id.value
+            prefs[APP_SECRET] = testAppCredentials.secret.value
         }
 
         val appCredentials = sut.getAppCredentials()
@@ -59,8 +59,8 @@ class LocalAppCredentialsDataSourceImplTest {
 
         sut.saveAppCredentials(testAppCredentials)
 
-        assertEquals(testAppCredentials.id.id, testDataStore.data.first()[APP_ID])
-        assertEquals(testAppCredentials.secret.secret, testDataStore.data.first()[APP_SECRET])
+        assertEquals(testAppCredentials.id.value, testDataStore.data.first()[APP_ID])
+        assertEquals(testAppCredentials.secret.value, testDataStore.data.first()[APP_SECRET])
     }
 }
 

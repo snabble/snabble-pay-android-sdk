@@ -27,8 +27,8 @@ class RemoteAppCredentialsDataSourceImplTest : FreeSpec({
 
             val appCredentials = sut.fetchAppCredentials()
 
-            appCredentials?.id?.id.shouldBe("test")
-            appCredentials?.secret?.secret.shouldBe("secret")
+            appCredentials.data?.id?.value.shouldBe("test")
+            appCredentials.data?.secret?.value.shouldBe("secret")
         }
 
         "return null on error" {
@@ -38,7 +38,7 @@ class RemoteAppCredentialsDataSourceImplTest : FreeSpec({
 
             val appCredentials = sut.fetchAppCredentials()
 
-            appCredentials.shouldBe(null)
+            appCredentials.data.shouldBe(null)
         }
     }
 })

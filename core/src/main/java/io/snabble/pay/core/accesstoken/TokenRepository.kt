@@ -1,9 +1,9 @@
-package io.snabble.pay.core.accesstoken.data.repository
+package io.snabble.pay.core.accesstoken
 
-import io.snabble.pay.core.accesstoken.datasource.TokenDto
-import io.snabble.pay.core.accesstoken.datasource.getValidToken
 import io.snabble.pay.core.accesstoken.datasource.LocalTokenDataSource
 import io.snabble.pay.core.accesstoken.datasource.RemoteTokenDataSource
+import io.snabble.pay.core.accesstoken.datasource.TokenDto
+import io.snabble.pay.core.accesstoken.datasource.getValidToken
 
 internal interface TokenRepository {
 

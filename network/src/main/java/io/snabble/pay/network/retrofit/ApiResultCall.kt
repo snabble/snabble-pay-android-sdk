@@ -8,41 +8,29 @@ import retrofit2.Callback
 import retrofit2.HttpException
 import retrofit2.Response
 
-internal class ApiResultCall<T : Any>(private val delegate: Call<T>) : Call<ApiResult<T>> {
+internal class ApiResultCall<T : Any>(private val delegate: Call<T>) : Call<ApiResponse<T>> {
 
-    override fun clone(): Call<ApiResult<T>> = ApiResultCall(delegate.clone())
+    override fun clone(): Call<ApiResponse<T>> = ApiResultCall(delegate.clone())
 
-    override fun execute(): Response<ApiResult<T>> = throw NotImplementedError()
+    override fun execute(): Response<ApiResponse<T>> = throw NotImplementedError()
 
-    override fun enqueue(callback: Callback<ApiResult<T>>) {
+    override fun enqueue(callback: Callback<ApiResponse<T>>) {
         delegate.enqueue(object : Callback<T> {
 
             override fun onResponse(call: Call<T>, response: Response<T>) {
-                val body = response.body()
-                val apiResultResponse =
-                    if (response.isSuccessful && body != null) {
-                        ApiSuccess(
-                            response = response,
-                            data = body
-                        )
-                    } else if (response.isSuccessful && body == null) {
-                        ApiSuccessNoContent(response = response)
-                    } else {
-                        ApiError(response)
-                    }
+                val apiResponse = response.toApiResponse()
                 callback.onResponse(
                     this@ApiResultCall,
-                    Response.success(apiResultResponse)
+                    Response.success(apiResponse)
                 )
             }
 
             override fun onFailure(call: Call<T>, t: Throwable) {
                 val message: String? = when (t) {
                     is IOException -> "No internet connection"
-                    is HttpException -> "None-2xx HTTP response"
                     else -> t.localizedMessage
                 }
-                val fail: ApiResult<T> = Failure(message = message, exception = t)
+                val fail: ApiResponse<T> = Error(message = message, exception = t)
                 callback.onResponse(this@ApiResultCall, Response.success(fail))
             }
         })
@@ -57,4 +45,15 @@ internal class ApiResultCall<T : Any>(private val delegate: Call<T>) : Call<ApiR
     override fun request(): Request = delegate.request()
 
     override fun timeout(): Timeout = delegate.timeout()
+}
+
+private fun <T : Any> Response<T>.toApiResponse(): ApiResponse<T> {
+    if (!isSuccessful) return Error(message = message(), exception = HttpException(this))
+
+    val body = body()
+    return if (body != null) {
+        Success(response = this, data = body)
+    } else {
+        SuccessNoContent(response = this)
+    }
 }

@@ -5,6 +5,9 @@ import io.snabble.pay.core.accesstoken.datasource.TokenDto
 import io.snabble.pay.core.appcredentials.domain.model.AppCredentials
 import io.snabble.pay.core.appcredentials.domain.repository.AppCredentialsRepository
 import io.snabble.pay.network.okhttp.interceptor.AccessToken
+import io.snabble.pay.network.retrofit.Error
+import io.snabble.pay.network.retrofit.Success
+import io.snabble.pay.network.retrofit.SuccessNoContent
 import io.snabble.pay.network.service.register.AppRegistrationService
 import io.snabble.pay.network.service.register.dto.TokenDto as ApiTokenDto
 
@@ -18,14 +21,15 @@ internal class RemoteTokenDataSourceImpl(
             ?.fetchNewAccessToken()
             ?.asTokenDto()
 
-    private fun AppCredentials.fetchNewAccessToken(): ApiTokenDto? =
-        registrationService
-            .getToken(
-                appIdentifier = id.value,
-                appSecret = secret.value,
-            )
-            .execute()
-            .body()
+    private suspend fun AppCredentials.fetchNewAccessToken(): ApiTokenDto? {
+        val tokenResponse =
+            registrationService.getToken(appIdentifier = id.value, appSecret = secret.value)
+        return when (tokenResponse) {
+            is Success -> tokenResponse.data
+            is SuccessNoContent -> null
+            is Error -> null
+        }
+    }
 }
 
 private fun ApiTokenDto.asTokenDto() = TokenDto(

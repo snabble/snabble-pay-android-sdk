@@ -2,6 +2,7 @@ package io.snabble.pay.core.di.modules
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import io.snabble.pay.core.SnabblePay
+import io.snabble.pay.network.retrofit.ApiResultCallAdapterFactory
 import io.snabble.pay.network.service.register.AppRegistrationService
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
@@ -25,6 +26,7 @@ val services = module {
         Retrofit.Builder()
             .client(get())
             .addConverterFactory(Json.asConverterFactory("application/json".toMediaType()))
+            .addCallAdapterFactory(ApiResultCallAdapterFactory.create())
             .baseUrl(get<String>(named("snabblePayUrl")))
             .build()
     } bind Retrofit::class

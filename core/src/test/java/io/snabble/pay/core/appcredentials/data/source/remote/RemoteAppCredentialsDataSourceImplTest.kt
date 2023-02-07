@@ -5,13 +5,14 @@ import io.kotest.matchers.shouldBe
 import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.mockk
+import io.snabble.pay.network.retrofit.Success
+import io.snabble.pay.network.retrofit.SuccessNoContent
 import io.snabble.pay.network.service.register.AppRegistrationService
 import io.snabble.pay.network.service.register.dto.AppCredentialsDto
-import retrofit2.Response
 
 class RemoteAppCredentialsDataSourceImplTest : FreeSpec({
 
-    val appRegistrationService: AppRegistrationService = mockk(relaxed = true)
+    val appRegistrationService: AppRegistrationService = mockk()
     val sut = RemoteAppCredentialsDataSourceImpl(appRegistrationService)
 
     beforeEach {
@@ -22,23 +23,23 @@ class RemoteAppCredentialsDataSourceImplTest : FreeSpec({
 
         "return app credentials on success" {
             coEvery {
-                appRegistrationService.getAppCredentials().execute()
-            } returns Response.success(AppCredentialsDto("test", "secret"))
+                appRegistrationService.getAppCredentials()
+            } returns Success(AppCredentialsDto("test", "secret"), mockk())
 
             val appCredentials = sut.fetchAppCredentials()
 
-            appCredentials.data?.id?.value.shouldBe("test")
-            appCredentials.data?.secret?.value.shouldBe("secret")
+            appCredentials?.id?.value.shouldBe("test")
+            appCredentials?.secret?.value.shouldBe("secret")
         }
 
         "return null on error" {
             coEvery {
-                appRegistrationService.getAppCredentials().execute()
-            } returns Response.success(null)
+                appRegistrationService.getAppCredentials()
+            } returns SuccessNoContent(mockk())
 
             val appCredentials = sut.fetchAppCredentials()
 
-            appCredentials.data.shouldBe(null)
+            appCredentials.shouldBe(null)
         }
     }
 })

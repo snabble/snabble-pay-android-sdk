@@ -5,18 +5,17 @@ import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.shouldBe
 import io.mockk.clearAllMocks
 import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.mockk
 import io.mockk.slot
-import io.mockk.verify
 import io.snabble.pay.core.accesstoken.datasource.TokenDto
 import io.snabble.pay.core.appcredentials.domain.model.AppCredentials
 import io.snabble.pay.core.appcredentials.domain.model.AppIdentifier
 import io.snabble.pay.core.appcredentials.domain.model.AppSecret
 import io.snabble.pay.core.appcredentials.domain.repository.AppCredentialsRepository
 import io.snabble.pay.network.okhttp.interceptor.AccessToken
+import io.snabble.pay.network.retrofit.Success
 import io.snabble.pay.network.service.register.AppRegistrationService
-import okhttp3.ResponseBody.Companion.toResponseBody
-import retrofit2.Response
 import java.time.ZonedDateTime
 import io.snabble.pay.network.service.register.dto.TokenDto as ApiTokenDto
 
@@ -49,8 +48,6 @@ class RemoteTokenDataSourceImplTest : FreeSpec({
                         appIdentifier = capture(idSlot),
                         appSecret = capture(secretSlot)
                     )
-                    .execute()
-                    .body()
             } returns mockk(relaxed = true)
 
             val sut = createSut()
@@ -58,7 +55,7 @@ class RemoteTokenDataSourceImplTest : FreeSpec({
 
             idSlot.captured shouldBe "id"
             secretSlot.captured shouldBe "secret"
-            verify(exactly = 1) {
+            coVerify(exactly = 1) {
                 registrationService.getToken(appIdentifier = any(), appSecret = any())
             }
         }
@@ -74,13 +71,13 @@ class RemoteTokenDataSourceImplTest : FreeSpec({
                         appIdentifier = "id",
                         appSecret = "secret"
                     )
-                    .execute()
-            } returns Response.success(
+            } returns Success(
                 ApiTokenDto(
                     token = "qwerty",
                     expiryDate = ZonedDateTime.parse("2023-03-21T08:56:17+01:00"),
                     tokenType = "Bearer"
-                )
+                ),
+                response = mockk()
             )
             val expectedToken = TokenDto(
                 accessToken = AccessToken("Bearer qwerty"),
@@ -114,8 +111,7 @@ class RemoteTokenDataSourceImplTest : FreeSpec({
                             appIdentifier = "id",
                             appSecret = "secret"
                         )
-                        .execute()
-                } returns Response.error<ApiTokenDto?>(401, "UNAUTHORIZED".toResponseBody())
+                } returns mockk()
 
                 val sut = createSut()
 

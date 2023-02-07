@@ -10,14 +10,11 @@ import io.snabble.pay.core.appcredentials.data.AppCredentialsRepositoryImpl
 import io.snabble.pay.core.appcredentials.data.source.LocalAppCredentialsDataSource
 import io.snabble.pay.core.appcredentials.data.source.RemoteAppCredentialsDataSource
 import io.snabble.pay.core.appcredentials.domain.model.AppCredentials
-import io.snabble.pay.network.response.Response
 
 class AppCredentialsRepositoryImplTest : FreeSpec({
 
     val localDataSource: LocalAppCredentialsDataSource = mockk(relaxed = true)
     val remoteDataSource: RemoteAppCredentialsDataSource = mockk(relaxed = true)
-
-    val response: okhttp3.Response = mockk(relaxed = true)
 
     val expectedAppCredentials: AppCredentials = mockk(relaxed = true)
 
@@ -39,10 +36,7 @@ class AppCredentialsRepositoryImplTest : FreeSpec({
 
         "tries to fetch app credentials if local data is null" {
             coEvery { localDataSource.getAppCredentials() } returns null
-            coEvery { remoteDataSource.fetchAppCredentials() } returns Response(
-                data = null,
-                response
-            )
+            coEvery { remoteDataSource.fetchAppCredentials() } returns mockk()
 
             sut.getAppCredentials()
 
@@ -53,10 +47,7 @@ class AppCredentialsRepositoryImplTest : FreeSpec({
 
             "app credentials on success" {
                 coEvery { localDataSource.getAppCredentials() } returns null
-                coEvery { remoteDataSource.fetchAppCredentials() } returns Response(
-                    data = expectedAppCredentials,
-                    response
-                )
+                coEvery { remoteDataSource.fetchAppCredentials() } returns expectedAppCredentials
 
                 val appCredentials = sut.getAppCredentials()
 
@@ -65,10 +56,7 @@ class AppCredentialsRepositoryImplTest : FreeSpec({
 
             "null if failed" {
                 coEvery { localDataSource.getAppCredentials() } returns null
-                coEvery { remoteDataSource.fetchAppCredentials() } returns Response(
-                    data = null,
-                    response
-                )
+                coEvery { remoteDataSource.fetchAppCredentials() } returns null
 
                 val appCredentials = sut.getAppCredentials()
 
@@ -78,10 +66,7 @@ class AppCredentialsRepositoryImplTest : FreeSpec({
 
         "saves the app credentials if fetched successfully" {
             coEvery { localDataSource.getAppCredentials() } returns null
-            coEvery { remoteDataSource.fetchAppCredentials() } returns Response(
-                data = expectedAppCredentials,
-                response
-            )
+            coEvery { remoteDataSource.fetchAppCredentials() } returns expectedAppCredentials
 
             sut.getAppCredentials()
 
@@ -100,10 +85,7 @@ class AppCredentialsRepositoryImplTest : FreeSpec({
 
             "if local and remote credentials are not available" {
                 coEvery { localDataSource.getAppCredentials() } returns null
-                coEvery { remoteDataSource.fetchAppCredentials() } returns Response(
-                    data = null,
-                    response
-                )
+                coEvery { remoteDataSource.fetchAppCredentials() } returns null
 
                 sut.getAppCredentials()
 

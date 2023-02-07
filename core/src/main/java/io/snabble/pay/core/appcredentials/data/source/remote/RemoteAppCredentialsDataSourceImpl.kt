@@ -13,8 +13,9 @@ class RemoteAppCredentialsDataSourceImpl(
 ) : RemoteAppCredentialsDataSource {
 
     override suspend fun fetchAppCredentials(): AppCredentials? {
-        val credentials = when (val response = appRegistrationService
-            .getAppCredentials()) {
+        val credentials = when (
+            val response = appRegistrationService.getAppCredentials()
+        ) {
             is Success -> response.data.toAppCredentials()
             is SuccessNoContent -> null
             is Error -> null

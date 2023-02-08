@@ -8,26 +8,24 @@ import retrofit2.http.POST
 import retrofit2.http.Query
 
 /**
- * Service related to registering an App instance
+ * Service related to registering an App instance to be able to use Snabble Pay.
  */
 interface AppRegistrationService {
 
     /**
-     * Endpoint to register the application.
-     * A successful call returns a response matching the following pattern:
-     * {
-     *   "appIdentifier": String,
-     *   "appSecret": String,
-     *   "appUrlScheme": String
-     * }
+     * The app is registered at Snabble Pay. The credentials are needed to request a token that's
+     * necessary for all interactions with the Snabble Pay API.
      *
-     * [API Endpoint Documentation](https://snabble.atlassian.net/wiki/spaces/PAYMENT/pages/131301398/Backend+Requirements#App-Registration)
+     * [Docs to register an app](https://snabble.atlassian.net/wiki/spaces/PAYMENT/pages/131301398/Backend+Requirements#App-Registration)
      */
     @POST("/apps/register")
     suspend fun getAppCredentials(): ApiResponse<AppCredentialsDto>
 
     /**
-     * [API Endpoint Documentation](https://snabble.atlassian.net/wiki/spaces/PAYMENT/pages/131301398/Backend+Requirements#App-Authentication)
+     * Request a new token. The token provides access to all other interactions with
+     * the Snabble Pay API.
+     *
+     * [Docs to authenticate the app](https://snabble.atlassian.net/wiki/spaces/PAYMENT/pages/131301398/Backend+Requirements#App-Authentication)
      */
     @GET("/apps/token")
     suspend fun getToken(

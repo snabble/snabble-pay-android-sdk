@@ -5,8 +5,8 @@ import io.kotest.matchers.shouldBe
 import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.mockk
+import io.snabble.pay.network.retrofit.Error
 import io.snabble.pay.network.retrofit.Success
-import io.snabble.pay.network.retrofit.SuccessNoContent
 import io.snabble.pay.network.service.register.AppRegistrationService
 import io.snabble.pay.network.service.register.dto.AppCredentialsDto
 
@@ -35,7 +35,7 @@ class RemoteAppCredentialsDataSourceImplTest : FreeSpec({
         "return null on error" {
             coEvery {
                 appRegistrationService.getAppCredentials()
-            } returns SuccessNoContent(mockk())
+            } returns Error(null, mockk())
 
             val appCredentials = sut.fetchAppCredentials()
 

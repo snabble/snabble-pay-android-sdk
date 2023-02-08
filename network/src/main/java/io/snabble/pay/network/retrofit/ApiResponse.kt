@@ -2,7 +2,7 @@ package io.snabble.pay.network.retrofit
 
 import retrofit2.Response
 
-sealed class ApiResponse<out T>
+sealed class ApiResponse<out T : Any>
 
 data class Success<T : Any>(val data: T, val response: Response<T>) : ApiResponse<T>()
 

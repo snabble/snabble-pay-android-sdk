@@ -22,7 +22,7 @@ internal class AuthorizationHeaderInterceptorTest : FreeSpec({
 
     var server = createMockWebServer()
 
-    val accessTokenRepo: AccessTokenProvider = mockk(relaxed = true)
+    val accessTokenRepo: GetAccessTokenUseCase = mockk(relaxed = true)
 
     fun createRequest(header: Pair<String, String>? = null) = Request.Builder()
         .url(server.url(""))

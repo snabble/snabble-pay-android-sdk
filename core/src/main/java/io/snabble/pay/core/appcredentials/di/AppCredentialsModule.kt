@@ -12,10 +12,11 @@ import org.koin.core.module.dsl.factoryOf
 import org.koin.dsl.bind
 import org.koin.dsl.module
 
-val appCredentials = module {
+val appCredentialsModule = module {
     factoryOf(::AppCredentialsRepositoryImpl) bind AppCredentialsRepository::class
 
     factoryOf(::LocalAppCredentialsDataSourceImpl) bind LocalAppCredentialsDataSource::class
+
     factoryOf(::RemoteAppCredentialsDataSourceImpl) bind RemoteAppCredentialsDataSource::class
 
     factoryOf(::AppCredentialsProviderImpl) bind AppCredentialsProvider::class

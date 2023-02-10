@@ -1,7 +1,7 @@
 package io.snabble.pay.network
 
 import io.snabble.pay.network.okhttp.interceptor.AccessToken
-import io.snabble.pay.network.okhttp.interceptor.AccessTokenProvider
+import io.snabble.pay.network.okhttp.interceptor.GetAccessTokenUseCase
 
 interface FetchNewAccessTokenUseCase {
 
@@ -9,7 +9,7 @@ interface FetchNewAccessTokenUseCase {
 }
 
 class FetchNewAccessTokenUseCaseImpl(
-    val accessTokenProvider: AccessTokenProvider
+    val getAccessTokenUseCase: GetAccessTokenUseCase
 ) : FetchNewAccessTokenUseCase {
 
     override suspend fun invoke(): AccessToken {

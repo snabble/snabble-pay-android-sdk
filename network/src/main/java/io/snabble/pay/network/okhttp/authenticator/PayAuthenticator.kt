@@ -1,6 +1,5 @@
 package io.snabble.pay.network.okhttp.authenticator
 
-import io.snabble.pay.network.okhttp.authenticator.usecase.RefreshAccessTokenUseCase
 import io.snabble.pay.network.okhttp.newWithAuthorizationHeader
 import kotlinx.coroutines.runBlocking
 import okhttp3.Authenticator
@@ -8,13 +7,13 @@ import okhttp3.Request
 import okhttp3.Response
 import okhttp3.Route
 
-internal class PayAuthenticator(
-    private val refreshAccessToken: RefreshAccessTokenUseCase
+class PayAuthenticator(
+    private val getNewAccessToken: GetNewAccessTokenUseCase
 ) : Authenticator {
 
     override fun authenticate(route: Route?, response: Response): Request? {
         if (response.responseCount >= MAX_ATTEMPTS) return null
-        val accessToken = runBlocking { refreshAccessToken() } ?: return null
+        val accessToken = runBlocking { getNewAccessToken() } ?: return null
 
         return response.request.newWithAuthorizationHeader(accessToken)
     }

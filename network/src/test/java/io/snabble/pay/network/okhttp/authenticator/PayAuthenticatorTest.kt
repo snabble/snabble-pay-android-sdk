@@ -7,7 +7,6 @@ import io.kotest.matchers.shouldBe
 import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.mockk
-import io.snabble.pay.network.okhttp.authenticator.usecase.RefreshAccessTokenUseCase
 import io.snabble.pay.network.okhttp.interceptor.AccessToken
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -26,16 +25,16 @@ internal class PayAuthenticatorTest : FreeSpec({
 
     var server = createMockWebServer()
 
-    val refreshToken: RefreshAccessTokenUseCase = mockk(relaxed = true)
+    val getNewAccessToken: GetNewAccessTokenUseCase = mockk(relaxed = true)
 
     fun createRequest(header: Pair<String, String>? = null) = Request.Builder()
         .url(server.url(""))
         .apply { if (header != null) header(header.first, header.second) }
         .build()
 
-    fun sut(refreshToken: RefreshAccessTokenUseCase) =
+    fun sut(getNewAccessToken: GetNewAccessTokenUseCase) =
         OkHttpClient.Builder()
-            .authenticator(PayAuthenticator(refreshToken))
+            .authenticator(PayAuthenticator(getNewAccessToken))
             .build()
 
     beforeEach {
@@ -51,7 +50,7 @@ internal class PayAuthenticatorTest : FreeSpec({
     "A request that" - {
 
         "results in 401 UNAUTHORIZED retries only one more time" {
-            val sut: OkHttpClient = sut(refreshToken)
+            val sut: OkHttpClient = sut(getNewAccessToken)
             val response = sut.newCall(createRequest()).execute()
 
             response.responseCount.shouldBe(2)
@@ -63,7 +62,7 @@ internal class PayAuthenticatorTest : FreeSpec({
                 MockResponse().setResponseCode(200)
             )
 
-            val sut: OkHttpClient = sut(refreshToken)
+            val sut: OkHttpClient = sut(getNewAccessToken)
             val response = sut.newCall(createRequest()).execute()
 
             response.responseCount.shouldBe(2)
@@ -71,19 +70,19 @@ internal class PayAuthenticatorTest : FreeSpec({
         }
 
         "can't receive refreshed access token fails w/ 401 UNAUTHORIZED" {
-            coEvery { refreshToken.invoke() } returns null
+            coEvery { getNewAccessToken.invoke() } returns null
             val authHeader = "Authorization" to "Bearer qwerty"
 
-            val sut: OkHttpClient = sut(refreshToken)
+            val sut: OkHttpClient = sut(getNewAccessToken)
             val response = sut.newCall(createRequest(authHeader)).execute()
 
             response.request.headers.shouldContain(authHeader)
         }
 
         "that receives a refreshed access token should contain that access token" {
-            coEvery { refreshToken.invoke() } returns AccessToken("Bearer asdfg")
+            coEvery { getNewAccessToken.invoke() } returns AccessToken("Bearer asdfg")
 
-            val sut: OkHttpClient = sut(refreshToken)
+            val sut: OkHttpClient = sut(getNewAccessToken)
             val response = sut.newCall(createRequest("Authorization" to "Bearer qwerty")).execute()
 
             response.request.headers.shouldNotContain("Authorization" to "Bearer qwerty")

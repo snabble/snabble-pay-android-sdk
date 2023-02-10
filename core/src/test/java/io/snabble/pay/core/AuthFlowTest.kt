@@ -17,7 +17,8 @@ import io.snabble.pay.core.appcredentials.domain.model.AppCredentials
 import io.snabble.pay.core.appcredentials.domain.model.AppIdentifier
 import io.snabble.pay.core.appcredentials.domain.model.AppSecret
 import io.snabble.pay.core.appcredentials.domain.repository.AppCredentialsRepository
-import io.snabble.pay.core.di.modules.services
+import io.snabble.pay.core.di.modules.networkModule
+import io.snabble.pay.core.di.modules.serviceModule
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.koin.core.module.dsl.singleOf
@@ -29,7 +30,7 @@ import org.koin.test.inject
 class AuthFlowTest : FreeSpec(), KoinTest {
 
     override fun extensions(): List<Extension> = listOf(
-        KoinExtension(listOf(services, testModule)),
+        KoinExtension(listOf(networkModule, serviceModule, testModule)),
     )
 
     private val localeDataSource: LocalAppCredentialsDataSource by inject()
@@ -73,16 +74,16 @@ val testModule = module {
 
     singleOf(::AppCredentialsRepositoryImpl) bind AppCredentialsRepository::class
 
-    single<LocalAppCredentialsDataSource> {
-        mockk(relaxed = true) {
+    single {
+        mockk<LocalAppCredentialsDataSource>(relaxed = true) {
             coEvery { getAppCredentials() } returns null
         }
-    }
+    } bind LocalAppCredentialsDataSource::class
 
-    single<RemoteAppCredentialsDataSource> {
+    single {
         RemoteAppCredentialsDataSourceImpl(
             appRegistrationService = get(),
             customerKey = CustomerKey("")
         )
-    }
+    } bind RemoteAppCredentialsDataSource::class
 }

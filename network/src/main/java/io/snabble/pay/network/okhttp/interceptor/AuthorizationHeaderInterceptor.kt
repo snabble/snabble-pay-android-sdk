@@ -5,12 +5,12 @@ import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
 import okhttp3.Response
 
-internal class AuthorizationHeaderInterceptor(
-    private val accessTokenProvider: AccessTokenProvider
+class AuthorizationHeaderInterceptor(
+    private val getAccessToken: GetAccessTokenUseCase
 ) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
-        val token: AccessToken = runBlocking { accessTokenProvider.getAccessToken() }
+        val token: AccessToken = runBlocking { getAccessToken.getAccessToken() }
             ?: return chain.proceed(chain.request())
 
         return chain.proceed(chain.request().newWithAuthorizationHeader(token))

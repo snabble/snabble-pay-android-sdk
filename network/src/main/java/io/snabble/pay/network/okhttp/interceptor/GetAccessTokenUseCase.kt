@@ -1,6 +1,6 @@
 package io.snabble.pay.network.okhttp.interceptor
 
-interface AccessTokenProvider {
+interface GetAccessTokenUseCase {
 
     suspend fun getAccessToken(): AccessToken?
 }

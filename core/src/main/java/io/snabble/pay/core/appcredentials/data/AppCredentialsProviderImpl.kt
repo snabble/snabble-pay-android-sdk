@@ -9,7 +9,6 @@ class AppCredentialsProviderImpl(
     private val appCredentialsRepository: AppCredentialsRepository
 ) : AppCredentialsProvider {
 
-    override suspend fun getAppCredentials(): AppCredentialsDto? {
-        return appCredentialsRepository.getAppCredentials()?.toAppCredentialsDto()
-    }
+    override suspend fun getAppCredentials(): AppCredentialsDto? =
+        appCredentialsRepository.getAppCredentials()?.toAppCredentialsDto()
 }

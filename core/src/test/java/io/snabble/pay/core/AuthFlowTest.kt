@@ -11,6 +11,7 @@ import io.mockk.slot
 import io.snabble.pay.core.appcredentials.data.AppCredentialsRepositoryImpl
 import io.snabble.pay.core.appcredentials.data.source.LocalAppCredentialsDataSource
 import io.snabble.pay.core.appcredentials.data.source.RemoteAppCredentialsDataSource
+import io.snabble.pay.core.appcredentials.data.source.remote.CustomerKey
 import io.snabble.pay.core.appcredentials.data.source.remote.RemoteAppCredentialsDataSourceImpl
 import io.snabble.pay.core.appcredentials.domain.model.AppCredentials
 import io.snabble.pay.core.appcredentials.domain.model.AppIdentifier
@@ -45,7 +46,7 @@ class AuthFlowTest : FreeSpec(), KoinTest {
             SnabblePay.baseUrl = mockWebServer.url("").toString()
         }
 
-        "fun fun fun" {
+        "If no credentials are available locally, they are fetched from remote" {
             val slot = slot<AppCredentials>()
             val credentials = appCredentialsRepository.getAppCredentials()
             val expectedCredentials = AppCredentials(AppIdentifier("qwerty"), AppSecret("123456"))
@@ -78,5 +79,10 @@ val testModule = module {
         }
     }
 
-    singleOf(::RemoteAppCredentialsDataSourceImpl) bind RemoteAppCredentialsDataSource::class
+    single<RemoteAppCredentialsDataSource> {
+        RemoteAppCredentialsDataSourceImpl(
+            appRegistrationService = get(),
+            customerKey = CustomerKey("")
+        )
+    }
 }

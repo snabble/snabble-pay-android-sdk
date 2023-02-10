@@ -12,7 +12,5 @@ class RegisterUseCaseImpl(
     private val appCredentialsRepository: AppCredentialsRepository,
 ) : RegisterUseCase {
 
-    override suspend fun invoke(): AppCredentials? {
-        return appCredentialsRepository.getAppCredentials()
-    }
+    override suspend fun invoke(): AppCredentials? = appCredentialsRepository.getAppCredentials()
 }

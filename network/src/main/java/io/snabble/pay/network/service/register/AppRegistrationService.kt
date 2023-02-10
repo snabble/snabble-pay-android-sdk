@@ -4,6 +4,7 @@ import io.snabble.pay.network.retrofit.ApiResponse
 import io.snabble.pay.network.service.register.dto.AppCredentialsDto
 import io.snabble.pay.network.service.register.dto.TokenDto
 import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.Query
 
@@ -19,7 +20,9 @@ interface AppRegistrationService {
      * [Docs to register an app](https://snabble.atlassian.net/wiki/spaces/PAYMENT/pages/131301398/Backend+Requirements#App-Registration)
      */
     @POST("/apps/register")
-    suspend fun getAppCredentials(): ApiResponse<AppCredentialsDto>
+    suspend fun getAppCredentials(
+        @Header("snabblePayKey") key: String
+    ): ApiResponse<AppCredentialsDto>
 
     /**
      * Request a new token. The token provides access to all other interactions with

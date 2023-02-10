@@ -7,6 +7,12 @@ data class AppCredentials(
     val secret: AppSecret,
 )
 
+@JvmInline
+value class AppIdentifier(val value: String)
+
+@JvmInline
+value class AppSecret(val value: String)
+
 fun AppCredentials.toAppCredentialsDto(): AppCredentialsDto =
     AppCredentialsDto(
         appId = id.value,
@@ -18,9 +24,3 @@ fun AppCredentialsDto.toAppCredentials(): AppCredentials =
         AppIdentifier(value = appId),
         AppSecret(value = appSecret)
     )
-
-@JvmInline
-value class AppIdentifier(val value: String)
-
-@JvmInline
-value class AppSecret(val value: String)

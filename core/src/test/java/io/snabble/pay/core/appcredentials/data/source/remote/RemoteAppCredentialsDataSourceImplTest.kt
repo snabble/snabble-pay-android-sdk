@@ -13,7 +13,7 @@ import io.snabble.pay.network.service.register.dto.AppCredentialsDto
 class RemoteAppCredentialsDataSourceImplTest : FreeSpec({
 
     val appRegistrationService: AppRegistrationService = mockk()
-    val sut = RemoteAppCredentialsDataSourceImpl(appRegistrationService)
+    val sut = RemoteAppCredentialsDataSourceImpl(appRegistrationService, CustomerKey(""))
 
     beforeEach {
         clearAllMocks()
@@ -23,7 +23,7 @@ class RemoteAppCredentialsDataSourceImplTest : FreeSpec({
 
         "return app credentials on success" {
             coEvery {
-                appRegistrationService.getAppCredentials()
+                appRegistrationService.getAppCredentials(key = "")
             } returns Success(AppCredentialsDto("test", "secret"), mockk())
 
             val appCredentials = sut.fetchAppCredentials()
@@ -34,7 +34,7 @@ class RemoteAppCredentialsDataSourceImplTest : FreeSpec({
 
         "return null on error" {
             coEvery {
-                appRegistrationService.getAppCredentials()
+                appRegistrationService.getAppCredentials(key = "")
             } returns Error(null, mockk())
 
             val appCredentials = sut.fetchAppCredentials()

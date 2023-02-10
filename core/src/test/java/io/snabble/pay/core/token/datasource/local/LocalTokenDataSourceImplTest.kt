@@ -1,4 +1,4 @@
-package io.snabble.pay.core.accesstoken.datasource.local
+package io.snabble.pay.core.token.datasource.local
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.MutablePreferences
@@ -15,9 +15,9 @@ import io.mockk.mockk
 import io.mockk.mockkStatic
 import io.mockk.runs
 import io.mockk.slot
-import io.snabble.pay.core.accesstoken.datasource.TokenDto
-import io.snabble.pay.core.accesstoken.datasource.local.LocalTokenDataSourceImpl.Companion.KEY_ACCESS_TOKEN
-import io.snabble.pay.core.accesstoken.datasource.local.LocalTokenDataSourceImpl.Companion.KEY_EXPIRY_DATE
+import io.snabble.pay.core.token.datasource.TokenDto
+import io.snabble.pay.core.token.datasource.local.LocalTokenDataSourceImpl.Companion.KEY_ACCESS_TOKEN
+import io.snabble.pay.core.token.datasource.local.LocalTokenDataSourceImpl.Companion.KEY_EXPIRY_DATE
 import io.snabble.pay.network.okhttp.interceptor.AccessToken
 import kotlinx.coroutines.flow.first
 import java.time.ZonedDateTime

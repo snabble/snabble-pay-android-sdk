@@ -1,4 +1,4 @@
-package io.snabble.pay.core.accesstoken
+package io.snabble.pay.core.token
 
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.nulls.shouldNotBeNull
@@ -7,10 +7,10 @@ import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
-import io.snabble.pay.core.accesstoken.datasource.LocalTokenDataSource
-import io.snabble.pay.core.accesstoken.datasource.RemoteTokenDataSource
-import io.snabble.pay.core.accesstoken.datasource.TokenDto
-import io.snabble.pay.core.accesstoken.datasource.isValid
+import io.snabble.pay.core.token.datasource.LocalTokenDataSource
+import io.snabble.pay.core.token.datasource.RemoteTokenDataSource
+import io.snabble.pay.core.token.datasource.TokenDto
+import io.snabble.pay.core.token.datasource.isValid
 import java.time.ZonedDateTime
 
 class TokenRepositoryImplTest : FreeSpec({

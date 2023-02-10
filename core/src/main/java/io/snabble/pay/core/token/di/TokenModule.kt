@@ -1,19 +1,19 @@
 @file:Suppress("RemoveExplicitTypeArguments")
 
-package io.snabble.pay.core.accesstoken.di
+package io.snabble.pay.core.token.di
 
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
-import io.snabble.pay.core.accesstoken.GetAccessTokenUseCaseImpl
-import io.snabble.pay.core.accesstoken.GetNewAccessTokenUseCaseImpl
-import io.snabble.pay.core.accesstoken.TokenRepository
-import io.snabble.pay.core.accesstoken.TokenRepositoryImpl
-import io.snabble.pay.core.accesstoken.datasource.LocalTokenDataSource
-import io.snabble.pay.core.accesstoken.datasource.RemoteTokenDataSource
-import io.snabble.pay.core.accesstoken.datasource.local.LocalTokenDataSourceImpl
-import io.snabble.pay.core.accesstoken.datasource.remote.RemoteTokenDataSourceImpl
+import io.snabble.pay.core.token.GetAccessTokenUseCaseImpl
+import io.snabble.pay.core.token.GetNewAccessTokenUseCaseImpl
+import io.snabble.pay.core.token.TokenRepository
+import io.snabble.pay.core.token.TokenRepositoryImpl
+import io.snabble.pay.core.token.datasource.LocalTokenDataSource
+import io.snabble.pay.core.token.datasource.RemoteTokenDataSource
+import io.snabble.pay.core.token.datasource.local.LocalTokenDataSourceImpl
+import io.snabble.pay.core.token.datasource.remote.RemoteTokenDataSourceImpl
 import io.snabble.pay.network.okhttp.authenticator.GetNewAccessTokenUseCase
 import io.snabble.pay.network.okhttp.interceptor.GetAccessTokenUseCase
 import org.koin.android.ext.koin.androidApplication

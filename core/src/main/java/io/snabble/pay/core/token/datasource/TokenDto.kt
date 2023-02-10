@@ -1,4 +1,4 @@
-package io.snabble.pay.core.accesstoken.datasource
+package io.snabble.pay.core.token.datasource
 
 import io.snabble.pay.network.okhttp.interceptor.AccessToken
 import java.time.ZonedDateTime

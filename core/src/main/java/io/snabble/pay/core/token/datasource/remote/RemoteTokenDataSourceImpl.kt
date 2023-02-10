@@ -1,9 +1,9 @@
-package io.snabble.pay.core.accesstoken.datasource.remote
+package io.snabble.pay.core.token.datasource.remote
 
-import io.snabble.pay.core.accesstoken.datasource.RemoteTokenDataSource
-import io.snabble.pay.core.accesstoken.datasource.TokenDto
 import io.snabble.pay.core.appcredentials.domain.model.AppCredentials
 import io.snabble.pay.core.appcredentials.domain.repository.AppCredentialsRepository
+import io.snabble.pay.core.token.datasource.RemoteTokenDataSource
+import io.snabble.pay.core.token.datasource.TokenDto
 import io.snabble.pay.network.okhttp.interceptor.AccessToken
 import io.snabble.pay.network.retrofit.Error
 import io.snabble.pay.network.retrofit.Success

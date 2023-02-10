@@ -1,4 +1,4 @@
-package io.snabble.pay.core.accesstoken
+package io.snabble.pay.core.token
 
 import io.snabble.pay.network.okhttp.authenticator.GetNewAccessTokenUseCase
 import io.snabble.pay.network.okhttp.interceptor.AccessToken

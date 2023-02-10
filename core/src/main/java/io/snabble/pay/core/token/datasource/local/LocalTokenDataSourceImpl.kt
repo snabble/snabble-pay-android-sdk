@@ -1,11 +1,11 @@
-package io.snabble.pay.core.accesstoken.datasource.local
+package io.snabble.pay.core.token.datasource.local
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
-import io.snabble.pay.core.accesstoken.datasource.LocalTokenDataSource
-import io.snabble.pay.core.accesstoken.datasource.TokenDto
+import io.snabble.pay.core.token.datasource.LocalTokenDataSource
+import io.snabble.pay.core.token.datasource.TokenDto
 import io.snabble.pay.network.okhttp.interceptor.AccessToken
 import kotlinx.coroutines.flow.first
 import java.time.ZonedDateTime

@@ -22,7 +22,7 @@ internal class AuthorizationHeaderInterceptorTest : FreeSpec({
 
     var server = createMockWebServer()
 
-    val accessTokenRepo: GetAccessTokenUseCase = mockk(relaxed = true)
+    val getAccessToken: GetAccessTokenUseCase = mockk(relaxed = true)
 
     fun createRequest(header: Pair<String, String>? = null) = Request.Builder()
         .url(server.url(""))
@@ -30,19 +30,19 @@ internal class AuthorizationHeaderInterceptorTest : FreeSpec({
         .build()
 
     fun sut(): OkHttpClient = OkHttpClient.Builder()
-        .addInterceptor(AuthorizationHeaderInterceptor(accessTokenRepo))
+        .addInterceptor(AuthorizationHeaderInterceptor(getAccessToken))
         .build()
 
     beforeEach {
         clearAllMocks()
         server = createMockWebServer()
-        coEvery { accessTokenRepo.getAccessToken() } returns AccessToken("Bearer qwerty345")
+        coEvery { getAccessToken() } returns AccessToken("Bearer qwerty345")
     }
 
     "A request that" - {
 
         "has no access token and no access token is available, is sent w/o the auth header" {
-            coEvery { accessTokenRepo.getAccessToken() } returns null
+            coEvery { getAccessToken() } returns null
             val request = createRequest()
 
             val sut: OkHttpClient = sut()

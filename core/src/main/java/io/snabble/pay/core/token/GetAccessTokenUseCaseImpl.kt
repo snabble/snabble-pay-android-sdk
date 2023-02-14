@@ -7,6 +7,6 @@ internal class GetAccessTokenUseCaseImpl(
     private val tokenRepository: TokenRepository
 ) : GetAccessTokenUseCase {
 
-    override suspend fun getAccessToken(): AccessToken? =
+    override suspend fun invoke(): AccessToken? =
         tokenRepository.getToken()?.accessToken
 }

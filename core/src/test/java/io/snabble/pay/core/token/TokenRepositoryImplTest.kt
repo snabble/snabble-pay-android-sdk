@@ -5,6 +5,7 @@ import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import io.mockk.clearAllMocks
 import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
 import io.snabble.pay.core.token.datasource.LocalTokenDataSource
@@ -95,6 +96,29 @@ class TokenRepositoryImplTest : FreeSpec({
                     at = ZonedDateTime.parse("2024-02-17T13:37:42+00:00")
                 ) shouldBe false
             }
+        }
+    }
+
+    "getNewToken()" - {
+
+        "returns a new token from the remote data source" {
+            coEvery { remoteDataSource.getToken() } returns mockk()
+
+            val sut = createSut()
+            sut.getNewToken()
+
+            coVerify(exactly = 0) { localDataSource.getToken() }
+            coVerify(exactly = 1) { remoteDataSource.getToken() }
+        }
+
+        "saves the new token if it's not null" {
+            coEvery { remoteDataSource.getToken() } returns mockk()
+
+            val sut = createSut()
+            val token = sut.getNewToken()
+
+            token.shouldNotBeNull()
+            coVerify(exactly = 1) { localDataSource.saveToken(token) }
         }
     }
 })

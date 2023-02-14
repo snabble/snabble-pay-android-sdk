@@ -10,7 +10,7 @@ class AuthorizationHeaderInterceptor(
 ) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
-        val token: AccessToken = runBlocking { getAccessToken.getAccessToken() }
+        val token: AccessToken = runBlocking { getAccessToken() }
             ?: return chain.proceed(chain.request())
 
         return chain.proceed(chain.request().newWithAuthorizationHeader(token))

@@ -2,7 +2,7 @@ package io.snabble.pay.network.okhttp.interceptor
 
 interface GetAccessTokenUseCase {
 
-    suspend fun getAccessToken(): AccessToken?
+    suspend operator fun invoke(): AccessToken?
 }
 
 @JvmInline

@@ -23,23 +23,17 @@ class ApiResultCallAdapterFactory private constructor() : CallAdapter.Factory() 
             upperBound is ParameterizedType
         ) {
             val dataType = getParameterUpperBound(0, upperBound)
-            ApiResponseCallAdapter(type = dataType)
+            createAdapter(type = dataType)
         } else {
             null
         }
     }
 
+    internal fun createAdapter(type: Type) =
+        ApiResponseCallAdapter(type = type)
+
     companion object {
 
         fun create(): ApiResultCallAdapterFactory = ApiResultCallAdapterFactory()
     }
-}
-
-internal class ApiResponseCallAdapter(
-    private val type: Type
-) : CallAdapter<Type, Call<ApiResponse<Type>>> {
-
-    override fun responseType(): Type = type
-
-    override fun adapt(call: Call<Type>): Call<ApiResponse<Type>> = ApiResultCall(call)
 }

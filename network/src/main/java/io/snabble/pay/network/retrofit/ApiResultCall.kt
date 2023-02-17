@@ -47,7 +47,7 @@ internal class ApiResultCall<T : Any>(private val delegate: Call<T>) : Call<ApiR
     override fun timeout(): Timeout = delegate.timeout()
 }
 
-private fun <T : Any> Response<T>.toApiResponse(): ApiResponse<T> {
+internal fun <T : Any> Response<T>.toApiResponse(): ApiResponse<T> {
     if (!isSuccessful) return Error(message = message(), exception = HttpException(this))
 
     val body = body()

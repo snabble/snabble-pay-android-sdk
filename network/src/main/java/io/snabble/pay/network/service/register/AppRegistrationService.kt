@@ -21,7 +21,7 @@ interface AppRegistrationService {
      */
     @POST("/apps/register")
     suspend fun getAppCredentials(
-        @Header("snabblePayKey") key: String
+        @Header("snabblePayKey") key: String,
     ): ApiResponse<AppCredentialsDto>
 
     /**
@@ -35,6 +35,6 @@ interface AppRegistrationService {
         @Query("grant_type") grantType: String = "client_credentials",
         @Query("client_id") appIdentifier: String,
         @Query("client_secret") appSecret: String,
-        @Query("scope") scope: String = "all"
+        @Query("scope") scope: String = "all",
     ): ApiResponse<TokenDto>
 }

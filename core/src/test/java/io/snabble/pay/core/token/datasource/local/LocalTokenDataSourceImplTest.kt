@@ -47,7 +47,7 @@ class LocalTokenDataSourceImplTest : FreeSpec({
         "the token that's been saved to the DataStore" {
             setPrefsMockToReturn(
                 accessToken = "Bearer qwerty",
-                expiryDate = "2023-03-21T08:56:17+01:00"
+                expiryDate = "2023-03-21T08:56:17+01:00",
             )
 
             val sut = createSut()
@@ -55,7 +55,7 @@ class LocalTokenDataSourceImplTest : FreeSpec({
 
             token shouldBe TokenDto(
                 accessToken = AccessToken("Bearer qwerty"),
-                expiryDate = ZonedDateTime.parse("2023-03-21T08:56:17+01:00")
+                expiryDate = ZonedDateTime.parse("2023-03-21T08:56:17+01:00"),
             )
         }
 
@@ -98,7 +98,7 @@ class LocalTokenDataSourceImplTest : FreeSpec({
 
         val token = TokenDto(
             accessToken = AccessToken("Bearer qwerty"),
-            expiryDate = ZonedDateTime.parse("2023-03-21T08:56:17+01:00")
+            expiryDate = ZonedDateTime.parse("2023-03-21T08:56:17+01:00"),
         )
 
         val sut = createSut()

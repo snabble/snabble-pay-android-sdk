@@ -11,7 +11,7 @@ import io.snabble.pay.core.appcredentials.domain.model.AppSecret
 import kotlinx.coroutines.flow.first
 
 class LocalAppCredentialsDataSourceImpl(
-    private val dataStore: DataStore<Preferences>
+    private val dataStore: DataStore<Preferences>,
 ) : LocalAppCredentialsDataSource {
 
     override suspend fun getAppCredentials(): AppCredentials? {
@@ -20,7 +20,7 @@ class LocalAppCredentialsDataSourceImpl(
         val appSecret = prefs[APP_SECRET] ?: return null
         return AppCredentials(
             AppIdentifier(appIdentifier),
-            AppSecret(appSecret)
+            AppSecret(appSecret),
         )
     }
 

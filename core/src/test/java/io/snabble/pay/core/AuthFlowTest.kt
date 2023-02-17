@@ -83,7 +83,7 @@ val testModule = module {
     single {
         RemoteAppCredentialsDataSourceImpl(
             appRegistrationService = get(),
-            customerKey = CustomerKey("")
+            customerKey = CustomerKey(""),
         )
     } bind RemoteAppCredentialsDataSource::class
 }

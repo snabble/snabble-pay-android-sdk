@@ -12,7 +12,7 @@ import io.snabble.pay.network.service.register.dto.AppCredentialsDto
 
 class RemoteAppCredentialsDataSourceImpl(
     private val appRegistrationService: AppRegistrationService,
-    private val customerKey: CustomerKey
+    private val customerKey: CustomerKey,
 ) : RemoteAppCredentialsDataSource {
 
     override suspend fun fetchAppCredentials(): AppCredentials? {

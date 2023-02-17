@@ -5,7 +5,7 @@ import java.time.ZonedDateTime
 
 internal data class TokenDto(
     val accessToken: AccessToken,
-    val expiryDate: ZonedDateTime
+    val expiryDate: ZonedDateTime,
 )
 
 internal fun TokenDto.isValid(at: ZonedDateTime = ZonedDateTime.now()): Boolean =

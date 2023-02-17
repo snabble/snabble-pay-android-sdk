@@ -17,21 +17,11 @@ buildscript {
 
 subprojects {
     apply {
-        plugin(rootProject.libs.plugins.ktlint.get().pluginId)
         plugin(rootProject.libs.plugins.detekt.get().pluginId)
     }
 
     detekt {
         config = files("../detekt.yml")
-    }
-
-    ktlint {
-        verbose.set(true)
-        outputToConsole.set(true)
-        coloredOutput.set(true)
-        reporters {
-            reporter(org.jlleitschuh.gradle.ktlint.reporter.ReporterType.HTML)
-        }
     }
 
     tasks.withType<Test>().configureEach {
@@ -40,6 +30,20 @@ subprojects {
 }
 
 allprojects {
+    apply {
+        plugin(rootProject.libs.plugins.ktlint.get().pluginId)
+    }
+
+    ktlint {
+        version.set("0.48.2")
+        debug.set(true)
+        outputToConsole.set(true)
+        coloredOutput.set(true)
+        reporters {
+            reporter(org.jlleitschuh.gradle.ktlint.reporter.ReporterType.HTML)
+        }
+    }
+
     tasks.register("checkStyle") {
         dependsOn("detekt")
         dependsOn("ktlintCheck")

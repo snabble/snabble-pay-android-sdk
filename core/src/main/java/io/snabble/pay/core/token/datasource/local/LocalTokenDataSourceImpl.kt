@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.first
 import java.time.ZonedDateTime
 
 internal class LocalTokenDataSourceImpl(
-    private val dataStore: DataStore<Preferences>
+    private val dataStore: DataStore<Preferences>,
 ) : LocalTokenDataSource {
 
     override suspend fun getToken(): TokenDto? {
@@ -20,7 +20,7 @@ internal class LocalTokenDataSourceImpl(
         val expiryDate = prefs[KEY_EXPIRY_DATE] ?: return null
         return TokenDto(
             accessToken = AccessToken(token),
-            expiryDate = ZonedDateTime.parse(expiryDate)
+            expiryDate = ZonedDateTime.parse(expiryDate),
         )
     }
 

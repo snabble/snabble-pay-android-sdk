@@ -59,7 +59,7 @@ internal class PayAuthenticatorTest : FreeSpec({
         "tries to authenticate the app succeeds on second try" {
             server = createMockWebServer(
                 MockResponse().setResponseCode(401),
-                MockResponse().setResponseCode(200)
+                MockResponse().setResponseCode(200),
             )
 
             val sut: OkHttpClient = sut(getNewAccessToken)

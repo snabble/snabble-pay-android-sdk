@@ -13,12 +13,12 @@ data class AccountDto(
     @SerialName("iban") val iban: String,
     @SerialName("id") val id: String,
     @SerialName("mandate") val mandate: MandateDto,
-    @SerialName("name") val name: String
+    @SerialName("name") val name: String,
 ) {
 
     @Serializable
     data class MandateDto(
         @SerialName("state") val state: String,
-        @SerialName("text") val text: String
+        @SerialName("text") val text: String,
     )
 }

@@ -1,4 +1,4 @@
-name: Ktlint
+name: Codestyle
 
 on: [ push ]
 

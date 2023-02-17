@@ -21,7 +21,7 @@ class TokenRepositoryImplTest : FreeSpec({
 
     fun createSut() = TokenRepositoryImpl(
         localTokenDataSource = localDataSource,
-        remoteTokenDataSource = remoteDataSource
+        remoteTokenDataSource = remoteDataSource,
     )
 
     beforeEach {
@@ -77,7 +77,7 @@ class TokenRepositoryImplTest : FreeSpec({
 
                 token.shouldNotBeNull()
                 token.isValid(
-                    at = ZonedDateTime.parse("2024-02-17T13:37:42+00:00")
+                    at = ZonedDateTime.parse("2024-02-17T13:37:42+00:00"),
                 ) shouldBe false
             }
 
@@ -93,7 +93,7 @@ class TokenRepositoryImplTest : FreeSpec({
 
                 token.shouldNotBeNull()
                 token.isValid(
-                    at = ZonedDateTime.parse("2024-02-17T13:37:42+00:00")
+                    at = ZonedDateTime.parse("2024-02-17T13:37:42+00:00"),
                 ) shouldBe false
             }
         }

@@ -8,7 +8,7 @@ import okhttp3.Response
 import okhttp3.Route
 
 class PayAuthenticator(
-    private val getNewAccessToken: GetNewAccessTokenUseCase
+    private val getNewAccessToken: GetNewAccessTokenUseCase,
 ) : Authenticator {
 
     override fun authenticate(route: Route?, response: Response): Request? {

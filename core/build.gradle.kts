@@ -1,7 +1,6 @@
 @file:Suppress("UnstableApiUsage")
 
-@Suppress("DSL_SCOPE_VIOLATION")
-plugins {
+@Suppress("DSL_SCOPE_VIOLATION") plugins {
     id(libs.plugins.androidLibrary.get().pluginId)
     id(libs.plugins.kotlin.android.get().pluginId)
     alias(libs.plugins.kotlin.serialization)
@@ -28,7 +27,7 @@ android {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
         }
     }

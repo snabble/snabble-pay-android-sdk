@@ -6,7 +6,7 @@ import io.snabble.pay.network.provider.AppCredentialsProvider
 import io.snabble.pay.network.service.register.dto.AppCredentialsDto
 
 class AppCredentialsProviderImpl(
-    private val appCredentialsRepository: AppCredentialsRepository
+    private val appCredentialsRepository: AppCredentialsRepository,
 ) : AppCredentialsProvider {
 
     override suspend fun getAppCredentials(): AppCredentialsDto? =

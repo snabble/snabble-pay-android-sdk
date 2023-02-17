@@ -34,5 +34,5 @@ internal class RemoteTokenDataSourceImpl(
 
 private fun ApiTokenDto.asTokenDto() = TokenDto(
     accessToken = AccessToken("$tokenType $token"),
-    expiryDate = expiryDate
+    expiryDate = expiryDate,
 )

@@ -43,7 +43,7 @@ class LocalAppCredentialsDataSourceImplTest : FreeSpec({
         "the appCredentials that's been saved to the DataStore" {
             setPrefsMockToReturn(
                 appId = "testId",
-                appSecret = "testSecret"
+                appSecret = "testSecret",
             )
 
             val sut = createSut()
@@ -51,7 +51,7 @@ class LocalAppCredentialsDataSourceImplTest : FreeSpec({
 
             appCredentials shouldBe AppCredentials(
                 id = AppIdentifier("testId"),
-                secret = AppSecret("testSecret")
+                secret = AppSecret("testSecret"),
             )
         }
 
@@ -60,7 +60,7 @@ class LocalAppCredentialsDataSourceImplTest : FreeSpec({
             "appId is not available" {
                 setPrefsMockToReturn(
                     appId = null,
-                    appSecret = "testSecret"
+                    appSecret = "testSecret",
                 )
 
                 val sut = createSut()
@@ -72,7 +72,7 @@ class LocalAppCredentialsDataSourceImplTest : FreeSpec({
             "appSecret is not available" {
                 setPrefsMockToReturn(
                     appId = "testId",
-                    appSecret = null
+                    appSecret = null,
                 )
 
                 val sut = createSut()
@@ -101,7 +101,7 @@ class LocalAppCredentialsDataSourceImplTest : FreeSpec({
         } coAnswers { editTransformSlot.captured.invoke(mutablePrefs); mutablePrefs }
         val appCredentials = AppCredentials(
             id = AppIdentifier("testId"),
-            secret = AppSecret("testSecret")
+            secret = AppSecret("testSecret"),
         )
 
         val sut = createSut()

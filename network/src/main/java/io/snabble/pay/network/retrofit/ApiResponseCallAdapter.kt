@@ -5,7 +5,7 @@ import retrofit2.CallAdapter
 import java.lang.reflect.Type
 
 internal class ApiResponseCallAdapter(
-    private val type: Type
+    private val type: Type,
 ) : CallAdapter<Type, Call<ApiResponse<Type>>> {
 
     override fun responseType(): Type = type

@@ -29,7 +29,7 @@ class ZonedDateTimeAsTextSerializerTest : FreeSpec({
 
         ZonedDateTimeAsTextSerializer.serialize(
             encoder = encoder,
-            value = zonedDateTime
+            value = zonedDateTime,
         )
 
         verify { zonedDateTime.toString() }

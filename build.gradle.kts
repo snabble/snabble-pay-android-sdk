@@ -36,7 +36,7 @@ allprojects {
 
     ktlint {
         version.set("0.48.2")
-        debug.set(true)
+        verbose.set(true)
         outputToConsole.set(true)
         coloredOutput.set(true)
         reporters {

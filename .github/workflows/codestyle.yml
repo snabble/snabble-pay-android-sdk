@@ -23,4 +23,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: Ktlint Results
-          path: core/build/reports/ktlint/
+          path: ./*/build/reports/ktlint/

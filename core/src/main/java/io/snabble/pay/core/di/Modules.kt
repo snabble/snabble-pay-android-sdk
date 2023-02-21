@@ -10,5 +10,5 @@ internal val koinModules: List<Module> = listOf(
     appCredentialsModule,
     networkModule,
     serviceModule,
-    tokenModule,
+    tokenModule
 )

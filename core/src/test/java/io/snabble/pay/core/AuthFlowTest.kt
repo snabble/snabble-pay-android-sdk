@@ -30,7 +30,7 @@ import org.koin.test.inject
 class AuthFlowTest : FreeSpec(), KoinTest {
 
     override fun extensions(): List<Extension> = listOf(
-        KoinExtension(listOf(networkModule, serviceModule, testModule)),
+        KoinExtension(listOf(networkModule, serviceModule, testModule))
     )
 
     private val localeDataSource: LocalAppCredentialsDataSource by inject()
@@ -83,7 +83,7 @@ val testModule = module {
     single {
         RemoteAppCredentialsDataSourceImpl(
             appRegistrationService = get(),
-            customerKey = CustomerKey(""),
+            customerKey = CustomerKey("")
         )
     } bind RemoteAppCredentialsDataSource::class
 }

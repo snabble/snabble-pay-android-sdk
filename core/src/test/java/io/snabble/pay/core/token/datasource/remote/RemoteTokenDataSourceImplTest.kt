@@ -26,7 +26,7 @@ class RemoteTokenDataSourceImplTest : FreeSpec({
 
     fun createSut() = RemoteTokenDataSourceImpl(
         appCredentialsRepository = appCredentialsRepo,
-        registrationService = registrationService,
+        registrationService = registrationService
     )
 
     beforeEach {
@@ -38,7 +38,7 @@ class RemoteTokenDataSourceImplTest : FreeSpec({
         "uses the app credentials to request the token" {
             coEvery { appCredentialsRepo.getAppCredentials() } returns AppCredentials(
                 id = AppIdentifier("id"),
-                secret = AppSecret("secret"),
+                secret = AppSecret("secret")
             )
             val idSlot = slot<String>()
             val secretSlot = slot<String>()
@@ -46,7 +46,7 @@ class RemoteTokenDataSourceImplTest : FreeSpec({
                 registrationService
                     .getToken(
                         appIdentifier = capture(idSlot),
-                        appSecret = capture(secretSlot),
+                        appSecret = capture(secretSlot)
                     )
             } returns mockk(relaxed = true)
 
@@ -63,25 +63,25 @@ class RemoteTokenDataSourceImplTest : FreeSpec({
         "returns the token if the request for the token succeeds" {
             coEvery { appCredentialsRepo.getAppCredentials() } returns AppCredentials(
                 id = AppIdentifier("id"),
-                secret = AppSecret("secret"),
+                secret = AppSecret("secret")
             )
             coEvery {
                 registrationService
                     .getToken(
                         appIdentifier = "id",
-                        appSecret = "secret",
+                        appSecret = "secret"
                     )
             } returns Success(
                 ApiTokenDto(
                     token = "qwerty",
                     expiryDate = ZonedDateTime.parse("2023-03-21T08:56:17+01:00"),
-                    tokenType = "Bearer",
+                    tokenType = "Bearer"
                 ),
-                response = mockk(),
+                response = mockk()
             )
             val expectedToken = TokenDto(
                 accessToken = AccessToken("Bearer qwerty"),
-                expiryDate = ZonedDateTime.parse("2023-03-21T08:56:17+01:00"),
+                expiryDate = ZonedDateTime.parse("2023-03-21T08:56:17+01:00")
             )
 
             val sut = createSut()
@@ -103,13 +103,13 @@ class RemoteTokenDataSourceImplTest : FreeSpec({
             "the request for the token fails" {
                 coEvery { appCredentialsRepo.getAppCredentials() } returns AppCredentials(
                     id = AppIdentifier("id"),
-                    secret = AppSecret("secret"),
+                    secret = AppSecret("secret")
                 )
                 coEvery {
                     registrationService
                         .getToken(
                             appIdentifier = "id",
-                            appSecret = "secret",
+                            appSecret = "secret"
                         )
                 } returns mockk()
 

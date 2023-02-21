@@ -10,7 +10,7 @@ class GetNewAccessTokenUseCaseImplTest : FreeSpec({
     val repo: TokenRepository = mockk(relaxed = true)
 
     fun createSut() = GetNewAccessTokenUseCaseImpl(
-        tokenRepository = repo,
+        tokenRepository = repo
     )
 
     beforeEach {

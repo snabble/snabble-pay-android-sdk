@@ -20,7 +20,7 @@ internal class LocalTokenDataSourceImpl(
         val expiryDate = prefs[KEY_EXPIRY_DATE] ?: return null
         return TokenDto(
             accessToken = AccessToken(token),
-            expiryDate = ZonedDateTime.parse(expiryDate),
+            expiryDate = ZonedDateTime.parse(expiryDate)
         )
     }
 

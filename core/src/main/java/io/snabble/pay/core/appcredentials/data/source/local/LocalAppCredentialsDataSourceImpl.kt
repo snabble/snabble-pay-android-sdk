@@ -20,7 +20,7 @@ class LocalAppCredentialsDataSourceImpl(
         val appSecret = prefs[APP_SECRET] ?: return null
         return AppCredentials(
             AppIdentifier(appIdentifier),
-            AppSecret(appSecret),
+            AppSecret(appSecret)
         )
     }
 

@@ -16,11 +16,11 @@ value class AppSecret(val value: String)
 fun AppCredentials.toAppCredentialsDto(): AppCredentialsDto =
     AppCredentialsDto(
         appId = id.value,
-        appSecret = secret.value,
+        appSecret = secret.value
     )
 
 fun AppCredentialsDto.toAppCredentials(): AppCredentials =
     AppCredentials(
         AppIdentifier(value = appId),
-        AppSecret(value = appSecret),
+        AppSecret(value = appSecret)
     )

@@ -21,7 +21,7 @@ internal class ApiResultCall<T : Any>(private val delegate: Call<T>) : Call<ApiR
                 val apiResponse = response.toApiResponse()
                 callback.onResponse(
                     this@ApiResultCall,
-                    Response.success(apiResponse),
+                    Response.success(apiResponse)
                 )
             }
 

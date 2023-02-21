@@ -22,7 +22,7 @@ class ApiResultCallAdapterFactoryTest : FreeSpec({
                 val callAdapter = sut.get(
                     returnType = Class.forName("kotlin.Unit"),
                     annotations = arrayOf(),
-                    retrofit = mockk(),
+                    retrofit = mockk()
                 )
 
                 callAdapter.shouldBeNull()
@@ -33,7 +33,7 @@ class ApiResultCallAdapterFactoryTest : FreeSpec({
                 val callAdapter = sut.get(
                     returnType = Class.forName("retrofit2.Call"),
                     annotations = arrayOf(),
-                    retrofit = mockk(),
+                    retrofit = mockk()
                 )
 
                 callAdapter.shouldBeNull()
@@ -43,7 +43,7 @@ class ApiResultCallAdapterFactoryTest : FreeSpec({
                 val callMock = mockk<ParameterizedType> {
                     every { rawType } returns Class.forName("retrofit2.Call")
                     every { actualTypeArguments } returns arrayOf(
-                        Class.forName("io.snabble.pay.network.retrofit.ApiResponse"),
+                        Class.forName("io.snabble.pay.network.retrofit.ApiResponse")
                     )
                 }
 
@@ -51,7 +51,7 @@ class ApiResultCallAdapterFactoryTest : FreeSpec({
                 val callAdapter = sut.get(
                     returnType = callMock,
                     annotations = arrayOf(),
-                    retrofit = mockk(),
+                    retrofit = mockk()
                 )
 
                 callAdapter.shouldBeNull()
@@ -74,7 +74,7 @@ class ApiResultCallAdapterFactoryTest : FreeSpec({
             val callAdapter = sut.get(
                 returnType = callMock,
                 annotations = arrayOf(),
-                retrofit = mockk(),
+                retrofit = mockk()
             )
 
             verify { sut.createAdapter(actualRequestedType) }

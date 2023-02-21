@@ -143,7 +143,7 @@ class ApiResultCallTest : FreeSpec({
                             mockk(),
                             mockk {
                                 every { localizedMessage } returns "JSON parser exception"
-                            },
+                            }
                         )
                     }
                     val responseSlot = slot<Response<ApiResponse<*>>>()

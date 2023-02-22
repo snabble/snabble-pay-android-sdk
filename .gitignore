@@ -167,3 +167,6 @@ fabric.properties
 !/gradle/wrapper/gradle-wrapper.jar
 
 # End of https://www.toptal.com/developers/gitignore/api/androidstudio,macos
+
+.idea/androidTestResultsUserPreferences.xml
+.idea/deploymentTargetDropDown.xml

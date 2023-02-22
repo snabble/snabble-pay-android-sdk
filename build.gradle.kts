@@ -8,9 +8,15 @@
     alias(libs.plugins.versionCatalogUpdate)
 }
 
+buildscript {
+    dependencies {
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.0")
+        classpath(libs.test.junit5.androidPlugin)
+    }
+}
+
 subprojects {
     apply {
-        plugin(rootProject.libs.plugins.ktlint.get().pluginId)
         plugin(rootProject.libs.plugins.detekt.get().pluginId)
     }
 
@@ -18,7 +24,18 @@ subprojects {
         config = files("../detekt.yml")
     }
 
+    tasks.withType<Test>().configureEach {
+        useJUnitPlatform()
+    }
+}
+
+allprojects {
+    apply {
+        plugin(rootProject.libs.plugins.ktlint.get().pluginId)
+    }
+
     ktlint {
+        version.set("0.48.2")
         verbose.set(true)
         outputToConsole.set(true)
         coloredOutput.set(true)
@@ -27,18 +44,19 @@ subprojects {
         }
     }
 
-    tasks.withType<Test>().configureEach {
-        useJUnitPlatform()
+    tasks.register("checkStyle") {
+        dependsOn("detekt")
+        dependsOn("ktlintCheck")
+    }
+
+    tasks.register("checkAll") {
+        dependsOn("checkStyle")
+        dependsOn(tasks.withType<Test>())
     }
 }
 
 tasks.register("clean", Delete::class) {
     delete(rootProject.buildDir)
-}
-
-tasks.create("checkstyle") {
-    dependsOn("detekt")
-    dependsOn("ktlintCheck")
 }
 
 versionCatalogUpdate {

@@ -1,11 +1,7 @@
 @file:Suppress("UnstableApiUsage")
 
 include(":api")
-
-
 include(":app")
-
-
 include(":network")
 
 pluginManagement {

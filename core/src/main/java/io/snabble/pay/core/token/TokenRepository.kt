@@ -2,13 +2,13 @@ package io.snabble.pay.core.token
 
 import io.snabble.pay.core.token.datasource.LocalTokenDataSource
 import io.snabble.pay.core.token.datasource.RemoteTokenDataSource
-import io.snabble.pay.core.token.datasource.TokenDto
+import io.snabble.pay.core.token.datasource.Token
 
 internal interface TokenRepository {
 
-    suspend fun getToken(): TokenDto?
+    suspend fun getToken(): Token?
 
-    suspend fun getNewToken(): TokenDto?
+    suspend fun getNewToken(): Token?
 }
 
 internal class TokenRepositoryImpl(
@@ -16,14 +16,14 @@ internal class TokenRepositoryImpl(
     private val remoteTokenDataSource: RemoteTokenDataSource,
 ) : TokenRepository {
 
-    override suspend fun getToken(): TokenDto? =
+    override suspend fun getToken(): Token? =
         localTokenDataSource.getToken()
             ?: getAndSaveNewToken()
 
-    override suspend fun getNewToken(): TokenDto? =
+    override suspend fun getNewToken(): Token? =
         getAndSaveNewToken()
 
-    private suspend fun getAndSaveNewToken(): TokenDto? =
+    private suspend fun getAndSaveNewToken(): Token? =
         remoteTokenDataSource.getToken()
             ?.also { localTokenDataSource.saveToken(it) }
 }

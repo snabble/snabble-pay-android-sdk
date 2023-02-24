@@ -1,12 +1,15 @@
 package io.snabble.pay.core
 
+import android.util.Log
 import io.kotest.core.extensions.Extension
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.koin.KoinExtension
 import io.kotest.matchers.shouldBe
 import io.mockk.coEvery
 import io.mockk.coVerify
+import io.mockk.every
 import io.mockk.mockk
+import io.mockk.mockkStatic
 import io.mockk.slot
 import io.snabble.pay.core.appcredentials.data.AppCredentialsRepositoryImpl
 import io.snabble.pay.core.appcredentials.data.source.LocalAppCredentialsDataSource
@@ -30,7 +33,22 @@ import org.koin.test.inject
 class AuthFlowTest : FreeSpec(), KoinTest {
 
     override fun extensions(): List<Extension> = listOf(
-        KoinExtension(listOf(networkModule, serviceModule, testModule))
+        KoinExtension(
+            listOf(
+                networkModule,
+                serviceModule,
+                testModule,
+                module {
+                    single {
+                        SnabblePayConfiguration.init().apply {
+                            setBaseUrl(
+                                mockWebServer.url("").toString()
+                            )
+                        }
+                    }
+                }
+            )
+        )
     )
 
     private val localeDataSource: LocalAppCredentialsDataSource by inject()
@@ -43,9 +61,8 @@ class AuthFlowTest : FreeSpec(), KoinTest {
         }
 
     init {
-        beforeSpec {
-            SnabblePay.baseUrl = mockWebServer.url("").toString()
-        }
+        mockkStatic("android.util.Log")
+        every { Log.v(any(), any()) } returns 0
 
         "If no credentials are available locally, they are fetched from remote" {
             val slot = slot<AppCredentials>()

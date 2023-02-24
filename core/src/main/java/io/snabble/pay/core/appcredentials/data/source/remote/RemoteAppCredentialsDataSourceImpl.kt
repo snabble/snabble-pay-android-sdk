@@ -1,14 +1,14 @@
 package io.snabble.pay.core.appcredentials.data.source.remote
 
+import io.snabble.pay.api.retrofit.ApiResponse
+import io.snabble.pay.api.retrofit.Error
+import io.snabble.pay.api.retrofit.Success
+import io.snabble.pay.api.retrofit.SuccessNoContent
+import io.snabble.pay.api.service.register.AppRegistrationService
+import io.snabble.pay.api.service.register.dto.AppCredentialsDto
 import io.snabble.pay.core.appcredentials.data.source.RemoteAppCredentialsDataSource
 import io.snabble.pay.core.appcredentials.domain.model.AppCredentials
 import io.snabble.pay.core.appcredentials.domain.model.toAppCredentials
-import io.snabble.pay.network.retrofit.ApiResponse
-import io.snabble.pay.network.retrofit.Error
-import io.snabble.pay.network.retrofit.Success
-import io.snabble.pay.network.retrofit.SuccessNoContent
-import io.snabble.pay.network.service.register.AppRegistrationService
-import io.snabble.pay.network.service.register.dto.AppCredentialsDto
 
 class RemoteAppCredentialsDataSourceImpl(
     private val appRegistrationService: AppRegistrationService,

@@ -1,7 +1,8 @@
 @file:Suppress("UnstableApiUsage")
 
 @Suppress("DSL_SCOPE_VIOLATION") plugins {
-    alias(libs.plugins.androidLibrary) apply false
+    alias(libs.plugins.android.application) apply false
+    alias(libs.plugins.android.library) apply false
     alias(libs.plugins.detekt)
     alias(libs.plugins.ktlint)
     alias(libs.plugins.benManesVersions)
@@ -10,7 +11,7 @@
 
 buildscript {
     dependencies {
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.0")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.10")
         classpath(libs.test.junit5.androidPlugin)
     }
 }

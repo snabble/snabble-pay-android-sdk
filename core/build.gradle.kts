@@ -1,7 +1,7 @@
 @file:Suppress("UnstableApiUsage")
 
 @Suppress("DSL_SCOPE_VIOLATION") plugins {
-    id(libs.plugins.androidLibrary.get().pluginId)
+    id(libs.plugins.android.library.get().pluginId)
     id(libs.plugins.kotlin.android.get().pluginId)
     alias(libs.plugins.kotlin.serialization)
     id("de.mannodermaus.android-junit5")
@@ -31,11 +31,13 @@ android {
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
         isCoreLibraryDesugaringEnabled = true
     }
+
     kotlinOptions {
         jvmTarget = "1.8"
     }
@@ -48,6 +50,7 @@ android {
 dependencies {
     coreLibraryDesugaring(libs.android.desugarJdkLibs)
 
+    implementation(project(":api"))
     implementation(project(":network"))
 
     implementation(libs.androidx.appcompat)
@@ -56,6 +59,8 @@ dependencies {
     implementation(libs.androidx.startupRuntime)
 
     implementation(libs.kotlin.serialization)
+
+    implementation(libs.okhttp.loggingInterceptor)
 
     implementation(libs.bundles.koin)
     implementation(libs.bundles.retrofit)

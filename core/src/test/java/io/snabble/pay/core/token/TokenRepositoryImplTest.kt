@@ -10,7 +10,7 @@ import io.mockk.every
 import io.mockk.mockk
 import io.snabble.pay.core.token.datasource.LocalTokenDataSource
 import io.snabble.pay.core.token.datasource.RemoteTokenDataSource
-import io.snabble.pay.core.token.datasource.TokenDto
+import io.snabble.pay.core.token.datasource.Token
 import io.snabble.pay.core.token.datasource.isValid
 import java.time.ZonedDateTime
 
@@ -31,7 +31,7 @@ class TokenRepositoryImplTest : FreeSpec({
     "getToken() returns" - {
 
         "a token (if it's available from local)" {
-            val expectedToken = mockk<TokenDto>()
+            val expectedToken = mockk<Token>()
             coEvery { localDataSource.getToken() } returns expectedToken
 
             val sut = createSut()
@@ -44,7 +44,7 @@ class TokenRepositoryImplTest : FreeSpec({
 
             "a token (if it can be fetched from remote)" {
                 coEvery { localDataSource.getToken() } returns null
-                val expectedToken = mockk<TokenDto>()
+                val expectedToken = mockk<Token>()
                 coEvery { remoteDataSource.getToken() } returns expectedToken
 
                 val sut = createSut()

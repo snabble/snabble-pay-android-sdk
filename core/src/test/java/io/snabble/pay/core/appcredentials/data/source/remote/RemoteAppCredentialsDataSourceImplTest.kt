@@ -5,10 +5,10 @@ import io.kotest.matchers.shouldBe
 import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.mockk
-import io.snabble.pay.network.retrofit.Error
-import io.snabble.pay.network.retrofit.Success
-import io.snabble.pay.network.service.register.AppRegistrationService
-import io.snabble.pay.network.service.register.dto.AppCredentialsDto
+import io.snabble.pay.api.retrofit.Error
+import io.snabble.pay.api.retrofit.Success
+import io.snabble.pay.api.service.register.AppRegistrationService
+import io.snabble.pay.api.service.register.dto.AppCredentialsDto
 
 class RemoteAppCredentialsDataSourceImplTest : FreeSpec({
 

@@ -1,27 +1,27 @@
 package io.snabble.pay.core.token.datasource.remote
 
+import io.snabble.pay.api.retrofit.Error
+import io.snabble.pay.api.retrofit.Success
+import io.snabble.pay.api.retrofit.SuccessNoContent
+import io.snabble.pay.api.service.register.AppRegistrationService
+import io.snabble.pay.api.service.register.dto.TokenDto
 import io.snabble.pay.core.appcredentials.domain.model.AppCredentials
 import io.snabble.pay.core.appcredentials.domain.repository.AppCredentialsRepository
 import io.snabble.pay.core.token.datasource.RemoteTokenDataSource
-import io.snabble.pay.core.token.datasource.TokenDto
+import io.snabble.pay.core.token.datasource.Token
 import io.snabble.pay.network.okhttp.interceptor.AccessToken
-import io.snabble.pay.network.retrofit.Error
-import io.snabble.pay.network.retrofit.Success
-import io.snabble.pay.network.retrofit.SuccessNoContent
-import io.snabble.pay.network.service.register.AppRegistrationService
-import io.snabble.pay.network.service.register.dto.TokenDto as ApiTokenDto
 
 internal class RemoteTokenDataSourceImpl(
     private val appCredentialsRepository: AppCredentialsRepository,
     private val registrationService: AppRegistrationService,
 ) : RemoteTokenDataSource {
 
-    override suspend fun getToken(): TokenDto? =
+    override suspend fun getToken(): Token? =
         appCredentialsRepository.getAppCredentials()
             ?.fetchNewAccessToken()
-            ?.asTokenDto()
+            ?.asToken()
 
-    private suspend fun AppCredentials.fetchNewAccessToken(): ApiTokenDto? {
+    private suspend fun AppCredentials.fetchNewAccessToken(): TokenDto? {
         val tokenResponse =
             registrationService.getToken(appIdentifier = id.value, appSecret = secret.value)
         return when (tokenResponse) {
@@ -32,7 +32,7 @@ internal class RemoteTokenDataSourceImpl(
     }
 }
 
-private fun ApiTokenDto.asTokenDto() = TokenDto(
+private fun TokenDto.asToken() = Token(
     accessToken = AccessToken("$tokenType $token"),
     expiryDate = expiryDate
 )

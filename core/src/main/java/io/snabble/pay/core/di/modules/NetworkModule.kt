@@ -1,14 +1,17 @@
 package io.snabble.pay.core.di.modules
 
+import android.util.Log
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
-import io.snabble.pay.core.SnabblePay
+import io.snabble.pay.api.retrofit.ApiResultCallAdapterFactory
+import io.snabble.pay.core.BuildConfig
+import io.snabble.pay.core.SnabblePayConfiguration
 import io.snabble.pay.network.okhttp.authenticator.PayAuthenticator
 import io.snabble.pay.network.okhttp.interceptor.AuthorizationHeaderInterceptor
-import io.snabble.pay.network.retrofit.ApiResultCallAdapterFactory
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.core.qualifier.named
 import org.koin.dsl.bind
 import org.koin.dsl.module
@@ -16,16 +19,39 @@ import retrofit2.Converter
 import retrofit2.Retrofit
 
 internal val networkModule = module {
-    factory(named(SNABBLE_PAY_URL)) { SnabblePay.baseUrl } bind String::class
+    factory(named(SNABBLE_PAY_URL)) { get<SnabblePayConfiguration>().baseUrl } bind String::class
 
     single(named(AUTH_FREE_OK_HTTP_CLIENT)) {
-        OkHttpClient.Builder().build()
+        OkHttpClient.Builder()
+            .apply {
+                if (BuildConfig.DEBUG) {
+                    addInterceptor(
+                        HttpLoggingInterceptor {
+                            Log.v("OkHttp", it)
+                        }.apply {
+                            setLevel(HttpLoggingInterceptor.Level.BODY)
+                        }
+                    )
+                }
+            }
+            .build()
     } bind OkHttpClient::class
 
     single {
         OkHttpClient.Builder()
-            .addNetworkInterceptor(AuthorizationHeaderInterceptor(getAccessToken = get()))
-            .authenticator(PayAuthenticator(getNewAccessToken = get()))
+            .apply {
+                if (BuildConfig.DEBUG) {
+                    addInterceptor(
+                        HttpLoggingInterceptor {
+                            Log.v("OkHttp", it)
+                        }.apply {
+                            setLevel(HttpLoggingInterceptor.Level.BODY)
+                        }
+                    )
+                }
+                addNetworkInterceptor(AuthorizationHeaderInterceptor(getAccessToken = get()))
+                authenticator(PayAuthenticator(getNewAccessToken = get()))
+            }
             .build()
     } bind OkHttpClient::class
 

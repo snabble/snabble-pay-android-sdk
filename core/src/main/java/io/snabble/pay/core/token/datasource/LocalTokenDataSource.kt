@@ -2,7 +2,7 @@ package io.snabble.pay.core.token.datasource
 
 internal interface LocalTokenDataSource {
 
-    suspend fun getToken(): TokenDto?
+    suspend fun getToken(): Token?
 
-    suspend fun saveToken(tokenDto: TokenDto)
+    suspend fun saveToken(token: Token)
 }

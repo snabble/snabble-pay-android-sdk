@@ -15,7 +15,7 @@ import io.mockk.mockk
 import io.mockk.mockkStatic
 import io.mockk.runs
 import io.mockk.slot
-import io.snabble.pay.core.token.datasource.TokenDto
+import io.snabble.pay.core.token.datasource.Token
 import io.snabble.pay.core.token.datasource.local.LocalTokenDataSourceImpl.Companion.KEY_ACCESS_TOKEN
 import io.snabble.pay.core.token.datasource.local.LocalTokenDataSourceImpl.Companion.KEY_EXPIRY_DATE
 import io.snabble.pay.network.okhttp.interceptor.AccessToken
@@ -53,7 +53,7 @@ class LocalTokenDataSourceImplTest : FreeSpec({
             val sut = createSut()
             val token = sut.getToken()
 
-            token shouldBe TokenDto(
+            token shouldBe Token(
                 accessToken = AccessToken("Bearer qwerty"),
                 expiryDate = ZonedDateTime.parse("2023-03-21T08:56:17+01:00")
             )
@@ -96,7 +96,7 @@ class LocalTokenDataSourceImplTest : FreeSpec({
             mutablePrefs
         }
 
-        val token = TokenDto(
+        val token = Token(
             accessToken = AccessToken("Bearer qwerty"),
             expiryDate = ZonedDateTime.parse("2023-03-21T08:56:17+01:00")
         )

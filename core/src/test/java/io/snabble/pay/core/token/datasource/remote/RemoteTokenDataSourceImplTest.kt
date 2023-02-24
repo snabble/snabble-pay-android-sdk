@@ -8,16 +8,16 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
 import io.mockk.slot
+import io.snabble.pay.api.retrofit.Success
+import io.snabble.pay.api.service.register.AppRegistrationService
+import io.snabble.pay.api.service.register.dto.TokenDto
 import io.snabble.pay.core.appcredentials.domain.model.AppCredentials
 import io.snabble.pay.core.appcredentials.domain.model.AppIdentifier
 import io.snabble.pay.core.appcredentials.domain.model.AppSecret
 import io.snabble.pay.core.appcredentials.domain.repository.AppCredentialsRepository
-import io.snabble.pay.core.token.datasource.TokenDto
+import io.snabble.pay.core.token.datasource.Token
 import io.snabble.pay.network.okhttp.interceptor.AccessToken
-import io.snabble.pay.network.retrofit.Success
-import io.snabble.pay.network.service.register.AppRegistrationService
 import java.time.ZonedDateTime
-import io.snabble.pay.network.service.register.dto.TokenDto as ApiTokenDto
 
 class RemoteTokenDataSourceImplTest : FreeSpec({
 
@@ -72,14 +72,14 @@ class RemoteTokenDataSourceImplTest : FreeSpec({
                         appSecret = "secret"
                     )
             } returns Success(
-                ApiTokenDto(
+                TokenDto(
                     token = "qwerty",
                     expiryDate = ZonedDateTime.parse("2023-03-21T08:56:17+01:00"),
                     tokenType = "Bearer"
                 ),
                 response = mockk()
             )
-            val expectedToken = TokenDto(
+            val expectedToken = Token(
                 accessToken = AccessToken("Bearer qwerty"),
                 expiryDate = ZonedDateTime.parse("2023-03-21T08:56:17+01:00")
             )

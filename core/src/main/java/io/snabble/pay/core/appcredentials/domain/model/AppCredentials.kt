@@ -1,6 +1,6 @@
 package io.snabble.pay.core.appcredentials.domain.model
 
-import io.snabble.pay.network.service.register.dto.AppCredentialsDto
+import io.snabble.pay.api.service.register.dto.AppCredentialsDto
 
 data class AppCredentials(
     val id: AppIdentifier,

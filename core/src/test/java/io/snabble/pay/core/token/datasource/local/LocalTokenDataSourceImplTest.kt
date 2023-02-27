@@ -44,7 +44,7 @@ class LocalTokenDataSourceImplTest : FreeSpec({
             coEvery { prefs[KEY_EXPIRY_DATE] } returns expiryDate
         }
 
-        "the token that's been saved to the DataStore" {
+        "the token that's been saved previously" {
             setPrefsMockToReturn(
                 accessToken = "Bearer qwerty",
                 expiryDate = "2023-03-21T08:56:17+01:00"
@@ -81,7 +81,7 @@ class LocalTokenDataSourceImplTest : FreeSpec({
         }
     }
 
-    "saveToken(TokenDto) saves the token in a DataStore" {
+    "saveToken(TokenDto) saves the token" {
         val tokenSlot = slot<String>()
         val dateSlot = slot<String>()
         val mutablePrefs: MutablePreferences = mockk {

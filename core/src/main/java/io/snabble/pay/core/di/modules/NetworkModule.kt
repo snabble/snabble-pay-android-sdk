@@ -19,36 +19,24 @@ import retrofit2.Converter
 import retrofit2.Retrofit
 
 internal val networkModule = module {
-    factory(named(SNABBLE_PAY_URL)) { get<SnabblePayConfiguration>().baseUrl } bind String::class
+    single(named(SNABBLE_PAY_URL)) { get<SnabblePayConfiguration>().baseUrl } bind String::class
+
+    single {
+        HttpLoggingInterceptor { Log.v("OkHttp", it) }.apply {
+            setLevel(HttpLoggingInterceptor.Level.BODY)
+        }
+    } bind HttpLoggingInterceptor::class
 
     single(named(AUTH_FREE_OK_HTTP_CLIENT)) {
         OkHttpClient.Builder()
-            .apply {
-                if (BuildConfig.DEBUG) {
-                    addInterceptor(
-                        HttpLoggingInterceptor {
-                            Log.v("OkHttp", it)
-                        }.apply {
-                            setLevel(HttpLoggingInterceptor.Level.BODY)
-                        }
-                    )
-                }
-            }
+            .apply { if (BuildConfig.DEBUG) addInterceptor(get<HttpLoggingInterceptor>()) }
             .build()
     } bind OkHttpClient::class
 
     single {
         OkHttpClient.Builder()
             .apply {
-                if (BuildConfig.DEBUG) {
-                    addInterceptor(
-                        HttpLoggingInterceptor {
-                            Log.v("OkHttp", it)
-                        }.apply {
-                            setLevel(HttpLoggingInterceptor.Level.BODY)
-                        }
-                    )
-                }
+                if (BuildConfig.DEBUG) addInterceptor(get<HttpLoggingInterceptor>())
                 addNetworkInterceptor(AuthorizationHeaderInterceptor(getAccessToken = get()))
                 authenticator(PayAuthenticator(getNewAccessToken = get()))
             }

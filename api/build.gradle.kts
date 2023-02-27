@@ -50,11 +50,9 @@ dependencies {
 
     implementation(project(":network"))
 
-    implementation(libs.okhttp)
-
     implementation(libs.kotlinx.coroutinesCore)
 
-    implementation(libs.bundles.retrofit)
+    api(libs.bundles.retrofit)
 
     implementation(libs.kotlin.serialization)
 

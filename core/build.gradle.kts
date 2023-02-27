@@ -63,7 +63,6 @@ dependencies {
     implementation(libs.okhttp.loggingInterceptor)
 
     implementation(libs.bundles.koin)
-    implementation(libs.bundles.retrofit)
 
     testImplementation(libs.bundles.testing)
     androidTestImplementation(libs.bundles.testing.android)

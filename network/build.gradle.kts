@@ -2,7 +2,6 @@
 plugins {
     id("java-library")
     id("org.jetbrains.kotlin.jvm")
-    alias(libs.plugins.kotlin.serialization)
 }
 
 java {
@@ -17,13 +16,9 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach 
 }
 
 dependencies {
-    implementation(libs.okhttp)
+    api(libs.okhttp)
 
     implementation(libs.kotlinx.coroutinesCore)
-
-    implementation(libs.bundles.retrofit)
-
-    implementation(libs.kotlin.serialization)
 
     testImplementation(libs.bundles.testing)
 }

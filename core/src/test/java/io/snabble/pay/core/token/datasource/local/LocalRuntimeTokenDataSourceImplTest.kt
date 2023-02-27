@@ -8,7 +8,7 @@ import io.snabble.pay.core.token.datasource.Token
 import io.snabble.pay.network.okhttp.interceptor.AccessToken
 import java.time.ZonedDateTime
 
-class LocalTokenDataSourceImplTest : FreeSpec({
+class LocalRuntimeTokenDataSourceImplTest : FreeSpec({
 
     fun createSut() = LocalRuntimeTokenDataSourceImpl()
 

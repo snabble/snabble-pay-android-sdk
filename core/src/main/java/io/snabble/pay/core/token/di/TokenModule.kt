@@ -6,7 +6,7 @@ import io.snabble.pay.core.token.TokenRepository
 import io.snabble.pay.core.token.TokenRepositoryImpl
 import io.snabble.pay.core.token.datasource.LocalTokenDataSource
 import io.snabble.pay.core.token.datasource.RemoteTokenDataSource
-import io.snabble.pay.core.token.datasource.local.LocalTokenDataSourceImpl
+import io.snabble.pay.core.token.datasource.local.LocalRuntimeTokenDataSourceImpl
 import io.snabble.pay.core.token.datasource.remote.RemoteTokenDataSourceImpl
 import io.snabble.pay.network.okhttp.authenticator.GetNewAccessTokenUseCase
 import io.snabble.pay.network.okhttp.interceptor.GetAccessTokenUseCase
@@ -24,5 +24,5 @@ internal val tokenModule = module {
 
     factoryOf(::RemoteTokenDataSourceImpl) bind RemoteTokenDataSource::class
 
-    factoryOf(::LocalTokenDataSourceImpl) bind LocalTokenDataSource::class
+    factoryOf(::LocalRuntimeTokenDataSourceImpl) bind LocalTokenDataSource::class
 }

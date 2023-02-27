@@ -22,7 +22,6 @@ internal class LocalTokenDataSourceImpl(
             accessToken = AccessToken(token),
             expiryDate = ZonedDateTime.parse(expiryDate)
         )
-        return null
     }
 
     override suspend fun saveToken(token: Token) {

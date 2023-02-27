@@ -1,5 +1,3 @@
-@file:Suppress("RemoveExplicitTypeArguments")
-
 package io.snabble.pay.core.token.di
 
 import io.snabble.pay.core.token.GetAccessTokenUseCaseImpl

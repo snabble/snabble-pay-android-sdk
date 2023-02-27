@@ -7,7 +7,7 @@ import androidx.datastore.preferences.preferencesDataStore
 import io.snabble.pay.core.appcredentials.data.AppCredentialsRepositoryImpl
 import io.snabble.pay.core.appcredentials.data.source.LocalAppCredentialsDataSource
 import io.snabble.pay.core.appcredentials.data.source.RemoteAppCredentialsDataSource
-import io.snabble.pay.core.appcredentials.data.source.local.LocalAppCredentialsDataSourceImpl
+import io.snabble.pay.core.appcredentials.data.source.local.LocalRuntimeAppCredentialsDataSourceImpl
 import io.snabble.pay.core.appcredentials.data.source.remote.RemoteAppCredentialsDataSourceImpl
 import io.snabble.pay.core.appcredentials.domain.repository.AppCredentialsRepository
 import org.koin.android.ext.koin.androidContext
@@ -18,7 +18,7 @@ import org.koin.dsl.module
 val appCredentialsModule = module {
     factoryOf(::AppCredentialsRepositoryImpl) bind AppCredentialsRepository::class
 
-    factoryOf(::LocalAppCredentialsDataSourceImpl) bind LocalAppCredentialsDataSource::class
+    factoryOf(::LocalRuntimeAppCredentialsDataSourceImpl) bind LocalAppCredentialsDataSource::class
 
     factoryOf(::RemoteAppCredentialsDataSourceImpl) bind RemoteAppCredentialsDataSource::class
 

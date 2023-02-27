@@ -1,5 +1,4 @@
-@Suppress("DSL_SCOPE_VIOLATION")
-plugins {
+@Suppress("DSL_SCOPE_VIOLATION") plugins {
     id("java-library")
     id("org.jetbrains.kotlin.jvm")
 }

@@ -20,15 +20,15 @@ fun <T : Any, R> ApiResponse<T>.toResult(mapper: (T) -> R): Result<R> = when (th
 }
 
 fun <T : Any, R> ApiResponse<T>.toNullableResult(mapper: (T) -> R): Result<R?> = when (this) {
-    is Error -> {
-        Result.failure(exception)
-    }
-
     is Success -> {
         Result.success(mapper(data))
     }
 
     is SuccessNoContent -> {
         Result.success(null)
+    }
+
+    is Error -> {
+        Result.failure(exception)
     }
 }

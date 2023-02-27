@@ -70,6 +70,6 @@ class SnabblePayConfiguration private constructor() {
 
     companion object {
 
-        fun init(): SnabblePayConfiguration = SnabblePayConfiguration()
+        internal fun init(): SnabblePayConfiguration = SnabblePayConfiguration()
     }
 }

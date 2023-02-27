@@ -18,7 +18,7 @@ class AppCredentialsRepositoryImplTest : FreeSpec({
 
     val expectedAppCredentials: AppCredentials = mockk(relaxed = true)
 
-    val sut = AppCredentialsRepositoryImpl(localDataSource, remoteDataSource)
+    val sut = AppCredentialsRepositoryImpl(localDataSource, remoteDataSource, mockk(relaxed = true))
 
     beforeEach {
         clearAllMocks()
@@ -36,7 +36,7 @@ class AppCredentialsRepositoryImplTest : FreeSpec({
 
         "tries to fetch app credentials if local data is null" {
             coEvery { localDataSource.getAppCredentials() } returns null
-            coEvery { remoteDataSource.fetchAppCredentials() } returns mockk()
+            coEvery { remoteDataSource.fetchAppCredentials() } returns mockk(relaxed = true)
 
             sut.getAppCredentials()
 

@@ -1,11 +1,11 @@
 package io.snabble.pay.core
 
 import android.content.Context
-import io.snabble.pay.core.appcredentials.data.source.remote.CustomerKey
-import io.snabble.pay.core.appcredentials.domain.model.AppCredentials
-import io.snabble.pay.core.appcredentials.domain.model.AppIdentifier
-import io.snabble.pay.core.appcredentials.domain.model.AppSecret
 import io.snabble.pay.core.di.koinModules
+import io.snabble.pay.core.internal.appcredentials.data.source.remote.CustomerKey
+import io.snabble.pay.core.internal.appcredentials.domain.model.AppCredentials
+import io.snabble.pay.core.internal.appcredentials.domain.model.AppIdentifier
+import io.snabble.pay.core.internal.appcredentials.domain.model.AppSecret
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.Koin
 import org.koin.core.logger.Level

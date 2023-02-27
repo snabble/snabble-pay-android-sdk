@@ -11,9 +11,9 @@ import org.koin.dsl.bind
 import org.koin.dsl.module
 
 val accountModule = module {
-    single { CreateAccountCheckUseCase(get<AccountsRepository>()::getAccountCheck) }
-    single { GetSpecificAccountUseCase(get<AccountsRepository>()::getAccount) }
-    single { GetAllAccountsUseCase(get<AccountsRepository>()::getAccounts) }
+    factory { CreateAccountCheckUseCase(get<AccountsRepository>()::getAccountCheck) }
+    factory { GetSpecificAccountUseCase(get<AccountsRepository>()::getAccount) }
+    factory { GetAllAccountsUseCase(get<AccountsRepository>()::getAccounts) }
 
     single {
         AccountsRepositoryImpl(

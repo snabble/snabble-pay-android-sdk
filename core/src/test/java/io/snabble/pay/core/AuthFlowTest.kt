@@ -11,17 +11,18 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkStatic
 import io.mockk.slot
-import io.snabble.pay.core.appcredentials.data.AppCredentialsRepositoryImpl
-import io.snabble.pay.core.appcredentials.data.source.LocalAppCredentialsDataSource
-import io.snabble.pay.core.appcredentials.data.source.RemoteAppCredentialsDataSource
-import io.snabble.pay.core.appcredentials.data.source.remote.CustomerKey
-import io.snabble.pay.core.appcredentials.data.source.remote.RemoteAppCredentialsDataSourceImpl
-import io.snabble.pay.core.appcredentials.domain.model.AppCredentials
-import io.snabble.pay.core.appcredentials.domain.model.AppIdentifier
-import io.snabble.pay.core.appcredentials.domain.model.AppSecret
-import io.snabble.pay.core.appcredentials.domain.repository.AppCredentialsRepository
 import io.snabble.pay.core.di.modules.networkModule
 import io.snabble.pay.core.di.modules.serviceModule
+import io.snabble.pay.core.internal.appcredentials.data.AppCredentialsRepositoryImpl
+import io.snabble.pay.core.internal.appcredentials.data.source.LocalAppCredentialsDataSource
+import io.snabble.pay.core.internal.appcredentials.data.source.RemoteAppCredentialsDataSource
+import io.snabble.pay.core.internal.appcredentials.data.source.remote.CustomerKey
+import io.snabble.pay.core.internal.appcredentials.data.source.remote.RemoteAppCredentialsDataSourceImpl
+import io.snabble.pay.core.internal.appcredentials.di.appCredentialsModule
+import io.snabble.pay.core.internal.appcredentials.domain.model.AppCredentials
+import io.snabble.pay.core.internal.appcredentials.domain.model.AppIdentifier
+import io.snabble.pay.core.internal.appcredentials.domain.model.AppSecret
+import io.snabble.pay.core.internal.appcredentials.domain.repository.AppCredentialsRepository
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.koin.core.module.dsl.singleOf
@@ -35,6 +36,7 @@ class AuthFlowTest : FreeSpec(), KoinTest {
     override fun extensions(): List<Extension> = listOf(
         KoinExtension(
             listOf(
+                appCredentialsModule,
                 networkModule,
                 serviceModule,
                 testModule,
@@ -100,7 +102,8 @@ val testModule = module {
     single {
         RemoteAppCredentialsDataSourceImpl(
             appRegistrationService = get(),
-            customerKey = CustomerKey("")
+            customerKey = CustomerKey(""),
+            appCredentialsMapper = get()
         )
     } bind RemoteAppCredentialsDataSource::class
 }

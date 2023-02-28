@@ -5,8 +5,8 @@ import io.snabble.pay.api.service.account.dto.AccountCheckDto
 import io.snabble.pay.api.service.account.dto.AccountDto
 import io.snabble.pay.core.domain.model.Account
 import io.snabble.pay.core.domain.model.AccountCheck
-import io.snabble.pay.core.toResult
 import io.snabble.pay.core.util.Mapper
+import io.snabble.pay.core.util.toResult
 
 interface AccountsRepository {
 

@@ -28,6 +28,3 @@ internal class RemoteAppCredentialsDataSourceImpl(
         return credentials
     }
 }
-
-@JvmInline
-value class CustomerKey(val value: String)

@@ -1,4 +1,4 @@
-package io.snabble.pay.core
+package io.snabble.pay.core.util
 
 import io.snabble.pay.api.retrofit.ApiResponse
 import io.snabble.pay.api.retrofit.Error

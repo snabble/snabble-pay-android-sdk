@@ -15,8 +15,6 @@ import org.koin.dsl.module
 
 class SnabblePayConfiguration private constructor() {
 
-    val snabblePay: SnabblePay by lazy { SnabblePayImpl(this) }
-
     internal var appCredentials: AppCredentials? = null
         private set
 
@@ -47,11 +45,11 @@ class SnabblePayConfiguration private constructor() {
         this.snabblePayKey = snabblePayKey
     }
 
-    internal fun ensureSnabblePayKeyOrThrow() {
+    private fun ensureSnabblePayKeyOrThrow() {
         assert(this::snabblePayKey.isInitialized) { "SnabblePayKey must be set." }
     }
 
-    internal fun setupDi(context: Context) {
+    private fun setupDi(context: Context) {
         val koinApplication = koinApplication {
             if (BuildConfig.DEBUG) printLogger(level = Level.DEBUG)
             androidContext(context.applicationContext)
@@ -70,6 +68,15 @@ class SnabblePayConfiguration private constructor() {
 
     companion object {
 
-        internal fun init(): SnabblePayConfiguration = SnabblePayConfiguration()
+        internal fun init(
+            context: Context,
+            setup: SnabblePayConfiguration.() -> Unit,
+        ): SnabblePayConfiguration =
+            SnabblePayConfiguration()
+                .apply {
+                    setup()
+                    ensureSnabblePayKeyOrThrow()
+                    setupDi(context)
+                }
     }
 }

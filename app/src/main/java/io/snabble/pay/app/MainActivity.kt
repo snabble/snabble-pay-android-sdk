@@ -6,16 +6,17 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.lifecycleScope
+import com.google.zxing.client.android.BuildConfig
+import io.snabble.pay.app.ui.accountcard.AccountCardPager
+import io.snabble.pay.app.ui.homescreen.HomeScreen
 import io.snabble.pay.app.ui.theme.SnabblePayTheme
-import io.snabble.pay.core.BuildConfig
 import io.snabble.pay.core.dsl.snabblePay
 import kotlinx.coroutines.launch
 
@@ -26,12 +27,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             SnabblePayTheme {
                 // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    Greeting("Android")
-                }
+                HomeScreen()
             }
         }
 
@@ -68,21 +64,5 @@ class MainActivity : ComponentActivity() {
             }
             Log.d("xx", "Accounts: ${snabblePay.getAccounts().getOrNull()}")
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    SnabblePayTheme {
-        Greeting("Android")
     }
 }

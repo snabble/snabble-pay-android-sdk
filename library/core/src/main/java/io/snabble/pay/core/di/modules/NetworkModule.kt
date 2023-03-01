@@ -5,6 +5,7 @@ import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFact
 import io.snabble.pay.api.retrofit.ApiResultCallAdapterFactory
 import io.snabble.pay.core.BuildConfig
 import io.snabble.pay.core.SnabblePayConfiguration
+import io.snabble.pay.core.internal.appcredentials.data.source.remote.CustomerKey
 import io.snabble.pay.network.okhttp.authenticator.PayAuthenticator
 import io.snabble.pay.network.okhttp.interceptor.AuthorizationHeaderInterceptor
 import kotlinx.serialization.ExperimentalSerializationApi
@@ -20,6 +21,8 @@ import retrofit2.Retrofit
 
 internal val networkModule = module {
     single(named(SNABBLE_PAY_URL)) { get<SnabblePayConfiguration>().baseUrl } bind String::class
+
+    single { CustomerKey(get<SnabblePayConfiguration>().snabblePayKey) } bind CustomerKey::class
 
     single {
         HttpLoggingInterceptor { Log.v("OkHttp", it) }.apply {

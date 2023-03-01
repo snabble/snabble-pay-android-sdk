@@ -2,7 +2,6 @@ package io.snabble.pay.core
 
 import android.content.Context
 import io.snabble.pay.core.di.koinModules
-import io.snabble.pay.core.internal.appcredentials.data.source.remote.CustomerKey
 import io.snabble.pay.core.internal.appcredentials.domain.model.AppCredentials
 import io.snabble.pay.core.internal.appcredentials.domain.model.AppIdentifier
 import io.snabble.pay.core.internal.appcredentials.domain.model.AppSecret
@@ -53,15 +52,12 @@ class SnabblePayConfiguration private constructor() {
         val koinApplication = koinApplication {
             if (BuildConfig.DEBUG) printLogger(level = Level.DEBUG)
             androidContext(context.applicationContext)
-            koin.loadModules(
-                modules = listOf(
-                    module {
-                        single { this@SnabblePayConfiguration } bind SnabblePayConfiguration::class
-                        single { CustomerKey(snabblePayKey) } bind CustomerKey::class
-                    }
-                )
+            modules(koinModules)
+            modules(
+                module {
+                    single { this@SnabblePayConfiguration } bind SnabblePayConfiguration::class
+                }
             )
-            modules(modules = koinModules)
         }
         koin = koinApplication.koin
     }

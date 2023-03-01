@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color.Companion.Black
 import androidx.compose.ui.text.font.FontWeight.Companion.Bold
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.sp
 
 @Composable
 fun AccountInformation(
@@ -28,6 +29,7 @@ fun AccountInformation(
             color = Black,
             fontWeight = Bold,
             style = MaterialTheme.typography.bodySmall,
+            letterSpacing = 1.5.sp,
             textAlign = TextAlign.Start
 
         )
@@ -45,6 +47,7 @@ fun AccountInformation(
             color = Black,
             fontWeight = Bold,
             style = MaterialTheme.typography.bodySmall,
+            letterSpacing = 1.5.sp,
             textAlign = TextAlign.Start
         )
     }

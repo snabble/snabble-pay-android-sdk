@@ -61,17 +61,20 @@ android {
 
 dependencies {
     implementation(project(":core"))
-
+    implementation("com.google.accompanist:accompanist-pager:0.28.0")
+    implementation("com.google.accompanist:accompanist-pager-indicators:0.28.0")
     implementation(libs.androidx.core)
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.5.1")
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.bundles.compose)
     implementation(libs.androidx.constraintlayoutCompose)
+    implementation ("androidx.compose.material:material-icons-extended:1.3.1")
     implementation("com.google.zxing:core:3.5.1")
     implementation("com.journeyapps:zxing-android-embedded:4.3.0")
     implementation("com.google.zxing:javase:3.5.1")
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-graphics")
+    implementation ("androidx.compose.ui:ui-util")
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
 

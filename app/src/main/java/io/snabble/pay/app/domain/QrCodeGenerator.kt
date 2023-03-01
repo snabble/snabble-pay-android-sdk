@@ -6,7 +6,6 @@ import com.google.zxing.BarcodeFormat
 import com.google.zxing.EncodeHintType
 import com.google.zxing.qrcode.QRCodeWriter
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel
-import com.journeyapps.barcodescanner.BarcodeEncoder
 
 class QrCodeGenerator {
 
@@ -16,7 +15,7 @@ class QrCodeGenerator {
             EncodeHintType.MARGIN to 0
         )
         val qrCodeWriter = QRCodeWriter()
-        val bitMapMatrix = qrCodeWriter.encode(token, BarcodeFormat.QR_CODE, 240, 240, hintMap)
+        val bitMapMatrix = qrCodeWriter.encode(token, BarcodeFormat.QR_CODE, 400, 400, hintMap)
 
         val width = bitMapMatrix.width
         val height = bitMapMatrix.height

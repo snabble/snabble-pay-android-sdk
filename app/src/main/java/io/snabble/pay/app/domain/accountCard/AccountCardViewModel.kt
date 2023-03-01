@@ -1,11 +1,11 @@
 package io.snabble.pay.app.domain.accountCard
 
 import androidx.lifecycle.ViewModel
-import io.snabble.pay.app.domain.accountCard.GetAccountInformationUseCaseImpl
 import kotlinx.coroutines.runBlocking
 
-class AccountCardViewModel: ViewModel() {
+class AccountCardViewModel : ViewModel() {
 
-    private val accountCard_ = runBlocking {GetAccountInformationUseCaseImpl().invoke()}
-    val accountCard = accountCard_
+    private val accountCardList_ =
+        runBlocking { GetAccountInformationUseCaseImpl().invoke() }
+    val accountCardList = accountCardList_
 }

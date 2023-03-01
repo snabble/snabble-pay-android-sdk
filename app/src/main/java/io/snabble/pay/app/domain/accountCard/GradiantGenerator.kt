@@ -38,8 +38,9 @@ class GradiantGenerator {
     )
 
     fun createGradiantBackground(): List<Color> {
-        val colorOne = mColors[Random.nextInt(0, mColors.lastIndex)]
-        val colorTwo = mColors[Random.nextInt(0, mColors.lastIndex)]
+        val random = Random.nextInt(0, mColors.lastIndex)
+        val colorOne = mColors[random]
+        val colorTwo = mColors2[random]
         return listOf(
             Color(android.graphics.Color.parseColor(colorOne)),
             Color(android.graphics.Color.parseColor(colorTwo))

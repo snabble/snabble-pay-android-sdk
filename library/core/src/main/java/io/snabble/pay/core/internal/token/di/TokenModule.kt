@@ -1,6 +1,7 @@
 package io.snabble.pay.core.internal.token.di
 
 import io.snabble.pay.core.internal.token.data.TokenRepositoryImpl
+import io.snabble.pay.core.internal.token.data.mapper.TokenMapper
 import io.snabble.pay.core.internal.token.data.source.LocalTokenDataSource
 import io.snabble.pay.core.internal.token.data.source.RemoteTokenDataSource
 import io.snabble.pay.core.internal.token.data.source.local.LocalRuntimeTokenDataSourceImpl
@@ -21,6 +22,8 @@ internal val tokenModule = module {
     singleOf(::GetNewAccessTokenUseCaseImpl) bind GetNewAccessTokenUseCase::class
 
     singleOf(::TokenRepositoryImpl) bind TokenRepository::class
+
+    factoryOf(::TokenMapper) bind TokenMapper::class
 
     factoryOf(::RemoteTokenDataSourceImpl) bind RemoteTokenDataSource::class
 

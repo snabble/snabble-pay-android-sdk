@@ -3,6 +3,7 @@
 @Suppress("DSL_SCOPE_VIOLATION") plugins {
     id(libs.plugins.android.application.get().pluginId)
     id(libs.plugins.kotlin.android.get().pluginId)
+    id(libs.plugins.kotlin.kapt.get().pluginId)
     id("de.mannodermaus.android-junit5")
 }
 
@@ -77,6 +78,10 @@ dependencies {
     implementation ("androidx.compose.ui:ui-util")
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
+
+    // DI
+    implementation(libs.dagger.hilt.android)
+    kapt(libs.dagger.hilt.android.compiler)
 
     testImplementation(libs.bundles.testing)
     androidTestImplementation(libs.bundles.testing.android)

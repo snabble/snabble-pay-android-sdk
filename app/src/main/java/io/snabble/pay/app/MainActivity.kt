@@ -8,11 +8,13 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.lifecycle.lifecycleScope
 import com.google.zxing.client.android.BuildConfig
+import dagger.hilt.android.AndroidEntryPoint
 import io.snabble.pay.app.ui.homescreen.HomeScreen
 import io.snabble.pay.app.ui.theme.SnabblePayTheme
 import io.snabble.pay.core.dsl.snabblePay
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

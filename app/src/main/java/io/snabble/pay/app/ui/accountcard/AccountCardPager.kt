@@ -1,9 +1,12 @@
 package io.snabble.pay.app.ui.accountcard
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.runtime.Composable
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -21,14 +24,14 @@ fun AccountCardPager(
     val pagerState = rememberPagerState(initialPage = 0)
     val sliderList = viewModel.accountCardList
 
-    Box(
+    Column(
         modifier = Modifier
             .then(modifier),
     ) {
         HorizontalPager(
-            itemSpacing = (-16).dp,
-            contentPadding = PaddingValues(horizontal = 32.dp),
+            contentPadding = PaddingValues(horizontal = 24.dp),
             count = sliderList.size,
+            itemSpacing = (-14).dp,
             state = pagerState,
             verticalAlignment = Alignment.CenterVertically,
         ) { page ->
@@ -56,12 +59,22 @@ fun AccountCardPager(
                     }
             )
         }
+        HorizontalPagerIndicator(
+            modifier = Modifier
+                .align(Alignment.CenterHorizontally)
+                .padding(top = 16.dp),
+            pagerState = pagerState,
+            activeColor = MaterialTheme.colorScheme.onPrimary,
+            inactiveColor = MaterialTheme.colorScheme.secondary,
+        )
 
     }
 }
 
 @Preview
 @Composable
-fun preiv() {
-    AccountCardPager()
+fun AccountCardPagerPreview() {
+    AccountCardPager(
+        modifier = Modifier.background(Color.White)
+    )
 }

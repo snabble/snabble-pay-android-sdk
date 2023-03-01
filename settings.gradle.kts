@@ -1,8 +1,13 @@
 @file:Suppress("UnstableApiUsage")
 
-include(":api")
+file("library").eachDir { dir ->
+    include(":${dir.name}")
+    project(":${dir.name}").projectDir = dir
+}
+
 include(":app")
-include(":network")
+
+rootProject.name = "SnabblePay"
 
 pluginManagement {
     repositories {
@@ -21,5 +26,7 @@ dependencyResolutionManagement {
         mavenLocal()
     }
 }
-rootProject.name = "Snabble Pay"
-include(":core")
+
+fun File.eachDir(block: (File) -> Unit) {
+    listFiles()?.filter { it.isDirectory }?.forEach { block(it) }
+}

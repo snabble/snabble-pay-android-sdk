@@ -22,7 +22,7 @@ subprojects {
     }
 
     detekt {
-        config = files("../detekt.yml")
+        config = files("${project.rootDir}/detekt.yml")
     }
 
     tasks.withType<Test>().configureEach {

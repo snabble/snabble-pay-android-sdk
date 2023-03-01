@@ -1,4 +1,4 @@
-package io.snabble.pay.app.domain
+package io.snabble.pay.app.domain.accountCard.utils
 
 import android.graphics.Bitmap
 import android.graphics.Color

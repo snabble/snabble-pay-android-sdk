@@ -1,4 +1,4 @@
-package io.snabble.pay.app.domain.accountCard
+package io.snabble.pay.app.domain.accountCard.utils
 
 import androidx.compose.ui.graphics.Color
 import kotlin.random.Random

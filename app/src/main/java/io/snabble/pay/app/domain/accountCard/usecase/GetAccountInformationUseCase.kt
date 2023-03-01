@@ -1,4 +1,7 @@
-package io.snabble.pay.app.domain.accountCard
+package io.snabble.pay.app.domain.accountCard.usecase
+
+import io.snabble.pay.app.domain.accountCard.AccountCardModel
+import io.snabble.pay.app.domain.accountCard.utils.GradiantGenerator
 
 interface GetAccountInformationUseCase {
 

@@ -1,4 +1,4 @@
-package io.snabble.pay.app.ui.accountcard
+package io.snabble.pay.app.domain
 
 import android.graphics.Bitmap
 import android.graphics.Color
@@ -15,10 +15,6 @@ class QrCodeGenerator {
             EncodeHintType.ERROR_CORRECTION to ErrorCorrectionLevel.L,
             EncodeHintType.MARGIN to 0
         )
-//        val bitMapMatrix: BitMatrix = MultiFormatWriter().encode(
-//            token,
-//            BarcodeFormat.QR_CODE, 240, 240, hintMap
-//        )
         val qrCodeWriter = QRCodeWriter()
         val bitMapMatrix = qrCodeWriter.encode(token, BarcodeFormat.QR_CODE, 240, 240, hintMap)
 
@@ -36,10 +32,6 @@ class QrCodeGenerator {
         val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
         bitmap.setPixels(pixels, 0, width, 0, 0, width, height)
         return bitmap
-    }
-
-    fun generateQrCodeFrom2(token: String): Bitmap {
-        return BarcodeEncoder().encodeBitmap(token, BarcodeFormat.QR_CODE, 240, 240)
     }
 
     companion object {

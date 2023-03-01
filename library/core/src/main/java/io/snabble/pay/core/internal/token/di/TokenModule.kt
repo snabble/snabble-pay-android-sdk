@@ -23,7 +23,7 @@ internal val tokenModule = module {
 
     singleOf(::TokenRepositoryImpl) bind TokenRepository::class
 
-    factoryOf(::TokenMapper) bind TokenMapper::class
+    factoryOf(::TokenMapper)
 
     factoryOf(::RemoteTokenDataSourceImpl) bind RemoteTokenDataSource::class
 

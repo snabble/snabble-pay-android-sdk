@@ -8,8 +8,9 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.lifecycle.lifecycleScope
 import com.google.zxing.client.android.BuildConfig
+import com.ramcosta.composedestinations.DestinationsNavHost
 import dagger.hilt.android.AndroidEntryPoint
-import io.snabble.pay.app.ui.homescreen.HomeScreen
+import io.snabble.pay.app.ui.homescreen.NavGraphs
 import io.snabble.pay.app.ui.theme.SnabblePayTheme
 import io.snabble.pay.core.dsl.snabblePay
 import kotlinx.coroutines.launch
@@ -21,8 +22,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             SnabblePayTheme {
-                // A surface container using the 'background' color from the theme
-                HomeScreen()
+                DestinationsNavHost(navGraph = NavGraphs.root)
             }
         }
 

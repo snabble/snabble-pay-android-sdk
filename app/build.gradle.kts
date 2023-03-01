@@ -4,7 +4,9 @@
     id(libs.plugins.android.application.get().pluginId)
     id(libs.plugins.kotlin.android.get().pluginId)
     id(libs.plugins.kotlin.kapt.get().pluginId)
+    id("com.google.devtools.ksp") version "1.8.0-1.0.9"
     id("de.mannodermaus.android-junit5")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -69,15 +71,18 @@ dependencies {
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.bundles.compose)
     implementation(libs.androidx.constraintlayoutCompose)
-    implementation ("androidx.compose.material:material-icons-extended:1.3.1")
+    implementation("androidx.compose.material:material-icons-extended:1.3.1")
     implementation("com.google.zxing:core:3.5.1")
     implementation("com.journeyapps:zxing-android-embedded:4.3.0")
     implementation("com.google.zxing:javase:3.5.1")
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-graphics")
-    implementation ("androidx.compose.ui:ui-util")
+    implementation("androidx.compose.ui:ui-util")
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
+
+    implementation("io.github.raamcosta.compose-destinations:core:1.8.35-beta")
+    ksp("io.github.raamcosta.compose-destinations:ksp:1.8.35-beta")
 
     // DI
     implementation(libs.dagger.hilt.android)
@@ -92,4 +97,17 @@ dependencies {
 
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
+}
+
+android.applicationVariants.all {
+//    java.sourceSets{
+//        getByName(name) {
+//            java.srcDir("build/generated/ksp/$name/java")
+//        }
+//    }
+    kotlin.sourceSets {
+        getByName(name) {
+            kotlin.srcDir("build/generated/ksp/$name/kotlin")
+        }
+    }
 }

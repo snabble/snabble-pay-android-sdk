@@ -17,11 +17,19 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.annotation.RootNavGraph
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import io.snabble.pay.app.R.drawable
 import io.snabble.pay.app.ui.accountcard.AccountCardPager
+import io.snabble.pay.app.ui.homescreen.destinations.ScreenDestination
 
+@RootNavGraph(start = true)
+@Destination
 @Composable
-fun HomeScreen() {
+fun HomeScreen(
+    navigator: DestinationsNavigator,
+) {
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
@@ -73,7 +81,7 @@ fun HomeScreen() {
                     },
                 containerColor = Color.White,
                 shape = CircleShape,
-                onClick = { /*TODO*/ }) {
+                onClick = {navigator.navigate(ScreenDestination)}) {
                 Icon(
                     tint = MaterialTheme.colorScheme.onPrimary,
                     painter = painterResource(id = drawable.ic_snabble_add),
@@ -82,6 +90,14 @@ fun HomeScreen() {
             }
 
         }
+    }
+}
+
+@Destination
+@Composable
+fun Screen() {
+    Box(modifier = Modifier.fillMaxSize()) {
+        Text(text = "Hello", modifier = Modifier.align(Alignment.Center))
     }
 }
 
@@ -124,5 +140,4 @@ fun SnabblePayTitlePreview() {
 @Preview
 @Composable
 fun HomeScreenPreview() {
-    HomeScreen()
 }

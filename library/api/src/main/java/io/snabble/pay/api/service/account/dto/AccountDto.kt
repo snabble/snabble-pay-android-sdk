@@ -24,9 +24,3 @@ enum class MandateStateDto {
 
     @SerialName("PENDING") PENDING,
 }
-
-@Serializable
-data class MandateDto(
-    @SerialName("state") val state: String,
-    @SerialName("text") val text: String,
-)

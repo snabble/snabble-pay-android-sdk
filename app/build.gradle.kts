@@ -100,11 +100,6 @@ dependencies {
 }
 
 android.applicationVariants.all {
-//    java.sourceSets{
-//        getByName(name) {
-//            java.srcDir("build/generated/ksp/$name/java")
-//        }
-//    }
     kotlin.sourceSets {
         getByName(name) {
             kotlin.srcDir("build/generated/ksp/$name/kotlin")

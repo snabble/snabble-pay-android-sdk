@@ -525,6 +525,7 @@ style:
   DestructuringDeclarationWithTooManyEntries:
     active: true
     maxDestructuringEntries: 3
+    ignoreAnnotated: [ 'Composable' ]
   EqualsNullCall:
     active: true
   EqualsOnSignatureLine:

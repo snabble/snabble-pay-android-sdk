@@ -1,9 +1,19 @@
 package io.snabble.pay.app.ui.homescreen
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.*
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -22,7 +32,7 @@ import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import io.snabble.pay.app.R.drawable
 import io.snabble.pay.app.ui.accountcard.AccountCardPager
-import io.snabble.pay.app.ui.homescreen.destinations.ScreenDestination
+import io.snabble.pay.app.ui.destinations.VerifyAccountScreenDestination
 
 @RootNavGraph(start = true)
 @Destination
@@ -35,7 +45,8 @@ fun HomeScreen(
         color = MaterialTheme.colorScheme.background
     ) {
         ConstraintLayout(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .fillMaxSize()
         ) {
 
             val (title, subtitle, pager, button) = createRefs()
@@ -81,7 +92,9 @@ fun HomeScreen(
                     },
                 containerColor = Color.White,
                 shape = CircleShape,
-                onClick = {navigator.navigate(ScreenDestination)}) {
+                onClick = {
+                    navigator.navigate(VerifyAccountScreenDestination)
+                }) {
                 Icon(
                     tint = MaterialTheme.colorScheme.onPrimary,
                     painter = painterResource(id = drawable.ic_snabble_add),
@@ -90,14 +103,6 @@ fun HomeScreen(
             }
 
         }
-    }
-}
-
-@Destination
-@Composable
-fun Screen() {
-    Box(modifier = Modifier.fillMaxSize()) {
-        Text(text = "Hello", modifier = Modifier.align(Alignment.Center))
     }
 }
 
@@ -122,7 +127,7 @@ fun SnapplePayTitle(modifier: Modifier = Modifier) {
             fontWeight = FontWeight.Bold,
             letterSpacing = 6.sp
         )
-        Spacer(modifier = Modifier.width(8.dp))
+        Spacer(modifier = Modifier.width(4.dp))
         Image(
             imageVector = ImageVector.vectorResource(id = drawable.ic_snabble_logo),
             contentDescription = ""

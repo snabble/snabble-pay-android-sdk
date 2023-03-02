@@ -12,9 +12,7 @@ import retrofit2.http.Path
 interface MandateService {
 
     @POST("/apps/accounts/{id}/mandate")
-    fun createMandate(
-        @Path("id") accountId: String,
-    ): ApiResponse<MandateDto>
+    fun createMandate(@Path("id") accountId: String): ApiResponse<MandateDto>
 
     @PATCH("/apps/accounts/{id}/mandate")
     fun respondToMandate(
@@ -23,7 +21,5 @@ interface MandateService {
     ): ApiResponse<MandateResponseDto>
 
     @GET("/apps/accounts/{id}/mandate")
-    fun getMandateState(
-        @Path("id") accountId: String,
-    ): ApiResponse<MandateDto>
+    fun getMandateState(@Path("id") accountId: String): ApiResponse<MandateDto>
 }

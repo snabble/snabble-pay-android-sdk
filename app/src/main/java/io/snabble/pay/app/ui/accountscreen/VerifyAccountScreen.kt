@@ -17,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -24,6 +25,7 @@ import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat.startActivity
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import io.snabble.pay.app.R
 import io.snabble.pay.app.ui.AppBarLayout
 import io.snabble.pay.app.ui.theme.SnabblePayTheme
 
@@ -51,31 +53,31 @@ fun VerifyAccountScreen(
             ) {
                 Text(
                     textAlign = TextAlign.Center,
-                    text = "Verifizierung deines Bankkontos",
+                    text = stringResource(id = R.string.verify_bank),
                     style = MaterialTheme.typography.headlineLarge,
                     letterSpacing = 1.5.sp
                 )
                 InfoText(
                     modifier = Modifier.padding(top = 32.dp),
-                    string = "Für die Nutzung von Snabble Pay ist eine Bestätigung deines Bankkontos notwendig. Dazu musst du dich über unseren Dienstleister, die Tink AB, bei deiner Bank anmelden und dein Konto bestätigen. "
+                    string = stringResource(id = R.string.verify_bank_description)
                 )
                 InfoText(
                     modifier = Modifier.padding(top = 32.dp),
-                    string = "Du hast kein Konto bei einer deutschen Bank?"
+                    string = stringResource(id = R.string.verify_account_exists)
                 )
                 HyperLinkText(
                     modifier = Modifier
                         .padding(top = 4.dp),
-                    string = "Dann klicke bitte hier für die Länderauswahl."
+                    string = stringResource(id = R.string.verify_country_choice_link)
                 ) {}
                 InfoText(
                     modifier = Modifier.padding(top = 32.dp),
-                    string = "Weitere Informationen zu unserer Verarbeitung deiner persönlichen Daten findest du in unseren "
+                    string = stringResource(id = R.string.verify_privacy_description)
                 )
                 HyperLinkText(
                     modifier = Modifier
                         .padding(top = 4.dp),
-                    string = "Datenschutzhinweis."
+                    string = stringResource(id = R.string.verify_privacy_link)
                 ) {}
                 Spacer(modifier = Modifier.weight(1f))
                 ElevatedButton(
@@ -89,7 +91,7 @@ fun VerifyAccountScreen(
                     onClick = { start(context) }) {
                     Text(
                         modifier = Modifier.padding(start = 8.dp),
-                        text = "Konto verifizieren",
+                        text = stringResource(id = R.string.verify_account),
                     )
 
                 }

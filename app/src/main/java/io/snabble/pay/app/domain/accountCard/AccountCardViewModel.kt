@@ -6,7 +6,7 @@ import kotlinx.coroutines.runBlocking
 
 class AccountCardViewModel : ViewModel() {
 
-    private val accountCardList_ =
+    private val _accountCardList =
         runBlocking { GetAccountInformationUseCaseImpl().invoke() }
-    val accountCardList = accountCardList_
+    val accountCardList = _accountCardList
 }

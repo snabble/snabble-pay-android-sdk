@@ -19,13 +19,15 @@ class GetAccountInformationUseCaseImpl : GetAccountInformationUseCase {
                 holderName = "Petra MusterMann",
                 iban = "DE91 1000 0000 0123 4567 89",
                 bank = "Deutsche Bank"
-            ), AccountCardModel(
+            ),
+            AccountCardModel(
                 cardBackgroundColor = GradiantGenerator().createGradiantBackground(),
                 qrCodeToken = "test",
                 holderName = "Muster Mann",
                 iban = "DE 1234 1234 1234 1234",
                 bank = "Deutsche Bank"
-            ), AccountCardModel(
+            ),
+            AccountCardModel(
                 cardBackgroundColor = GradiantGenerator().createGradiantBackground(),
                 qrCodeToken = "test",
                 holderName = "Muster Mann",

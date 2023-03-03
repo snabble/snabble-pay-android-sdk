@@ -15,7 +15,13 @@ class QrCodeGenerator {
             EncodeHintType.MARGIN to 0
         )
         val qrCodeWriter = QRCodeWriter()
-        val bitMapMatrix = qrCodeWriter.encode(token, BarcodeFormat.QR_CODE, 400, 400, hintMap)
+        val bitMapMatrix = qrCodeWriter.encode(
+            token,
+            BarcodeFormat.QR_CODE,
+            QR_CODE_WIDTH,
+            QR_CODE_HEIGHT,
+            hintMap
+        )
 
         val width = bitMapMatrix.width
         val height = bitMapMatrix.height
@@ -34,6 +40,9 @@ class QrCodeGenerator {
     }
 
     companion object {
+
+        private const val QR_CODE_WIDTH = 400
+        private const val QR_CODE_HEIGHT = 400
 
         fun generateQrCode(token: String) =
             QrCodeGenerator().generateQrCodeFrom(token)

@@ -50,6 +50,8 @@ android {
 dependencies {
     coreLibraryDesugaring(libs.android.desugarJdkLibs)
 
+    api(project(":mandate"))
+
     implementation(project(":api"))
     implementation(project(":network"))
 

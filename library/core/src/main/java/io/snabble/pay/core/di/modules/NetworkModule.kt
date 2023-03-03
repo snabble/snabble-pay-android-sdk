@@ -26,7 +26,7 @@ internal val networkModule = module {
 
     single {
         HttpLoggingInterceptor { Log.v("OkHttp", it) }.apply {
-            setLevel(HttpLoggingInterceptor.Level.BODY)
+            level = HttpLoggingInterceptor.Level.BODY
         }
     } bind HttpLoggingInterceptor::class
 

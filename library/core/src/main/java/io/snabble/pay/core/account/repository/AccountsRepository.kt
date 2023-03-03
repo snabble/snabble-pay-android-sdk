@@ -3,10 +3,10 @@ package io.snabble.pay.core.account.repository
 import io.snabble.pay.api.service.account.AccountService
 import io.snabble.pay.api.service.account.dto.AccountCheckDto
 import io.snabble.pay.api.service.account.dto.AccountDto
+import io.snabble.pay.api.util.Mapper
+import io.snabble.pay.api.util.toResult
 import io.snabble.pay.core.domain.model.Account
 import io.snabble.pay.core.domain.model.AccountCheck
-import io.snabble.pay.core.util.Mapper
-import io.snabble.pay.core.util.toResult
 
 interface AccountsRepository {
 
@@ -22,12 +22,12 @@ interface AccountsRepository {
 }
 
 class AccountsRepositoryImpl(
-    private val accountService: AccountService,
+    private val service: AccountService,
     private val accountMapper: Mapper<AccountDto, Account>,
     private val accountCheckMapper: Mapper<AccountCheckDto, AccountCheck>,
 ) : AccountsRepository {
 
-    override suspend fun getAccount(id: String): Result<Account> = accountService
+    override suspend fun getAccount(id: String): Result<Account> = service
         .getAccount(id)
         .toResult(accountMapper::map)
 
@@ -35,11 +35,11 @@ class AccountsRepositoryImpl(
         appUri: String,
         city: String,
         twoLetterIsoCountryCode: String,
-    ): Result<AccountCheck> = accountService
+    ): Result<AccountCheck> = service
         .getAccountCheck(appUri, city, twoLetterIsoCountryCode)
         .toResult(accountCheckMapper::map)
 
-    override suspend fun getAccounts(): Result<List<Account>> = accountService
+    override suspend fun getAccounts(): Result<List<Account>> = service
         .getAccounts()
         .toResult { it.map(accountMapper::map) }
 }

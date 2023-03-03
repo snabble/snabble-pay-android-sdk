@@ -1,4 +1,4 @@
-package io.snabble.pay.core.util
+package io.snabble.pay.api.util
 
 fun interface Mapper<From, To> {
 

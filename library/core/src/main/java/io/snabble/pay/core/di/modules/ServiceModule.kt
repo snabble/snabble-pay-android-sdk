@@ -12,7 +12,5 @@ val serviceModule = module {
         get<Retrofit>(named(AUTH_FREE_RETROFIT)).create(AppRegistrationService::class.java)
     } bind AppRegistrationService::class
 
-    single {
-        get<Retrofit>().create(AccountService::class.java)
-    } bind AccountService::class
+    single { get<Retrofit>().create(AccountService::class.java) } bind AccountService::class
 }

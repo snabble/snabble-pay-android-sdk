@@ -17,7 +17,7 @@ val accountModule = module {
 
     single {
         AccountsRepositoryImpl(
-            accountService = get(),
+            service = get(),
             accountMapper = get<AccountMapper>(),
             accountCheckMapper = get<AccountCheckMapper>()
         )

@@ -54,6 +54,8 @@ dependencies {
 
     implementation(libs.kotlin.serialization)
 
+    implementation(libs.bundles.koin)
+
     testImplementation(libs.bundles.testing)
     androidTestImplementation(libs.bundles.testing.android)
 

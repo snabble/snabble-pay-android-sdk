@@ -5,8 +5,9 @@ import io.snabble.pay.core.account.GetAllAccountsUseCase
 import io.snabble.pay.core.account.GetSpecificAccountUseCase
 import io.snabble.pay.core.domain.model.Account
 import io.snabble.pay.core.domain.model.AccountCheck
+import io.snabble.pay.core.features.MandateSupport
 
-interface SnabblePay {
+interface SnabblePay : MandateSupport {
 
     suspend fun addNewAccount(
         appUri: String,
@@ -21,7 +22,9 @@ interface SnabblePay {
 
 class SnabblePayImpl internal constructor(
     configuration: SnabblePayConfiguration,
-) : SnabblePay {
+    mandateSupport: MandateSupport,
+) : SnabblePay,
+    MandateSupport by mandateSupport {
 
     private val getAccountCheck: CreateAccountCheckUseCase by configuration.koin.inject()
     private val getAllAccounts: GetAllAccountsUseCase by configuration.koin.inject()
@@ -32,10 +35,14 @@ class SnabblePayImpl internal constructor(
         city: String,
         twoLetterIsoCountryCode: String,
     ): Result<AccountCheck> =
-        getAccountCheck(appUri, city, twoLetterIsoCountryCode)
+        getAccountCheck(
+            appUri = appUri,
+            city = city,
+            twoLetterIsoCountryCode = twoLetterIsoCountryCode
+        )
 
     override suspend fun getAccount(id: String): Result<Account> =
-        getSpecificAccount(id)
+        getSpecificAccount(id = id)
 
     override suspend fun getAccounts(): Result<List<Account>> =
         getAllAccounts()

@@ -1,11 +1,11 @@
-package io.snabble.pay.api.service.account.dto
+package io.snabble.pay.account.data.dto
 
 import io.snabble.pay.api.util.ZonedDateTimeAsText
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class AccountDto(
+internal data class AccountDto(
     @SerialName("bank") val bank: String,
     @SerialName("createdAt") val createdAt: ZonedDateTimeAsText,
     @SerialName("currencyCode") val currencyCode: String,
@@ -15,12 +15,3 @@ data class AccountDto(
     @SerialName("mandateState") val mandateState: MandateStateDto,
     @SerialName("name") val name: String,
 )
-
-enum class MandateStateDto {
-
-    @SerialName("ACCEPTED") ACCEPTED,
-
-    @SerialName("DECLINED") DECLINED,
-
-    @SerialName("PENDING") PENDING,
-}

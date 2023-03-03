@@ -1,8 +1,8 @@
-package io.snabble.pay.core.account
+package io.snabble.pay.account.domain.usecase
 
-import io.snabble.pay.core.domain.model.AccountCheck
+import io.snabble.pay.account.domain.model.AccountCheck
 
-internal fun interface CreateAccountCheckUseCase {
+fun interface CreateAccountCheckUseCase {
 
     suspend operator fun invoke(
         appUri: String,

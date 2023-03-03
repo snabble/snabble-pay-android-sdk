@@ -16,19 +16,14 @@ import org.koin.dsl.module
 import retrofit2.Retrofit
 
 val mandateModule = module {
-
     factory { CreateMandateUseCase(get<MandateRepository>()::createMandate) }
-
     factory { GetMandateUseCase(get<MandateRepository>()::getMandate) }
-
     factory { RespondToMandateUseCase(get<MandateRepository>()::respondToMandate) }
 
     singleOf(::MandateRepositoryImpl) bind MandateRepository::class
 
     factoryOf(::MandateMapper)
-
     factoryOf(::MandateResponseMapper)
-
     factoryOf(::MandateStateMapper)
 
     single { get<Retrofit>().create(MandateService::class.java) } bind MandateService::class

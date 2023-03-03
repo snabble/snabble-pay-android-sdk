@@ -1,4 +1,4 @@
-package io.snabble.pay.core.domain.model
+package io.snabble.pay.account.domain.model
 
 data class AccountCheck(
     val validationLink: String,

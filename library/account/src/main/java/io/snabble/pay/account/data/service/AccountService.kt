@@ -1,8 +1,8 @@
-package io.snabble.pay.api.service.account
+package io.snabble.pay.account.data.service
 
+import io.snabble.pay.account.data.dto.AccountCheckDto
+import io.snabble.pay.account.data.dto.AccountDto
 import io.snabble.pay.api.retrofit.ApiResponse
-import io.snabble.pay.api.service.account.dto.AccountCheckDto
-import io.snabble.pay.api.service.account.dto.AccountDto
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -11,7 +11,7 @@ import retrofit2.http.Query
 /**
  * Service for account related interactions of the Snabble Pay API.
  */
-interface AccountService {
+internal interface AccountService {
 
     /**
      * Creates a new account check object with a link to an account check service provider

@@ -1,10 +1,10 @@
-package io.snabble.pay.core.domain.mapper
+package io.snabble.pay.account.data.mapper
 
-import io.snabble.pay.api.service.account.dto.MandateStateDto
+import io.snabble.pay.account.data.dto.MandateStateDto
+import io.snabble.pay.account.domain.model.MandateState
 import io.snabble.pay.api.util.Mapper
-import io.snabble.pay.core.domain.model.MandateState
 
-class MandateStateMapper : Mapper<MandateStateDto, MandateState> {
+internal class MandateStateMapper : Mapper<MandateStateDto, MandateState> {
 
     override fun map(from: MandateStateDto): MandateState = when (from) {
         MandateStateDto.ACCEPTED -> MandateState.ACCEPTED

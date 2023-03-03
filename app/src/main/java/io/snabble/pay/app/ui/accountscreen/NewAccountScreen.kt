@@ -51,7 +51,6 @@ fun NewAccountScreen(
                 modifier = Modifier.fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-
                 NewAccountWidget(
                     modifier = Modifier
                         .padding(top = 32.dp)
@@ -71,7 +70,8 @@ fun NewAccountScreen(
                     Spacer(modifier = Modifier.height(16.dp))
                     InfoText(
                         modifier = Modifier.padding(horizontal = 16.dp),
-                        string = "Ich ermächtige Snabble Pay die Zahlungen von meinem Konto mittels Lastschrift einzuziehen."
+                        string = "Ich ermächtige Snabble Pay die Zahlungen von " +
+                            "meinem Konto mittels Lastschrift einzuziehen."
                     )
                 }
                 Spacer(modifier = Modifier.weight(1f))
@@ -83,12 +83,12 @@ fun NewAccountScreen(
                         containerColor = Color.White,
                         contentColor = MaterialTheme.colorScheme.onPrimary
                     ),
-                    onClick = { }) {
+                    onClick = { }
+                ) {
                     Text(
                         modifier = Modifier.padding(start = 8.dp),
-                        text = "Zustimmen und loslegen",
+                        text = "Zustimmen und loslegen"
                     )
-
                 }
             }
         }
@@ -133,7 +133,7 @@ fun EditTextField(
             backgroundColor = MaterialTheme.colorScheme.background,
             focusedIndicatorColor = Color.Transparent,
             disabledIndicatorColor = Color.Transparent,
-            unfocusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent
         ),
         modifier = Modifier
             .fillMaxWidth()
@@ -173,7 +173,7 @@ fun TableRow(
         Text(
             modifier = Modifier.weight(1f),
             text = descriptor,
-            style = MaterialTheme.typography.bodyMedium,
+            style = MaterialTheme.typography.bodyMedium
         )
         Text(
             modifier = Modifier
@@ -181,9 +181,8 @@ fun TableRow(
                 .padding(start = 8.dp),
             text = value,
             color = Color.Gray,
-            style = MaterialTheme.typography.bodyMedium,
+            style = MaterialTheme.typography.bodyMedium
         )
-
     }
 }
 

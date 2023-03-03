@@ -43,7 +43,7 @@ fun AppBarLayout(
                     )
                 }
             },
-            backgroundColor = MaterialTheme.colorScheme.background,
+            backgroundColor = MaterialTheme.colorScheme.background
         )
         content()
     }

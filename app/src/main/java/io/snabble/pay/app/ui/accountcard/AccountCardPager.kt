@@ -31,20 +31,19 @@ fun AccountCardPager(
 
     Column(
         modifier = Modifier
-            .then(modifier),
+            .then(modifier)
     ) {
         HorizontalPager(
             contentPadding = PaddingValues(horizontal = 24.dp),
             count = sliderList.size,
             itemSpacing = (-14).dp,
             state = pagerState,
-            verticalAlignment = Alignment.CenterVertically,
+            verticalAlignment = Alignment.CenterVertically
         ) { page ->
             AccountCard(
                 accountCard = sliderList[page],
                 modifier = Modifier
                     .graphicsLayer {
-
                         val pageOffset = calculateCurrentOffsetForPage(page).absoluteValue
 
                         lerp(
@@ -70,9 +69,8 @@ fun AccountCardPager(
                 .padding(top = 16.dp),
             pagerState = pagerState,
             activeColor = MaterialTheme.colorScheme.onPrimary,
-            inactiveColor = MaterialTheme.colorScheme.secondary,
+            inactiveColor = MaterialTheme.colorScheme.secondary
         )
-
     }
 }
 

@@ -18,7 +18,7 @@ fun InfoText(
         text = string,
         letterSpacing = 1.5.sp,
         style = MaterialTheme.typography.bodyMedium,
-        textAlign = TextAlign.Center,
+        textAlign = TextAlign.Center
     )
 }
 

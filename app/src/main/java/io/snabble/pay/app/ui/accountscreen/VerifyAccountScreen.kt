@@ -2,7 +2,6 @@ package io.snabble.pay.app.ui.accountscreen
 
 import android.content.Context
 import android.content.Intent
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -51,7 +50,7 @@ fun VerifyAccountScreen(
                     .fillMaxSize()
                     .padding(horizontal = 16.dp)
                     .padding(top = 40.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
                     textAlign = TextAlign.Center,
@@ -93,12 +92,12 @@ fun VerifyAccountScreen(
                     onClick = {
                         start(context)
                         navigator?.navigate(NewAccountScreenDestination)
-                    }) {
+                    }
+                ) {
                     Text(
                         modifier = Modifier.padding(start = 8.dp),
-                        text = stringResource(id = R.string.verify_account),
+                        text = stringResource(id = R.string.verify_account)
                     )
-
                 }
             }
         }

@@ -20,7 +20,7 @@ fun HyperLinkText(
         text = AnnotatedString(
             text = string,
             spanStyle = SpanStyle(
-                color = MaterialTheme.colorScheme.onPrimary,
+                color = MaterialTheme.colorScheme.onPrimary
             )
         ),
         style = MaterialTheme.typography.bodyMedium,

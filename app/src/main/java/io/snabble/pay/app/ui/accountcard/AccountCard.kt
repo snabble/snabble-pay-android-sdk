@@ -30,7 +30,8 @@ fun AccountCard(
             .fillMaxWidth()
             .wrapContentHeight()
             .then(modifier),
-        onClick = { /*TODO*/ }) {
+        onClick = { /*TODO*/ }
+    ) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()

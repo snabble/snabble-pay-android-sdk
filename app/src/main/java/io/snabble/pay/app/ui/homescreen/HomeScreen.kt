@@ -39,7 +39,6 @@ fun HomeScreen(
             modifier = Modifier
                 .fillMaxSize()
         ) {
-
             val (title, subtitle, pager, button) = createRefs()
 
             SnapplePayTitle(
@@ -61,14 +60,16 @@ fun HomeScreen(
                 text = "The Future of Mobile Payment",
                 style = MaterialTheme.typography.bodyLarge,
                 textAlign = TextAlign.Center,
-                fontWeight = FontWeight.Bold,
+                fontWeight = FontWeight.Bold
             )
-            AccountCardPager(modifier = Modifier
-                .constrainAs(pager) {
-                    top.linkTo(subtitle.bottom, margin = 32.dp)
-                    start.linkTo(parent.start)
-                    end.linkTo(parent.end)
-                })
+            AccountCardPager(
+                modifier = Modifier
+                    .constrainAs(pager) {
+                        top.linkTo(subtitle.bottom, margin = 32.dp)
+                        start.linkTo(parent.start)
+                        end.linkTo(parent.end)
+                    }
+            )
             FloatingActionButton(
                 modifier = Modifier
                     .constrainAs(button) {
@@ -84,14 +85,14 @@ fun HomeScreen(
                 shape = CircleShape,
                 onClick = {
                     navigator?.navigate(VerifyAccountScreenDestination)
-                }) {
+                }
+            ) {
                 Icon(
                     tint = MaterialTheme.colorScheme.onPrimary,
                     painter = painterResource(id = drawable.ic_snabble_add),
                     contentDescription = ""
                 )
             }
-
         }
     }
 }

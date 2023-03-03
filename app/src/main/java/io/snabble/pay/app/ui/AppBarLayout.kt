@@ -17,7 +17,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Composable
 fun AppBarLayout(
     title: String,
-    navigator: DestinationsNavigator,
+    navigator: DestinationsNavigator?,
     content: @Composable () -> Unit,
 ) {
     Column {
@@ -34,7 +34,7 @@ fun AppBarLayout(
                 )
             },
             navigationIcon = {
-                IconButton(onClick = { navigator.navigateUp() }) {
+                IconButton(onClick = { navigator?.navigateUp() }) {
                     Icon(
                         tint = MaterialTheme.colorScheme.onPrimary,
                         imageVector = Icons.Filled.ArrowBack,

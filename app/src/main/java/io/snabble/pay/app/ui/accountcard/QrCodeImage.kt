@@ -26,9 +26,12 @@ fun QrCodeImage(
     }
 }
 
-@Preview
+@Preview(
+    showBackground = true
+)
 @Composable
-fun QrCodeImagePreview(){
+fun QrCodeImagePreview() {
     QrCodeImage(
-        qrCodeToken = "https://www.google.com/")
+        qrCodeToken = "https://www.google.com/"
+    )
 }

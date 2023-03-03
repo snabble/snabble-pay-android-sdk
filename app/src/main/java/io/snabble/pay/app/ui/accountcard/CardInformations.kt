@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color.Companion.Black
 import androidx.compose.ui.text.font.FontWeight.Companion.Bold
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 
 @Composable
@@ -51,4 +52,16 @@ fun AccountInformation(
             textAlign = TextAlign.Start
         )
     }
+}
+
+@Preview(
+    showBackground = true
+)
+@Composable
+fun AccountInformationPreview() {
+    AccountInformation(
+        holderName = "Max Mustermann",
+        iban = "DE12 3456 7891 0112 13",
+        bank = "Mustermann Bank"
+    )
 }

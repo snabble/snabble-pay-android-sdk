@@ -72,9 +72,10 @@ fun AccountCard(
     }
 }
 
-@Preview
+@Preview(
+    showBackground = true
+)
 @Composable
-
 fun PreviewAccountCard() {
     AccountCard(
         modifier = Modifier

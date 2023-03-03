@@ -1,6 +1,5 @@
 package io.snabble.pay.app.ui.accountcard
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
@@ -8,7 +7,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -19,6 +17,7 @@ import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.google.accompanist.pager.calculateCurrentOffsetForPage
 import com.google.accompanist.pager.rememberPagerState
 import io.snabble.pay.app.domain.accountCard.AccountCardViewModel
+import io.snabble.pay.app.ui.theme.SnabblePayTheme
 import kotlin.math.absoluteValue
 
 @OptIn(ExperimentalPagerApi::class)
@@ -77,10 +76,14 @@ fun AccountCardPager(
     }
 }
 
-@Preview
+@Preview(
+    showBackground = true
+)
 @Composable
 fun AccountCardPagerPreview() {
-    AccountCardPager(
-        modifier = Modifier.background(Color.White)
-    )
+    SnabblePayTheme {
+        AccountCardPager(
+            modifier = Modifier.padding(top = 16.dp)
+        )
+    }
 }

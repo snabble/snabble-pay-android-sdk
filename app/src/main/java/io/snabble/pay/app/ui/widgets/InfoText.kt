@@ -1,4 +1,4 @@
-package io.snabble.pay.app.ui.accountscreen
+package io.snabble.pay.app.ui.widgets
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text

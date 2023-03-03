@@ -1,10 +1,9 @@
-package io.snabble.pay.app.ui.homescreen
+package io.snabble.pay.app.ui.widgets
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
@@ -23,9 +22,7 @@ import io.snabble.pay.app.R
 @Composable
 fun SnapplePayTitle(modifier: Modifier = Modifier) {
     Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .then(modifier),
+        modifier = modifier,
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center
     ) {
@@ -46,7 +43,6 @@ fun SnapplePayTitle(modifier: Modifier = Modifier) {
             imageVector = ImageVector.vectorResource(id = R.drawable.ic_snabble_logo),
             contentDescription = ""
         )
-
     }
 }
 

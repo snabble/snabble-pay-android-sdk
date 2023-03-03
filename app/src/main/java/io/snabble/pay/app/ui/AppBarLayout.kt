@@ -11,6 +11,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -18,6 +19,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Composable
 fun AppBarLayout(
     title: String,
+    icon: ImageVector = Icons.Filled.ArrowBack,
     navigator: DestinationsNavigator?,
     content: @Composable () -> Unit,
 ) {
@@ -38,7 +40,7 @@ fun AppBarLayout(
                 IconButton(onClick = { navigator?.navigateUp() }) {
                     Icon(
                         tint = MaterialTheme.colorScheme.onPrimary,
-                        imageVector = Icons.Filled.ArrowBack,
+                        imageVector = icon,
                         contentDescription = "Back"
                     )
                 }

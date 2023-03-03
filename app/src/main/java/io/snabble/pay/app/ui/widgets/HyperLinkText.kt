@@ -1,4 +1,4 @@
-package io.snabble.pay.app.ui.accountscreen
+package io.snabble.pay.app.ui.widgets
 
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material3.MaterialTheme
@@ -34,6 +34,7 @@ fun HyperLinkText(
 @Composable
 fun HyperLinkTextPreview() {
     SnabblePayTheme {
-        HyperLinkText(string = "Demo Link") {}
+        HyperLinkText(
+            string = "Demo Link") {}
     }
 }

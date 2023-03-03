@@ -1,4 +1,4 @@
-package io.snabble.pay.app.ui.accountcard
+package io.snabble.pay.app.ui.widgets.accountcard
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -16,6 +16,7 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.google.accompanist.pager.calculateCurrentOffsetForPage
 import com.google.accompanist.pager.rememberPagerState
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import io.snabble.pay.app.domain.accountCard.AccountCardViewModel
 import io.snabble.pay.app.ui.theme.SnabblePayTheme
 import kotlin.math.absoluteValue
@@ -24,6 +25,7 @@ import kotlin.math.absoluteValue
 @Composable
 fun AccountCardPager(
     modifier: Modifier = Modifier,
+    navigator: DestinationsNavigator?,
     viewModel: AccountCardViewModel = AccountCardViewModel(),
 ) {
     val pagerState = rememberPagerState(initialPage = 0)
@@ -60,7 +62,8 @@ fun AccountCardPager(
                             stop = 1f,
                             fraction = 1f - pageOffset.coerceIn(0f, 1f)
                         )
-                    }
+                    },
+                navigator = navigator
             )
         }
         HorizontalPagerIndicator(
@@ -81,7 +84,8 @@ fun AccountCardPager(
 fun AccountCardPagerPreview() {
     SnabblePayTheme {
         AccountCardPager(
-            modifier = Modifier.padding(top = 16.dp)
+            modifier = Modifier.padding(top = 16.dp),
+            navigator = null
         )
     }
 }

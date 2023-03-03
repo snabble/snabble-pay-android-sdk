@@ -1,4 +1,4 @@
-package io.snabble.pay.app.ui.accountcard
+package io.snabble.pay.app.ui.widgets.accountcard
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,16 +13,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun AccountInformation(
+fun CardInformation(
     modifier: Modifier = Modifier,
     holderName: String,
     iban: String,
     bank: String,
 ) {
     Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .then(modifier)
+        modifier = modifier
     ) {
         Text(
             modifier = Modifier.fillMaxWidth(),
@@ -59,7 +57,7 @@ fun AccountInformation(
 )
 @Composable
 fun AccountInformationPreview() {
-    AccountInformation(
+    CardInformation(
         holderName = "Max Mustermann",
         iban = "DE12 3456 7891 0112 13",
         bank = "Mustermann Bank"

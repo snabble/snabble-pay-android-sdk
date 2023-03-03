@@ -1,8 +1,10 @@
-package io.snabble.pay.app.ui.homescreen
+package io.snabble.pay.app.ui.screens.homescreen
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -11,7 +13,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -20,9 +21,9 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-import io.snabble.pay.app.R.drawable
-import io.snabble.pay.app.ui.accountcard.AccountCardPager
-import io.snabble.pay.app.ui.destinations.VerifyAccountScreenDestination
+import io.snabble.pay.app.ui.widgets.accountcard.AccountCardPager
+import io.snabble.pay.app.ui.widgets.SnapplePayTitle
+import io.snabble.pay.app.ui.screens.destinations.VerifyAccountScreenDestination
 import io.snabble.pay.app.ui.theme.SnabblePayTheme
 
 @RootNavGraph(start = true)
@@ -68,7 +69,8 @@ fun HomeScreen(
                         top.linkTo(subtitle.bottom, margin = 32.dp)
                         start.linkTo(parent.start)
                         end.linkTo(parent.end)
-                    }
+                    },
+                navigator = navigator
             )
             FloatingActionButton(
                 modifier = Modifier
@@ -89,7 +91,7 @@ fun HomeScreen(
             ) {
                 Icon(
                     tint = MaterialTheme.colorScheme.onPrimary,
-                    painter = painterResource(id = drawable.ic_snabble_add),
+                    imageVector = Icons.Filled.Add,
                     contentDescription = ""
                 )
             }

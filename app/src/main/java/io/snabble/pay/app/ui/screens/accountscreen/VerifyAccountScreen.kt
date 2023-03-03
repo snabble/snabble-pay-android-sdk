@@ -1,4 +1,4 @@
-package io.snabble.pay.app.ui.accountscreen
+package io.snabble.pay.app.ui.screens.accountscreen
 
 import android.content.Context
 import android.content.Intent
@@ -27,8 +27,10 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import io.snabble.pay.app.R
 import io.snabble.pay.app.ui.AppBarLayout
-import io.snabble.pay.app.ui.destinations.NewAccountScreenDestination
+import io.snabble.pay.app.ui.screens.destinations.NewAccountScreenDestination
 import io.snabble.pay.app.ui.theme.SnabblePayTheme
+import io.snabble.pay.app.ui.widgets.HyperLinkText
+import io.snabble.pay.app.ui.widgets.InfoText
 
 @Destination
 @Composable

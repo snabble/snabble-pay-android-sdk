@@ -1,4 +1,4 @@
-package io.snabble.pay.app.ui.accountcard
+package io.snabble.pay.app.ui.widgets.accountcard
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Spacer

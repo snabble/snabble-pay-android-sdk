@@ -10,7 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import com.google.zxing.client.android.BuildConfig
 import com.ramcosta.composedestinations.DestinationsNavHost
 import dagger.hilt.android.AndroidEntryPoint
-import io.snabble.pay.app.ui.NavGraphs
+import io.snabble.pay.app.ui.screens.NavGraphs
 import io.snabble.pay.app.ui.theme.SnabblePayTheme
 import io.snabble.pay.core.dsl.snabblePay
 import kotlinx.coroutines.launch

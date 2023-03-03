@@ -2,7 +2,6 @@ package io.snabble.pay.app.ui
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -14,7 +13,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 @Composable
@@ -28,10 +26,10 @@ fun AppBarLayout(
             title = {
                 Text(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = 8.dp),
+                        .fillMaxWidth(),
+                    color = MaterialTheme.colorScheme.onSurface,
                     text = title,
-                    style = MaterialTheme.typography.bodyLarge,
+                    style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
                     textAlign = TextAlign.Start
                 )
@@ -44,8 +42,8 @@ fun AppBarLayout(
                         contentDescription = "Back"
                     )
                 }
-            }
-
+            },
+            backgroundColor = MaterialTheme.colorScheme.background,
         )
         content()
     }

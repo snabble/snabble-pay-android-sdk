@@ -2,6 +2,7 @@ package io.snabble.pay.app.ui.accountscreen
 
 import android.content.Context
 import android.content.Intent
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -27,6 +28,7 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import io.snabble.pay.app.R
 import io.snabble.pay.app.ui.AppBarLayout
+import io.snabble.pay.app.ui.destinations.NewAccountScreenDestination
 import io.snabble.pay.app.ui.theme.SnabblePayTheme
 
 @Destination
@@ -88,7 +90,10 @@ fun VerifyAccountScreen(
                         containerColor = Color.White,
                         contentColor = MaterialTheme.colorScheme.onPrimary
                     ),
-                    onClick = { start(context) }) {
+                    onClick = {
+                        start(context)
+                        navigator?.navigate(NewAccountScreenDestination)
+                    }) {
                     Text(
                         modifier = Modifier.padding(start = 8.dp),
                         text = stringResource(id = R.string.verify_account),

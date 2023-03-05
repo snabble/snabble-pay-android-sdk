@@ -2,10 +2,7 @@ package io.snabble.pay.app.ui.screens.accountscreen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -34,6 +31,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.constraintlayout.compose.ConstraintLayout
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import io.snabble.pay.app.R
@@ -60,107 +58,134 @@ fun DetailsAccountScreen(
                 .fillMaxSize(),
             color = MaterialTheme.colorScheme.background
         ) {
-            Box(modifier = Modifier.fillMaxSize()) {
-                Column(
+
+            ConstraintLayout(modifier = Modifier.fillMaxSize()) {
+                val (backgroundOne, backgroundTwo) = createRefs()
+                val (edit, div, card, mandate, button) = createRefs()
+
+                Image(
                     modifier = Modifier
-                        .align(Alignment.BottomCenter)
-                ) {
-                    Image(
-                        modifier = Modifier.fillMaxWidth(),
-                        contentScale = ContentScale.FillWidth,
-                        imageVector = ImageVector.vectorResource(id = R.drawable.ic_snabble_ellipse),
-                        contentDescription = ""
-                    )
-                    Image(
-                        modifier = Modifier.fillMaxWidth(),
-                        contentScale = ContentScale.FillWidth,
-                        imageVector = ImageVector.vectorResource(id = R.drawable.ic_snabble_background),
-                        contentDescription = ""
-                    )
-                }
-                Column(
+                        .fillMaxWidth()
+                        .constrainAs(backgroundOne) {
+                            top.linkTo(card.bottom)
+                            start.linkTo(parent.start)
+                            end.linkTo(parent.end)
+                            bottom.linkTo(backgroundTwo.top)
+                        },
+                    contentScale = ContentScale.FillWidth,
+                    imageVector = ImageVector.vectorResource(id = R.drawable.ic_snabble_ellipse),
+                    contentDescription = ""
+                )
+                Image(
                     modifier = Modifier
-                        .fillMaxSize()
-                        .padding(top = 40.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
+                        .fillMaxWidth()
+                        .constrainAs(backgroundTwo) {
+                            top.linkTo(backgroundOne.bottom)
+                            start.linkTo(parent.start)
+                            end.linkTo(parent.end)
+                            bottom.linkTo(parent.bottom)
+                        },
+                    contentScale = ContentScale.FillWidth,
+                    imageVector = ImageVector.vectorResource(id = R.drawable.ic_snabble_background),
+                    contentDescription = ""
+                )
+                EditTextField(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp)
+                        .constrainAs(edit) {
+                            top.linkTo(parent.top, margin = 40.dp)
+                            start.linkTo(parent.start)
+                            end.linkTo(parent.end)
+
+                        },
+                    placeholder = "Mein Bankkonto",
+                    value = "",
+                    onValueChange = {}
+                )
+                Divider(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp)
+                        .constrainAs(div) {
+                            top.linkTo(edit.bottom)
+                            linkTo(parent.start, parent.end)
+                        }
+                )
+                AccountCard(
+                    modifier = Modifier
+                        .padding(horizontal = 16.dp)
+                        .padding(top = 16.dp)
+                        .constrainAs(card) {
+                            top.linkTo(div.bottom)
+                            linkTo(parent.start, parent.end)
+
+                        },
+                    accountCard = accountCardModel,
+                    onClick = {}
+                )
+                ElevatedCard(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 16.dp)
+                        .padding(horizontal = 16.dp)
+                        .constrainAs(mandate) {
+                            top.linkTo(card.bottom)
+                            linkTo(parent.start, parent.end)
+                        },
+                    colors = CardDefaults.cardColors(
+                        containerColor = Color.White
+                    )
                 ) {
-                    EditTextField(
+                    Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = 16.dp),
-                        placeholder = "Mein Bankkonto",
-                        value = "",
-                        onValueChange = {}
-                    )
-                    Divider(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 16.dp)
-                    )
-                    AccountCard(
-                        modifier = Modifier
-                            .padding(horizontal = 16.dp)
-                            .padding(top = 16.dp),
-                        accountCard = accountCardModel,
-                        onClick = {}
-                    )
-                    ElevatedCard(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(top = 16.dp)
-                            .padding(horizontal = 16.dp),
-                        colors = CardDefaults.cardColors(
-                            containerColor = Color.White
-                        )
+                            .defaultMinSize(minHeight = 60.dp),
+                        horizontalArrangement = Arrangement.Center,
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .defaultMinSize(minHeight = 60.dp),
-                            horizontalArrangement = Arrangement.Center,
-                            verticalAlignment = Alignment.CenterVertically
+                        Surface(
+                            modifier = Modifier.defaultMinSize(
+                                minWidth = 40.dp,
+                                minHeight = 40.dp
+                            ),
+                            shape = CircleShape,
+                            color = colorResource(id = R.color.gray)
                         ) {
-                            Surface(
-                                modifier = Modifier.defaultMinSize(
-                                    minWidth = 40.dp,
-                                    minHeight = 40.dp
-                                ),
-                                shape = CircleShape,
-                                color = colorResource(id = R.color.gray)
-                            ) {
-                                Icon(
-                                    modifier = Modifier.padding(8.dp),
-                                    imageVector = Icons.Filled.Check,
-                                    contentDescription = ""
-                                )
-                            }
-                            Text(
-                                modifier = Modifier.padding(start = 8.dp),
-                                text = "Sepa Mandat erteilt"
+                            Icon(
+                                modifier = Modifier.padding(8.dp),
+                                imageVector = Icons.Filled.Check,
+                                contentDescription = ""
                             )
                         }
-                    }
-                    Spacer(modifier = Modifier.weight(1f))
-                    TextButton(
-                        modifier = Modifier
-                            .padding(bottom = 32.dp)
-                            .height(40.dp),
-                        colors = ButtonDefaults.elevatedButtonColors(
-                            containerColor = colorResource(id = R.color.gray),
-                            contentColor = MaterialTheme.colorScheme.onPrimary
-                        ),
-                        onClick = {
-                        }
-                    ) {
-                        Icon(
-                            imageVector = ImageVector.vectorResource(id = R.drawable.ic_snabble_delete),
-                            contentDescription = ""
-                        )
                         Text(
                             modifier = Modifier.padding(start = 8.dp),
-                            text = "Bankverbindung löschen"
+                            text = "Sepa Mandat erteilt"
                         )
                     }
+                }
+                TextButton(
+                    modifier = Modifier
+                        .height(40.dp)
+                        .constrainAs(button) {
+                            linkTo(mandate.bottom, parent.bottom, bottomMargin = 32.dp, bias = 1.0f)
+                            linkTo(parent.start, parent.end)
+                        },
+                    colors = ButtonDefaults.elevatedButtonColors(
+                        containerColor = colorResource(id = R.color.gray),
+                        contentColor = MaterialTheme.colorScheme.onPrimary
+                    ),
+                    onClick = {
+                    }
+                ) {
+                    Icon(
+                        imageVector = ImageVector.vectorResource(id = R.drawable.ic_snabble_delete),
+                        contentDescription = ""
+                    )
+                    Text(
+                        modifier = Modifier.padding(start = 8.dp),
+                        text = "Bankverbindung löschen"
+                    )
                 }
             }
         }

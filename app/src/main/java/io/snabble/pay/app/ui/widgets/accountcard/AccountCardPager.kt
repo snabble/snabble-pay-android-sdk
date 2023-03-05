@@ -16,8 +16,8 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.google.accompanist.pager.calculateCurrentOffsetForPage
 import com.google.accompanist.pager.rememberPagerState
-import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-import io.snabble.pay.app.domain.accountCard.AccountCardViewModel
+import io.snabble.pay.app.domain.accountCard.AccountCardModel
+import io.snabble.pay.app.domain.accountCard.utils.GradiantGenerator
 import io.snabble.pay.app.ui.theme.SnabblePayTheme
 import kotlin.math.absoluteValue
 
@@ -25,11 +25,10 @@ import kotlin.math.absoluteValue
 @Composable
 fun AccountCardPager(
     modifier: Modifier = Modifier,
-    navigator: DestinationsNavigator?,
-    viewModel: AccountCardViewModel = AccountCardViewModel(),
+    accountList: List<AccountCardModel>,
+    onClick: (AccountCardModel) -> Unit
 ) {
     val pagerState = rememberPagerState(initialPage = 0)
-    val sliderList = viewModel.accountCardList
 
     Column(
         modifier = Modifier
@@ -37,13 +36,13 @@ fun AccountCardPager(
     ) {
         HorizontalPager(
             contentPadding = PaddingValues(horizontal = 24.dp),
-            count = sliderList.size,
+            count = accountList.size,
             itemSpacing = (-14).dp,
             state = pagerState,
             verticalAlignment = Alignment.CenterVertically
         ) { page ->
             AccountCard(
-                accountCard = sliderList[page],
+                accountCard = accountList[page],
                 modifier = Modifier
                     .graphicsLayer {
                         val pageOffset = calculateCurrentOffsetForPage(page).absoluteValue
@@ -63,7 +62,7 @@ fun AccountCardPager(
                             fraction = 1f - pageOffset.coerceIn(0f, 1f)
                         )
                     },
-                navigator = navigator
+                onClick = { onClick(it) }
             )
         }
         HorizontalPagerIndicator(
@@ -85,7 +84,32 @@ fun AccountCardPagerPreview() {
     SnabblePayTheme {
         AccountCardPager(
             modifier = Modifier.padding(top = 16.dp),
-            navigator = null
+            accountList = previewList,
+            onClick = {}
         )
     }
 }
+
+private val previewList = listOf(
+    AccountCardModel(
+        cardBackgroundColor = GradiantGenerator().createGradiantBackground(),
+        qrCodeToken = "test",
+        holderName = "Petra MusterMann",
+        iban = "DE91 1000 0000 0123 4567 89",
+        bank = "Deutsche Bank"
+    ),
+    AccountCardModel(
+        cardBackgroundColor = GradiantGenerator().createGradiantBackground(),
+        qrCodeToken = "test",
+        holderName = "Muster Mann",
+        iban = "DE 1234 1234 1234 1234",
+        bank = "Deutsche Bank"
+    ),
+    AccountCardModel(
+        cardBackgroundColor = GradiantGenerator().createGradiantBackground(),
+        qrCodeToken = "test",
+        holderName = "Muster Mann",
+        iban = "DE 1234 1234 1234 1234",
+        bank = "Deutsche Bank"
+    )
+)

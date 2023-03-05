@@ -1,6 +1,5 @@
 package io.snabble.pay.app.domain.accountCard.utils
 
-import androidx.compose.ui.graphics.Color
 import kotlin.random.Random
 
 class GradiantGenerator {
@@ -37,13 +36,12 @@ class GradiantGenerator {
         "#53bbb4"
     )
 
-    fun createGradiantBackground(): List<Color> {
+    fun createGradiantBackground(): List<String> {
         val random = Random.nextInt(0, mColors.lastIndex)
         val colorOne = mColors[random]
         val colorTwo = mColors2[random]
         return listOf(
-            Color(android.graphics.Color.parseColor(colorOne)),
-            Color(android.graphics.Color.parseColor(colorTwo))
+            colorOne, colorTwo
         )
     }
 }

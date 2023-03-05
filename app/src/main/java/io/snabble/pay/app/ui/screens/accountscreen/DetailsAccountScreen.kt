@@ -29,6 +29,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -47,13 +48,7 @@ import io.snabble.pay.app.ui.widgets.accountcard.AccountCard
 @Composable
 fun DetailsAccountScreen(
     navigator: DestinationsNavigator?,
-    accountCardModel: AccountCardModel = AccountCardModel(
-        cardBackgroundColor = GradiantGenerator().createGradiantBackground(),
-        qrCodeToken = "https://www.google.com/",
-        holderName = "Muster Mann",
-        iban = "DE 1234 1234 1234 1234",
-        bank = "Deutsche Bank"
-    ),
+    accountCardModel: AccountCardModel
 ) {
     AppBarLayout(
         title = "",
@@ -71,10 +66,14 @@ fun DetailsAccountScreen(
                         .align(Alignment.BottomCenter)
                 ) {
                     Image(
+                        modifier = Modifier.fillMaxWidth(),
+                        contentScale = ContentScale.FillWidth,
                         imageVector = ImageVector.vectorResource(id = R.drawable.ic_snabble_ellipse),
                         contentDescription = ""
                     )
                     Image(
+                        modifier = Modifier.fillMaxWidth(),
+                        contentScale = ContentScale.FillWidth,
                         imageVector = ImageVector.vectorResource(id = R.drawable.ic_snabble_background),
                         contentDescription = ""
                     )
@@ -103,7 +102,7 @@ fun DetailsAccountScreen(
                             .padding(horizontal = 16.dp)
                             .padding(top = 16.dp),
                         accountCard = accountCardModel,
-                        navigator = navigator
+                        onClick = {}
                     )
                     ElevatedCard(
                         modifier = Modifier

@@ -4,6 +4,7 @@
     id(libs.plugins.android.application.get().pluginId)
     id(libs.plugins.kotlin.android.get().pluginId)
     id(libs.plugins.kotlin.kapt.get().pluginId)
+    alias(libs.plugins.kotlin.serialization)
     id("com.google.devtools.ksp") version "1.8.0-1.0.9"
     id("de.mannodermaus.android-junit5")
     id("com.google.dagger.hilt.android")
@@ -86,7 +87,9 @@ dependencies {
 
     // DI
     implementation(libs.dagger.hilt.android)
+    implementation ("androidx.hilt:hilt-navigation-compose:1.1.0-alpha01")
     kapt(libs.dagger.hilt.android.compiler)
+    implementation(libs.kotlin.serialization)
 
     testImplementation(libs.bundles.testing)
     androidTestImplementation(libs.bundles.testing.android)

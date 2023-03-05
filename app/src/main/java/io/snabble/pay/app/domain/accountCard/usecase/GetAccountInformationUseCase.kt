@@ -34,7 +34,6 @@ class GetAccountInformationUseCaseImpl : GetAccountInformationUseCase {
                 iban = "DE 1234 1234 1234 1234",
                 bank = "Deutsche Bank"
             )
-
         )
     }
 }

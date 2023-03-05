@@ -11,6 +11,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -18,20 +19,26 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-import io.snabble.pay.app.ui.widgets.accountcard.AccountCardPager
-import io.snabble.pay.app.ui.widgets.SnapplePayTitle
+import io.snabble.pay.app.domain.accountCard.AccountCardViewModel
+import io.snabble.pay.app.ui.screens.destinations.DetailsAccountScreenDestination
 import io.snabble.pay.app.ui.screens.destinations.VerifyAccountScreenDestination
 import io.snabble.pay.app.ui.theme.SnabblePayTheme
+import io.snabble.pay.app.ui.widgets.SnapplePayTitle
+import io.snabble.pay.app.ui.widgets.accountcard.AccountCardPager
 
 @RootNavGraph(start = true)
 @Destination
 @Composable
 fun HomeScreen(
     navigator: DestinationsNavigator?,
+    accountCardViewModel: AccountCardViewModel = hiltViewModel()
 ) {
+
+    val accountList = accountCardViewModel.accountCardList.collectAsState()
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
@@ -70,8 +77,8 @@ fun HomeScreen(
                         start.linkTo(parent.start)
                         end.linkTo(parent.end)
                     },
-                navigator = navigator
-            )
+                accountList = accountList.value
+            ) { navigator?.navigate(DetailsAccountScreenDestination(it)) }
             FloatingActionButton(
                 modifier = Modifier
                     .constrainAs(button) {
@@ -106,6 +113,9 @@ fun HomeScreen(
 @Composable
 fun HomeScreenPreview() {
     SnabblePayTheme {
-        HomeScreen(navigator = null)
+        HomeScreen(
+            navigator = null,
+            accountCardViewModel = AccountCardViewModel()
+        )
     }
 }

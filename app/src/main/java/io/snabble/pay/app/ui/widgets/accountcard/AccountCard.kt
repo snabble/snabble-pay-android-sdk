@@ -17,17 +17,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
-import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import io.snabble.pay.app.domain.accountCard.AccountCardModel
 import io.snabble.pay.app.domain.accountCard.utils.GradiantGenerator
-import io.snabble.pay.app.ui.screens.destinations.DetailsAccountScreenDestination
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AccountCard(
     modifier: Modifier = Modifier,
-    navigator: DestinationsNavigator?,
-    accountCard: AccountCardModel
+    accountCard: AccountCardModel,
+    onClick: (AccountCardModel) -> Unit
 ) {
     ElevatedCard(
         elevation = CardDefaults.cardElevation(
@@ -37,14 +35,14 @@ fun AccountCard(
             .fillMaxWidth()
             .wrapContentHeight()
             .then(modifier),
-        onClick = { navigator?.navigate(DetailsAccountScreenDestination)}
+        onClick = { onClick(accountCard) }
     ) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .background(
                     brush = Brush.horizontalGradient(
-                        colors = accountCard.cardBackgroundColor
+                        colors = accountCard.cardBackgroundColor.toColorList()
                     )
                 )
         ) {
@@ -92,7 +90,6 @@ fun AccountCard(
 @Composable
 fun PreviewAccountCard() {
     AccountCard(
-        navigator = null,
         modifier = Modifier
             .padding(horizontal = 32.dp),
         accountCard = AccountCardModel(
@@ -101,6 +98,10 @@ fun PreviewAccountCard() {
             holderName = "Muster Mann",
             iban = "DE 1234 1234 1234 1234",
             bank = "Deutsche Bank"
-        )
+        ),
+        onClick = {}
     )
 }
+
+fun List<String>.toColorList() =
+    map { Color(android.graphics.Color.parseColor(it)) }

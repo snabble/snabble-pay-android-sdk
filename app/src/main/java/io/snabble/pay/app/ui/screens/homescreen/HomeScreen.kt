@@ -35,9 +35,8 @@ import io.snabble.pay.app.ui.widgets.accountcard.AccountCardPager
 @Composable
 fun HomeScreen(
     navigator: DestinationsNavigator?,
-    homeViewModel: HomeViewModel = hiltViewModel()
+    homeViewModel: HomeViewModel = hiltViewModel(),
 ) {
-
     val accountList = homeViewModel.accountCardList.collectAsState()
     val sessionToken = homeViewModel.sessionToken.collectAsState()
     Surface(

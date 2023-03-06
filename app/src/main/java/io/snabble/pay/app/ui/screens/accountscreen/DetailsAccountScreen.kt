@@ -46,7 +46,7 @@ import io.snabble.pay.app.ui.widgets.accountcard.AccountCard
 @Composable
 fun DetailsAccountScreen(
     navigator: DestinationsNavigator?,
-    accountCardModel: AccountCardModel
+    accountCardModel: AccountCardModel,
 ) {
     AppBarLayout(
         title = "",
@@ -58,7 +58,6 @@ fun DetailsAccountScreen(
                 .fillMaxSize(),
             color = MaterialTheme.colorScheme.background
         ) {
-
             ConstraintLayout(modifier = Modifier.fillMaxSize()) {
                 val (backgroundOne, backgroundTwo) = createRefs()
                 val (edit, div, card, mandate, button) = createRefs()
@@ -97,7 +96,6 @@ fun DetailsAccountScreen(
                             top.linkTo(parent.top, margin = 40.dp)
                             start.linkTo(parent.start)
                             end.linkTo(parent.end)
-
                         },
                     placeholder = "Mein Bankkonto",
                     value = "",
@@ -119,7 +117,6 @@ fun DetailsAccountScreen(
                         .constrainAs(card) {
                             top.linkTo(div.bottom)
                             linkTo(parent.start, parent.end)
-
                         },
                     accountCard = accountCardModel,
                     onClick = {},

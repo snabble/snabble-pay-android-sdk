@@ -18,7 +18,7 @@ fun EditTextField(
     modifier: Modifier = Modifier,
     placeholder: String,
     value: String = "",
-    onValueChange: (String) -> Unit
+    onValueChange: (String) -> Unit,
 ) {
     TextField(
         modifier = modifier,

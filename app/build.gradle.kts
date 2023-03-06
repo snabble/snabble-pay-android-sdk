@@ -87,7 +87,7 @@ dependencies {
 
     // DI
     implementation(libs.dagger.hilt.android)
-    implementation ("androidx.hilt:hilt-navigation-compose:1.1.0-alpha01")
+    implementation("androidx.hilt:hilt-navigation-compose:1.1.0-alpha01")
     kapt(libs.dagger.hilt.android.compiler)
     implementation(libs.kotlin.serialization)
 

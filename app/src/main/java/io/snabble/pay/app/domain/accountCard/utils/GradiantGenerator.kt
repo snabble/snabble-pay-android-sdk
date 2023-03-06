@@ -41,7 +41,8 @@ class GradiantGenerator {
         val colorOne = mColors[random]
         val colorTwo = mColors2[random]
         return listOf(
-            colorOne, colorTwo
+            colorOne,
+            colorTwo
         )
     }
 }

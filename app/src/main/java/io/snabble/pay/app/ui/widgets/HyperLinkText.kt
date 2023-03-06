@@ -35,6 +35,7 @@ fun HyperLinkText(
 fun HyperLinkTextPreview() {
     SnabblePayTheme {
         HyperLinkText(
-            string = "Demo Link") {}
+            string = "Demo Link"
+        ) {}
     }
 }

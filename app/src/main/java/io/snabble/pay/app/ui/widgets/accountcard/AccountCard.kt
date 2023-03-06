@@ -26,7 +26,7 @@ fun AccountCard(
     modifier: Modifier = Modifier,
     accountCard: AccountCardModel,
     qrCodeString: String?,
-    onClick: (AccountCardModel) -> Unit
+    onClick: (AccountCardModel) -> Unit,
 ) {
     ElevatedCard(
         elevation = CardDefaults.cardElevation(

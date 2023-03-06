@@ -5,7 +5,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class SessionModel(
     val token: String,
-    val validUntil: String
-
-) {
-}
+    val validUntil: String,
+)

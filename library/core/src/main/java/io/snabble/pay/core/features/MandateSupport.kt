@@ -10,7 +10,7 @@ interface MandateSupport {
 
     suspend fun createMandate(accountId: String): Result<Mandate>
 
-    suspend fun getMandate(accountId: String): Result<Mandate>
+    suspend fun getMandate(accountId: String): Result<Mandate?>
 
     suspend fun acceptMandate(accountId: String, mandateId: String): Result<Mandate>
 
@@ -26,7 +26,7 @@ class MandateSupportImpl(
     override suspend fun createMandate(accountId: String): Result<Mandate> =
         requestMandate(accountId = accountId)
 
-    override suspend fun getMandate(accountId: String): Result<Mandate> =
+    override suspend fun getMandate(accountId: String): Result<Mandate?> =
         getMandateState(accountId = accountId)
 
     override suspend fun acceptMandate(accountId: String, mandateId: String): Result<Mandate> =

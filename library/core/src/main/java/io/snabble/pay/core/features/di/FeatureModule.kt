@@ -4,6 +4,7 @@ import io.snabble.pay.core.features.AccountSupport
 import io.snabble.pay.core.features.AccountSupportImpl
 import io.snabble.pay.core.features.MandateSupport
 import io.snabble.pay.core.features.MandateSupportImpl
+import io.snabble.pay.core.features.SessionSupportImpl
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
 import org.koin.dsl.module
@@ -11,4 +12,5 @@ import org.koin.dsl.module
 val featureModule = module {
     singleOf(::AccountSupportImpl) bind AccountSupport::class
     singleOf(::MandateSupportImpl) bind MandateSupport::class
+    singleOf(::SessionSupportImpl) bind SessionSupportImpl::class
 }

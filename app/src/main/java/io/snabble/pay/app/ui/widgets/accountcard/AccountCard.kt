@@ -25,6 +25,7 @@ import io.snabble.pay.app.domain.accountCard.utils.GradiantGenerator
 fun AccountCard(
     modifier: Modifier = Modifier,
     accountCard: AccountCardModel,
+    qrCodeString: String?,
     onClick: (AccountCardModel) -> Unit
 ) {
     ElevatedCard(
@@ -56,15 +57,15 @@ fun AccountCard(
 
                 QrCodeImage(
                     modifier = Modifier
-                        .widthIn(max = 130.dp)
-                        .heightIn(max = 130.dp)
+                        .widthIn(max = 130.dp, min = 130.dp)
+                        .heightIn(max = 130.dp, min = 130.dp)
                         .padding(top = 16.dp, bottom = 16.dp)
                         .constrainAs(qrCode) {
                             end.linkTo(parent.end)
                             top.linkTo(parent.top)
                             start.linkTo(parent.start)
                         },
-                    qrCodeToken = accountCard.qrCodeToken
+                    qrCodeToken = qrCodeString
                 )
 
                 CardInformation(
@@ -96,10 +97,12 @@ fun PreviewAccountCard() {
             cardBackgroundColor = GradiantGenerator().createGradiantBackground(),
             qrCodeToken = "https://www.google.com/",
             holderName = "Muster Mann",
+            accountId = 1,
             iban = "DE 1234 1234 1234 1234",
             bank = "Deutsche Bank"
         ),
-        onClick = {}
+        onClick = {},
+        qrCodeString = "https://www.google.com/"
     )
 }
 

@@ -4,9 +4,10 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class AccountCardModel(
-    val cardBackgroundColor: List<String>,
-    val qrCodeToken: String?,
+    val accountId: Int,
     val holderName: String,
     val iban: String,
     val bank: String,
+    val cardBackgroundColor: List<String>,
+    val qrCodeToken: String?,
 )

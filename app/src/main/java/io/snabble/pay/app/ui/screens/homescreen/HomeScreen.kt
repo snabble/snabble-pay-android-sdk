@@ -23,7 +23,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-import io.snabble.pay.app.domain.accountCard.AccountCardViewModel
+import io.snabble.pay.app.domain.home.HomeViewModel
 import io.snabble.pay.app.ui.screens.destinations.DetailsAccountScreenDestination
 import io.snabble.pay.app.ui.screens.destinations.VerifyAccountScreenDestination
 import io.snabble.pay.app.ui.theme.SnabblePayTheme
@@ -35,10 +35,11 @@ import io.snabble.pay.app.ui.widgets.accountcard.AccountCardPager
 @Composable
 fun HomeScreen(
     navigator: DestinationsNavigator?,
-    accountCardViewModel: AccountCardViewModel = hiltViewModel()
+    homeViewModel: HomeViewModel = hiltViewModel()
 ) {
 
-    val accountList = accountCardViewModel.accountCardList.collectAsState()
+    val accountList = homeViewModel.accountCardList.collectAsState()
+    val sessionToken = homeViewModel.sessionToken.collectAsState()
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
@@ -77,7 +78,9 @@ fun HomeScreen(
                         start.linkTo(parent.start)
                         end.linkTo(parent.end)
                     },
-                accountList = accountList.value
+                accountList = accountList.value,
+                onCurrentPage = { homeViewModel.getSessionToken(it) },
+                sessionToken = sessionToken.value
             ) { navigator?.navigate(DetailsAccountScreenDestination(it)) }
             FloatingActionButton(
                 modifier = Modifier
@@ -115,7 +118,7 @@ fun HomeScreenPreview() {
     SnabblePayTheme {
         HomeScreen(
             navigator = null,
-            accountCardViewModel = AccountCardViewModel()
+            homeViewModel = HomeViewModel()
         )
     }
 }

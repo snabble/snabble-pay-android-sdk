@@ -1,5 +1,6 @@
 package io.snabble.pay.app.ui.widgets.accountcard
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
@@ -26,7 +27,9 @@ import kotlin.math.absoluteValue
 fun AccountCardPager(
     modifier: Modifier = Modifier,
     accountList: List<AccountCardModel>,
-    onClick: (AccountCardModel) -> Unit
+    onCurrentPage: (Int) -> Unit,
+    sessionToken: String?,
+    onClick: (AccountCardModel) -> Unit,
 ) {
     val pagerState = rememberPagerState(initialPage = 0)
 
@@ -41,6 +44,11 @@ fun AccountCardPager(
             state = pagerState,
             verticalAlignment = Alignment.CenterVertically
         ) { page ->
+            if (!pagerState.isScrollInProgress && page == pagerState.currentPage) {
+                onCurrentPage(accountList[pagerState.currentPage].accountId)
+                Log.d("xx", "AccountCardPager: ")
+            }
+
             AccountCard(
                 accountCard = accountList[page],
                 modifier = Modifier
@@ -62,7 +70,8 @@ fun AccountCardPager(
                             fraction = 1f - pageOffset.coerceIn(0f, 1f)
                         )
                     },
-                onClick = { onClick(it) }
+                onClick = { onClick(it) },
+                qrCodeString = if (page == pagerState.currentPage) sessionToken else null
             )
         }
         HorizontalPagerIndicator(
@@ -85,7 +94,9 @@ fun AccountCardPagerPreview() {
         AccountCardPager(
             modifier = Modifier.padding(top = 16.dp),
             accountList = previewList,
-            onClick = {}
+            onClick = {},
+            onCurrentPage = {},
+            sessionToken = "Demo"
         )
     }
 }
@@ -95,6 +106,7 @@ private val previewList = listOf(
         cardBackgroundColor = GradiantGenerator().createGradiantBackground(),
         qrCodeToken = "test",
         holderName = "Petra MusterMann",
+        accountId = 1,
         iban = "DE91 1000 0000 0123 4567 89",
         bank = "Deutsche Bank"
     ),
@@ -102,6 +114,7 @@ private val previewList = listOf(
         cardBackgroundColor = GradiantGenerator().createGradiantBackground(),
         qrCodeToken = "test",
         holderName = "Muster Mann",
+        accountId = 2,
         iban = "DE 1234 1234 1234 1234",
         bank = "Deutsche Bank"
     ),
@@ -109,6 +122,7 @@ private val previewList = listOf(
         cardBackgroundColor = GradiantGenerator().createGradiantBackground(),
         qrCodeToken = "test",
         holderName = "Muster Mann",
+        accountId = 3,
         iban = "DE 1234 1234 1234 1234",
         bank = "Deutsche Bank"
     )

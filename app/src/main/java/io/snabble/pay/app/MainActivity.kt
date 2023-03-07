@@ -36,13 +36,16 @@ class MainActivity : ComponentActivity() {
         }
 
         lifecycleScope.launch {
-            if (intent.data == null && snabblePay.getAccounts().getOrNull()?.isEmpty() == true) {
+            if (intent.data == null && snabblePay.getAccounts().getOrDefault(emptyList())
+                    .isEmpty()
+            ) {
                 // https://console.tink.com/demobank
                 val result = snabblePay.addNewAccount(
                     appUri = "snabble-pay://account/check",
                     city = "Berlin",
                     twoLetterIsoCountryCode = "DE"
                 )
+                Log.d("xx", "onCreate: $result")
                 if (result.isSuccess) {
                     startActivity(
                         Intent(
@@ -52,18 +55,7 @@ class MainActivity : ComponentActivity() {
                     )
                 }
             }
-            Log.d(
-                "xx",
-                "Accounts: ${
-                    snabblePay.getAccounts()
-                        .getOrNull()
-                        ?.map { it.id }
-                        ?.firstOrNull()
-                        ?.let {
-                            snabblePay.getMandate(it)
-                        }
-                }"
-            )
+
         }
     }
 }

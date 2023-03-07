@@ -20,6 +20,10 @@ class AccountRepositoryImpl @Inject constructor(
         return localDataSource.getAllAccounts()
     }
 
+    override suspend fun updateAccountName(id: String, name: String) {
+        localDataSource.updateAccountName(id, name)
+    }
+
     override suspend fun saveAccounts(): List<AccountCard> {
         TODO("Not yet implemented")
     }

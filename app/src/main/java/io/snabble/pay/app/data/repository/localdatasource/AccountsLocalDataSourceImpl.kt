@@ -24,4 +24,7 @@ class AccountsLocalDataSourceImpl @Inject constructor(
 
     override suspend fun deleteAllAccounts() =
         accountDao.clearAccounts()
+
+    override suspend fun updateAccountName(id: String, name: String) =
+        accountDao.updateAccountName(id, name)
 }

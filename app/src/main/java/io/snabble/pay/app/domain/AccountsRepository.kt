@@ -6,5 +6,7 @@ interface AccountsRepository {
 
     suspend fun getAccounts(): List<AccountCard>
 
+    suspend fun updateAccountName(id: String, name: String)
+
     suspend fun saveAccounts(): List<AccountCard>
 }

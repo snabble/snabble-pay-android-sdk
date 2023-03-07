@@ -24,4 +24,7 @@ interface AccountDao {
 
     @Delete
     suspend fun deleteAccount(account: AccountCard)
+
+    @Query("UPDATE accountcard SET name = :name WHERE id LIKE:id")
+    suspend fun updateAccountName(id: String, name: String)
 }

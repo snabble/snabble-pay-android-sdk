@@ -97,7 +97,7 @@ fun PreviewAccountCard() {
             cardBackgroundColor = GradiantGenerator().createGradiantBackground(),
             qrCodeToken = "https://www.google.com/",
             holderName = "Muster Mann",
-            accountId = 1,
+            accountId = "1",
             iban = "DE 1234 1234 1234 1234",
             bank = "Deutsche Bank"
         ),

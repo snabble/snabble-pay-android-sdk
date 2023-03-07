@@ -200,7 +200,7 @@ fun DetailsAccountScreenPreview() {
                 cardBackgroundColor = GradiantGenerator().createGradiantBackground(),
                 qrCodeToken = "test",
                 holderName = "Petra MusterMann",
-                accountId = 1,
+                accountId = "1",
                 iban = "DE91 1000 0000 0123 4567 89",
                 bank = "Deutsche Bank"
             )

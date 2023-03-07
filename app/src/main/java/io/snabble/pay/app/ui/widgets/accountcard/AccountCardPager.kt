@@ -106,7 +106,7 @@ private val previewList = listOf(
         cardBackgroundColor = GradiantGenerator().createGradiantBackground(),
         qrCodeToken = "test",
         holderName = "Petra MusterMann",
-        accountId = 1,
+        accountId = "1",
         iban = "DE91 1000 0000 0123 4567 89",
         bank = "Deutsche Bank"
     ),
@@ -114,7 +114,7 @@ private val previewList = listOf(
         cardBackgroundColor = GradiantGenerator().createGradiantBackground(),
         qrCodeToken = "test",
         holderName = "Muster Mann",
-        accountId = 2,
+        accountId = "2",
         iban = "DE 1234 1234 1234 1234",
         bank = "Deutsche Bank"
     ),
@@ -122,7 +122,7 @@ private val previewList = listOf(
         cardBackgroundColor = GradiantGenerator().createGradiantBackground(),
         qrCodeToken = "test",
         holderName = "Muster Mann",
-        accountId = 3,
+        accountId = "3",
         iban = "DE 1234 1234 1234 1234",
         bank = "Deutsche Bank"
     )

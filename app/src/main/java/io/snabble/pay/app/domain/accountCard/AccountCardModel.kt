@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class AccountCardModel(
-    val accountId: Int,
+    val accountId: String,
     val holderName: String,
     val iban: String,
     val bank: String,

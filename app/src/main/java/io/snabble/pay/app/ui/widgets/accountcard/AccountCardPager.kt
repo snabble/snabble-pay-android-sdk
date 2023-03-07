@@ -1,11 +1,12 @@
 package io.snabble.pay.app.ui.widgets.accountcard
 
-import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
@@ -27,11 +28,18 @@ import kotlin.math.absoluteValue
 fun AccountCardPager(
     modifier: Modifier = Modifier,
     accountList: List<AccountCardModel>,
-    onCurrentPage: (Int) -> Unit,
-    sessionToken: String?,
+    onCurrentPage: (String) -> Unit,
     onClick: (AccountCardModel) -> Unit,
 ) {
     val pagerState = rememberPagerState(initialPage = 0)
+
+    LaunchedEffect(pagerState) {
+        snapshotFlow { pagerState.currentPage }.collect { page ->
+            if (page >= 0) {
+                onCurrentPage(accountList[page].accountId)
+            }
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -44,11 +52,6 @@ fun AccountCardPager(
             state = pagerState,
             verticalAlignment = Alignment.CenterVertically
         ) { page ->
-            if (!pagerState.isScrollInProgress && page == pagerState.currentPage) {
-                onCurrentPage(accountList[pagerState.currentPage].accountId)
-                Log.d("xx", "AccountCardPager: ")
-            }
-
             AccountCard(
                 accountCard = accountList[page],
                 modifier = Modifier
@@ -71,7 +74,7 @@ fun AccountCardPager(
                         )
                     },
                 onClick = { onClick(it) },
-                qrCodeString = if (page == pagerState.currentPage) sessionToken else null
+                qrCodeString = if (page == pagerState.currentPage) accountList[page].qrCodeToken else null
             )
         }
         HorizontalPagerIndicator(
@@ -96,7 +99,6 @@ fun AccountCardPagerPreview() {
             accountList = previewList,
             onClick = {},
             onCurrentPage = {},
-            sessionToken = "Demo"
         )
     }
 }

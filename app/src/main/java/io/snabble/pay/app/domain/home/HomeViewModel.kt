@@ -22,9 +22,17 @@ class HomeViewModel @Inject constructor() : ViewModel() {
         MutableStateFlow(null)
     val sessionToken = _sessionToken.asStateFlow()
 
-    fun getSessionToken(accountId: Int) {
+    fun getSessionToken(accountId: String) {
         viewModelScope.launch {
-            _sessionToken.tryEmit(GetSessionTokenUseCaseImpl().invoke(accountId))
+            val accounts = _accountCardList.first().map { accMod ->
+                if (accMod.accountId == accountId) {
+                    accMod.copy(qrCodeToken = getSession(accountId))
+                } else {
+                    accMod
+                }
+            }
+            _accountCardList.tryEmit(accounts)
+
         }
     }
 }

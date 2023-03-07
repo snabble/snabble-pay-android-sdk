@@ -38,7 +38,6 @@ fun HomeScreen(
     homeViewModel: HomeViewModel = hiltViewModel(),
 ) {
     val accountList = homeViewModel.accountCardList.collectAsState()
-    val sessionToken = homeViewModel.sessionToken.collectAsState()
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
@@ -79,7 +78,6 @@ fun HomeScreen(
                     },
                 accountList = accountList.value,
                 onCurrentPage = { homeViewModel.getSessionToken(it) },
-                sessionToken = sessionToken.value
             ) { navigator?.navigate(DetailsAccountScreenDestination(it)) }
             FloatingActionButton(
                 modifier = Modifier
@@ -117,7 +115,7 @@ fun HomeScreenPreview() {
     SnabblePayTheme {
         HomeScreen(
             navigator = null,
-            homeViewModel = HomeViewModel()
+            homeViewModel = hiltViewModel()
         )
     }
 }

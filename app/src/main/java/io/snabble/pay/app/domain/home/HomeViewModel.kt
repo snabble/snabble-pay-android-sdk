@@ -3,19 +3,23 @@ package io.snabble.pay.app.domain.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.snabble.pay.app.domain.home.usecase.GetAccountsUseCaseImpl
-import io.snabble.pay.app.domain.home.usecase.GetSessionTokenUseCaseImpl
+import io.snabble.pay.app.domain.home.usecase.GetAccountsUseCase
+import io.snabble.pay.app.domain.home.usecase.GetSessionTokenUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor() : ViewModel() {
+class HomeViewModel @Inject constructor(
+    private val getAccounts: GetAccountsUseCase,
+    private val getSession: GetSessionTokenUseCase
+) : ViewModel() {
 
     private val _accountCardList =
-        MutableStateFlow(runBlocking { GetAccountsUseCaseImpl().invoke() })
+        MutableStateFlow(runBlocking { getAccounts() })
     val accountCardList = _accountCardList.asStateFlow()
 
     private val _sessionToken: MutableStateFlow<String?> =

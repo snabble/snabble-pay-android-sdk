@@ -27,7 +27,6 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import io.snabble.pay.app.R
 import io.snabble.pay.app.ui.AppBarLayout
-import io.snabble.pay.app.ui.screens.destinations.NewAccountScreenDestination
 import io.snabble.pay.app.ui.theme.SnabblePayTheme
 import io.snabble.pay.app.ui.widgets.HyperLinkText
 import io.snabble.pay.app.ui.widgets.InfoText
@@ -92,8 +91,7 @@ fun VerifyAccountScreen(
                         contentColor = MaterialTheme.colorScheme.onPrimary
                     ),
                     onClick = {
-                        start(context)
-                        navigator?.navigate(NewAccountScreenDestination)
+                        context.startTinkFlow()
                     }
                 ) {
                     Text(
@@ -117,9 +115,9 @@ fun VerifyAccountScreenPreview() {
     }
 }
 
-fun start(context: Context) {
+fun Context.startTinkFlow() {
     val view = Intent()
     view.action = Intent.ACTION_VIEW
     view.data = android.net.Uri.parse("https://www.google.com/")
-    startActivity(context, view, null)
+    startActivity(this, view, null)
 }

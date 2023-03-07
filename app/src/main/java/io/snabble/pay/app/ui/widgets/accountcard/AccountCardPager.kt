@@ -110,6 +110,7 @@ private val previewList = listOf(
         holderName = "Petra MusterMann",
         accountId = "1",
         iban = "DE91 1000 0000 0123 4567 89",
+        name = "Mein Konto",
         bank = "Deutsche Bank"
     ),
     AccountCardModel(
@@ -117,12 +118,14 @@ private val previewList = listOf(
         qrCodeToken = "test",
         holderName = "Muster Mann",
         accountId = "2",
+        name = "Mein Konto",
         iban = "DE 1234 1234 1234 1234",
         bank = "Deutsche Bank"
     ),
     AccountCardModel(
         cardBackgroundColor = GradiantGenerator().createGradiantBackground(),
         qrCodeToken = "test",
+        name = "Mein Konto",
         holderName = "Muster Mann",
         accountId = "3",
         iban = "DE 1234 1234 1234 1234",

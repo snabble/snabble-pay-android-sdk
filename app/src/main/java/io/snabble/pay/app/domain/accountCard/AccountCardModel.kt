@@ -8,6 +8,7 @@ data class AccountCardModel(
     val holderName: String,
     val iban: String,
     val bank: String,
+    val name: String,
     val cardBackgroundColor: List<String>,
     val qrCodeToken: String?,
 )

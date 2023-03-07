@@ -99,7 +99,8 @@ fun PreviewAccountCard() {
             holderName = "Muster Mann",
             accountId = "1",
             iban = "DE 1234 1234 1234 1234",
-            bank = "Deutsche Bank"
+            bank = "Deutsche Bank",
+            name = "Mein Konto"
         ),
         onClick = {},
         qrCodeString = "https://www.google.com/"

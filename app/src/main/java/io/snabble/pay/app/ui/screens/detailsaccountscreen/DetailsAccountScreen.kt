@@ -97,7 +97,7 @@ fun DetailsAccountScreen(
                             start.linkTo(parent.start)
                             end.linkTo(parent.end)
                         },
-                    placeholder = "Mein Bankkonto",
+                    placeholder = accountCardModel.name,
                     value = "",
                     onValueChange = {}
                 )
@@ -201,6 +201,7 @@ fun DetailsAccountScreenPreview() {
                 qrCodeToken = "test",
                 holderName = "Petra MusterMann",
                 accountId = "1",
+                name = "Mein Konto",
                 iban = "DE91 1000 0000 0123 4567 89",
                 bank = "Deutsche Bank"
             )

@@ -25,6 +25,7 @@ class GetAccountsUseCaseImpl @Inject constructor(
                 holderName = it.holderName,
                 iban = it.iban,
                 bank = it.bank,
+                name = it.name,
                 cardBackgroundColor = GradiantGenerator().createGradiantBackground(),
                 qrCodeToken = null
             )

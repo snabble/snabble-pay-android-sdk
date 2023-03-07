@@ -10,16 +10,13 @@ import io.snabble.pay.app.domain.home.usecase.GetSessionTokenUseCase
 import io.snabble.pay.app.domain.home.usecase.GetSessionTokenUseCaseImpl
 
 @InstallIn(SingletonComponent::class)
-@Module
-abstract class UseCaseModule {
+@Module interface UseCaseModule {
 
-    @Binds
-    abstract fun bindGetAccountsUseCase(
+    @Binds fun bindGetAccountsUseCase(
         source: GetAccountsUseCaseImpl,
     ): GetAccountsUseCase
 
-    @Binds
-    abstract fun bingGetSessionTokenUseCase(
+    @Binds fun bingGetSessionTokenUseCase(
         source: GetSessionTokenUseCaseImpl,
     ): GetSessionTokenUseCase
 }

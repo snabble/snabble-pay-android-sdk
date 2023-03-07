@@ -5,7 +5,7 @@
     id(libs.plugins.kotlin.android.get().pluginId)
     id(libs.plugins.kotlin.kapt.get().pluginId)
     alias(libs.plugins.kotlin.serialization)
-    id("com.google.devtools.ksp") version "1.8.0-1.0.9"
+    id("com.google.devtools.ksp") version "1.8.10-1.0.9"
     id("de.mannodermaus.android-junit5")
     id("com.google.dagger.hilt.android")
 }
@@ -109,7 +109,6 @@ dependencies {
 
     kapt("androidx.room:room-compiler:$room_version")
     implementation("androidx.room:room-ktx:$room_version")
-
 }
 
 android.applicationVariants.all {

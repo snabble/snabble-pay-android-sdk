@@ -98,7 +98,7 @@ fun AccountCardPagerPreview() {
             modifier = Modifier.padding(top = 16.dp),
             accountList = previewList,
             onClick = {},
-            onCurrentPage = {},
+            onCurrentPage = {}
         )
     }
 }

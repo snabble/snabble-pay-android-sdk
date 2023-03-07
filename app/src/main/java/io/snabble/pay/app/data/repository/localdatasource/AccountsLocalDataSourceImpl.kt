@@ -5,10 +5,10 @@ import io.snabble.pay.app.data.entity.AccountCard
 import javax.inject.Inject
 
 class AccountsLocalDataSourceImpl @Inject constructor(
-    private val db: AccountsDatabase
+    private val db: AccountsDatabase,
 ) : AccountsLocalDataSource {
 
-    val accountDao = db.accountDao()
+    private val accountDao = db.accountDao()
 
     override suspend fun getAllAccounts(): List<AccountCard> =
         accountDao.getAllAccounts()

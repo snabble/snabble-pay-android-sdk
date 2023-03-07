@@ -15,7 +15,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val getAccounts: GetAccountsUseCase,
-    private val getSession: GetSessionTokenUseCase
+    private val getSession: GetSessionTokenUseCase,
 ) : ViewModel() {
 
     private val _accountCardList =
@@ -36,7 +36,6 @@ class HomeViewModel @Inject constructor(
                 }
             }
             _accountCardList.tryEmit(accounts)
-
         }
     }
 }

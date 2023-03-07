@@ -6,7 +6,7 @@ import io.snabble.pay.core.SnabblePay
 import javax.inject.Inject
 
 class RemoteDataSourceImpl @Inject constructor(
-    private val snabblePay: SnabblePay
+    private val snabblePay: SnabblePay,
 ) : RemoteDataSource {
 
     override suspend fun getAllAccounts(): Result<List<Account>> =

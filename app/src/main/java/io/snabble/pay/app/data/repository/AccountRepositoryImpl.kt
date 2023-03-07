@@ -9,8 +9,7 @@ import javax.inject.Inject
 
 class AccountRepositoryImpl @Inject constructor(
     private val localDataSource: AccountsLocalDataSource,
-    private val remoteDataSource: RemoteDataSource
-
+    private val remoteDataSource: RemoteDataSource,
 ) : AccountsRepository {
 
     override suspend fun getAccounts(): List<AccountCard> {

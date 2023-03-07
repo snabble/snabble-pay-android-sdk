@@ -7,7 +7,7 @@ interface GetSessionTokenUseCase {
     suspend operator fun invoke(id: String): String
 }
 
-class GetSessionTokenUseCaseImpl @Inject constructor(): GetSessionTokenUseCase  {
+class GetSessionTokenUseCaseImpl @Inject constructor() : GetSessionTokenUseCase {
 
     override suspend fun invoke(id: String): String {
         return "TODO"

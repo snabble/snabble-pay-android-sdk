@@ -14,4 +14,3 @@ interface AccountsLocalDataSource {
 
     suspend fun deleteAllAccounts()
 }
-

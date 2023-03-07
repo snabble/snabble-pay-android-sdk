@@ -1,4 +1,4 @@
-package io.snabble.pay.app.ui.screens.accountscreen
+package io.snabble.pay.app.ui.screens.detailsaccountscreen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement

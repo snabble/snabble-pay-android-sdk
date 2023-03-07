@@ -35,7 +35,7 @@ fun AccountCardPager(
 
     LaunchedEffect(pagerState) {
         snapshotFlow { pagerState.currentPage }.collect { page ->
-            if (page >= 0) {
+            if (accountList.isNotEmpty()) {
                 onCurrentPage(accountList[page].accountId)
             }
         }

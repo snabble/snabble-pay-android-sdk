@@ -21,7 +21,7 @@ data class AccountCard(
     @ColumnInfo(name = "name") val name: String,
 )
 
-object LocalDateTimeConverter {
+object ZonedDateTimeConverter {
 
     @RequiresApi(Build.VERSION_CODES.O)
     @TypeConverter fun toDate(dateString: String?): ZonedDateTime? {

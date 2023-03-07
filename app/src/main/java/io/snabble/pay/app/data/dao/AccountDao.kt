@@ -16,7 +16,7 @@ interface AccountDao {
     @Query("SELECT * FROM accountcard WHERE id LIKE:id")
     suspend fun getAccountById(id: String): AccountCard
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.ABORT)
     suspend fun insertAllAccounts(accounts: List<AccountCard>)
 
     @Query("DELETE FROM accountcard")

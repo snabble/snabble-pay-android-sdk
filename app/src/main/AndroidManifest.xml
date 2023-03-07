@@ -35,6 +35,9 @@
                     android:scheme="snabble-pay" />
             </intent-filter>
         </activity>
+        <meta-data
+            android:name="payment.snabble.key"
+            android:value="IO2wX69CsqZUQ3HshOnRkO4y5Gy/kRar6Fnvkp94piA2ivUun7TC7MjukrgUKlu7g8W8/enVsPDT7Kvq28ycw==" />
     </application>
 
 </manifest>

@@ -36,7 +36,8 @@ fun HomeScreen(
     navigator: DestinationsNavigator?,
     homeViewModel: HomeViewModel = hiltViewModel(),
 ) {
-    val accountList = homeViewModel.accountCardList.collectAsState()
+    val uiState = homeViewModel.uiState.collectAsState()
+
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
@@ -68,16 +69,21 @@ fun HomeScreen(
                 textAlign = TextAlign.Center,
                 fontWeight = FontWeight.Bold
             )
-            AccountCardPager(
-                modifier = Modifier
-                    .constrainAs(pager) {
-                        top.linkTo(subtitle.bottom, margin = 32.dp)
-                        start.linkTo(parent.start)
-                        end.linkTo(parent.end)
-                    },
-                accountList = accountList.value,
-                onCurrentPage = { homeViewModel.getSessionToken(it) }
-            ) { navigator?.navigate(DetailsAccountScreenDestination(it)) }
+            when(val it = uiState.value){
+                Loading -> {}
+                is ShowCards -> {
+                    AccountCardPager(
+                        modifier = Modifier
+                            .constrainAs(pager) {
+                                top.linkTo(subtitle.bottom, margin = 32.dp)
+                                start.linkTo(parent.start)
+                                end.linkTo(parent.end)
+                            },
+                        accountList = it.list,
+                        onCurrentPage = { homeViewModel.getSessionToken(it) }
+                    ) { navigator?.navigate(DetailsAccountScreenDestination(it)) }
+                }
+            }
             FloatingActionButton(
                 modifier = Modifier
                     .constrainAs(button) {

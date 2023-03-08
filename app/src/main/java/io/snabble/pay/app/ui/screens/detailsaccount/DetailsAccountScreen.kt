@@ -53,9 +53,8 @@ import io.snabble.pay.app.ui.widgets.accountcard.AccountCard
 fun DetailsAccountScreen(
     navigator: DestinationsNavigator?,
     detailsAccountViewModel: DetailsAccountViewModel = hiltViewModel(),
-    accountCardModel: AccountCardModel
+    accountCardModel: AccountCardModel,
 ) {
-
     val state = detailsAccountViewModel.uiState.collectAsState()
 
     var cardName by rememberSaveable { mutableStateOf("") }
@@ -143,7 +142,6 @@ fun DetailsAccountScreen(
                         AccountCard(
                             modifier = Modifier
                                 .padding(horizontal = 16.dp)
-
                                 .padding(top = 16.dp)
                                 .constrainAs(card) {
                                     top.linkTo(div.bottom)

@@ -13,15 +13,14 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DetailsAccountViewModel @Inject constructor(
-    private val repository: AccountsRepository
+    private val repository: AccountsRepository,
 ) : ViewModel() {
 
     private var _uiState = MutableStateFlow<UiState>(Loading(""))
     val uiState = _uiState.asStateFlow()
 
-    fun getAccount(id:String){
+    fun getAccount(id: String) {
         viewModelScope.launch {
-//            _accountCard.tryEmit(repository.getAccount(id).toAccountCardModel())
             _uiState.tryEmit(ShowAccount(repository.getAccount(id).toAccountCardModel()))
         }
     }
@@ -36,5 +35,4 @@ class DetailsAccountViewModel @Inject constructor(
 
 sealed interface UiState
 data class Loading(val name: String) : UiState
-data class ShowAccount(val accountCardModel: AccountCardModel): UiState
-
+data class ShowAccount(val accountCardModel: AccountCardModel) : UiState

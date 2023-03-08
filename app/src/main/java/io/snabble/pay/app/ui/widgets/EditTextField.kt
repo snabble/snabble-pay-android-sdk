@@ -27,7 +27,7 @@ fun EditTextField(
     placeholder: String,
     value: String = "",
     onValueChange: (String) -> Unit,
-    onAction: () -> Unit
+    onAction: () -> Unit,
 ) {
     val focusRequester = remember { FocusRequester() }
     val focusManager = LocalFocusManager.current

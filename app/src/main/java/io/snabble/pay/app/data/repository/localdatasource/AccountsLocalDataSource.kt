@@ -14,5 +14,5 @@ interface AccountsLocalDataSource {
 
     suspend fun deleteAllAccounts()
 
-    suspend fun updateAccountName (id: String, name: String)
+    suspend fun updateAccountName(id: String, name: String)
 }

@@ -6,7 +6,4 @@ import javax.inject.Inject
 
 @HiltViewModel
 class NewAccountViewModel @Inject constructor(
-) : ViewModel() {
-
-
-}
+) : ViewModel()

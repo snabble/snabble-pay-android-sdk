@@ -76,7 +76,7 @@ fun HomeScreen(
                         end.linkTo(parent.end)
                     },
                 accountList = accountList.value,
-                onCurrentPage = { homeViewModel.getSessionToken(it) },
+                onCurrentPage = { homeViewModel.getSessionToken(it) }
             ) { navigator?.navigate(DetailsAccountScreenDestination(it)) }
             FloatingActionButton(
                 modifier = Modifier

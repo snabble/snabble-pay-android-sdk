@@ -6,7 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.tooling.preview.Preview
-import io.snabble.pay.app.domain.accountCard.utils.QrCodeGenerator
+import io.snabble.pay.app.domain.account.utils.QrCodeGenerator
 
 @Composable
 fun QrCodeImage(

@@ -1,8 +1,8 @@
-package io.snabble.pay.app.domain.usecase
+package io.snabble.pay.app.domain.account.usecase
 
 import io.snabble.pay.app.data.entity.AccountCard
-import io.snabble.pay.app.domain.AccountsRepository
-import io.snabble.pay.app.domain.accountCard.AccountCardModel
+import io.snabble.pay.app.domain.account.AccountRepository
+import io.snabble.pay.app.domain.account.AccountCardModel
 import javax.inject.Inject
 
 interface GetAccountsUseCase {
@@ -11,11 +11,11 @@ interface GetAccountsUseCase {
 }
 
 class GetAccountsUseCaseImpl @Inject constructor(
-    private val accountsRepository: AccountsRepository,
+    private val accountRepository: AccountRepository,
 ) : GetAccountsUseCase {
 
     override suspend fun invoke(): List<AccountCardModel> =
-        accountsRepository.getAccounts().toAccountModel()
+        accountRepository.getAccounts().toAccountModel()
 
     private fun List<AccountCard>.toAccountModel() =
         map {

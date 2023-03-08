@@ -1,8 +1,8 @@
-package io.snabble.pay.app.domain
+package io.snabble.pay.app.domain.account
 
 import io.snabble.pay.app.data.entity.AccountCard
 
-interface AccountsRepository {
+interface AccountRepository {
 
     suspend fun getAccounts(): List<AccountCard>
 

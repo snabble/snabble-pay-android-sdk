@@ -17,8 +17,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
-import io.snabble.pay.app.domain.accountCard.AccountCardModel
-import io.snabble.pay.app.domain.accountCard.utils.GradiantGenerator
+import io.snabble.pay.app.domain.account.AccountCardModel
+import io.snabble.pay.app.domain.account.utils.GradiantGenerator
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

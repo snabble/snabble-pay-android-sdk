@@ -9,7 +9,7 @@ import io.snabble.pay.app.data.repository.account.localdatasource.AccountLocalDa
 import io.snabble.pay.app.data.repository.account.localdatasource.AccountLocalDataSourceImpl
 import io.snabble.pay.app.data.repository.account.remotedatasource.AccountRemoteDataSource
 import io.snabble.pay.app.data.repository.account.remotedatasource.AccountRemoteDataSourceImpl
-import io.snabble.pay.app.domain.AccountsRepository
+import io.snabble.pay.app.domain.account.AccountRepository
 
 @InstallIn(SingletonComponent::class)
 @Module interface AccountRepositoryModule {
@@ -24,5 +24,5 @@ import io.snabble.pay.app.domain.AccountsRepository
 
     @Binds fun bindAccountRepository(
         source: AccountRepositoryImpl,
-    ): AccountsRepository
+    ): AccountRepository
 }

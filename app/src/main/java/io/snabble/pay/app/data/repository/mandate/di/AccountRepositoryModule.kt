@@ -7,7 +7,7 @@ import dagger.hilt.components.SingletonComponent
 import io.snabble.pay.app.data.repository.mandate.MandateRepositoryImpl
 import io.snabble.pay.app.data.repository.mandate.remotedatasource.MandateRemoteDataSource
 import io.snabble.pay.app.data.repository.mandate.remotedatasource.MandateRemoteDataSourceImpl
-import io.snabble.pay.app.domain.MandateRepository
+import io.snabble.pay.app.domain.mandate.MandateRepository
 
 @InstallIn(SingletonComponent::class)
 @Module interface MandateRepositoryModule {

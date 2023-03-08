@@ -1,4 +1,4 @@
-package io.snabble.pay.app.domain.accountCard.utils
+package io.snabble.pay.app.domain.account.utils
 
 import kotlin.random.Random
 

@@ -20,54 +20,46 @@ internal class MandateMapperTest : FreeSpec({
         clearAllMocks()
     }
 
-    "MandateMapperTest should correctly map the" - {
+    "MandateMapper should correctly map the" - {
 
         "htmlText" {
-            val mandateDto = MandateDto(
-                htmlText = "Hello World!",
-                id = "",
-                state = mockk()
-            )
+            val mandateDto = mockk<MandateDto>(relaxed = true) {
+                every { htmlText } returns "Hello World!"
+            }
+
             val sut = createSut()
 
-            sut.map(mandateDto).htmlText shouldBe "Hello World!"
+            sut.map(from = mandateDto).htmlText shouldBe "Hello World!"
         }
 
         "null htmlText" {
-            val mandateDto = MandateDto(
-                htmlText = null,
-                id = "",
-                state = mockk()
-            )
+            val mandateDto = mockk<MandateDto>(relaxed = true) {
+                every { htmlText } returns null
+            }
+
             val sut = createSut()
 
-            sut.map(mandateDto).htmlText.shouldBeNull()
+            sut.map(from = mandateDto).htmlText.shouldBeNull()
         }
 
         "id" {
-            val mandateDto = MandateDto(
-                htmlText = "",
-                id = "Qwerty123",
-                state = mockk()
-            )
+            val mandateDto = mockk<MandateDto>(relaxed = true) {
+                every { id } returns "Qwerty123"
+            }
+
             val sut = createSut()
 
-            sut.map(mandateDto).id shouldBe "Qwerty123"
+            sut.map(from = mandateDto).id shouldBe "Qwerty123"
         }
 
         "state" {
-            val mandateDto = MandateDto(
-                htmlText = "",
-                id = "",
-                state = mockk()
-            )
             val mandateStateMock = mockk<MandateState>()
-            every { mandateStateMapper.map(any()) } returns mandateStateMock
+            every { mandateStateMapper.map(from = any()) } returns mandateStateMock
 
             val sut = createSut()
-            val mandate = sut.map(mandateDto)
+            val mandate = sut.map(from = mockk(relaxed = true))
 
-            verify(exactly = 1) { mandateStateMapper.map(any()) }
+            verify(exactly = 1) { mandateStateMapper.map(from = any()) }
             mandate.state shouldBe mandateStateMock
         }
     }

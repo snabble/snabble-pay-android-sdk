@@ -70,7 +70,7 @@ fun DetailsAccountScreen(
     AppBarLayout(
         title = "",
         icon = Icons.Filled.Clear,
-        navigator = navigator
+        onBackClick = { navigator?.navigateUp() }
     ) {
         Surface(
             modifier = Modifier

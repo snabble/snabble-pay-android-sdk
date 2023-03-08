@@ -14,13 +14,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 @Composable
 fun AppBarLayout(
     title: String,
     icon: ImageVector = Icons.Filled.ArrowBack,
-    navigator: DestinationsNavigator?,
+    onBackClick: () -> Unit,
     content: @Composable () -> Unit,
 ) {
     Column {
@@ -37,7 +36,7 @@ fun AppBarLayout(
                 )
             },
             navigationIcon = {
-                IconButton(onClick = { navigator?.navigateUp() }) {
+                IconButton(onClick = { onBackClick() }) {
                     Icon(
                         tint = MaterialTheme.colorScheme.onPrimary,
                         imageVector = icon,

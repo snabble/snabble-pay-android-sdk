@@ -49,7 +49,7 @@ fun VerifyAccountScreen(
 
     AppBarLayout(
         title = "Bankverbindung hinzufügen",
-        navigator = navigator
+        onBackClick = { navigator?.navigateUp() }
     ) {
         Surface(
             modifier = Modifier

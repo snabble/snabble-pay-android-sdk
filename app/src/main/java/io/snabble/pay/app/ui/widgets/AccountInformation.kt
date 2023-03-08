@@ -12,17 +12,20 @@ import io.snabble.pay.app.ui.theme.SnabblePayTheme
 @Composable
 fun AccountInformation(
     modifier: Modifier = Modifier,
+    holderName: String,
+    iban: String,
+    bank: String,
 ) {
     Column(
         modifier = modifier
     ) {
         Column(modifier = Modifier.padding(horizontal = 16.dp)) {
             Divider()
-            TableRow(descriptor = "KontoInhaber", value = "Peter Mustermann")
+            TableRow(descriptor = "KontoInhaber", value = holderName)
             Divider()
-            TableRow(descriptor = "IBAN", value = "DE12 3456 7891 0111 2131 41")
+            TableRow(descriptor = "IBAN", value = iban)
             Divider()
-            TableRow(descriptor = "Bank", value = "Muster Bank")
+            TableRow(descriptor = "Bank", value = bank)
         }
     }
 }
@@ -33,6 +36,10 @@ fun AccountInformation(
 @Composable
 fun NewAccountWidgetPreview() {
     SnabblePayTheme {
-        AccountInformation()
+        AccountInformation(
+            holderName = "Max Mustermann",
+            iban = "DE12 1234 1234 1234 1234 12",
+            bank = "Muster Bank"
+        )
     }
 }

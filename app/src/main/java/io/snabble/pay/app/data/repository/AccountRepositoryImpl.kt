@@ -5,6 +5,7 @@ import io.snabble.pay.app.data.entity.AccountCard
 import io.snabble.pay.app.data.repository.localdatasource.AccountsLocalDataSource
 import io.snabble.pay.app.data.repository.remotedatasource.RemoteDataSource
 import io.snabble.pay.app.domain.AccountsRepository
+import io.snabble.pay.app.domain.accountCard.utils.GradiantGenerator
 import javax.inject.Inject
 
 class AccountRepositoryImpl @Inject constructor(
@@ -19,6 +20,9 @@ class AccountRepositoryImpl @Inject constructor(
         }
         return localDataSource.getAllAccounts()
     }
+
+    override suspend fun getAccount(id: String): AccountCard =
+        localDataSource.getAccountById(id)
 
     override suspend fun updateAccountName(id: String, name: String) {
         localDataSource.updateAccountName(id, name)
@@ -38,7 +42,8 @@ class AccountRepositoryImpl @Inject constructor(
                 name = it.name,
                 currencyCode = it.currencyCode,
                 createdAt = it.createdAt,
-                mandateState = it.mandateState
+                mandateState = it.mandateState,
+                colors = GradiantGenerator().createGradiantBackground()
             )
         }
 }

@@ -1,4 +1,4 @@
-package io.snabble.pay.app.ui.screens.detailsaccountscreen
+package io.snabble.pay.app.ui.screens.detailsaccount
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -22,6 +22,11 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -32,6 +37,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import io.snabble.pay.app.R
@@ -46,8 +52,22 @@ import io.snabble.pay.app.ui.widgets.accountcard.AccountCard
 @Composable
 fun DetailsAccountScreen(
     navigator: DestinationsNavigator?,
-    accountCardModel: AccountCardModel,
+    detailsAccountViewModel: DetailsAccountViewModel = hiltViewModel(),
+    accountCardModel: AccountCardModel
 ) {
+
+    val state = detailsAccountViewModel.uiState.collectAsState()
+
+    var cardName by rememberSaveable { mutableStateOf("") }
+
+    cardName = when (val it = state.value) {
+        is Loading -> {
+            detailsAccountViewModel.getAccount(accountCardModel.accountId)
+            it.name
+        }
+        is ShowAccount -> it.accountCardModel.name
+    }
+
     AppBarLayout(
         title = "",
         icon = Icons.Filled.Clear,
@@ -97,9 +117,17 @@ fun DetailsAccountScreen(
                             start.linkTo(parent.start)
                             end.linkTo(parent.end)
                         },
-                    placeholder = accountCardModel.name,
-                    value = "",
-                    onValueChange = {}
+                    placeholder = cardName,
+                    value = cardName,
+                    onValueChange = {
+                        cardName = it
+                    },
+                    onAction = {
+                        detailsAccountViewModel.updateAccountName(
+                            accountCardModel.accountId,
+                            cardName
+                        )
+                    }
                 )
                 Divider(
                     modifier = Modifier
@@ -110,18 +138,24 @@ fun DetailsAccountScreen(
                             linkTo(parent.start, parent.end)
                         }
                 )
-                AccountCard(
-                    modifier = Modifier
-                        .padding(horizontal = 16.dp)
-                        .padding(top = 16.dp)
-                        .constrainAs(card) {
-                            top.linkTo(div.bottom)
-                            linkTo(parent.start, parent.end)
-                        },
-                    accountCard = accountCardModel,
-                    onClick = {},
-                    qrCodeString = "https://www.google.com/"
-                )
+                when (val it = state.value) {
+                    is ShowAccount -> {
+                        AccountCard(
+                            modifier = Modifier
+                                .padding(horizontal = 16.dp)
+
+                                .padding(top = 16.dp)
+                                .constrainAs(card) {
+                                    top.linkTo(div.bottom)
+                                    linkTo(parent.start, parent.end)
+                                },
+                            accountCard = it.accountCardModel,
+                            onClick = {},
+                            qrCodeString = "https://www.google.com/"
+                        )
+                    }
+                    is Loading -> {}
+                }
                 ElevatedCard(
                     modifier = Modifier
                         .fillMaxWidth()

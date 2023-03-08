@@ -25,7 +25,6 @@ class MainActivity : ComponentActivity() {
         val startRoute =
             if (intent.data != null) NewAccountScreenDestination else NavGraphs.root.startRoute
         setContent {
-
             SnabblePayTheme {
                 DestinationsNavHost(
                     navGraph = NavGraphs.root,

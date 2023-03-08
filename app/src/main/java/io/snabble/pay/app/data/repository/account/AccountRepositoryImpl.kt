@@ -1,20 +1,20 @@
-package io.snabble.pay.app.data.repository
+package io.snabble.pay.app.data.repository.account
 
 import io.snabble.pay.account.domain.model.Account
 import io.snabble.pay.app.data.entity.AccountCard
-import io.snabble.pay.app.data.repository.localdatasource.AccountsLocalDataSource
-import io.snabble.pay.app.data.repository.remotedatasource.RemoteDataSource
+import io.snabble.pay.app.data.repository.account.localdatasource.AccountLocalDataSource
+import io.snabble.pay.app.data.repository.account.remotedatasource.AccountRemoteDataSource
 import io.snabble.pay.app.domain.AccountsRepository
 import io.snabble.pay.app.domain.accountCard.utils.GradiantGenerator
 import javax.inject.Inject
 
 class AccountRepositoryImpl @Inject constructor(
-    private val localDataSource: AccountsLocalDataSource,
-    private val remoteDataSource: RemoteDataSource,
+    private val localDataSource: AccountLocalDataSource,
+    private val accountRemoteDataSource: AccountRemoteDataSource,
 ) : AccountsRepository {
 
     override suspend fun getAccounts(): List<AccountCard> {
-        val result = remoteDataSource.getAllAccounts()
+        val result = accountRemoteDataSource.getAllAccounts()
         if (result.isSuccess && result.getOrDefault(emptyList()).isNotEmpty()) {
             localDataSource.saveAccounts(result.toAccount())
         }

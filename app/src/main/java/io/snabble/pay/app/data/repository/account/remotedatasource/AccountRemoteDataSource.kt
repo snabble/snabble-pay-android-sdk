@@ -1,9 +1,9 @@
-package io.snabble.pay.app.data.repository.remotedatasource
+package io.snabble.pay.app.data.repository.account.remotedatasource
 
 import io.snabble.pay.account.domain.model.Account
 import io.snabble.pay.account.domain.model.AccountCheck
 
-interface RemoteDataSource {
+interface AccountRemoteDataSource {
 
     suspend fun getAllAccounts(): Result<List<Account>>
     suspend fun getAccount(id: String): Result<Account>

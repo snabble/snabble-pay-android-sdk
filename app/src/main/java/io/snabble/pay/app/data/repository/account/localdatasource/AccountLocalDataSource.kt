@@ -1,8 +1,8 @@
-package io.snabble.pay.app.data.repository.localdatasource
+package io.snabble.pay.app.data.repository.account.localdatasource
 
 import io.snabble.pay.app.data.entity.AccountCard
 
-interface AccountsLocalDataSource {
+interface AccountLocalDataSource {
 
     suspend fun getAllAccounts(): List<AccountCard>
 

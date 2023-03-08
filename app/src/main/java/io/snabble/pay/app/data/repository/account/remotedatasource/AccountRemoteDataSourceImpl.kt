@@ -1,13 +1,13 @@
-package io.snabble.pay.app.data.repository.remotedatasource
+package io.snabble.pay.app.data.repository.account.remotedatasource
 
 import io.snabble.pay.account.domain.model.Account
 import io.snabble.pay.account.domain.model.AccountCheck
 import io.snabble.pay.core.SnabblePay
 import javax.inject.Inject
 
-class RemoteDataSourceImpl @Inject constructor(
+class AccountRemoteDataSourceImpl @Inject constructor(
     private val snabblePay: SnabblePay,
-) : RemoteDataSource {
+) : AccountRemoteDataSource {
 
     override suspend fun getAllAccounts(): Result<List<Account>> =
         snabblePay.getAccounts()

@@ -1,4 +1,4 @@
-package io.snabble.pay.app.domain.home.di
+package io.snabble.pay.app.data.database.di
 
 import android.content.Context
 import androidx.room.Room
@@ -12,7 +12,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-class ProductionModule {
+class DataBaseModule {
 
     @Singleton
     @Provides

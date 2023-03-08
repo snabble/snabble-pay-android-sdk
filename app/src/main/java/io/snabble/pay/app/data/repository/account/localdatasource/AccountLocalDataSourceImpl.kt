@@ -1,12 +1,12 @@
-package io.snabble.pay.app.data.repository.localdatasource
+package io.snabble.pay.app.data.repository.account.localdatasource
 
 import io.snabble.pay.app.data.database.AccountsDatabase
 import io.snabble.pay.app.data.entity.AccountCard
 import javax.inject.Inject
 
-class AccountsLocalDataSourceImpl @Inject constructor(
+class AccountLocalDataSourceImpl @Inject constructor(
     private val db: AccountsDatabase,
-) : AccountsLocalDataSource {
+) : AccountLocalDataSource {
 
     private val accountDao = db.accountDao()
 

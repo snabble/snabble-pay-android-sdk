@@ -3,7 +3,6 @@ package io.snabble.pay.app.domain.home.usecase
 import io.snabble.pay.app.data.entity.AccountCard
 import io.snabble.pay.app.domain.AccountsRepository
 import io.snabble.pay.app.domain.accountCard.AccountCardModel
-import io.snabble.pay.app.domain.accountCard.utils.GradiantGenerator
 import javax.inject.Inject
 
 interface GetAccountsUseCase {
@@ -26,7 +25,7 @@ class GetAccountsUseCaseImpl @Inject constructor(
                 iban = it.iban,
                 bank = it.bank,
                 name = it.name,
-                cardBackgroundColor = GradiantGenerator().createGradiantBackground(),
+                cardBackgroundColor = it.colors,
                 qrCodeToken = null
             )
         }

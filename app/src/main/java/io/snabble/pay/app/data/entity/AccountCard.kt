@@ -16,4 +16,5 @@ data class AccountCard(
     @ColumnInfo(name = "iban") val iban: String,
     @ColumnInfo(name = "mandate_state") val mandateState: MandateState,
     @ColumnInfo(name = "name") val name: String,
+    @ColumnInfo(name = "colors") val colors: List<String>,
 )

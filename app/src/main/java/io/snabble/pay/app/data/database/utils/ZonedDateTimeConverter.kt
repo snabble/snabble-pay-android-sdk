@@ -9,14 +9,23 @@ object ZonedDateTimeConverter {
 
     @RequiresApi(Build.VERSION_CODES.O)
     @TypeConverter fun toDate(dateString: String?): ZonedDateTime? {
-        return if (dateString == null) {
-            null
-        } else {
-            ZonedDateTime.parse(dateString)
-        }
+        dateString ?: return null
+        return ZonedDateTime.parse(dateString)
     }
 
     @TypeConverter fun toDateString(date: ZonedDateTime?): String? {
         return date?.toString()
+    }
+}
+
+object ListStringConverter {
+
+    @TypeConverter fun toList(string: String?): List<String>? {
+        string ?: return null
+        return string.split(";")
+    }
+
+    @TypeConverter fun toString(stringList: List<String>?): String? {
+        return stringList?.joinToString(";")
     }
 }

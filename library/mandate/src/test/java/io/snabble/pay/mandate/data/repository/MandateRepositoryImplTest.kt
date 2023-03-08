@@ -49,7 +49,7 @@ internal class MandateRepositoryImplTest : FreeSpec({
         "maps the result from the service to the domain model" {
             val dtoMandateMock: MandateDto = mockk()
             coEvery {
-                service.createMandate(any())
+                service.createMandate(accountId = any())
             } returns Success(
                 data = dtoMandateMock,
                 response = mockk()
@@ -65,9 +65,9 @@ internal class MandateRepositoryImplTest : FreeSpec({
 
             "with the mapped object" {
                 val mandateMock: Mandate = mockk()
-                coEvery { mandateMapper.map(any()) } returns mandateMock
+                coEvery { mandateMapper.map(from = any()) } returns mandateMock
                 coEvery {
-                    service.createMandate(any())
+                    service.createMandate(accountId = any())
                 } returns Success(
                     data = mockk(),
                     response = mockk()
@@ -82,7 +82,7 @@ internal class MandateRepositoryImplTest : FreeSpec({
 
             "that's failure if the request failed" {
                 coEvery {
-                    service.createMandate(any())
+                    service.createMandate(accountId = any())
                 } returns Error(
                     message = null,
                     exception = Exception()
@@ -108,7 +108,7 @@ internal class MandateRepositoryImplTest : FreeSpec({
         "maps the result from the service to the domain model" {
             val dtoMandateMock: MandateDto = mockk()
             coEvery {
-                service.getMandate(any())
+                service.getMandate(accountId = any())
             } returns Success(
                 data = dtoMandateMock,
                 response = mockk()
@@ -117,16 +117,16 @@ internal class MandateRepositoryImplTest : FreeSpec({
             val sut = createSut()
             sut.getMandate(accountId = "a1")
 
-            coVerify { mandateMapper.map(dtoMandateMock) }
+            coVerify { mandateMapper.map(from = dtoMandateMock) }
         }
 
         "returns a Result" - {
 
             "with the mapped object" {
                 val mandateMock: Mandate = mockk()
-                coEvery { mandateMapper.map(any()) } returns mandateMock
+                coEvery { mandateMapper.map(from = any()) } returns mandateMock
                 coEvery {
-                    service.getMandate(any())
+                    service.getMandate(accountId = any())
                 } returns Success(
                     data = mockk(),
                     response = mockk()
@@ -141,9 +141,9 @@ internal class MandateRepositoryImplTest : FreeSpec({
 
             "with null data if no mandate is available" {
                 val mandateMock: Mandate = mockk()
-                coEvery { mandateMapper.map(any()) } returns mandateMock
+                coEvery { mandateMapper.map(from = any()) } returns mandateMock
                 coEvery {
-                    service.getMandate(any())
+                    service.getMandate(accountId = any())
                 } returns SuccessNoContent(response = mockk())
 
                 val sut = createSut()
@@ -155,7 +155,7 @@ internal class MandateRepositoryImplTest : FreeSpec({
 
             "that's failure if the request failed" {
                 coEvery {
-                    service.getMandate(any())
+                    service.getMandate(accountId = any())
                 } returns Error(
                     message = null,
                     exception = Exception()
@@ -172,7 +172,7 @@ internal class MandateRepositoryImplTest : FreeSpec({
     "::respondToMandate" - {
 
         "calls the service's method w/ the given parameters" {
-            coEvery { mandateResponseMapper.map(any()) } returns MandateStateDto.ACCEPTED
+            coEvery { mandateResponseMapper.map(from = any()) } returns MandateStateDto.ACCEPTED
 
             val sut = createSut()
             sut.respondToMandate(
@@ -207,7 +207,7 @@ internal class MandateRepositoryImplTest : FreeSpec({
 
         "passes the mapped response model to the service call" {
             val mandateResponseDto: MandateStateDto = mockk()
-            coEvery { mandateResponseMapper.map(any()) } returns mandateResponseDto
+            coEvery { mandateResponseMapper.map(from = any()) } returns mandateResponseDto
             val mandateResponseSlot = slot<MandateResponseDto>()
             coEvery {
                 service.respondToMandate(
@@ -229,7 +229,7 @@ internal class MandateRepositoryImplTest : FreeSpec({
         "maps the result from the service to the domain model" {
             val dtoMandateMock: MandateDto = mockk()
             coEvery {
-                service.respondToMandate(any(), any())
+                service.respondToMandate(accountId = any(), response = any())
             } returns Success(
                 data = dtoMandateMock,
                 response = mockk()
@@ -249,9 +249,9 @@ internal class MandateRepositoryImplTest : FreeSpec({
 
             "with the mapped object" {
                 val mandateMock: Mandate = mockk()
-                coEvery { mandateMapper.map(any()) } returns mandateMock
+                coEvery { mandateMapper.map(from = any()) } returns mandateMock
                 coEvery {
-                    service.respondToMandate(any(), any())
+                    service.respondToMandate(accountId = any(), response = any())
                 } returns Success(
                     data = mockk(),
                     response = mockk()
@@ -270,7 +270,7 @@ internal class MandateRepositoryImplTest : FreeSpec({
 
             "that's failure if the request failed" {
                 coEvery {
-                    service.respondToMandate(any(), any())
+                    service.respondToMandate(accountId = any(), response = any())
                 } returns Error(
                     message = null,
                     exception = Exception()

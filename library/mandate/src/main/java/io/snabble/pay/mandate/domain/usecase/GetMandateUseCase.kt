@@ -4,5 +4,5 @@ import io.snabble.pay.mandate.domain.model.Mandate
 
 fun interface GetMandateUseCase {
 
-    suspend operator fun invoke(accountId: String): Result<Mandate>
+    suspend operator fun invoke(accountId: String): Result<Mandate?>
 }

@@ -7,7 +7,7 @@ interface MandateRepository {
 
     suspend fun createMandate(accountId: String): Result<Mandate>
 
-    suspend fun getMandate(accountId: String): Result<Mandate>
+    suspend fun getMandate(accountId: String): Result<Mandate?>
 
     suspend fun respondToMandate(
         accountId: String,

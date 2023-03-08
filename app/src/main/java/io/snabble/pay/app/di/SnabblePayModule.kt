@@ -35,9 +35,10 @@ object SnabblePayModule {
             }
 
             val appIdentifier =
-                sharedPreferences.getStringSet(KEY_APP_IDENTIFIER, null) ?: return@snabblePay
+                sharedPreferences.getAppCredentials() ?: return@snabblePay
 
-            setAppCredentials(appIdentifier.first(), appIdentifier.last())
+            val (id, secret) = appIdentifier.split(";")
+            setAppCredentials(id, secret)
         }
 
     @Provides
@@ -45,8 +46,13 @@ object SnabblePayModule {
     fun provideSharedPrefs(@ApplicationContext context: Context): SharedPreferences =
         context.getSharedPreferences(KEY_SNABBLE_PAY_PREF, Context.MODE_PRIVATE)
 
-    private fun SharedPreferences.saveAppCredentials(id: String, secret: String) =
-        this.edit().putStringSet(KEY_APP_IDENTIFIER, setOf(id, secret)).apply()
+    private fun SharedPreferences.saveAppCredentials(id: String, secret: String) {
+        val string = listOf(id, secret).joinToString(";")
+        this.edit().putString(KEY_APP_IDENTIFIER, string).apply()
+    }
+
+    private fun SharedPreferences.getAppCredentials() =
+        getString(KEY_APP_IDENTIFIER, null)
 
     private const val KEY_META_DATA = "payment.snabble.key"
     private const val KEY_SNABBLE_PAY_PREF = "snabblePay"

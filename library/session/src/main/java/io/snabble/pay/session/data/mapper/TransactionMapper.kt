@@ -5,7 +5,7 @@ import io.snabble.pay.session.data.dto.TransactionDto
 import io.snabble.pay.session.domain.model.Transaction
 
 internal class TransactionMapper(
-    private val transactionMapper: TransactionStateMapper,
+    private val stateMapper: TransactionStateMapper,
 ) : Mapper<TransactionDto, Transaction> {
 
     override fun map(from: TransactionDto): Transaction = with(from) {
@@ -13,7 +13,7 @@ internal class TransactionMapper(
             amount = from.amount,
             currency = from.currency,
             id = from.id,
-            state = transactionMapper.map(state)
+            state = stateMapper.map(state)
         )
     }
 }

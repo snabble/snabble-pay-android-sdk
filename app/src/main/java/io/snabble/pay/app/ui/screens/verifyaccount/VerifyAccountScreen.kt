@@ -13,6 +13,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -23,6 +24,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat.startActivity
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import io.snabble.pay.app.R
@@ -35,8 +37,16 @@ import io.snabble.pay.app.ui.widgets.InfoText
 @Composable
 fun VerifyAccountScreen(
     navigator: DestinationsNavigator?,
+    verifyAccountViewModel: VerifyAccountViewModel = hiltViewModel(),
 ) {
-    val context = LocalContext.current
+    val accountCheck = verifyAccountViewModel.result.collectAsState()
+
+    if (accountCheck.value.isSuccess) {
+        LocalContext.current.startTinkFlow(
+            accountCheck.value.getOrNull()?.validationLink ?: "https://google.com"
+        )
+    }
+
     AppBarLayout(
         title = "Bankverbindung hinzufügen",
         navigator = navigator
@@ -91,7 +101,7 @@ fun VerifyAccountScreen(
                         contentColor = MaterialTheme.colorScheme.onPrimary
                     ),
                     onClick = {
-                        context.startTinkFlow()
+                        verifyAccountViewModel.getValidationLink()
                     }
                 ) {
                     Text(
@@ -115,9 +125,9 @@ fun VerifyAccountScreenPreview() {
     }
 }
 
-fun Context.startTinkFlow() {
+fun Context.startTinkFlow(validationLink: String) {
     val view = Intent()
     view.action = Intent.ACTION_VIEW
-    view.data = android.net.Uri.parse("https://www.google.com/")
+    view.data = android.net.Uri.parse(validationLink)
     startActivity(this, view, null)
 }

@@ -1,4 +1,4 @@
-package io.snabble.pay.app.ui.screens.accountscreen
+package io.snabble.pay.app.ui.screens.verifyaccount
 
 import android.content.Context
 import android.content.Intent

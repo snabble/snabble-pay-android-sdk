@@ -1,4 +1,4 @@
-package io.snabble.pay.app.ui.screens.accountscreen
+package io.snabble.pay.app.ui.screens.newaccount
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -52,7 +52,8 @@ fun NewAccountScreen(
                         .padding(top = 32.dp),
                     placeholder = "Mein Bankkonto",
                     value = "",
-                    onValueChange = {}
+                    onValueChange = {},
+                    onAction = {}
                 )
                 AccountInformation()
                 Spacer(modifier = Modifier.height(96.dp))

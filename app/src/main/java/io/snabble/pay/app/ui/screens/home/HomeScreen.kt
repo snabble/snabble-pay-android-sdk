@@ -1,4 +1,4 @@
-package io.snabble.pay.app.ui.screens.homescreen
+package io.snabble.pay.app.ui.screens.home
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -23,7 +23,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-import io.snabble.pay.app.domain.home.HomeViewModel
 import io.snabble.pay.app.ui.screens.destinations.DetailsAccountScreenDestination
 import io.snabble.pay.app.ui.screens.destinations.VerifyAccountScreenDestination
 import io.snabble.pay.app.ui.theme.SnabblePayTheme

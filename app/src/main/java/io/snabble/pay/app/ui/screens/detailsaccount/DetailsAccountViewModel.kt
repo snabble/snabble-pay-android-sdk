@@ -5,11 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.snabble.pay.app.domain.account.AccountCardModel
-import io.snabble.pay.app.domain.account.usecase.GetAccountUseCase
-import io.snabble.pay.app.domain.account.usecase.UpdateAccountNameUseCase
-import io.snabble.pay.app.domain.mandate.usecase.AcceptMandateUseCase
-import io.snabble.pay.app.domain.mandate.usecase.CreateMandateUseCase
-import io.snabble.pay.app.domain.mandate.usecase.GetMandateUseCase
+import io.snabble.pay.app.domain.account.usecase.AccountManager
+import io.snabble.pay.app.domain.mandate.usecase.MandateManager
 import io.snabble.pay.mandate.domain.model.Mandate
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -18,11 +15,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DetailsAccountViewModel @Inject constructor(
-    private val createMandateUseCase: CreateMandateUseCase,
-    private val getMandateUseCase: GetMandateUseCase,
-    private val acceptMandateUseCase: AcceptMandateUseCase,
-    private val getAccountUseCase: GetAccountUseCase,
-    private val updateAccountNameUseCase: UpdateAccountNameUseCase,
+    private val accountManager: AccountManager,
+    private val mandateManager: MandateManager,
 ) : ViewModel() {
 
     private var _uiState = MutableStateFlow<UiState>(Loading(""))
@@ -33,16 +27,16 @@ class DetailsAccountViewModel @Inject constructor(
 
     fun getAccount(id: String) {
         viewModelScope.launch {
-            _mandate.tryEmit(getMandateUseCase(id).getOrNull().also {
+            _mandate.tryEmit(mandateManager.getMandate(id).getOrNull().also {
                 Log.d("xx", "getAccount: ${it?.state}")
             })
-            _uiState.tryEmit(ShowAccount(getAccountUseCase(id)))
+            _uiState.tryEmit(ShowAccount(accountManager.getAccountModel(id)))
         }
     }
 
     fun createMandate(accountId: String) {
         viewModelScope.launch {
-            _mandate.tryEmit(createMandateUseCase(accountId = accountId).getOrNull().also {
+            _mandate.tryEmit(mandateManager.createMandate(accountId).getOrNull().also {
                 Log.d("xx", "createMandate: ${it?.id}")
             })
         }
@@ -50,20 +44,20 @@ class DetailsAccountViewModel @Inject constructor(
 
     fun acceptMandate(accountId: String, mandateId: String) {
         viewModelScope.launch {
-            _mandate.tryEmit(acceptMandateUseCase(accountId, mandateId).getOrNull())
+            _mandate.tryEmit(mandateManager.acceptMandate(accountId, mandateId).getOrNull())
         }
     }
 
     fun mandateState(id: String) {
         viewModelScope.launch {
-            Log.d("xx", "mandateState: ${getMandateUseCase(id).getOrNull()?.state} ")
+            Log.d("xx", "mandateState: ${mandateManager.getMandate(id).getOrNull()?.state} ")
         }
     }
 
     fun updateAccountName(id: String, name: String) {
         viewModelScope.launch {
-            updateAccountNameUseCase(id, name)
-            _uiState.tryEmit(ShowAccount(getAccountUseCase(id)))
+            accountManager.updateAccountName(id, name)
+            _uiState.tryEmit(ShowAccount(accountManager.getAccountModel(id)))
         }
     }
 }

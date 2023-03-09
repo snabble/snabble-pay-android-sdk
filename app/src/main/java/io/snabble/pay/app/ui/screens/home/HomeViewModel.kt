@@ -3,8 +3,8 @@ package io.snabble.pay.app.ui.screens.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.snabble.pay.app.domain.accountCard.AccountCardModel
-import io.snabble.pay.app.domain.usecase.GetAccountsUseCase
+import io.snabble.pay.app.domain.account.AccountCardModel
+import io.snabble.pay.app.domain.account.usecase.GetAccountsUseCase
 import io.snabble.pay.app.domain.usecase.GetSessionTokenUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

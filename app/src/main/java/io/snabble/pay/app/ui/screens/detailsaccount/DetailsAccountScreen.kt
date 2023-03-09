@@ -3,6 +3,7 @@ package io.snabble.pay.app.ui.screens.detailsaccount
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -41,11 +42,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import io.snabble.pay.app.R
-import io.snabble.pay.app.domain.accountCard.AccountCardModel
-import io.snabble.pay.app.domain.accountCard.utils.GradiantGenerator
+import io.snabble.pay.app.domain.account.AccountCardModel
+import io.snabble.pay.app.domain.account.utils.GradiantGenerator
 import io.snabble.pay.app.ui.AppBarLayout
 import io.snabble.pay.app.ui.theme.SnabblePayTheme
 import io.snabble.pay.app.ui.widgets.EditTextField
+import io.snabble.pay.app.ui.widgets.MandateWidget
 import io.snabble.pay.app.ui.widgets.accountcard.AccountCard
 
 @Destination
@@ -55,16 +57,23 @@ fun DetailsAccountScreen(
     detailsAccountViewModel: DetailsAccountViewModel = hiltViewModel(),
     accountCardModel: AccountCardModel,
 ) {
-    val state = detailsAccountViewModel.uiState.collectAsState()
+    val uiState = detailsAccountViewModel.uiState.collectAsState()
+    val mandateState = detailsAccountViewModel.mandate.collectAsState()
 
     var cardName by rememberSaveable { mutableStateOf("") }
 
-    cardName = when (val it = state.value) {
+    cardName = when (val it = uiState.value) {
         is Loading -> {
             detailsAccountViewModel.getAccount(accountCardModel.accountId)
             it.name
         }
         is ShowAccount -> it.accountCardModel.name
+    }
+
+    mandateState.value?.let { mandate ->
+        if (uiState.value is ShowAccount && mandate.state.name != "ACCEPTED") {
+            detailsAccountViewModel.createMandate(accountCardModel.accountId)
+        }
     }
 
     AppBarLayout(
@@ -137,7 +146,7 @@ fun DetailsAccountScreen(
                             linkTo(parent.start, parent.end)
                         }
                 )
-                when (val it = state.value) {
+                when (val it = uiState.value) {
                     is ShowAccount -> {
                         AccountCard(
                             modifier = Modifier
@@ -148,51 +157,65 @@ fun DetailsAccountScreen(
                                     linkTo(parent.start, parent.end)
                                 },
                             accountCard = it.accountCardModel,
-                            onClick = {},
+                            onClick = { detailsAccountViewModel.mandateState(it.accountId) },
                             qrCodeString = "https://www.google.com/"
                         )
                     }
                     is Loading -> {}
                 }
-                ElevatedCard(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 16.dp)
-                        .padding(horizontal = 16.dp)
-                        .constrainAs(mandate) {
-                            top.linkTo(card.bottom)
-                            linkTo(parent.start, parent.end)
-                        },
-                    colors = CardDefaults.cardColors(
-                        containerColor = Color.White
-                    )
-                ) {
-                    Row(
+                if (mandateState.value?.state?.name == "ACCEPTED") {
+                    ElevatedCard(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .defaultMinSize(minHeight = 60.dp),
-                        horizontalArrangement = Arrangement.Center,
-                        verticalAlignment = Alignment.CenterVertically
+                            .padding(top = 16.dp)
+                            .padding(horizontal = 16.dp)
+                            .constrainAs(mandate) {
+                                top.linkTo(card.bottom)
+                                linkTo(parent.start, parent.end)
+                            },
+                        colors = CardDefaults.cardColors(
+                            containerColor = Color.White
+                        )
                     ) {
-                        Surface(
-                            modifier = Modifier.defaultMinSize(
-                                minWidth = 40.dp,
-                                minHeight = 40.dp
-                            ),
-                            shape = CircleShape,
-                            color = colorResource(id = R.color.gray)
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .defaultMinSize(minHeight = 60.dp),
+                            horizontalArrangement = Arrangement.Center,
+                            verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Icon(
-                                modifier = Modifier.padding(8.dp),
-                                imageVector = Icons.Filled.Check,
-                                contentDescription = ""
+                            Surface(
+                                modifier = Modifier.defaultMinSize(
+                                    minWidth = 40.dp,
+                                    minHeight = 40.dp
+                                ),
+                                shape = CircleShape,
+                                color = colorResource(id = R.color.gray)
+                            ) {
+                                Icon(
+                                    modifier = Modifier.padding(8.dp),
+                                    imageVector = Icons.Filled.Check,
+                                    contentDescription = ""
+                                )
+                            }
+                            Text(
+                                modifier = Modifier.padding(start = 8.dp),
+                                text = "Sepa Mandat erteilt"
                             )
                         }
-                        Text(
-                            modifier = Modifier.padding(start = 8.dp),
-                            text = "Sepa Mandat erteilt"
-                        )
                     }
+                } else {
+                    MandateWidget(
+                        modifier = Modifier.padding(horizontal = 16.dp),
+                        spacer = { Spacer(modifier = Modifier.height(32.dp)) },
+                        onAccept = {
+                            mandateState.value?.let { mandate ->
+                                detailsAccountViewModel.acceptMandate(
+                                    accountCardModel.accountId,
+                                    mandate.id
+                                )
+                            }
+                        })
                 }
                 TextButton(
                     modifier = Modifier

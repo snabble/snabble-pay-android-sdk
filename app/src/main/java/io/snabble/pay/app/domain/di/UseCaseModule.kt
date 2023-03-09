@@ -14,6 +14,8 @@ import io.snabble.pay.app.domain.mandate.usecase.AcceptMandateUseCase
 import io.snabble.pay.app.domain.mandate.usecase.AcceptMandateUseCaseImpl
 import io.snabble.pay.app.domain.mandate.usecase.CreateMandateUseCase
 import io.snabble.pay.app.domain.mandate.usecase.CreateMandateUseCaseImpl
+import io.snabble.pay.app.domain.mandate.usecase.GetMandateUseCase
+import io.snabble.pay.app.domain.mandate.usecase.GetMandateUseCaseImpl
 import io.snabble.pay.app.domain.usecase.GetSessionTokenUseCase
 import io.snabble.pay.app.domain.usecase.GetSessionTokenUseCaseImpl
 
@@ -39,6 +41,10 @@ import io.snabble.pay.app.domain.usecase.GetSessionTokenUseCaseImpl
     @Binds fun bindCreateMandateUseCase(
         source: CreateMandateUseCaseImpl,
     ): CreateMandateUseCase
+
+    @Binds fun bindGetMandateUseCase(
+        source: GetMandateUseCaseImpl,
+    ): GetMandateUseCase
 
     @Binds fun bindAcceptMandateUseCase(
         source: AcceptMandateUseCaseImpl,

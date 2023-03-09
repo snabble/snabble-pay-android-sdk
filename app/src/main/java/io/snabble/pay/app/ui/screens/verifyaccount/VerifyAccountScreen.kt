@@ -1,7 +1,5 @@
 package io.snabble.pay.app.ui.screens.verifyaccount
 
-import android.content.Context
-import android.content.Intent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -23,7 +21,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.content.ContextCompat.startActivity
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -32,6 +29,7 @@ import io.snabble.pay.app.ui.AppBarLayout
 import io.snabble.pay.app.ui.theme.SnabblePayTheme
 import io.snabble.pay.app.ui.widgets.HyperLinkText
 import io.snabble.pay.app.ui.widgets.InfoText
+import io.snabble.pay.app.utils.browseUrl
 
 @Destination
 @Composable
@@ -125,9 +123,4 @@ fun VerifyAccountScreenPreview() {
     }
 }
 
-fun Context.browseUrl(url: String) {
-    val intent = Intent()
-    intent.action = Intent.ACTION_VIEW
-    intent.data = android.net.Uri.parse(url)
-    startActivity(this, intent, null)
-}
+

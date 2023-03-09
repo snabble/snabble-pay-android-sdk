@@ -1,4 +1,4 @@
-package io.snabble.pay.app.domain.usecase
+package io.snabble.pay.app.domain.session
 
 import javax.inject.Inject
 

@@ -46,7 +46,12 @@ fun HomeScreen(
             modifier = Modifier
                 .fillMaxSize()
         ) {
-            val (title, subtitle, pager, button) = createRefs()
+            val (
+                title,
+                subtitle,
+                pager,
+                button,
+            ) = createRefs()
 
             SnapplePayTitle(
                 modifier = Modifier
@@ -69,7 +74,7 @@ fun HomeScreen(
                 textAlign = TextAlign.Center,
                 fontWeight = FontWeight.Bold
             )
-            when(val it = uiState.value){
+            when (val it = uiState.value) {
                 Loading -> {}
                 is ShowCards -> {
                     AccountCardPager(

@@ -1,8 +1,10 @@
 package io.snabble.pay.app.utils
 
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
+import androidx.core.content.ContextCompat
 
 fun Context.getMetaDataKey(key: String) =
     if (containsMetaDataKey(key)) {
@@ -41,3 +43,10 @@ fun Context.containsMetaDataKey(key: String) =
             .metaData
             .containsKey(key)
     }
+
+fun Context.browseUrl(url: String) {
+    val intent = Intent()
+    intent.action = Intent.ACTION_VIEW
+    intent.data = android.net.Uri.parse(url)
+    ContextCompat.startActivity(this, intent, null)
+}

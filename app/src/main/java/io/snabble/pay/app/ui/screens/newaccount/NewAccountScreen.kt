@@ -20,14 +20,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import io.snabble.pay.app.domain.account.AccountCardModel
 import io.snabble.pay.app.ui.AppBarLayout
 import io.snabble.pay.app.ui.screens.destinations.HomeScreenDestination
 import io.snabble.pay.app.ui.screens.destinations.VerifyAccountScreenDestination
@@ -36,7 +34,7 @@ import io.snabble.pay.app.ui.screens.detailsaccount.ShowAccount
 import io.snabble.pay.app.ui.theme.SnabblePayTheme
 import io.snabble.pay.app.ui.widgets.AccountInformation
 import io.snabble.pay.app.ui.widgets.EditTextField
-import io.snabble.pay.app.ui.widgets.InfoText
+import io.snabble.pay.app.ui.widgets.MandateWidget
 
 @Destination
 @Composable
@@ -45,24 +43,21 @@ fun NewAccountScreen(
     newAccountViewModel: NewAccountViewModel = hiltViewModel(),
 ) {
 
-    val state = newAccountViewModel.uiState.collectAsState()
+    val uiState = newAccountViewModel.uiState.collectAsState()
+    val mandate = newAccountViewModel.mandate.collectAsState()
 
     var cardName by rememberSaveable { mutableStateOf("") }
 
-    cardName = when (val it = state.value) {
-        is Loading -> {
-            it.name
-        }
+    cardName = when (val it = uiState.value) {
+        is Loading -> it.name
         is ShowAccount -> it.accountCardModel.name
     }
 
-    val (id, holderName, iban, bank) = when (val it = state.value) {
-        is Loading -> {
-            listOf("", "", "", "")
-        }
+    val accountCard: AccountCardModel? = when (val it = uiState.value) {
+        is Loading -> null
         is ShowAccount -> {
-            val card = it.accountCardModel
-            listOf(card.accountId, card.holderName, card.iban, card.bank)
+            newAccountViewModel.createMandate(it.accountCardModel.accountId)
+            it.accountCardModel
         }
     }
 
@@ -89,55 +84,56 @@ fun NewAccountScreen(
                         cardName = it
                     },
                     onAction = {
-                        if (id.isNotEmpty()) {
+                        accountCard?.let {
                             newAccountViewModel.updateAccountName(
-                                id,
+                                it.accountId,
                                 cardName
                             )
                         }
+
                     }
                 )
                 AccountInformation(
-                    holderName = holderName,
-                    iban = iban,
-                    bank = bank
+                    holderName = accountCard?.holderName ?: "",
+                    iban = accountCard?.iban ?: "",
+                    bank = accountCard?.bank ?: ""
                 )
                 Spacer(modifier = Modifier.height(96.dp))
-                Column(
-                    modifier = Modifier.padding(horizontal = 16.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Text(
-                        textAlign = TextAlign.Center,
-                        text = "SEPA-Lastschriftmandat",
-                        style = MaterialTheme.typography.bodyLarge,
-                        fontWeight = FontWeight.Bold,
-                        letterSpacing = 1.5.sp
+                val newMandate = mandate.value
+                if (newMandate!= null && newMandate.state.name != "ACCEPTED") {
+                    MandateWidget(
+                        modifier = Modifier
+                            .padding(horizontal = 16.dp),
+                        spacer = { Spacer(modifier = Modifier.weight(1f)) },
+                        onAccept = {
+                            if (accountCard != null) {
+                                newAccountViewModel.acceptMandate(
+                                    accountCard.accountId,
+                                    newMandate.id
+                                )
+                            }
+                            navigator?.navigate(HomeScreenDestination)
+                        }
                     )
-                    Spacer(modifier = Modifier.height(16.dp))
-                    InfoText(
-                        modifier = Modifier.padding(horizontal = 16.dp),
-                        string = "Ich ermächtige Snabble Pay die Zahlungen von " +
-                            "meinem Konto mittels Lastschrift einzuziehen."
-                    )
-                }
-                Spacer(modifier = Modifier.weight(1f))
-                ElevatedButton(
-                    modifier = Modifier
-                        .padding(bottom = 32.dp)
-                        .height(40.dp),
-                    colors = ButtonDefaults.elevatedButtonColors(
-                        containerColor = Color.White,
-                        contentColor = MaterialTheme.colorScheme.onPrimary
-                    ),
-                    onClick = {
-                        navigator?.navigate(HomeScreenDestination)
+                } else {
+                    Spacer(modifier = Modifier.weight(1f))
+                    ElevatedButton(
+                        modifier = Modifier
+                            .padding(bottom = 32.dp)
+                            .height(40.dp),
+                        colors = ButtonDefaults.elevatedButtonColors(
+                            containerColor = Color.White,
+                            contentColor = MaterialTheme.colorScheme.onPrimary
+                        ),
+                        onClick = {
+                            navigator?.navigate(HomeScreenDestination)
+                        }
+                    ) {
+                        Text(
+                            modifier = Modifier.padding(start = 8.dp),
+                            text = "Abschließen"
+                        )
                     }
-                ) {
-                    Text(
-                        modifier = Modifier.padding(start = 8.dp),
-                        text = "Zustimmen und loslegen"
-                    )
                 }
             }
         }

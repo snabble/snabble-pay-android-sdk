@@ -1,4 +1,4 @@
-package io.snabble.pay.app.domain
+package io.snabble.pay.app.domain.mandate
 
 import io.snabble.pay.mandate.domain.model.Mandate
 

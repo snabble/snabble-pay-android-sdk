@@ -1,7 +1,7 @@
 package io.snabble.pay.app.data.repository.mandate
 
 import io.snabble.pay.app.data.repository.mandate.remotedatasource.MandateRemoteDataSource
-import io.snabble.pay.app.domain.MandateRepository
+import io.snabble.pay.app.domain.mandate.MandateRepository
 import javax.inject.Inject
 
 class MandateRepositoryImpl @Inject constructor(

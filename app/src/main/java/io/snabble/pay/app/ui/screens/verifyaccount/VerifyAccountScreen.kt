@@ -42,7 +42,7 @@ fun VerifyAccountScreen(
     val accountCheck = verifyAccountViewModel.result.collectAsState()
 
     if (accountCheck.value.isSuccess) {
-        LocalContext.current.startTinkFlow(
+        LocalContext.current.browseUrl(
             accountCheck.value.getOrNull()?.validationLink ?: "https://google.com"
         )
     }
@@ -125,9 +125,9 @@ fun VerifyAccountScreenPreview() {
     }
 }
 
-fun Context.startTinkFlow(validationLink: String) {
-    val view = Intent()
-    view.action = Intent.ACTION_VIEW
-    view.data = android.net.Uri.parse(validationLink)
-    startActivity(this, view, null)
+fun Context.browseUrl(url: String) {
+    val intent = Intent()
+    intent.action = Intent.ACTION_VIEW
+    intent.data = android.net.Uri.parse(url)
+    startActivity(this, intent, null)
 }

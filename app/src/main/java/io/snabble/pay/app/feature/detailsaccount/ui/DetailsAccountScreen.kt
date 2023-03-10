@@ -1,5 +1,6 @@
 package io.snabble.pay.app.feature.detailsaccount.ui
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,20 +15,24 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import io.snabble.pay.account.domain.model.MandateState
+import io.snabble.pay.app.data.viewModelStates.Error
+import io.snabble.pay.app.data.viewModelStates.Loading
+import io.snabble.pay.app.data.viewModelStates.ShowAccount
+import io.snabble.pay.app.data.viewModelStates.ShowAccounts
 import io.snabble.pay.app.domain.account.AccountCardModel
-import io.snabble.pay.app.domain.account.utils.GradiantGenerator
 import io.snabble.pay.app.feature.detailsaccount.DetailsAccountViewModel
-import io.snabble.pay.app.feature.detailsaccount.Loading
-import io.snabble.pay.app.feature.detailsaccount.ShowAccount
 import io.snabble.pay.app.feature.detailsaccount.ui.widget.DeleteButton
 import io.snabble.pay.app.feature.detailsaccount.ui.widget.DetailsBackground
 import io.snabble.pay.app.feature.detailsaccount.ui.widget.MandateGranted
@@ -36,32 +41,32 @@ import io.snabble.pay.app.ui.theme.SnabblePayTheme
 import io.snabble.pay.app.ui.widgets.AcceptMandateWidget
 import io.snabble.pay.app.ui.widgets.EditTextField
 import io.snabble.pay.app.ui.widgets.accountcard.AccountCard
-import io.snabble.pay.mandate.domain.model.MandateState
 
 @Destination
 @Composable
 fun DetailsAccountScreen(
     navigator: DestinationsNavigator?,
     detailsAccountViewModel: DetailsAccountViewModel = hiltViewModel(),
-    accountCardModel: AccountCardModel,
+    accountId: String,
 ) {
     val uiState = detailsAccountViewModel.uiState.collectAsState()
-    val mandateState = detailsAccountViewModel.mandate.collectAsState()
 
     var cardName by rememberSaveable { mutableStateOf("") }
+    var account: AccountCardModel? by remember { mutableStateOf(null) }
 
-    cardName = when (val it = uiState.value) {
+    when (val it = uiState.value) {
         is Loading -> {
-            detailsAccountViewModel.getAccount(accountCardModel.accountId)
-            it.name
+            detailsAccountViewModel.getAccount(accountId)
+            cardName = ""
         }
-        is ShowAccount -> it.accountCardModel.name
-    }
-
-    mandateState.value?.let { mandate ->
-        if (uiState.value is ShowAccount && mandate.state != MandateState.ACCEPTED) {
-            detailsAccountViewModel.createMandate(accountCardModel.accountId)
+        is ShowAccount -> {
+            cardName = it.accountCardModel.name
+            account = it.accountCardModel
         }
+        is Error -> {
+            Toast.makeText(LocalContext.current, it.message, Toast.LENGTH_SHORT).show()
+        }
+        is ShowAccounts -> {}
     }
 
     AppBarLayout(
@@ -100,7 +105,7 @@ fun DetailsAccountScreen(
                     },
                     onAction = {
                         detailsAccountViewModel.updateAccountName(
-                            accountCardModel.accountId,
+                            accountId,
                             cardName
                         )
                     }
@@ -115,51 +120,45 @@ fun DetailsAccountScreen(
                             end.linkTo(parent.end)
                         }
                 )
-                when (val it = uiState.value) {
-                    is ShowAccount -> {
-                        AccountCard(
-                            modifier = Modifier
-                                .padding(horizontal = 16.dp)
-                                .constrainAs(card) {
-                                    top.linkTo(div.bottom, margin = 16.dp)
-                                    start.linkTo(parent.start)
-                                    end.linkTo(parent.end)
-                                },
-                            accountCard = it.accountCardModel,
-                            onClick = { detailsAccountViewModel.mandateState(it.accountId) },
-                            qrCodeString = "https://www.google.com/"
-                        )
-                    }
-                    is Loading -> {}
-                }
-                if (mandateState.value?.state == MandateState.ACCEPTED) {
-                    MandateGranted(
+                account?.let { accountCard ->
+                    AccountCard(
                         modifier = Modifier
-                            .fillMaxWidth()
                             .padding(horizontal = 16.dp)
-                            .constrainAs(mandate) {
-                                top.linkTo(card.bottom, 16.dp)
+                            .constrainAs(card) {
+                                top.linkTo(div.bottom, margin = 16.dp)
                                 start.linkTo(parent.start)
                                 end.linkTo(parent.end)
-                            })
-                } else {
-                    AcceptMandateWidget(
-                        modifier = Modifier
-                            .constrainAs(mandate) {
-                                top.linkTo(card.bottom, 16.dp)
-                                start.linkTo(parent.start, margin = 16.dp)
-                                end.linkTo(parent.end, margin = 16.dp)
                             },
-                        spacer = { Spacer(modifier = Modifier.height(32.dp)) },
-                        onAccept = {
-                            mandateState.value?.let { mandate ->
-                                detailsAccountViewModel.acceptMandate(
-                                    accountCardModel.accountId,
-                                    mandate.id
-                                )
-                            }
-                        }
+                        accountCard = accountCard,
+                        onClick = { detailsAccountViewModel.mandateState(it.accountId) },
+                        qrCodeString = "https://www.google.com/"
                     )
+
+                    if (accountCard.mandateState == MandateState.ACCEPTED) {
+                        MandateGranted(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp)
+                                .constrainAs(mandate) {
+                                    top.linkTo(card.bottom, 16.dp)
+                                    start.linkTo(parent.start)
+                                    end.linkTo(parent.end)
+                                })
+                    } else {
+                        AcceptMandateWidget(
+                            modifier = Modifier
+                                .constrainAs(mandate) {
+                                    top.linkTo(card.bottom, 16.dp)
+                                    start.linkTo(parent.start, margin = 16.dp)
+                                    end.linkTo(parent.end, margin = 16.dp)
+                                },
+                            spacer = { Spacer(modifier = Modifier.height(32.dp)) },
+                            onAccept = {
+                                detailsAccountViewModel.acceptMandate(accountId)
+                            }
+
+                        )
+                    }
                 }
                 DeleteButton(
                     modifier = Modifier
@@ -181,15 +180,7 @@ fun DetailsAccountScreenPreview() {
     SnabblePayTheme {
         DetailsAccountScreen(
             navigator = null,
-            accountCardModel = AccountCardModel(
-                cardBackgroundColor = GradiantGenerator().createGradiantBackground(),
-                qrCodeToken = "test",
-                holderName = "Petra MusterMann",
-                accountId = "1",
-                name = "Mein Konto",
-                iban = "DE91 1000 0000 0123 4567 89",
-                bank = "Deutsche Bank"
-            )
+            accountId = ""
         )
     }
 }

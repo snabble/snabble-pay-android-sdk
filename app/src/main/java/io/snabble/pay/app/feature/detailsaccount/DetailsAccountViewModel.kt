@@ -4,10 +4,12 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.snabble.pay.app.domain.account.AccountCardModel
+import io.snabble.pay.app.data.viewModelStates.Error
+import io.snabble.pay.app.data.viewModelStates.Loading
+import io.snabble.pay.app.data.viewModelStates.ShowAccount
+import io.snabble.pay.app.data.viewModelStates.UiState
 import io.snabble.pay.app.domain.account.usecase.AccountManager
 import io.snabble.pay.app.domain.mandate.usecase.MandateManager
-import io.snabble.pay.mandate.domain.model.Mandate
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -19,34 +21,51 @@ class DetailsAccountViewModel @Inject constructor(
     private val mandateManager: MandateManager,
 ) : ViewModel() {
 
-    private var _uiState = MutableStateFlow<UiState>(Loading(""))
+    private var _uiState = MutableStateFlow<UiState>(Loading)
     val uiState = _uiState.asStateFlow()
 
-    private var _mandate = MutableStateFlow<Mandate?>(null)
-    val mandate = _mandate.asStateFlow()
-
-    fun getAccount(id: String) {
+    fun getAccount(accountId: String) {
         viewModelScope.launch {
-            _mandate.tryEmit(mandateManager.getMandate(id).getOrNull())
-            _uiState.tryEmit(ShowAccount(accountManager.getAccountModel(id)))
+            _uiState.tryEmit(ShowAccount(accountManager.getAccountModel(accountId)))
         }
     }
 
-    fun createMandate(accountId: String) {
+    fun acceptMandate(accountId: String) {
         viewModelScope.launch {
-            _mandate.tryEmit(mandateManager.createMandate(accountId).getOrNull())
+            mandateManager.getMandate(accountId)
+                .onSuccess {
+                    if (it != null) {
+                        acceptMandate(accountId, it.id)
+                    } else {
+                        _uiState.tryEmit(Error("No Mandate exists"))
+                    }
+                }
+                .onFailure {
+                    _uiState.tryEmit(Error(it.message ?: "Something went wrong"))
+                }
         }
     }
 
-    fun acceptMandate(accountId: String, mandateId: String) {
-        viewModelScope.launch {
-            _mandate.tryEmit(mandateManager.acceptMandate(accountId, mandateId).getOrNull())
-        }
+    private suspend fun acceptMandate(accountId: String, mandateId: String) {
+        mandateManager.acceptMandate(accountId, mandateId)
+            .onSuccess {
+                _uiState.tryEmit(
+                    ShowAccount(
+                        accountManager.getAccountModel(
+                            accountId
+                        )
+                    )
+                )
+            }
+            .onFailure {
+                _uiState.tryEmit(Error(it.message ?: "Something went wrong"))
+            }
     }
 
     fun mandateState(id: String) {
         viewModelScope.launch {
             Log.d("xx", "mandateState: ${mandateManager.getMandate(id).getOrNull()?.state} ")
+            _uiState.tryEmit(Error("Something went wrong"))
         }
     }
 
@@ -58,9 +77,5 @@ class DetailsAccountViewModel @Inject constructor(
     }
 }
 
-sealed interface UiState
-data class Loading(val name: String) : UiState
-data class ShowAccount(
-    val accountCardModel: AccountCardModel,
-) : UiState
+
 

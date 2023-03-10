@@ -90,7 +90,7 @@ fun HomeScreen(
                         accountList = it.list,
                         onCurrentPage = { homeViewModel.getSessionToken(it) }
                     ) {
-                        navigator?.navigate(DetailsAccountScreenDestination(it))
+                        navigator?.navigate(DetailsAccountScreenDestination(it.accountId))
                     }
                 }
             }

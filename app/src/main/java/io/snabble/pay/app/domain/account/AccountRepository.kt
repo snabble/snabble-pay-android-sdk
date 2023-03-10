@@ -15,5 +15,5 @@ interface AccountRepository {
         appUri: String,
         city: String,
         twoLetterIsoCountryCode: String,
-    ): AccountCheck?
+    ): Result<AccountCheck>
 }

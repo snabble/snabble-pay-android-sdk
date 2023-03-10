@@ -10,7 +10,7 @@ interface AddNewAccountUseCase {
         appUri: String,
         city: String,
         twoLetterIsoCountryCode: String,
-    ): AccountCheck?
+    ): Result<AccountCheck>
 }
 
 class AddNewAccountUseCaseImpl @Inject constructor(
@@ -21,6 +21,6 @@ class AddNewAccountUseCaseImpl @Inject constructor(
         appUri: String,
         city: String,
         twoLetterIsoCountryCode: String,
-    ): AccountCheck? =
+    ): Result<AccountCheck> =
         accountRepository.addNewAccount(appUri, city, twoLetterIsoCountryCode)
 }

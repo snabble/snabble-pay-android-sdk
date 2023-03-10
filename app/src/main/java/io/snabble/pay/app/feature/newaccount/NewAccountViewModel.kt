@@ -3,12 +3,12 @@ package io.snabble.pay.app.feature.newaccount
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import io.snabble.pay.app.data.viewModelStates.Error
 import io.snabble.pay.app.data.viewModelStates.Loading
 import io.snabble.pay.app.data.viewModelStates.ShowAccount
 import io.snabble.pay.app.data.viewModelStates.UiState
 import io.snabble.pay.app.domain.account.usecase.AccountManager
 import io.snabble.pay.app.domain.mandate.usecase.MandateManager
-import io.snabble.pay.mandate.domain.model.Mandate
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -23,28 +23,55 @@ class NewAccountViewModel @Inject constructor(
     private var _uiState = MutableStateFlow<UiState>(Loading)
     val uiState = _uiState.asStateFlow()
 
-    private var _mandate = MutableStateFlow<Mandate?>(null)
-    val mandate = _mandate.asStateFlow()
-
     init {
         getNewAccount()
     }
 
-    fun createMandate(accountId: String) {
+    private fun createMandate(accountId: String) {
         viewModelScope.launch {
-            _mandate.tryEmit(mandateManager.createMandate(accountId).getOrNull())
+            mandateManager.createMandate(accountId).onFailure {
+                _uiState.tryEmit(Error(it.message ?: "Something went wrong"))
+            }
         }
     }
 
-    fun acceptMandate(accountId: String, mandateId: String) {
+    fun acceptMandate(accountId: String) {
         viewModelScope.launch {
-            mandateManager.acceptMandate(accountId, mandateId)
+            mandateManager.getMandate(accountId)
+                .onSuccess {
+                    if (it != null) {
+                        acceptMandate(accountId, it.id)
+                    } else {
+                        _uiState.tryEmit(Error("No Mandate exists"))
+                    }
+                }
+                .onFailure {
+                    _uiState.tryEmit(Error(it.message ?: "Something went wrong"))
+                }
         }
+    }
+
+    private suspend fun acceptMandate(accountId: String, mandateId: String) {
+        mandateManager.acceptMandate(accountId, mandateId)
+            .onSuccess {
+                _uiState.tryEmit(
+                    ShowAccount(
+                        accountManager.getAccountModel(
+                            accountId
+                        )
+                    )
+                )
+            }
+            .onFailure {
+                _uiState.tryEmit(Error(it.message ?: "Something went wrong"))
+            }
     }
 
     private fun getNewAccount() {
         viewModelScope.launch {
+            val account = accountManager.getAccountModels().last()
             _uiState.tryEmit(ShowAccount(accountManager.getAccountModels().last()))
+            createMandate(accountId = account.accountId)
         }
     }
 

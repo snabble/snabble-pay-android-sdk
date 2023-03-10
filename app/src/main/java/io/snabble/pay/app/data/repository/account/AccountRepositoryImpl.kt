@@ -33,8 +33,8 @@ class AccountRepositoryImpl @Inject constructor(
         appUri: String,
         city: String,
         twoLetterIsoCountryCode: String,
-    ): AccountCheck? =
-        accountRemoteDataSource.addNewAccount(appUri, city, twoLetterIsoCountryCode).getOrNull()
+    ): Result<AccountCheck> =
+        accountRemoteDataSource.addNewAccount(appUri, city, twoLetterIsoCountryCode)
 
     private fun Result<List<Account>>.toAccount() =
         getOrDefault(emptyList()).map {

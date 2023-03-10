@@ -22,6 +22,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import io.snabble.pay.app.R
+import io.snabble.pay.app.data.viewModelStates.StartValidationFlow
 import io.snabble.pay.app.feature.verifyaccount.VerifyAccountViewModel
 import io.snabble.pay.app.feature.verifyaccount.ui.widget.HyperLinkText
 import io.snabble.pay.app.ui.AppBarLayout
@@ -36,12 +37,11 @@ fun VerifyAccountScreen(
     navigator: DestinationsNavigator?,
     verifyAccountViewModel: VerifyAccountViewModel = hiltViewModel(),
 ) {
-    val accountCheck = verifyAccountViewModel.result.collectAsState()
+    val uiState = verifyAccountViewModel.uiState.collectAsState()
 
-    accountCheck.value?.let {
-        LocalContext.current.browseUrl(
-            it.validationLink
-        )
+    when(val it = uiState.value){
+        is StartValidationFlow -> LocalContext.current.browseUrl(it.validationLink)
+        else -> {}
     }
 
     AppBarLayout(

@@ -3,7 +3,9 @@ package io.snabble.pay.app.feature.verifyaccount
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.snabble.pay.account.domain.model.AccountCheck
+import io.snabble.pay.app.data.viewModelStates.Loading
+import io.snabble.pay.app.data.viewModelStates.StartValidationFlow
+import io.snabble.pay.app.data.viewModelStates.UiState
 import io.snabble.pay.app.domain.account.usecase.AddNewAccountUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -15,17 +17,24 @@ class VerifyAccountViewModel @Inject constructor(
     private val addNewAccountUseCase: AddNewAccountUseCase,
 ) : ViewModel() {
 
-    private var _result = MutableStateFlow<AccountCheck?>(null)
-    val result = _result.asStateFlow()
+    private var _uiState = MutableStateFlow<UiState>(Loading)
+    val uiState = _uiState.asStateFlow()
     fun getValidationLink() {
         viewModelScope.launch {
-            _result.tryEmit(
-                addNewAccountUseCase(
-                    appUri = "snabble-pay://account/check",
-                    city = "Berlin",
-                    twoLetterIsoCountryCode = "DE"
+            addNewAccountUseCase(
+                appUri = "snabble-pay://account/check",
+                city = "Berlin",
+                twoLetterIsoCountryCode = "DE"
+            ).onSuccess {
+                _uiState.tryEmit(StartValidationFlow(it.validationLink))
+            }.onFailure {
+                _uiState.tryEmit(
+                    io.snabble.pay.app.data.viewModelStates.Error(
+                        it.message ?: "Something went wront"
+                    )
                 )
-            )
+
+            }
         }
     }
 }

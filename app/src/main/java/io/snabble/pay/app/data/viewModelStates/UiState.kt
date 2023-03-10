@@ -11,9 +11,13 @@ data class ShowAccount(
 ) : UiState
 
 data class ShowAccounts(
-    val accounts: List<AccountCardModel>
-): UiState
+    val accounts: List<AccountCardModel>,
+) : UiState
+
+data class StartValidationFlow(
+    val validationLink: String,
+) : UiState
 
 data class Error(
-    val message: String
-): UiState
+    val message: String,
+) : UiState

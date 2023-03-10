@@ -30,7 +30,6 @@ import io.snabble.pay.account.domain.model.MandateState
 import io.snabble.pay.app.data.viewModelStates.Error
 import io.snabble.pay.app.data.viewModelStates.Loading
 import io.snabble.pay.app.data.viewModelStates.ShowAccount
-import io.snabble.pay.app.data.viewModelStates.ShowAccounts
 import io.snabble.pay.app.domain.account.AccountCardModel
 import io.snabble.pay.app.feature.detailsaccount.DetailsAccountViewModel
 import io.snabble.pay.app.feature.detailsaccount.ui.widget.DeleteButton
@@ -66,7 +65,7 @@ fun DetailsAccountScreen(
         is Error -> {
             Toast.makeText(LocalContext.current, it.message, Toast.LENGTH_SHORT).show()
         }
-        is ShowAccounts -> {}
+        else -> {}
     }
 
     AppBarLayout(

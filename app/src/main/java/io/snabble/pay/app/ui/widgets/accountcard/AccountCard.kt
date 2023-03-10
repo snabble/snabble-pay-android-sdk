@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
+import io.snabble.pay.account.domain.model.MandateState
 import io.snabble.pay.app.domain.account.AccountCardModel
 import io.snabble.pay.app.domain.account.utils.GradiantGenerator
 
@@ -98,6 +99,7 @@ fun PreviewAccountCard() {
             qrCodeToken = "https://www.google.com/",
             holderName = "Muster Mann",
             accountId = "1",
+            mandateState = MandateState.ACCEPTED,
             iban = "DE 1234 1234 1234 1234",
             bank = "Deutsche Bank",
             name = "Mein Konto"

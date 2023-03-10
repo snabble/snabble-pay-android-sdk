@@ -1,5 +1,6 @@
 package io.snabble.pay.app.domain.account
 
+import io.snabble.pay.account.domain.model.MandateState
 import io.snabble.pay.app.data.entity.AccountCard
 import kotlinx.serialization.Serializable
 
@@ -10,6 +11,7 @@ data class AccountCardModel(
     val iban: String,
     val bank: String,
     val name: String,
+    val mandateState: MandateState,
     val cardBackgroundColor: List<String>,
     val qrCodeToken: String?,
 )
@@ -18,6 +20,7 @@ fun AccountCard.toAccountCardModel() =
     AccountCardModel(
         accountId = id,
         name = name,
+        mandateState = mandateState,
         holderName = holderName,
         iban = iban,
         bank = bank,

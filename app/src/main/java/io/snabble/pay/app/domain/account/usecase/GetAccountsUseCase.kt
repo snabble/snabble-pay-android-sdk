@@ -1,5 +1,6 @@
 package io.snabble.pay.app.domain.account.usecase
 
+import io.snabble.pay.account.domain.model.MandateState
 import io.snabble.pay.app.data.entity.AccountCard
 import io.snabble.pay.app.domain.account.AccountCardModel
 import io.snabble.pay.app.domain.account.AccountRepository
@@ -25,6 +26,7 @@ class GetAccountsUseCaseImpl @Inject constructor(
                 iban = it.iban,
                 bank = it.bank,
                 name = it.name,
+                mandateState = MandateState.ACCEPTED,
                 cardBackgroundColor = it.colors,
                 qrCodeToken = null
             )

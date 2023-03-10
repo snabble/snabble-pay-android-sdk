@@ -18,6 +18,7 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.google.accompanist.pager.calculateCurrentOffsetForPage
 import com.google.accompanist.pager.rememberPagerState
+import io.snabble.pay.account.domain.model.MandateState
 import io.snabble.pay.app.domain.account.AccountCardModel
 import io.snabble.pay.app.domain.account.utils.GradiantGenerator
 import io.snabble.pay.app.ui.theme.SnabblePayTheme
@@ -109,6 +110,7 @@ private val previewList = listOf(
         qrCodeToken = "test",
         holderName = "Petra MusterMann",
         accountId = "1",
+        mandateState = MandateState.ACCEPTED,
         iban = "DE91 1000 0000 0123 4567 89",
         name = "Mein Konto",
         bank = "Deutsche Bank"
@@ -118,6 +120,7 @@ private val previewList = listOf(
         qrCodeToken = "test",
         holderName = "Muster Mann",
         accountId = "2",
+        mandateState = MandateState.ACCEPTED,
         name = "Mein Konto",
         iban = "DE 1234 1234 1234 1234",
         bank = "Deutsche Bank"
@@ -128,6 +131,7 @@ private val previewList = listOf(
         name = "Mein Konto",
         holderName = "Muster Mann",
         accountId = "3",
+        mandateState = MandateState.ACCEPTED,
         iban = "DE 1234 1234 1234 1234",
         bank = "Deutsche Bank"
     )

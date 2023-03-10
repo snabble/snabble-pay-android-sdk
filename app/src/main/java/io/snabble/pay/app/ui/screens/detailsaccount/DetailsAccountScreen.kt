@@ -215,7 +215,8 @@ fun DetailsAccountScreen(
                                     mandate.id
                                 )
                             }
-                        })
+                        }
+                    )
                 }
                 TextButton(
                     modifier = Modifier

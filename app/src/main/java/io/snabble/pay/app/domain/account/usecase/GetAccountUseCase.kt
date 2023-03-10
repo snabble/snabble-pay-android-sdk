@@ -12,7 +12,7 @@ interface GetAccountUseCase {
 
 class GetAccountUseCaseImpl @Inject constructor(
     private val accountRepository: AccountRepository,
-    ) : GetAccountUseCase {
+) : GetAccountUseCase {
 
     override suspend operator fun invoke(accountId: String): AccountCardModel =
         accountRepository.getAccount(accountId).toAccountCardModel()

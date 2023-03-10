@@ -6,6 +6,8 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import io.snabble.pay.app.domain.account.usecase.AccountManager
 import io.snabble.pay.app.domain.account.usecase.AccountManagerImpl
+import io.snabble.pay.app.domain.account.usecase.AddNewAccountUseCase
+import io.snabble.pay.app.domain.account.usecase.AddNewAccountUseCaseImpl
 import io.snabble.pay.app.domain.account.usecase.GetAccountUseCase
 import io.snabble.pay.app.domain.account.usecase.GetAccountUseCaseImpl
 import io.snabble.pay.app.domain.account.usecase.GetAccountsUseCase
@@ -28,8 +30,11 @@ import io.snabble.pay.app.domain.account.usecase.UpdateAccountNameUseCaseImpl
         source: UpdateAccountNameUseCaseImpl,
     ): UpdateAccountNameUseCase
 
+    @Binds fun bindAddNewAccountUseCase(
+        source: AddNewAccountUseCaseImpl,
+    ): AddNewAccountUseCase
+
     @Binds fun bindAccountManager(
         source: AccountManagerImpl,
     ): AccountManager
 }
-

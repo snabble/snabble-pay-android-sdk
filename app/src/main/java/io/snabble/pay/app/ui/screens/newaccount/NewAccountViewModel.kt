@@ -45,7 +45,6 @@ class NewAccountViewModel @Inject constructor(
     private fun getNewAccount() {
         viewModelScope.launch {
             _uiState.tryEmit(ShowAccount(accountManager.getAccountModels().last()))
-
         }
     }
 

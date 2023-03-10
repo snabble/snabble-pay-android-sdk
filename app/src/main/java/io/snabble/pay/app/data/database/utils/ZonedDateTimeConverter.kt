@@ -17,5 +17,3 @@ object ZonedDateTimeConverter {
         return date?.toString()
     }
 }
-
-

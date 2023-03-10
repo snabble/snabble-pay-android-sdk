@@ -15,10 +15,14 @@ class AccountRemoteDataSourceImpl @Inject constructor(
     override suspend fun getAccount(id: String): Result<Account> =
         snabblePay.getAccount(id)
 
-    override suspend fun addAccounts(): Result<AccountCheck> =
+    override suspend fun addNewAccount(
+        appUri: String,
+        city: String,
+        twoLetterIsoCountryCode: String,
+    ): Result<AccountCheck> =
         snabblePay.addNewAccount(
-            appUri = "snabble-pay://account/check",
-            city = "Berlin",
-            twoLetterIsoCountryCode = "DE"
+            appUri = appUri,
+            city = city,
+            twoLetterIsoCountryCode = twoLetterIsoCountryCode
         )
 }

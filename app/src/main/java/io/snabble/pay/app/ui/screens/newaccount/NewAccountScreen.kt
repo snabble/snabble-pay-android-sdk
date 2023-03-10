@@ -42,7 +42,6 @@ fun NewAccountScreen(
     navigator: DestinationsNavigator?,
     newAccountViewModel: NewAccountViewModel = hiltViewModel(),
 ) {
-
     val uiState = newAccountViewModel.uiState.collectAsState()
     val mandate = newAccountViewModel.mandate.collectAsState()
 
@@ -90,7 +89,6 @@ fun NewAccountScreen(
                                 cardName
                             )
                         }
-
                     }
                 )
                 AccountInformation(
@@ -100,7 +98,7 @@ fun NewAccountScreen(
                 )
                 Spacer(modifier = Modifier.height(96.dp))
                 val newMandate = mandate.value
-                if (newMandate!= null && newMandate.state.name != "ACCEPTED") {
+                if (newMandate != null && newMandate.state.name != "ACCEPTED") {
                     MandateWidget(
                         modifier = Modifier
                             .padding(horizontal = 16.dp),

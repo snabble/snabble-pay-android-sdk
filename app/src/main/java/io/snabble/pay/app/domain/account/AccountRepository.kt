@@ -1,5 +1,6 @@
 package io.snabble.pay.app.domain.account
 
+import io.snabble.pay.account.domain.model.AccountCheck
 import io.snabble.pay.app.data.entity.AccountCard
 
 interface AccountRepository {
@@ -11,4 +12,10 @@ interface AccountRepository {
     suspend fun updateAccountName(id: String, name: String)
 
     suspend fun saveAccounts(): List<AccountCard>
+
+    suspend fun addNewAccount(
+        appUri: String,
+        city: String,
+        twoLetterIsoCountryCode: String,
+    ): AccountCheck?
 }

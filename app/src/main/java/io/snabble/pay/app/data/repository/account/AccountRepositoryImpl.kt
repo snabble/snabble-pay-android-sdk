@@ -1,6 +1,7 @@
 package io.snabble.pay.app.data.repository.account
 
 import io.snabble.pay.account.domain.model.Account
+import io.snabble.pay.account.domain.model.AccountCheck
 import io.snabble.pay.app.data.entity.AccountCard
 import io.snabble.pay.app.data.repository.account.localdatasource.AccountLocalDataSource
 import io.snabble.pay.app.data.repository.account.remotedatasource.AccountRemoteDataSource
@@ -31,6 +32,13 @@ class AccountRepositoryImpl @Inject constructor(
     override suspend fun saveAccounts(): List<AccountCard> {
         TODO("Not yet implemented")
     }
+
+    override suspend fun addNewAccount(
+        appUri: String,
+        city: String,
+        twoLetterIsoCountryCode: String,
+    ): AccountCheck? =
+        accountRemoteDataSource.addNewAccount(appUri, city, twoLetterIsoCountryCode).getOrNull()
 
     private fun Result<List<Account>>.toAccount() =
         getOrDefault(emptyList()).map {

@@ -39,9 +39,9 @@ fun VerifyAccountScreen(
 ) {
     val accountCheck = verifyAccountViewModel.result.collectAsState()
 
-    if (accountCheck.value.isSuccess) {
+    accountCheck.value?.let {
         LocalContext.current.browseUrl(
-            accountCheck.value.getOrNull()?.validationLink ?: "https://google.com"
+            it.validationLink
         )
     }
 
@@ -122,5 +122,3 @@ fun VerifyAccountScreenPreview() {
         VerifyAccountScreen(null)
     }
 }
-
-

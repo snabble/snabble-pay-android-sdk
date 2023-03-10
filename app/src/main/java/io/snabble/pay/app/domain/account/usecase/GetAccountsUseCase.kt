@@ -1,8 +1,8 @@
 package io.snabble.pay.app.domain.account.usecase
 
 import io.snabble.pay.app.data.entity.AccountCard
-import io.snabble.pay.app.domain.account.AccountRepository
 import io.snabble.pay.app.domain.account.AccountCardModel
+import io.snabble.pay.app.domain.account.AccountRepository
 import javax.inject.Inject
 
 interface GetAccountsUseCase {

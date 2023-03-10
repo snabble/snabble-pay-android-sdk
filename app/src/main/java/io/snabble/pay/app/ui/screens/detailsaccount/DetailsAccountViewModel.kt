@@ -27,18 +27,14 @@ class DetailsAccountViewModel @Inject constructor(
 
     fun getAccount(id: String) {
         viewModelScope.launch {
-            _mandate.tryEmit(mandateManager.getMandate(id).getOrNull().also {
-                Log.d("xx", "getAccount: ${it?.state}")
-            })
+            _mandate.tryEmit(mandateManager.getMandate(id).getOrNull())
             _uiState.tryEmit(ShowAccount(accountManager.getAccountModel(id)))
         }
     }
 
     fun createMandate(accountId: String) {
         viewModelScope.launch {
-            _mandate.tryEmit(mandateManager.createMandate(accountId).getOrNull().also {
-                Log.d("xx", "createMandate: ${it?.id}")
-            })
+            _mandate.tryEmit(mandateManager.createMandate(accountId).getOrNull())
         }
     }
 
@@ -67,4 +63,3 @@ data class Loading(val name: String) : UiState
 data class ShowAccount(
     val accountCardModel: AccountCardModel,
 ) : UiState
-

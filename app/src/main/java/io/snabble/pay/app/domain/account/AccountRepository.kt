@@ -11,8 +11,6 @@ interface AccountRepository {
 
     suspend fun updateAccountName(id: String, name: String)
 
-    suspend fun saveAccounts(): List<AccountCard>
-
     suspend fun addNewAccount(
         appUri: String,
         city: String,

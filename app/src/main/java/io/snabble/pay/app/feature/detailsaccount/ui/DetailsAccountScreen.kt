@@ -1,54 +1,42 @@
-package io.snabble.pay.app.ui.screens.detailsaccount
+package io.snabble.pay.app.feature.detailsaccount.ui
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Clear
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
-import androidx.compose.material3.ElevatedCard
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-import io.snabble.pay.app.R
 import io.snabble.pay.app.domain.account.AccountCardModel
 import io.snabble.pay.app.domain.account.utils.GradiantGenerator
+import io.snabble.pay.app.feature.detailsaccount.DetailsAccountViewModel
+import io.snabble.pay.app.feature.detailsaccount.Loading
+import io.snabble.pay.app.feature.detailsaccount.ShowAccount
+import io.snabble.pay.app.feature.detailsaccount.ui.widget.DeleteButton
+import io.snabble.pay.app.feature.detailsaccount.ui.widget.DetailsBackground
+import io.snabble.pay.app.feature.detailsaccount.ui.widget.MandateGranted
 import io.snabble.pay.app.ui.AppBarLayout
 import io.snabble.pay.app.ui.theme.SnabblePayTheme
+import io.snabble.pay.app.ui.widgets.AcceptMandateWidget
 import io.snabble.pay.app.ui.widgets.EditTextField
-import io.snabble.pay.app.ui.widgets.MandateWidget
 import io.snabble.pay.app.ui.widgets.accountcard.AccountCard
+import io.snabble.pay.mandate.domain.model.MandateState
 
 @Destination
 @Composable
@@ -71,7 +59,7 @@ fun DetailsAccountScreen(
     }
 
     mandateState.value?.let { mandate ->
-        if (uiState.value is ShowAccount && mandate.state.name != "ACCEPTED") {
+        if (uiState.value is ShowAccount && mandate.state != MandateState.ACCEPTED) {
             detailsAccountViewModel.createMandate(accountCardModel.accountId)
         }
     }
@@ -87,35 +75,15 @@ fun DetailsAccountScreen(
             color = MaterialTheme.colorScheme.background
         ) {
             ConstraintLayout(modifier = Modifier.fillMaxSize()) {
-                val (backgroundOne, backgroundTwo) = createRefs()
+                val background = createRef()
                 val (edit, div, card, mandate, button) = createRefs()
 
-                Image(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .constrainAs(backgroundOne) {
-                            top.linkTo(card.bottom)
-                            start.linkTo(parent.start)
-                            end.linkTo(parent.end)
-                            bottom.linkTo(backgroundTwo.top)
-                        },
-                    contentScale = ContentScale.FillWidth,
-                    imageVector = ImageVector.vectorResource(id = R.drawable.ic_snabble_ellipse),
-                    contentDescription = ""
-                )
-                Image(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .constrainAs(backgroundTwo) {
-                            top.linkTo(backgroundOne.bottom)
-                            start.linkTo(parent.start)
-                            end.linkTo(parent.end)
-                            bottom.linkTo(parent.bottom)
-                        },
-                    contentScale = ContentScale.FillWidth,
-                    imageVector = ImageVector.vectorResource(id = R.drawable.ic_snabble_background),
-                    contentDescription = ""
-                )
+                DetailsBackground(modifier = Modifier
+                    .fillMaxWidth()
+                    .constrainAs(background) {
+                        top.linkTo(card.top)
+                        linkTo(start = parent.start, end = parent.end)
+                    })
                 EditTextField(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -143,7 +111,8 @@ fun DetailsAccountScreen(
                         .padding(horizontal = 16.dp)
                         .constrainAs(div) {
                             top.linkTo(edit.bottom)
-                            linkTo(parent.start, parent.end)
+                            start.linkTo(parent.start)
+                            end.linkTo(parent.end)
                         }
                 )
                 when (val it = uiState.value) {
@@ -151,10 +120,10 @@ fun DetailsAccountScreen(
                         AccountCard(
                             modifier = Modifier
                                 .padding(horizontal = 16.dp)
-                                .padding(top = 16.dp)
                                 .constrainAs(card) {
-                                    top.linkTo(div.bottom)
-                                    linkTo(parent.start, parent.end)
+                                    top.linkTo(div.bottom, margin = 16.dp)
+                                    start.linkTo(parent.start)
+                                    end.linkTo(parent.end)
                                 },
                             accountCard = it.accountCardModel,
                             onClick = { detailsAccountViewModel.mandateState(it.accountId) },
@@ -163,50 +132,24 @@ fun DetailsAccountScreen(
                     }
                     is Loading -> {}
                 }
-                if (mandateState.value?.state?.name == "ACCEPTED") {
-                    ElevatedCard(
+                if (mandateState.value?.state == MandateState.ACCEPTED) {
+                    MandateGranted(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(top = 16.dp)
                             .padding(horizontal = 16.dp)
                             .constrainAs(mandate) {
-                                top.linkTo(card.bottom)
-                                linkTo(parent.start, parent.end)
-                            },
-                        colors = CardDefaults.cardColors(
-                            containerColor = Color.White
-                        )
-                    ) {
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .defaultMinSize(minHeight = 60.dp),
-                            horizontalArrangement = Arrangement.Center,
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Surface(
-                                modifier = Modifier.defaultMinSize(
-                                    minWidth = 40.dp,
-                                    minHeight = 40.dp
-                                ),
-                                shape = CircleShape,
-                                color = colorResource(id = R.color.gray)
-                            ) {
-                                Icon(
-                                    modifier = Modifier.padding(8.dp),
-                                    imageVector = Icons.Filled.Check,
-                                    contentDescription = ""
-                                )
-                            }
-                            Text(
-                                modifier = Modifier.padding(start = 8.dp),
-                                text = "Sepa Mandat erteilt"
-                            )
-                        }
-                    }
+                                top.linkTo(card.bottom, 16.dp)
+                                start.linkTo(parent.start)
+                                end.linkTo(parent.end)
+                            })
                 } else {
-                    MandateWidget(
-                        modifier = Modifier.padding(horizontal = 16.dp),
+                    AcceptMandateWidget(
+                        modifier = Modifier
+                            .constrainAs(mandate) {
+                                top.linkTo(card.bottom, 16.dp)
+                                start.linkTo(parent.start, margin = 16.dp)
+                                end.linkTo(parent.end, margin = 16.dp)
+                            },
                         spacer = { Spacer(modifier = Modifier.height(32.dp)) },
                         onAccept = {
                             mandateState.value?.let { mandate ->
@@ -218,29 +161,15 @@ fun DetailsAccountScreen(
                         }
                     )
                 }
-                TextButton(
+                DeleteButton(
                     modifier = Modifier
                         .height(40.dp)
                         .constrainAs(button) {
                             linkTo(mandate.bottom, parent.bottom, bottomMargin = 32.dp, bias = 1.0f)
                             linkTo(parent.start, parent.end)
                         },
-                    colors = ButtonDefaults.elevatedButtonColors(
-                        containerColor = colorResource(id = R.color.gray),
-                        contentColor = MaterialTheme.colorScheme.onPrimary
-                    ),
-                    onClick = {
-                    }
-                ) {
-                    Icon(
-                        imageVector = ImageVector.vectorResource(id = R.drawable.ic_snabble_delete),
-                        contentDescription = ""
-                    )
-                    Text(
-                        modifier = Modifier.padding(start = 8.dp),
-                        text = "Bankverbindung löschen"
-                    )
-                }
+                    onClick = {}
+                )
             }
         }
     }

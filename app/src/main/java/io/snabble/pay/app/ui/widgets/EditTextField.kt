@@ -36,6 +36,7 @@ fun EditTextField(
         modifier = modifier.focusRequester(focusRequester),
         colors = TextFieldDefaults.textFieldColors(
             backgroundColor = MaterialTheme.colorScheme.background,
+            textColor = MaterialTheme.colorScheme.onSurface,
             focusedIndicatorColor = Color.Transparent,
             disabledIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent

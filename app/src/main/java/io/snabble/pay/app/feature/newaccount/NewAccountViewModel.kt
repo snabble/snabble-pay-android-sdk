@@ -1,13 +1,13 @@
-package io.snabble.pay.app.ui.screens.newaccount
+package io.snabble.pay.app.feature.newaccount
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.snabble.pay.app.domain.account.usecase.AccountManager
 import io.snabble.pay.app.domain.mandate.usecase.MandateManager
-import io.snabble.pay.app.ui.screens.detailsaccount.Loading
-import io.snabble.pay.app.ui.screens.detailsaccount.ShowAccount
-import io.snabble.pay.app.ui.screens.detailsaccount.UiState
+import io.snabble.pay.app.feature.detailsaccount.Loading
+import io.snabble.pay.app.feature.detailsaccount.ShowAccount
+import io.snabble.pay.app.feature.detailsaccount.UiState
 import io.snabble.pay.mandate.domain.model.Mandate
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

@@ -1,4 +1,4 @@
-package io.snabble.pay.app.ui.screens.detailsaccount
+package io.snabble.pay.app.feature.detailsaccount
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
@@ -63,3 +63,4 @@ data class Loading(val name: String) : UiState
 data class ShowAccount(
     val accountCardModel: AccountCardModel,
 ) : UiState
+

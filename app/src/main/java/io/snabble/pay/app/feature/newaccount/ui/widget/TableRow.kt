@@ -1,4 +1,4 @@
-package io.snabble.pay.app.ui.widgets
+package io.snabble.pay.app.feature.newaccount.ui.widget
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.defaultMinSize

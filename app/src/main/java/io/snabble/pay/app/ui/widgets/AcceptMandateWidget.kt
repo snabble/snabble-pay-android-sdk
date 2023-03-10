@@ -5,20 +5,17 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Text
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun MandateWidget(
+fun AcceptMandateWidget(
     modifier: Modifier,
     spacer: @Composable () -> Unit,
     onAccept: () -> Unit,
@@ -42,19 +39,12 @@ fun MandateWidget(
         )
     }
     spacer()
-    ElevatedButton(
+    DefaultButton(
         modifier = Modifier
             .padding(bottom = 32.dp)
             .height(40.dp),
-        colors = ButtonDefaults.elevatedButtonColors(
-            containerColor = Color.White,
-            contentColor = MaterialTheme.colorScheme.onPrimary
-        ),
-        onClick = { onAccept() }
+        text = "Zustimmen und loslegen"
     ) {
-        Text(
-            modifier = Modifier.padding(start = 8.dp),
-            text = "Zustimmen und loslegen"
-        )
+        onAccept()
     }
 }

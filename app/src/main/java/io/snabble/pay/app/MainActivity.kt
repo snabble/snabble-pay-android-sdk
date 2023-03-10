@@ -6,8 +6,8 @@ import androidx.activity.compose.setContent
 import androidx.lifecycle.lifecycleScope
 import com.ramcosta.composedestinations.DestinationsNavHost
 import dagger.hilt.android.AndroidEntryPoint
-import io.snabble.pay.app.ui.screens.NavGraphs
-import io.snabble.pay.app.ui.screens.destinations.NewAccountScreenDestination
+import io.snabble.pay.app.feature.NavGraphs
+import io.snabble.pay.app.feature.destinations.NewAccountScreenDestination
 import io.snabble.pay.app.ui.theme.SnabblePayTheme
 import io.snabble.pay.core.SnabblePay
 import kotlinx.coroutines.launch

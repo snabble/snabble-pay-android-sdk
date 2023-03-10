@@ -1,4 +1,4 @@
-package io.snabble.pay.app.ui.screens.newaccount
+package io.snabble.pay.app.feature.newaccount.ui
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -6,11 +6,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -19,22 +16,24 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import io.snabble.pay.app.domain.account.AccountCardModel
+import io.snabble.pay.app.feature.destinations.HomeScreenDestination
+import io.snabble.pay.app.feature.destinations.VerifyAccountScreenDestination
+import io.snabble.pay.app.feature.detailsaccount.Loading
+import io.snabble.pay.app.feature.detailsaccount.ShowAccount
+import io.snabble.pay.app.feature.newaccount.NewAccountViewModel
+import io.snabble.pay.app.feature.newaccount.ui.widget.AccountInformation
 import io.snabble.pay.app.ui.AppBarLayout
-import io.snabble.pay.app.ui.screens.destinations.HomeScreenDestination
-import io.snabble.pay.app.ui.screens.destinations.VerifyAccountScreenDestination
-import io.snabble.pay.app.ui.screens.detailsaccount.Loading
-import io.snabble.pay.app.ui.screens.detailsaccount.ShowAccount
 import io.snabble.pay.app.ui.theme.SnabblePayTheme
-import io.snabble.pay.app.ui.widgets.AccountInformation
+import io.snabble.pay.app.ui.widgets.AcceptMandateWidget
+import io.snabble.pay.app.ui.widgets.DefaultButton
 import io.snabble.pay.app.ui.widgets.EditTextField
-import io.snabble.pay.app.ui.widgets.MandateWidget
+import io.snabble.pay.mandate.domain.model.MandateState
 
 @Destination
 @Composable
@@ -62,7 +61,9 @@ fun NewAccountScreen(
 
     AppBarLayout(
         title = "Bankkonto",
-        onBackClick = { navigator?.navigate(VerifyAccountScreenDestination) }
+        onBackClick = {
+            navigator?.navigate(VerifyAccountScreenDestination)
+        }
     ) {
         Surface(
             modifier = Modifier
@@ -98,8 +99,8 @@ fun NewAccountScreen(
                 )
                 Spacer(modifier = Modifier.height(96.dp))
                 val newMandate = mandate.value
-                if (newMandate != null && newMandate.state.name != "ACCEPTED") {
-                    MandateWidget(
+                if (newMandate != null && newMandate.state != MandateState.ACCEPTED) {
+                    AcceptMandateWidget(
                         modifier = Modifier
                             .padding(horizontal = 16.dp),
                         spacer = { Spacer(modifier = Modifier.weight(1f)) },
@@ -115,22 +116,13 @@ fun NewAccountScreen(
                     )
                 } else {
                     Spacer(modifier = Modifier.weight(1f))
-                    ElevatedButton(
+                    DefaultButton(
                         modifier = Modifier
                             .padding(bottom = 32.dp)
                             .height(40.dp),
-                        colors = ButtonDefaults.elevatedButtonColors(
-                            containerColor = Color.White,
-                            contentColor = MaterialTheme.colorScheme.onPrimary
-                        ),
-                        onClick = {
-                            navigator?.navigate(HomeScreenDestination)
-                        }
+                        text = "Abschließen"
                     ) {
-                        Text(
-                            modifier = Modifier.padding(start = 8.dp),
-                            text = "Abschließen"
-                        )
+                        navigator?.navigate(HomeScreenDestination)
                     }
                 }
             }

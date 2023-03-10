@@ -1,4 +1,4 @@
-package io.snabble.pay.app.ui.widgets
+package io.snabble.pay.app.feature.verifyaccount.ui.widget
 
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material3.MaterialTheme

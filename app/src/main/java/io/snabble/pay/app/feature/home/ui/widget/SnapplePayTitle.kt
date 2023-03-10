@@ -1,4 +1,4 @@
-package io.snabble.pay.app.ui.widgets
+package io.snabble.pay.app.feature.home.ui.widget
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement

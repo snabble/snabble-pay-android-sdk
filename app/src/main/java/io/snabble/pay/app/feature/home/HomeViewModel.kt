@@ -1,4 +1,4 @@
-package io.snabble.pay.app.ui.screens.home
+package io.snabble.pay.app.feature.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

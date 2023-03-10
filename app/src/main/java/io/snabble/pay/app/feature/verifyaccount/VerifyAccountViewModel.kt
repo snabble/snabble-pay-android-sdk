@@ -1,4 +1,4 @@
-package io.snabble.pay.app.ui.screens.verifyaccount
+package io.snabble.pay.app.feature.verifyaccount
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

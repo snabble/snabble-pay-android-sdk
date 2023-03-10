@@ -1,4 +1,4 @@
-package io.snabble.pay.app.ui.screens.home
+package io.snabble.pay.app.feature.home.ui
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -23,10 +23,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-import io.snabble.pay.app.ui.screens.destinations.DetailsAccountScreenDestination
-import io.snabble.pay.app.ui.screens.destinations.VerifyAccountScreenDestination
+import io.snabble.pay.app.feature.destinations.DetailsAccountScreenDestination
+import io.snabble.pay.app.feature.destinations.VerifyAccountScreenDestination
+import io.snabble.pay.app.feature.home.HomeViewModel
+import io.snabble.pay.app.feature.home.Loading
+import io.snabble.pay.app.feature.home.ShowCards
+import io.snabble.pay.app.feature.home.ui.widget.SnapplePayTitle
 import io.snabble.pay.app.ui.theme.SnabblePayTheme
-import io.snabble.pay.app.ui.widgets.SnapplePayTitle
 import io.snabble.pay.app.ui.widgets.accountcard.AccountCardPager
 
 @RootNavGraph(start = true)
@@ -86,7 +89,9 @@ fun HomeScreen(
                             },
                         accountList = it.list,
                         onCurrentPage = { homeViewModel.getSessionToken(it) }
-                    ) { navigator?.navigate(DetailsAccountScreenDestination(it)) }
+                    ) {
+                        navigator?.navigate(DetailsAccountScreenDestination(it))
+                    }
                 }
             }
             FloatingActionButton(

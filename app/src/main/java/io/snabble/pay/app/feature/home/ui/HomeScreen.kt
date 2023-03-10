@@ -23,11 +23,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import io.snabble.pay.app.data.viewModelStates.ShowAccounts
 import io.snabble.pay.app.feature.destinations.DetailsAccountScreenDestination
 import io.snabble.pay.app.feature.destinations.VerifyAccountScreenDestination
 import io.snabble.pay.app.feature.home.HomeViewModel
-import io.snabble.pay.app.feature.home.Loading
-import io.snabble.pay.app.feature.home.ShowCards
 import io.snabble.pay.app.feature.home.ui.widget.SnapplePayTitle
 import io.snabble.pay.app.ui.theme.SnabblePayTheme
 import io.snabble.pay.app.ui.widgets.accountcard.AccountCardPager
@@ -78,8 +77,7 @@ fun HomeScreen(
                 fontWeight = FontWeight.Bold
             )
             when (val it = uiState.value) {
-                Loading -> {}
-                is ShowCards -> {
+                is ShowAccounts -> {
                     AccountCardPager(
                         modifier = Modifier
                             .constrainAs(pager) {
@@ -87,12 +85,13 @@ fun HomeScreen(
                                 start.linkTo(parent.start)
                                 end.linkTo(parent.end)
                             },
-                        accountList = it.list,
+                        accountList = it.accounts,
                         onCurrentPage = { homeViewModel.getSessionToken(it) }
                     ) {
                         navigator?.navigate(DetailsAccountScreenDestination(it.accountId))
                     }
                 }
+                else -> {}
             }
             FloatingActionButton(
                 modifier = Modifier

@@ -3,6 +3,9 @@ package io.snabble.pay.app.feature.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import io.snabble.pay.app.data.viewModelStates.Loading
+import io.snabble.pay.app.data.viewModelStates.ShowAccounts
+import io.snabble.pay.app.data.viewModelStates.UiState
 import io.snabble.pay.app.domain.account.AccountCardModel
 import io.snabble.pay.app.domain.account.usecase.GetAccountsUseCase
 import io.snabble.pay.app.domain.session.GetSessionTokenUseCase
@@ -17,7 +20,7 @@ class HomeViewModel @Inject constructor(
     private val getSession: GetSessionTokenUseCase,
 ) : ViewModel() {
 
-    private var _uiState = MutableStateFlow<HomeUiState>(Loading)
+    private var _uiState = MutableStateFlow<UiState>(Loading)
     val uiState = _uiState.asStateFlow()
 
     private var cardList: List<AccountCardModel> = emptyList()
@@ -26,7 +29,7 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             val accounts = getAccounts()
             cardList = accounts
-            _uiState.tryEmit(ShowCards(accounts))
+            _uiState.tryEmit(ShowAccounts(accounts))
         }
     }
 
@@ -39,12 +42,8 @@ class HomeViewModel @Inject constructor(
                     accMod
                 }
             }
-            _uiState.tryEmit(ShowCards(accounts))
+            _uiState.tryEmit(ShowAccounts(accounts))
         }
     }
 }
 
-sealed interface HomeUiState
-
-object Loading : HomeUiState
-data class ShowCards(val list: List<AccountCardModel>) : HomeUiState

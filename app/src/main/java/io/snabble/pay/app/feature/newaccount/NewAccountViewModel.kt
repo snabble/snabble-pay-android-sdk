@@ -3,11 +3,11 @@ package io.snabble.pay.app.feature.newaccount
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import io.snabble.pay.app.data.viewModelStates.Loading
+import io.snabble.pay.app.data.viewModelStates.ShowAccount
+import io.snabble.pay.app.data.viewModelStates.UiState
 import io.snabble.pay.app.domain.account.usecase.AccountManager
 import io.snabble.pay.app.domain.mandate.usecase.MandateManager
-import io.snabble.pay.app.feature.detailsaccount.Loading
-import io.snabble.pay.app.feature.detailsaccount.ShowAccount
-import io.snabble.pay.app.feature.detailsaccount.UiState
 import io.snabble.pay.mandate.domain.model.Mandate
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -20,7 +20,7 @@ class NewAccountViewModel @Inject constructor(
     private val mandateManager: MandateManager,
 ) : ViewModel() {
 
-    private var _uiState = MutableStateFlow<UiState>(Loading(""))
+    private var _uiState = MutableStateFlow<UiState>(Loading)
     val uiState = _uiState.asStateFlow()
 
     private var _mandate = MutableStateFlow<Mandate?>(null)

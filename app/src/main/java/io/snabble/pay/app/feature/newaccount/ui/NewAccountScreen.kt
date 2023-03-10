@@ -21,11 +21,11 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import io.snabble.pay.app.data.viewModelStates.Loading
+import io.snabble.pay.app.data.viewModelStates.ShowAccount
 import io.snabble.pay.app.domain.account.AccountCardModel
 import io.snabble.pay.app.feature.destinations.HomeScreenDestination
 import io.snabble.pay.app.feature.destinations.VerifyAccountScreenDestination
-import io.snabble.pay.app.feature.detailsaccount.Loading
-import io.snabble.pay.app.feature.detailsaccount.ShowAccount
 import io.snabble.pay.app.feature.newaccount.NewAccountViewModel
 import io.snabble.pay.app.feature.newaccount.ui.widget.AccountInformation
 import io.snabble.pay.app.ui.AppBarLayout
@@ -47,8 +47,9 @@ fun NewAccountScreen(
     var cardName by rememberSaveable { mutableStateOf("") }
 
     cardName = when (val it = uiState.value) {
-        is Loading -> it.name
+        is Loading -> ""
         is ShowAccount -> it.accountCardModel.name
+        else -> {""}
     }
 
     val accountCard: AccountCardModel? = when (val it = uiState.value) {
@@ -57,6 +58,7 @@ fun NewAccountScreen(
             newAccountViewModel.createMandate(it.accountCardModel.accountId)
             it.accountCardModel
         }
+        else -> {null}
     }
 
     AppBarLayout(

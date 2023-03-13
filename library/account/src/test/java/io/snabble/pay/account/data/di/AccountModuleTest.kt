@@ -15,6 +15,7 @@ import io.snabble.pay.account.domain.repository.AccountsRepository
 import io.snabble.pay.account.domain.usecase.CreateAccountCheckUseCase
 import io.snabble.pay.account.domain.usecase.GetAllAccountsUseCase
 import io.snabble.pay.account.domain.usecase.GetSpecificAccountUseCase
+import io.snabble.pay.account.domain.usecase.RemoveAccountUseCase
 import org.koin.dsl.module
 import org.koin.test.KoinTest
 import org.koin.test.get
@@ -52,6 +53,10 @@ class AccountModuleTest : FreeSpec(), KoinTest {
 
                 "GetAllAccountsUseCase" {
                     get<GetAllAccountsUseCase>().shouldNotBeNull()
+                }
+
+                "RemoveAccountUseCase" {
+                    get<RemoveAccountUseCase>().shouldNotBeNull()
                 }
             }
 

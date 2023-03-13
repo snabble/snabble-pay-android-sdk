@@ -14,4 +14,6 @@ interface AccountsRepository {
     suspend fun getAccount(id: String): Result<Account>
 
     suspend fun getAccounts(): Result<List<Account>>
+
+    suspend fun removeAccount(id: String): Result<Account>
 }

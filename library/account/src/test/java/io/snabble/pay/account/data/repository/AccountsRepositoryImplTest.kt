@@ -245,4 +245,63 @@ internal class AccountsRepositoryImplTest : FreeSpec({
             }
         }
     }
+
+    "::removeAccount" - {
+
+        "call the service's method w/ the given account id" {
+            val sut = createSut()
+            sut.removeAccount(id = "a1")
+
+            coVerify { service.removeAccount(id = "a1") }
+        }
+
+        "maps the result from the service to the domain model" {
+            val accountDtoMock: AccountDto = mockk()
+            coEvery {
+                service.removeAccount(id = any())
+            } returns Success(
+                data = accountDtoMock,
+                response = mockk()
+            )
+
+            val sut = createSut()
+            sut.removeAccount(id = "a1")
+
+            coVerify { accountMapper.map(from = accountDtoMock) }
+        }
+
+        "returns a Result" - {
+
+            "with the mapped object" {
+                val accountMock: Account = mockk()
+                coEvery { accountMapper.map(from = any()) } returns accountMock
+                coEvery {
+                    service.removeAccount(id = any())
+                } returns Success(
+                    data = mockk(),
+                    response = mockk()
+                )
+
+                val sut = createSut()
+                val result = sut.removeAccount(id = "a1")
+
+                result.isSuccess.shouldBeTrue()
+                result.getOrNull() shouldBe accountMock
+            }
+
+            "that's failure if the request failed" {
+                coEvery {
+                    service.removeAccount(id = any())
+                } returns Error(
+                    message = null,
+                    exception = Exception()
+                )
+
+                val sut = createSut()
+                val result = sut.removeAccount(id = "a1")
+
+                result.isSuccess.shouldBeFalse()
+            }
+        }
+    }
 })

@@ -9,6 +9,7 @@ import io.snabble.pay.account.domain.repository.AccountsRepository
 import io.snabble.pay.account.domain.usecase.CreateAccountCheckUseCase
 import io.snabble.pay.account.domain.usecase.GetAllAccountsUseCase
 import io.snabble.pay.account.domain.usecase.GetSpecificAccountUseCase
+import io.snabble.pay.account.domain.usecase.RemoveAccountUseCase
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
 import org.koin.dsl.module
@@ -18,6 +19,7 @@ val accountModule = module {
     factory { CreateAccountCheckUseCase(get<AccountsRepository>()::getAccountCheck) }
     factory { GetSpecificAccountUseCase(get<AccountsRepository>()::getAccount) }
     factory { GetAllAccountsUseCase(get<AccountsRepository>()::getAccounts) }
+    factory { RemoveAccountUseCase(get<AccountsRepository>()::removeAccount) }
 
     singleOf(::AccountsRepositoryImpl) bind AccountsRepository::class
 

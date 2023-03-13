@@ -11,6 +11,7 @@ fun snabblePay(
 ): SnabblePay {
     val configuration = SnabblePayConfiguration.init(context, setup)
     return SnabblePayImpl(
-        accountSupport = configuration.koin.get()
+        accountSupport = configuration.koin.get(),
+        mandateSupport = configuration.koin.get()
     )
 }

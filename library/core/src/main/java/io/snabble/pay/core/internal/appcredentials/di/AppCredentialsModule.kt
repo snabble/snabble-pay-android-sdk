@@ -14,7 +14,7 @@ import org.koin.dsl.bind
 import org.koin.dsl.module
 
 val appCredentialsModule = module {
-    factory { GetAppCredentialsUseCase(get<AppCredentialsRepositoryImpl>()::getAppCredentials) }
+    factory { GetAppCredentialsUseCase(get<AppCredentialsRepository>()::getAppCredentials) }
 
     singleOf(::AppCredentialsRepositoryImpl) bind AppCredentialsRepository::class
 

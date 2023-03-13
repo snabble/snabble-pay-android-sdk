@@ -66,7 +66,18 @@ class MainActivity : ComponentActivity() {
                     )
                 }
             }
-            Log.d("xx", "Accounts: ${snabblePay.getAccounts().getOrNull()}")
+            Log.d(
+                "xx",
+                "Accounts: ${
+                    snabblePay.getAccounts()
+                        .getOrNull()
+                        ?.map { it.id }
+                        ?.firstOrNull()
+                        ?.let {
+                            snabblePay.getMandate(it)
+                        }
+                }"
+            )
         }
     }
 }

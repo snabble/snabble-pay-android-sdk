@@ -1,6 +1,5 @@
 package io.snabble.pay.app.ui.widgets.accountcard
 
-import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
@@ -30,7 +29,7 @@ import kotlin.math.absoluteValue
 fun AccountCardPager(
     modifier: Modifier = Modifier,
     accountList: List<AccountCardModel>,
-    onCurrentPage: (string : String) -> Unit,
+    onCurrentPage: (string: String) -> Unit,
     onClick: (AccountCardModel) -> Unit,
 ) {
     val pagerState = rememberPagerState(initialPage = 0)
@@ -38,8 +37,6 @@ fun AccountCardPager(
     LaunchedEffect(pagerState) {
         snapshotFlow { pagerState.currentPage }.collect { page ->
             if (accountList.isNotEmpty()) {
-                Log.d("xx", "AccountCardPager: $page")
-                Log.d("xx", "AccountCardPager: ${accountList[page].accountId}")
                 onCurrentPage(accountList[page].accountId)
             }
         }

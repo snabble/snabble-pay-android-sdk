@@ -8,7 +8,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -17,6 +19,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -46,22 +49,19 @@ fun DetailsAccountScreen(
     detailsAccountViewModel: DetailsAccountViewModel = hiltViewModel(),
     accountId: String,
 ) {
-    val uiState = detailsAccountViewModel.uiState.collectAsState()
-
     var cardName by rememberSaveable { mutableStateOf("") }
     var account: AccountCardModel? by remember { mutableStateOf(null) }
 
-    when (val it = uiState.value) {
-        is Loading -> {
-            detailsAccountViewModel.getAccount(accountId)
-            cardName = ""
-        }
+    val uiState = detailsAccountViewModel.uiState.collectAsState()
+
+    when (val state = uiState.value) {
+        is Loading -> detailsAccountViewModel.getAccount(accountId)
         is ShowAccount -> {
-            cardName = it.accountCardModel.name
-            account = it.accountCardModel
+            cardName = state.accountCardModel.name
+            account = state.accountCardModel
         }
         is Error -> {
-            Toast.makeText(LocalContext.current, it.message, Toast.LENGTH_SHORT).show()
+            Toast.makeText(LocalContext.current, state.message, Toast.LENGTH_SHORT).show()
         }
         else -> {}
     }
@@ -75,12 +75,14 @@ fun DetailsAccountScreen(
             val background = createRef()
             val (edit, div, card, mandate, button) = createRefs()
 
-            DetailsBackground(modifier = Modifier
-                .fillMaxWidth()
-                .constrainAs(background) {
-                    top.linkTo(card.top)
-                    linkTo(start = parent.start, end = parent.end)
-                })
+            DetailsBackground(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .constrainAs(background) {
+                        top.linkTo(card.top)
+                        linkTo(start = parent.start, end = parent.end)
+                    }
+            )
             EditTextField(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -134,22 +136,30 @@ fun DetailsAccountScreen(
                                 top.linkTo(card.bottom, 16.dp)
                                 start.linkTo(parent.start)
                                 end.linkTo(parent.end)
-                            })
+                            }
+                    )
                 } else {
-                    AcceptMandateWidget(
+                    ElevatedCard(
                         modifier = Modifier
-                            .padding(horizontal = 16.dp)
+                            .padding(horizontal = 32.dp)
                             .constrainAs(mandate) {
-                                top.linkTo(card.bottom, 16.dp)
+                                top.linkTo(card.bottom, 32.dp)
                                 start.linkTo(parent.start)
                                 end.linkTo(parent.end)
                             },
-                        spacer = { Spacer(modifier = Modifier.height(32.dp)) },
-                        onAccept = {
-                            detailsAccountViewModel.acceptMandate(accountId)
-                        }
+                        colors = CardDefaults.cardColors(
+                            containerColor = Color.White
+                        )
+                    ) {
+                        AcceptMandateWidget(
+                            modifier = Modifier.padding(vertical = 16.dp),
+                            spacer = { Spacer(modifier = Modifier.height(32.dp)) },
+                            onAccept = {
+                                detailsAccountViewModel.acceptMandate(accountId)
+                            }
 
-                    )
+                        )
+                    }
                 }
             }
             DeleteButton(

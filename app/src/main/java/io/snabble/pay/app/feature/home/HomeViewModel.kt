@@ -7,7 +7,6 @@ import io.snabble.pay.app.data.viewModelStates.Error
 import io.snabble.pay.app.data.viewModelStates.Loading
 import io.snabble.pay.app.data.viewModelStates.ShowAccounts
 import io.snabble.pay.app.data.viewModelStates.UiState
-import io.snabble.pay.app.domain.account.AccountCardModel
 import io.snabble.pay.app.domain.account.usecase.GetAccountsUseCase
 import io.snabble.pay.app.domain.session.GetSessionTokenUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -24,8 +23,6 @@ class HomeViewModel @Inject constructor(
     private var _uiState = MutableStateFlow<UiState>(Loading)
     val uiState = _uiState.asStateFlow()
 
-    private var cardList: List<AccountCardModel> = emptyList()
-
     init {
         viewModelScope.launch {
             getAccounts()
@@ -34,21 +31,25 @@ class HomeViewModel @Inject constructor(
                 }
                 .onSuccess { accounts ->
                     _uiState.tryEmit(ShowAccounts(accounts))
-                    cardList = accounts
                 }
         }
     }
 
     fun getSessionToken(accountId: String) {
         viewModelScope.launch {
-            val accounts = cardList.map { accMod ->
-                if (accMod.accountId == accountId) {
-                    accMod.copy(qrCodeToken = getSession(accountId))
-                } else {
-                    accMod
+            when (val state = uiState.value) {
+                is ShowAccounts -> {
+                    val accounts = state.accounts.map { accMod ->
+                        if (accMod.accountId == accountId) {
+                            accMod.copy(qrCodeToken = getSession(accountId))
+                        } else {
+                            accMod
+                        }
+                    }
+                    _uiState.tryEmit(ShowAccounts(accounts))
                 }
+                else -> {}
             }
-            _uiState.tryEmit(ShowAccounts(accounts))
         }
     }
 }

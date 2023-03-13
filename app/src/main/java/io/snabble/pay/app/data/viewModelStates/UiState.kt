@@ -6,6 +6,9 @@ sealed interface UiState
 
 object Loading : UiState
 
+object MandateAccepted : UiState
+
+object MandatePendingOrDeclined : UiState
 data class ShowAccount(
     val accountCardModel: AccountCardModel,
 ) : UiState
@@ -17,10 +20,6 @@ data class ShowAccounts(
 data class StartValidationFlow(
     val validationLink: String,
 ) : UiState
-
-object MandateAccepted : UiState
-
-object MandatePendingOrDeclined : UiState
 
 data class Error(
     val message: String? = "Ups! Something went wrong",

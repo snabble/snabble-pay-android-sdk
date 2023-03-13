@@ -95,7 +95,7 @@ fun PreviewAccountCard() {
         modifier = Modifier
             .padding(horizontal = 32.dp),
         accountCard = AccountCardModel(
-            cardBackgroundColor = GradiantGenerator().createGradiantBackground(),
+            cardBackgroundColor = GradiantGenerator.createGradiantColorList(),
             qrCodeToken = "https://www.google.com/",
             holderName = "Muster Mann",
             accountId = "1",

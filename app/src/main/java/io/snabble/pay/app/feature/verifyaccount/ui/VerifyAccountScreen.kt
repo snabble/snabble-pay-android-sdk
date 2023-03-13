@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -41,7 +40,7 @@ fun VerifyAccountScreen(
 ) {
     val uiState = verifyAccountViewModel.uiState.collectAsState()
 
-    when(val it = uiState.value){
+    when (val it = uiState.value) {
         is StartValidationFlow -> LocalContext.current.browseUrl(it.validationLink)
         is Error -> Toast.makeText(LocalContext.current, it.message, Toast.LENGTH_SHORT).show()
         else -> {}
@@ -51,55 +50,49 @@ fun VerifyAccountScreen(
         title = "Bankverbindung hinzufügen",
         onBackClick = { navigator?.navigateUp() }
     ) {
-        Surface(
+        Column(
             modifier = Modifier
-                .fillMaxSize(),
-            color = MaterialTheme.colorScheme.background
+                .fillMaxSize()
+                .padding(horizontal = 16.dp)
+                .padding(top = 40.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Column(
+            Text(
+                textAlign = TextAlign.Center,
+                text = stringResource(id = R.string.verify_bank),
+                style = MaterialTheme.typography.headlineLarge,
+                letterSpacing = 1.5.sp
+            )
+            InfoText(
+                modifier = Modifier.padding(top = 32.dp),
+                string = stringResource(id = R.string.verify_bank_description)
+            )
+            InfoText(
+                modifier = Modifier.padding(top = 32.dp),
+                string = stringResource(id = R.string.verify_account_exists)
+            )
+            HyperLinkText(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .padding(horizontal = 16.dp)
-                    .padding(top = 40.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
+                    .padding(top = 4.dp),
+                string = stringResource(id = R.string.verify_country_choice_link)
+            ) {}
+            InfoText(
+                modifier = Modifier.padding(top = 32.dp),
+                string = stringResource(id = R.string.verify_privacy_description)
+            )
+            HyperLinkText(
+                modifier = Modifier
+                    .padding(top = 4.dp),
+                string = stringResource(id = R.string.verify_privacy_link)
+            ) {}
+            Spacer(modifier = Modifier.weight(1f))
+            DefaultButton(
+                modifier = Modifier
+                    .padding(bottom = 32.dp)
+                    .height(40.dp),
+                text = stringResource(id = R.string.verify_account)
             ) {
-                Text(
-                    textAlign = TextAlign.Center,
-                    text = stringResource(id = R.string.verify_bank),
-                    style = MaterialTheme.typography.headlineLarge,
-                    letterSpacing = 1.5.sp
-                )
-                InfoText(
-                    modifier = Modifier.padding(top = 32.dp),
-                    string = stringResource(id = R.string.verify_bank_description)
-                )
-                InfoText(
-                    modifier = Modifier.padding(top = 32.dp),
-                    string = stringResource(id = R.string.verify_account_exists)
-                )
-                HyperLinkText(
-                    modifier = Modifier
-                        .padding(top = 4.dp),
-                    string = stringResource(id = R.string.verify_country_choice_link)
-                ) {}
-                InfoText(
-                    modifier = Modifier.padding(top = 32.dp),
-                    string = stringResource(id = R.string.verify_privacy_description)
-                )
-                HyperLinkText(
-                    modifier = Modifier
-                        .padding(top = 4.dp),
-                    string = stringResource(id = R.string.verify_privacy_link)
-                ) {}
-                Spacer(modifier = Modifier.weight(1f))
-                DefaultButton(
-                    modifier = Modifier
-                        .padding(bottom = 32.dp)
-                        .height(40.dp),
-                    text = stringResource(id = R.string.verify_account)
-                ) {
-                    verifyAccountViewModel.getValidationLink()
-                }
+                verifyAccountViewModel.getValidationLink()
             }
         }
     }

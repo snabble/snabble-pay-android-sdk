@@ -109,7 +109,7 @@ fun AccountCardPagerPreview() {
 
 private val previewList = listOf(
     AccountCardModel(
-        cardBackgroundColor = GradiantGenerator().createGradiantBackground(),
+        cardBackgroundColor = GradiantGenerator.createGradiantColorList(),
         qrCodeToken = "test",
         holderName = "Petra MusterMann",
         accountId = "1",
@@ -119,7 +119,7 @@ private val previewList = listOf(
         bank = "Deutsche Bank"
     ),
     AccountCardModel(
-        cardBackgroundColor = GradiantGenerator().createGradiantBackground(),
+        cardBackgroundColor = GradiantGenerator.createGradiantColorList(),
         qrCodeToken = "test",
         holderName = "Muster Mann",
         accountId = "2",
@@ -129,7 +129,7 @@ private val previewList = listOf(
         bank = "Deutsche Bank"
     ),
     AccountCardModel(
-        cardBackgroundColor = GradiantGenerator().createGradiantBackground(),
+        cardBackgroundColor = GradiantGenerator.createGradiantColorList(),
         qrCodeToken = "test",
         name = "Mein Konto",
         holderName = "Muster Mann",

@@ -8,8 +8,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -74,62 +72,56 @@ fun NewAccountScreen(
             navigator?.navigate(VerifyAccountScreenDestination)
         }
     ) {
-        Surface(
-            modifier = Modifier
-                .fillMaxSize(),
-            color = MaterialTheme.colorScheme.background
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Column(
-                modifier = Modifier.fillMaxSize(),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                EditTextField(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 32.dp),
-                    placeholder = cardName,
-                    value = cardName,
-                    onValueChange = {
-                        cardName = it
-                    },
-                    onAction = {
-                        account?.let {
-                            newAccountViewModel.updateAccountName(
-                                it.accountId,
-                                cardName
-                            )
-                        }
-                    }
-                )
-                AccountInformation(
-                    holderName = account?.holderName ?: "",
-                    iban = account?.iban ?: "",
-                    bank = account?.bank ?: ""
-                )
-                Spacer(modifier = Modifier.height(96.dp))
-                account?.let { accountCard ->
-                    if (uiState.value is MandatePendingOrDeclined) {
-                        AcceptMandateWidget(
-                            modifier = Modifier
-                                .padding(horizontal = 16.dp),
-                            spacer = { Spacer(modifier = Modifier.weight(1f)) },
-                            onAccept = {
-                                account?.let {
-                                    newAccountViewModel.acceptMandate(accountCard.accountId)
-                                }
-                                navigator?.navigate(HomeScreenDestination)
-                            }
+            EditTextField(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 32.dp),
+                placeholder = cardName,
+                value = cardName,
+                onValueChange = {
+                    cardName = it
+                },
+                onAction = {
+                    account?.let {
+                        newAccountViewModel.updateAccountName(
+                            it.accountId,
+                            cardName
                         )
-                    } else {
-                        Spacer(modifier = Modifier.weight(1f))
-                        DefaultButton(
-                            modifier = Modifier
-                                .padding(bottom = 32.dp)
-                                .height(40.dp),
-                            text = "Abschließen"
-                        ) {
+                    }
+                }
+            )
+            AccountInformation(
+                holderName = account?.holderName ?: "",
+                iban = account?.iban ?: "",
+                bank = account?.bank ?: ""
+            )
+            Spacer(modifier = Modifier.height(96.dp))
+            account?.let { accountCard ->
+                if (uiState.value is MandatePendingOrDeclined) {
+                    AcceptMandateWidget(
+                        modifier = Modifier
+                            .padding(horizontal = 16.dp),
+                        spacer = { Spacer(modifier = Modifier.weight(1f)) },
+                        onAccept = {
+                            account?.let {
+                                newAccountViewModel.acceptMandate(accountCard.accountId)
+                            }
                             navigator?.navigate(HomeScreenDestination)
                         }
+                    )
+                } else {
+                    Spacer(modifier = Modifier.weight(1f))
+                    DefaultButton(
+                        modifier = Modifier
+                            .padding(bottom = 32.dp)
+                            .height(40.dp),
+                        text = "Abschließen"
+                    ) {
+                        navigator?.navigate(HomeScreenDestination)
                     }
                 }
             }

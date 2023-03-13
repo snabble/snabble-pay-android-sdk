@@ -54,7 +54,7 @@ class AccountRepositoryImpl @Inject constructor(
                 currencyCode = it.currencyCode,
                 createdAt = it.createdAt,
                 mandateState = it.mandateState,
-                colors = GradiantGenerator().createGradiantBackground()
+                colors = GradiantGenerator.createGradiantColorList()
             )
         }
 }

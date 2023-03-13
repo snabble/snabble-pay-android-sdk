@@ -45,4 +45,10 @@ class GradiantGenerator {
             colorTwo
         )
     }
+
+    companion object {
+
+        fun createGradiantColorList() =
+            GradiantGenerator().createGradiantBackground()
+    }
 }

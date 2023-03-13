@@ -9,8 +9,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material3.Divider
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -73,102 +71,96 @@ fun DetailsAccountScreen(
         icon = Icons.Filled.Clear,
         onBackClick = { navigator?.navigateUp() }
     ) {
-        Surface(
-            modifier = Modifier
-                .fillMaxSize(),
-            color = MaterialTheme.colorScheme.background
-        ) {
-            ConstraintLayout(modifier = Modifier.fillMaxSize()) {
-                val background = createRef()
-                val (edit, div, card, mandate, button) = createRefs()
+        ConstraintLayout(modifier = Modifier.fillMaxSize()) {
+            val background = createRef()
+            val (edit, div, card, mandate, button) = createRefs()
 
-                DetailsBackground(modifier = Modifier
+            DetailsBackground(modifier = Modifier
+                .fillMaxWidth()
+                .constrainAs(background) {
+                    top.linkTo(card.top)
+                    linkTo(start = parent.start, end = parent.end)
+                })
+            EditTextField(
+                modifier = Modifier
                     .fillMaxWidth()
-                    .constrainAs(background) {
-                        top.linkTo(card.top)
-                        linkTo(start = parent.start, end = parent.end)
-                    })
-                EditTextField(
+                    .padding(horizontal = 16.dp)
+                    .constrainAs(edit) {
+                        top.linkTo(parent.top, margin = 40.dp)
+                        start.linkTo(parent.start)
+                        end.linkTo(parent.end)
+                    },
+                placeholder = cardName,
+                value = cardName,
+                onValueChange = {
+                    cardName = it
+                },
+                onAction = {
+                    detailsAccountViewModel.updateAccountName(
+                        accountId,
+                        cardName
+                    )
+                }
+            )
+            Divider(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp)
+                    .constrainAs(div) {
+                        top.linkTo(edit.bottom)
+                        start.linkTo(parent.start)
+                        end.linkTo(parent.end)
+                    }
+            )
+            account?.let { accountCard ->
+                AccountCard(
                     modifier = Modifier
-                        .fillMaxWidth()
                         .padding(horizontal = 16.dp)
-                        .constrainAs(edit) {
-                            top.linkTo(parent.top, margin = 40.dp)
+                        .constrainAs(card) {
+                            top.linkTo(div.bottom, margin = 16.dp)
                             start.linkTo(parent.start)
                             end.linkTo(parent.end)
                         },
-                    placeholder = cardName,
-                    value = cardName,
-                    onValueChange = {
-                        cardName = it
-                    },
-                    onAction = {
-                        detailsAccountViewModel.updateAccountName(
-                            accountId,
-                            cardName
-                        )
-                    }
+                    accountCard = accountCard,
+                    onClick = {},
+                    qrCodeString = "https://www.google.com/"
                 )
-                Divider(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp)
-                        .constrainAs(div) {
-                            top.linkTo(edit.bottom)
-                            start.linkTo(parent.start)
-                            end.linkTo(parent.end)
-                        }
-                )
-                account?.let { accountCard ->
-                    AccountCard(
+                if (accountCard.mandateState == MandateState.ACCEPTED) {
+                    MandateGranted(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp)
+                            .constrainAs(mandate) {
+                                top.linkTo(card.bottom, 16.dp)
+                                start.linkTo(parent.start)
+                                end.linkTo(parent.end)
+                            })
+                } else {
+                    AcceptMandateWidget(
                         modifier = Modifier
                             .padding(horizontal = 16.dp)
-                            .constrainAs(card) {
-                                top.linkTo(div.bottom, margin = 16.dp)
+                            .constrainAs(mandate) {
+                                top.linkTo(card.bottom, 16.dp)
                                 start.linkTo(parent.start)
                                 end.linkTo(parent.end)
                             },
-                        accountCard = accountCard,
-                        onClick = {},
-                        qrCodeString = "https://www.google.com/"
-                    )
-                    if (accountCard.mandateState == MandateState.ACCEPTED) {
-                        MandateGranted(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = 16.dp)
-                                .constrainAs(mandate) {
-                                    top.linkTo(card.bottom, 16.dp)
-                                    start.linkTo(parent.start)
-                                    end.linkTo(parent.end)
-                                })
-                    } else {
-                        AcceptMandateWidget(
-                            modifier = Modifier
-                                .padding(horizontal = 16.dp)
-                                .constrainAs(mandate) {
-                                    top.linkTo(card.bottom, 16.dp)
-                                    start.linkTo(parent.start)
-                                    end.linkTo(parent.end)
-                                },
-                            spacer = { Spacer(modifier = Modifier.height(32.dp)) },
-                            onAccept = {
-                                detailsAccountViewModel.acceptMandate(accountId)
-                            }
+                        spacer = { Spacer(modifier = Modifier.height(32.dp)) },
+                        onAccept = {
+                            detailsAccountViewModel.acceptMandate(accountId)
+                        }
 
-                        )
-                    }
+                    )
                 }
-                DeleteButton(
-                    modifier = Modifier
-                        .height(40.dp)
-                        .constrainAs(button) {
-                            linkTo(mandate.bottom, parent.bottom, bottomMargin = 32.dp, bias = 1.0f)
-                            linkTo(parent.start, parent.end)
-                        },
-                    onClick = {}
-                )
             }
+            DeleteButton(
+                modifier = Modifier
+                    .height(40.dp)
+                    .constrainAs(button) {
+                        linkTo(mandate.bottom, parent.bottom, bottomMargin = 32.dp, bias = 1.0f)
+                        linkTo(parent.start, parent.end)
+                    },
+                onClick = {}
+            )
         }
     }
 }

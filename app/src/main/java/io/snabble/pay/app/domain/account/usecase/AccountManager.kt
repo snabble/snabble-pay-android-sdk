@@ -5,7 +5,7 @@ import javax.inject.Inject
 
 interface AccountManager {
 
-    suspend fun getAccountModels(): List<AccountCardModel>
+    suspend fun getAccountModels(): Result<List<AccountCardModel>>
 
     suspend fun getAccountModel(accountId: String): AccountCardModel
 
@@ -18,7 +18,7 @@ class AccountManagerImpl @Inject constructor(
     private val updateAccountNameUseCase: UpdateAccountNameUseCase,
 ) : AccountManager {
 
-    override suspend fun getAccountModels(): List<AccountCardModel> =
+    override suspend fun getAccountModels(): Result<List<AccountCardModel>> =
         getAccountsUseCase()
 
     override suspend fun getAccountModel(accountId: String): AccountCardModel =

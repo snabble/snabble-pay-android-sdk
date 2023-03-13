@@ -16,8 +16,12 @@ class AccountLocalDataSourceImpl @Inject constructor(
     override suspend fun getAccountById(id: String): AccountCard =
         accountDao.getAccountById(id)
 
-    override suspend fun saveAccounts(accounts: List<AccountCard>) =
+    override suspend fun saveAccounts(accounts: List<AccountCard>) {
         accountDao.insertAllAccounts(accounts)
+        for (acccount in accounts) {
+            accountDao.updateAccount(acccount.id, acccount.mandateState)
+        }
+    }
 
     override suspend fun removeAccount(account: AccountCard) =
         accountDao.deleteAccount(account)

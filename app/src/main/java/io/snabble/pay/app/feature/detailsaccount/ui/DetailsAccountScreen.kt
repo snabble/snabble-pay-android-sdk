@@ -129,10 +129,9 @@ fun DetailsAccountScreen(
                                 end.linkTo(parent.end)
                             },
                         accountCard = accountCard,
-                        onClick = { detailsAccountViewModel.mandateState(it.accountId) },
+                        onClick = {},
                         qrCodeString = "https://www.google.com/"
                     )
-
                     if (accountCard.mandateState == MandateState.ACCEPTED) {
                         MandateGranted(
                             modifier = Modifier
@@ -146,10 +145,11 @@ fun DetailsAccountScreen(
                     } else {
                         AcceptMandateWidget(
                             modifier = Modifier
+                                .padding(horizontal = 16.dp)
                                 .constrainAs(mandate) {
                                     top.linkTo(card.bottom, 16.dp)
-                                    start.linkTo(parent.start, margin = 16.dp)
-                                    end.linkTo(parent.end, margin = 16.dp)
+                                    start.linkTo(parent.start)
+                                    end.linkTo(parent.end)
                                 },
                             spacer = { Spacer(modifier = Modifier.height(32.dp)) },
                             onAccept = {

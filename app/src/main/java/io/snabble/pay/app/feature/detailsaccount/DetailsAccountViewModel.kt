@@ -1,6 +1,5 @@
 package io.snabble.pay.app.feature.detailsaccount
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -41,7 +40,7 @@ class DetailsAccountViewModel @Inject constructor(
                     }
                 }
                 .onFailure {
-                    _uiState.tryEmit(Error(it.message ?: "Something went wrong"))
+                    _uiState.tryEmit(Error(it.message))
                 }
         }
     }
@@ -51,22 +50,13 @@ class DetailsAccountViewModel @Inject constructor(
             .onSuccess {
                 _uiState.tryEmit(
                     ShowAccount(
-                        accountManager.getAccountModel(
-                            accountId
-                        )
+                        accountManager.getAccountModel(accountId)
                     )
                 )
             }
             .onFailure {
                 _uiState.tryEmit(Error(it.message ?: "Something went wrong"))
             }
-    }
-
-    fun mandateState(id: String) {
-        viewModelScope.launch {
-            Log.d("xx", "mandateState: ${mandateManager.getMandate(id).getOrNull()?.state} ")
-            _uiState.tryEmit(Error("Something went wrong"))
-        }
     }
 
     fun updateAccountName(id: String, name: String) {

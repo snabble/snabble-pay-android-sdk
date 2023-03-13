@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import io.snabble.pay.account.domain.model.MandateState
 import io.snabble.pay.app.data.entity.AccountCard
 
 @Dao
@@ -18,6 +19,9 @@ interface AccountDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertAllAccounts(accounts: List<AccountCard>)
+
+    @Query("UPDATE accountcard SET mandate_state = :mandateState WHERE id LIKE:id")
+    suspend fun updateAccount(id: String, mandateState: MandateState)
 
     @Query("DELETE FROM accountcard")
     suspend fun clearAccounts()

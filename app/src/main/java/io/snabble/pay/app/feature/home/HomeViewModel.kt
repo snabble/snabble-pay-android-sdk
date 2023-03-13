@@ -3,6 +3,7 @@ package io.snabble.pay.app.feature.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import io.snabble.pay.app.data.viewModelStates.Error
 import io.snabble.pay.app.data.viewModelStates.Loading
 import io.snabble.pay.app.data.viewModelStates.ShowAccounts
 import io.snabble.pay.app.data.viewModelStates.UiState
@@ -27,9 +28,14 @@ class HomeViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            val accounts = getAccounts()
-            cardList = accounts
-            _uiState.tryEmit(ShowAccounts(accounts))
+            getAccounts()
+                .onFailure {
+                    _uiState.tryEmit(Error(it.message))
+                }
+                .onSuccess { accounts ->
+                    _uiState.tryEmit(ShowAccounts(accounts))
+                    cardList = accounts
+                }
         }
     }
 

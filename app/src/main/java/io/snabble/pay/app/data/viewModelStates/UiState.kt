@@ -18,6 +18,10 @@ data class StartValidationFlow(
     val validationLink: String,
 ) : UiState
 
+object MandateAccepted : UiState
+
+object MandatePendingOrDeclined : UiState
+
 data class Error(
-    val message: String,
+    val message: String? = "Ups! Something went wrong",
 ) : UiState

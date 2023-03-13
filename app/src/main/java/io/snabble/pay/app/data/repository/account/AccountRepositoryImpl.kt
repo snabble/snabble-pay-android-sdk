@@ -11,15 +11,22 @@ import javax.inject.Inject
 
 class AccountRepositoryImpl @Inject constructor(
     private val localDataSource: AccountLocalDataSource,
-    private val accountRemoteDataSource: AccountRemoteDataSource,
+    private val remoteDataSource: AccountRemoteDataSource,
 ) : AccountRepository {
 
-    override suspend fun getAccounts(): List<AccountCard> {
-        val result = accountRemoteDataSource.getAllAccounts()
-        if (result.isSuccess && result.getOrDefault(emptyList()).isNotEmpty()) {
-            localDataSource.saveAccounts(result.toAccount())
-        }
-        return localDataSource.getAllAccounts()
+    override suspend fun getAccounts(): Result<List<AccountCard>> {
+        remoteDataSource.getAllAccounts()
+            .onFailure {
+                return Result.failure(it)
+            }
+            .onSuccess {
+                if (it.isEmpty()) {
+                    return Result.success(emptyList())
+                } else {
+                    localDataSource.saveAccounts(it.toAccount())
+                }
+            }
+        return Result.success(localDataSource.getAllAccounts())
     }
 
     override suspend fun getAccount(id: String): AccountCard =
@@ -34,10 +41,10 @@ class AccountRepositoryImpl @Inject constructor(
         city: String,
         twoLetterIsoCountryCode: String,
     ): Result<AccountCheck> =
-        accountRemoteDataSource.addNewAccount(appUri, city, twoLetterIsoCountryCode)
+        remoteDataSource.addNewAccount(appUri, city, twoLetterIsoCountryCode)
 
-    private fun Result<List<Account>>.toAccount() =
-        getOrDefault(emptyList()).map {
+    private fun List<Account>.toAccount() =
+        map {
             AccountCard(
                 id = it.id,
                 holderName = it.holderName,

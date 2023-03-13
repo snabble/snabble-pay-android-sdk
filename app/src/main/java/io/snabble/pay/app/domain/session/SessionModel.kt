@@ -1,4 +1,4 @@
-package io.snabble.pay.app.domain.account
+package io.snabble.pay.app.domain.session
 
 import kotlinx.serialization.Serializable
 

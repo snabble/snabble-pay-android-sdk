@@ -1,5 +1,6 @@
 package io.snabble.pay.app.feature.home.ui
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.CircleShape
@@ -14,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -23,6 +25,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import io.snabble.pay.app.data.viewModelStates.Error
 import io.snabble.pay.app.data.viewModelStates.ShowAccounts
 import io.snabble.pay.app.feature.destinations.DetailsAccountScreenDestination
 import io.snabble.pay.app.feature.destinations.VerifyAccountScreenDestination
@@ -76,7 +79,7 @@ fun HomeScreen(
                 textAlign = TextAlign.Center,
                 fontWeight = FontWeight.Bold
             )
-            when (val it = uiState.value) {
+            when (val state = uiState.value) {
                 is ShowAccounts -> {
                     AccountCardPager(
                         modifier = Modifier
@@ -85,12 +88,17 @@ fun HomeScreen(
                                 start.linkTo(parent.start)
                                 end.linkTo(parent.end)
                             },
-                        accountList = it.accounts,
-                        onCurrentPage = { homeViewModel.getSessionToken(it) }
-                    ) {
-                        navigator?.navigate(DetailsAccountScreenDestination(it.accountId))
+                        accountList = state.accounts,
+                        onCurrentPage = { string ->
+                            homeViewModel.getSessionToken(string)
+                        }
+                    ) { accountCard ->
+                        navigator?.navigate(DetailsAccountScreenDestination(accountCard.accountId))
                     }
                 }
+                is Error -> Toast.makeText(LocalContext.current, state.message, Toast.LENGTH_LONG)
+                    .show()
+
                 else -> {}
             }
             FloatingActionButton(

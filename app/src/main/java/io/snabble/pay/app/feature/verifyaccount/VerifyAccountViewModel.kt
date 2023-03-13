@@ -3,6 +3,7 @@ package io.snabble.pay.app.feature.verifyaccount
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import io.snabble.pay.app.data.viewModelStates.Error
 import io.snabble.pay.app.data.viewModelStates.Loading
 import io.snabble.pay.app.data.viewModelStates.StartValidationFlow
 import io.snabble.pay.app.data.viewModelStates.UiState
@@ -28,12 +29,7 @@ class VerifyAccountViewModel @Inject constructor(
             ).onSuccess {
                 _uiState.tryEmit(StartValidationFlow(it.validationLink))
             }.onFailure {
-                _uiState.tryEmit(
-                    io.snabble.pay.app.data.viewModelStates.Error(
-                        it.message ?: "Something went wront"
-                    )
-                )
-
+                _uiState.tryEmit(Error(it.message))
             }
         }
     }

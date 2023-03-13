@@ -5,7 +5,7 @@ import io.snabble.pay.app.data.entity.AccountCard
 
 interface AccountRepository {
 
-    suspend fun getAccounts(): List<AccountCard>
+    suspend fun getAccounts(): Result<List<AccountCard>>
 
     suspend fun getAccount(id: String): AccountCard
 

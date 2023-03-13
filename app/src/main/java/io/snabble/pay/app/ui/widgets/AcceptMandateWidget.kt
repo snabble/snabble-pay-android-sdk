@@ -37,14 +37,14 @@ fun AcceptMandateWidget(
             string = "Ich ermächtige Snabble Pay die Zahlungen von " +
                 "meinem Konto mittels Lastschrift einzuziehen."
         )
-    }
-    spacer()
-    DefaultButton(
-        modifier = Modifier
-            .padding(bottom = 32.dp)
-            .height(40.dp),
-        text = "Zustimmen und loslegen"
-    ) {
-        onAccept()
+        spacer()
+        DefaultButton(
+            modifier = Modifier
+                .padding(bottom = 32.dp)
+                .height(40.dp),
+            text = "Zustimmen und loslegen"
+        ) {
+            onAccept()
+        }
     }
 }

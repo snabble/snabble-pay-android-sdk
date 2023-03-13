@@ -1,5 +1,6 @@
 package io.snabble.pay.app.feature.newaccount.ui
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -24,9 +25,9 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-import io.snabble.pay.account.domain.model.MandateState.ACCEPTED
 import io.snabble.pay.app.data.viewModelStates.Error
 import io.snabble.pay.app.data.viewModelStates.Loading
+import io.snabble.pay.app.data.viewModelStates.MandatePendingOrDeclined
 import io.snabble.pay.app.data.viewModelStates.ShowAccount
 import io.snabble.pay.app.domain.account.AccountCardModel
 import io.snabble.pay.app.feature.destinations.HomeScreenDestination
@@ -62,7 +63,9 @@ fun NewAccountScreen(
         is Error -> {
             Toast.makeText(LocalContext.current, it.message, Toast.LENGTH_SHORT).show()
         }
-        else -> {}
+        else -> {
+            Log.d("xx", "NewAccountScreen: ${uiState.value}")
+        }
     }
 
     AppBarLayout(
@@ -105,7 +108,7 @@ fun NewAccountScreen(
                 )
                 Spacer(modifier = Modifier.height(96.dp))
                 account?.let { accountCard ->
-                    if (accountCard.mandateState != ACCEPTED) {
+                    if (uiState.value is MandatePendingOrDeclined) {
                         AcceptMandateWidget(
                             modifier = Modifier
                                 .padding(horizontal = 16.dp),

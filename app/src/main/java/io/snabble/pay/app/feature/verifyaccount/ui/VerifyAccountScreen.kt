@@ -1,5 +1,6 @@
 package io.snabble.pay.app.feature.verifyaccount.ui
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -22,6 +23,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import io.snabble.pay.app.R
+import io.snabble.pay.app.data.viewModelStates.Error
 import io.snabble.pay.app.data.viewModelStates.StartValidationFlow
 import io.snabble.pay.app.feature.verifyaccount.VerifyAccountViewModel
 import io.snabble.pay.app.feature.verifyaccount.ui.widget.HyperLinkText
@@ -41,6 +43,7 @@ fun VerifyAccountScreen(
 
     when(val it = uiState.value){
         is StartValidationFlow -> LocalContext.current.browseUrl(it.validationLink)
+        is Error -> Toast.makeText(LocalContext.current, it.message, Toast.LENGTH_SHORT).show()
         else -> {}
     }
 

@@ -1,6 +1,5 @@
 package io.snabble.pay.app.feature.newaccount.ui
 
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -13,7 +12,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -25,7 +23,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import io.snabble.pay.app.data.viewModelStates.Error
-import io.snabble.pay.app.data.viewModelStates.Loading
 import io.snabble.pay.app.data.viewModelStates.MandatePendingOrDeclined
 import io.snabble.pay.app.data.viewModelStates.ShowAccount
 import io.snabble.pay.app.domain.account.AccountCardModel
@@ -48,13 +45,9 @@ fun NewAccountScreen(
     val uiState = newAccountViewModel.uiState.collectAsState()
 
     var cardName by rememberSaveable { mutableStateOf("") }
-    var account: AccountCardModel? by remember { mutableStateOf(null) }
+    var account: AccountCardModel? by rememberSaveable { mutableStateOf(null) }
 
     when (val it = uiState.value) {
-        is Loading -> {
-            account = null
-            cardName = ""
-        }
         is ShowAccount -> {
             cardName = it.accountCardModel.name
             account = it.accountCardModel
@@ -62,9 +55,7 @@ fun NewAccountScreen(
         is Error -> {
             Toast.makeText(LocalContext.current, it.message, Toast.LENGTH_SHORT).show()
         }
-        else -> {
-            Log.d("xx", "NewAccountScreen: ${uiState.value}")
-        }
+        else -> {}
     }
 
     AppBarLayout(

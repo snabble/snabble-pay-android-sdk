@@ -21,7 +21,7 @@ interface AccountDao {
     suspend fun insertAllAccounts(accounts: List<AccountCard>)
 
     @Query("UPDATE accountcard SET mandate_state = :mandateState WHERE id LIKE:id")
-    suspend fun updateAccount(id: String, mandateState: MandateState)
+    suspend fun updateMandateStateForAccount(id: String, mandateState: MandateState)
 
     @Query("DELETE FROM accountcard")
     suspend fun clearAccounts()

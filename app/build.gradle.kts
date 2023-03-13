@@ -5,6 +5,7 @@
     id(libs.plugins.kotlin.android.get().pluginId)
     id(libs.plugins.kotlin.kapt.get().pluginId)
     alias(libs.plugins.kotlin.serialization)
+    id("kotlin-parcelize")
     id("com.google.devtools.ksp") version "1.8.10-1.0.9"
     id("de.mannodermaus.android-junit5")
     id("com.google.dagger.hilt.android")
@@ -102,13 +103,13 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 
-    val room_version = "2.5.0"
+    val roomVersion = "2.5.0"
 
-    implementation("androidx.room:room-runtime:$room_version")
-    annotationProcessor("androidx.room:room-compiler:$room_version")
+    implementation("androidx.room:room-runtime:$roomVersion")
+    annotationProcessor("androidx.room:room-compiler:$roomVersion")
 
-    kapt("androidx.room:room-compiler:$room_version")
-    implementation("androidx.room:room-ktx:$room_version")
+    kapt("androidx.room:room-compiler:$roomVersion")
+    implementation("androidx.room:room-ktx:$roomVersion")
 }
 
 android.applicationVariants.all {

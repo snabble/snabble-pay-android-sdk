@@ -5,7 +5,7 @@ import io.snabble.pay.app.data.entity.AccountCard
 import javax.inject.Inject
 
 class AccountLocalDataSourceImpl @Inject constructor(
-    private val db: AccountsDatabase,
+    db: AccountsDatabase,
 ) : AccountLocalDataSource {
 
     private val accountDao = db.accountDao()
@@ -19,7 +19,7 @@ class AccountLocalDataSourceImpl @Inject constructor(
     override suspend fun saveAccounts(accounts: List<AccountCard>) {
         accountDao.insertAllAccounts(accounts)
         for (acccount in accounts) {
-            accountDao.updateAccount(acccount.id, acccount.mandateState)
+            accountDao.updateMandateStateForAccount(acccount.id, acccount.mandateState)
         }
     }
 

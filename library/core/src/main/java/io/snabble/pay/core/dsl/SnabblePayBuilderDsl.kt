@@ -8,6 +8,9 @@ import io.snabble.pay.core.SnabblePayImpl
 fun snabblePay(
     context: Context,
     setup: SnabblePayConfiguration.() -> Unit = {},
-): SnabblePay = SnabblePayImpl(
-    configuration = SnabblePayConfiguration.init(context, setup)
-)
+): SnabblePay {
+    val configuration = SnabblePayConfiguration.init(context, setup)
+    return SnabblePayImpl(
+        accountSupport = configuration.koin.get()
+    )
+}

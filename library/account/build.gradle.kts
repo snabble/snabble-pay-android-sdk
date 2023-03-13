@@ -8,7 +8,7 @@
 }
 
 android {
-    namespace = "io.snabble.pay.core"
+    namespace = "io.snabble.pay.account"
     compileSdk = libs.versions.sdk.compile.get().toInt()
 
     defaultConfig {
@@ -31,13 +31,11 @@ android {
             )
         }
     }
-
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
         isCoreLibraryDesugaringEnabled = true
     }
-
     kotlinOptions {
         jvmTarget = "1.8"
     }
@@ -50,19 +48,11 @@ android {
 dependencies {
     coreLibraryDesugaring(libs.android.desugarJdkLibs)
 
-    api(project(":account"))
-
     implementation(project(":api"))
-    implementation(project(":network"))
 
-    implementation(libs.androidx.appcompat)
-    implementation(libs.androidx.core)
-    implementation(libs.androidx.datastorePreferences)
-    implementation(libs.androidx.startupRuntime)
+    implementation(libs.kotlinx.coroutinesCore)
 
     implementation(libs.kotlin.serialization)
-
-    implementation(libs.okhttp.loggingInterceptor)
 
     implementation(libs.bundles.koin)
 

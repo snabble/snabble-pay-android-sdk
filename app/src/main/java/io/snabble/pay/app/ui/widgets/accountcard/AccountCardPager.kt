@@ -19,7 +19,7 @@ import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.google.accompanist.pager.calculateCurrentOffsetForPage
 import com.google.accompanist.pager.rememberPagerState
 import io.snabble.pay.account.domain.model.MandateState
-import io.snabble.pay.app.domain.account.AccountCardModel
+import io.snabble.pay.app.domain.account.AccountCard
 import io.snabble.pay.app.domain.account.utils.GradiantGenerator
 import io.snabble.pay.app.ui.theme.SnabblePayTheme
 import kotlin.math.absoluteValue
@@ -28,16 +28,16 @@ import kotlin.math.absoluteValue
 @Composable
 fun AccountCardPager(
     modifier: Modifier = Modifier,
-    accountList: List<AccountCardModel>,
+    accountCardList: List<AccountCard>,
     onCurrentPage: (string: String) -> Unit,
-    onClick: (AccountCardModel) -> Unit,
+    onClick: (AccountCard) -> Unit,
 ) {
     val pagerState = rememberPagerState(initialPage = 0)
 
     LaunchedEffect(pagerState) {
         snapshotFlow { pagerState.currentPage }.collect { page ->
-            if (accountList.isNotEmpty()) {
-                onCurrentPage(accountList[page].accountId)
+            if (accountCardList.isNotEmpty()) {
+                onCurrentPage(accountCardList[page].accountId)
             }
         }
     }
@@ -48,13 +48,13 @@ fun AccountCardPager(
     ) {
         HorizontalPager(
             contentPadding = PaddingValues(horizontal = 24.dp),
-            count = accountList.size,
+            count = accountCardList.size,
             itemSpacing = (-14).dp,
             state = pagerState,
             verticalAlignment = Alignment.CenterVertically
         ) { page ->
             AccountCard(
-                accountCard = accountList[page],
+                accountCard = accountCardList[page],
                 modifier = Modifier
                     .graphicsLayer {
                         val pageOffset = calculateCurrentOffsetForPage(page).absoluteValue
@@ -75,7 +75,7 @@ fun AccountCardPager(
                         )
                     },
                 onClick = { onClick(it) },
-                qrCodeString = if (page == pagerState.currentPage) accountList[page].qrCodeToken else null
+                qrCodeString = if (page == pagerState.currentPage) accountCardList[page].qrCodeToken else null
             )
         }
         HorizontalPagerIndicator(
@@ -97,7 +97,7 @@ fun AccountCardPagerPreview() {
     SnabblePayTheme {
         AccountCardPager(
             modifier = Modifier.padding(top = 16.dp),
-            accountList = previewList,
+            accountCardList = previewList,
             onClick = {},
             onCurrentPage = {}
         )
@@ -105,7 +105,7 @@ fun AccountCardPagerPreview() {
 }
 
 private val previewList = listOf(
-    AccountCardModel(
+    AccountCard(
         cardBackgroundColor = GradiantGenerator.createGradiantColorList(),
         qrCodeToken = "test",
         holderName = "Petra MusterMann",
@@ -115,7 +115,7 @@ private val previewList = listOf(
         name = "Mein Konto",
         bank = "Deutsche Bank"
     ),
-    AccountCardModel(
+    AccountCard(
         cardBackgroundColor = GradiantGenerator.createGradiantColorList(),
         qrCodeToken = "test",
         holderName = "Muster Mann",
@@ -125,7 +125,7 @@ private val previewList = listOf(
         iban = "DE 1234 1234 1234 1234",
         bank = "Deutsche Bank"
     ),
-    AccountCardModel(
+    AccountCard(
         cardBackgroundColor = GradiantGenerator.createGradiantColorList(),
         qrCodeToken = "test",
         name = "Mein Konto",

@@ -1,40 +1,36 @@
 package io.snabble.pay.app.domain.account.di
 
-import dagger.Binds
 import dagger.Module
+import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import io.snabble.pay.app.domain.account.usecase.AccountManager
-import io.snabble.pay.app.domain.account.usecase.AccountManagerImpl
-import io.snabble.pay.app.domain.account.usecase.AddNewAccountUseCase
-import io.snabble.pay.app.domain.account.usecase.AddNewAccountUseCaseImpl
-import io.snabble.pay.app.domain.account.usecase.GetAccountUseCase
-import io.snabble.pay.app.domain.account.usecase.GetAccountUseCaseImpl
-import io.snabble.pay.app.domain.account.usecase.GetAccountsUseCase
-import io.snabble.pay.app.domain.account.usecase.GetAccountsUseCaseImpl
-import io.snabble.pay.app.domain.account.usecase.UpdateAccountNameUseCase
-import io.snabble.pay.app.domain.account.usecase.UpdateAccountNameUseCaseImpl
+import io.snabble.pay.app.domain.account.AccountRepository
+import io.snabble.pay.app.domain.account.usecase.AddAccountUseCase
+import io.snabble.pay.app.domain.account.usecase.GetAccountCardUseCase
+import io.snabble.pay.app.domain.account.usecase.GetAllAccountCardsUseCase
+import io.snabble.pay.app.domain.account.usecase.SetAccountCardLabelUseCase
 
 @InstallIn(SingletonComponent::class)
-@Module interface AccountModule {
+@Module
+class AccountModule {
 
-    @Binds fun bindGetAccountsUseCase(
-        source: GetAccountsUseCaseImpl,
-    ): GetAccountsUseCase
+    @Provides
+    fun provideAddNewAccountUseCase(
+        accountRepository: AccountRepository,
+    ) = AddAccountUseCase(accountRepository::addNewAccount)
 
-    @Binds fun bindGetAccountUseCase(
-        source: GetAccountUseCaseImpl,
-    ): GetAccountUseCase
+    @Provides
+    fun provideAllAccountUseCase(
+        accountRepository: AccountRepository,
+    ) = GetAccountCardUseCase(accountRepository::getAccount)
 
-    @Binds fun bindUpdateAccountNameUseCase(
-        source: UpdateAccountNameUseCaseImpl,
-    ): UpdateAccountNameUseCase
+    @Provides
+    fun provideGetAllAccountsUseCase(
+        accountRepository: AccountRepository,
+    ) = GetAllAccountCardsUseCase(accountRepository::getAccounts)
 
-    @Binds fun bindAddNewAccountUseCase(
-        source: AddNewAccountUseCaseImpl,
-    ): AddNewAccountUseCase
-
-    @Binds fun bindAccountManager(
-        source: AccountManagerImpl,
-    ): AccountManager
+    @Provides
+    fun provideSetAccountLabelUseCase(
+        accountRepository: AccountRepository,
+    ) = SetAccountCardLabelUseCase(accountRepository::setAccountLabel)
 }

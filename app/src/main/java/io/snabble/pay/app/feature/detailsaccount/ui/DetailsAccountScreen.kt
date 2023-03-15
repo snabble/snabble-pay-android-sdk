@@ -30,7 +30,7 @@ import io.snabble.pay.account.domain.model.MandateState
 import io.snabble.pay.app.data.viewModelStates.Error
 import io.snabble.pay.app.data.viewModelStates.Loading
 import io.snabble.pay.app.data.viewModelStates.ShowAccount
-import io.snabble.pay.app.domain.account.AccountCardModel
+import io.snabble.pay.app.domain.account.AccountCard
 import io.snabble.pay.app.feature.detailsaccount.DetailsAccountViewModel
 import io.snabble.pay.app.feature.detailsaccount.ui.widget.DeleteButton
 import io.snabble.pay.app.feature.detailsaccount.ui.widget.DetailsBackground
@@ -49,15 +49,15 @@ fun DetailsAccountScreen(
     accountId: String,
 ) {
     var cardName by rememberSaveable { mutableStateOf("") }
-    var account: AccountCardModel? by rememberSaveable { mutableStateOf(null) }
+    var accountCard: AccountCard? by rememberSaveable { mutableStateOf(null) }
 
     val uiState = detailsAccountViewModel.uiState.collectAsState()
 
     when (val state = uiState.value) {
         is Loading -> detailsAccountViewModel.getAccount(accountId)
         is ShowAccount -> {
-            cardName = state.accountCardModel.name
-            account = state.accountCardModel
+            cardName = state.accountCard.name
+            accountCard = state.accountCard
         }
         is Error -> {
             Toast.makeText(LocalContext.current, state.message, Toast.LENGTH_SHORT).show()
@@ -113,7 +113,7 @@ fun DetailsAccountScreen(
                         end.linkTo(parent.end)
                     }
             )
-            account?.let { accountCard ->
+            accountCard?.let { accountCard ->
                 AccountCard(
                     modifier = Modifier
                         .padding(horizontal = 16.dp)

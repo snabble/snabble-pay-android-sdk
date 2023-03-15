@@ -25,7 +25,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import io.snabble.pay.app.data.viewModelStates.Error
 import io.snabble.pay.app.data.viewModelStates.MandatePendingOrDeclined
 import io.snabble.pay.app.data.viewModelStates.ShowAccount
-import io.snabble.pay.app.domain.account.AccountCardModel
+import io.snabble.pay.app.domain.account.AccountCard
 import io.snabble.pay.app.feature.destinations.HomeScreenDestination
 import io.snabble.pay.app.feature.destinations.VerifyAccountScreenDestination
 import io.snabble.pay.app.feature.newaccount.NewAccountViewModel
@@ -45,16 +45,18 @@ fun NewAccountScreen(
     val uiState = newAccountViewModel.uiState.collectAsState()
 
     var cardName by rememberSaveable { mutableStateOf("") }
-    var account: AccountCardModel? by rememberSaveable { mutableStateOf(null) }
+    var accountCard: AccountCard? by rememberSaveable { mutableStateOf(null) }
 
     when (val it = uiState.value) {
         is ShowAccount -> {
-            cardName = it.accountCardModel.name
-            account = it.accountCardModel
+            cardName = it.accountCard.name
+            accountCard = it.accountCard
         }
+
         is Error -> {
             Toast.makeText(LocalContext.current, it.message, Toast.LENGTH_SHORT).show()
         }
+
         else -> {}
     }
 
@@ -78,7 +80,7 @@ fun NewAccountScreen(
                     cardName = it
                 },
                 onAction = {
-                    account?.let {
+                    accountCard?.let {
                         newAccountViewModel.updateAccountName(
                             it.accountId,
                             cardName
@@ -87,12 +89,12 @@ fun NewAccountScreen(
                 }
             )
             AccountInformation(
-                holderName = account?.holderName ?: "",
-                iban = account?.iban ?: "",
-                bank = account?.bank ?: ""
+                holderName = accountCard?.holderName ?: "",
+                iban = accountCard?.iban ?: "",
+                bank = accountCard?.bank ?: ""
             )
             Spacer(modifier = Modifier.height(96.dp))
-            account?.let { accountCard ->
+            accountCard?.let { accountCard ->
                 if (uiState.value is MandatePendingOrDeclined) {
                     AcceptMandateWidget(
                         modifier = Modifier
@@ -101,9 +103,7 @@ fun NewAccountScreen(
                         spacer = { Spacer(modifier = Modifier.weight(1f)) },
                         textColor = MaterialTheme.colorScheme.onSurface,
                         onAccept = {
-                            account?.let {
-                                newAccountViewModel.acceptMandate(accountCard.accountId)
-                            }
+                            newAccountViewModel.acceptMandate(accountCard.accountId)
                             navigator?.navigate(HomeScreenDestination)
                         }
                     )

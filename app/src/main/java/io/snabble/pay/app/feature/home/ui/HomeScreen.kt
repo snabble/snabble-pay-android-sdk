@@ -88,7 +88,7 @@ fun HomeScreen(
                                 start.linkTo(parent.start)
                                 end.linkTo(parent.end)
                             },
-                        accountList = state.accounts,
+                        accountCardList = state.accountCards,
                         onCurrentPage = { string ->
                             homeViewModel.getSessionToken(string)
                         }

@@ -18,16 +18,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import io.snabble.pay.account.domain.model.MandateState
-import io.snabble.pay.app.domain.account.AccountCardModel
+import io.snabble.pay.app.domain.account.AccountCard
 import io.snabble.pay.app.domain.account.utils.GradiantGenerator
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AccountCard(
     modifier: Modifier = Modifier,
-    accountCard: AccountCardModel,
+    accountCard: AccountCard,
     qrCodeString: String?,
-    onClick: (AccountCardModel) -> Unit,
+    onClick: (AccountCard) -> Unit,
 ) {
     ElevatedCard(
         elevation = CardDefaults.cardElevation(
@@ -94,7 +94,7 @@ fun PreviewAccountCard() {
     AccountCard(
         modifier = Modifier
             .padding(horizontal = 32.dp),
-        accountCard = AccountCardModel(
+        accountCard = AccountCard(
             cardBackgroundColor = GradiantGenerator.createGradiantColorList(),
             qrCodeToken = "https://www.google.com/",
             holderName = "Muster Mann",

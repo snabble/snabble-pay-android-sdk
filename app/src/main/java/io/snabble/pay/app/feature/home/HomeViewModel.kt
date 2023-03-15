@@ -7,16 +7,17 @@ import io.snabble.pay.app.data.viewModelStates.Error
 import io.snabble.pay.app.data.viewModelStates.Loading
 import io.snabble.pay.app.data.viewModelStates.ShowAccounts
 import io.snabble.pay.app.data.viewModelStates.UiState
-import io.snabble.pay.app.domain.account.usecase.GetAccountsUseCase
+import io.snabble.pay.app.domain.account.usecase.GetAllAccountCardsUseCase
 import io.snabble.pay.app.domain.session.GetSessionTokenUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val getAccounts: GetAccountsUseCase,
+    private val getAccounts: GetAllAccountCardsUseCase,
     private val getSession: GetSessionTokenUseCase,
 ) : ViewModel() {
 
@@ -26,11 +27,11 @@ class HomeViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             getAccounts()
-                .onFailure {
+                .catch {
                     _uiState.tryEmit(Error(it.message))
                 }
-                .onSuccess { accounts ->
-                    _uiState.tryEmit(ShowAccounts(accounts))
+                .collect {
+                    _uiState.tryEmit(ShowAccounts(it))
                 }
         }
     }
@@ -39,7 +40,7 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             when (val state = uiState.value) {
                 is ShowAccounts -> {
-                    val accounts = state.accounts.map { accMod ->
+                    val accounts = state.accountCards.map { accMod ->
                         if (accMod.accountId == accountId) {
                             accMod.copy(qrCodeToken = getSession(accountId))
                         } else {
@@ -48,6 +49,7 @@ class HomeViewModel @Inject constructor(
                     }
                     _uiState.tryEmit(ShowAccounts(accounts))
                 }
+
                 else -> {}
             }
         }

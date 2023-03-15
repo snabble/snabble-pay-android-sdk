@@ -9,20 +9,30 @@ import io.snabble.pay.app.data.viewModelStates.MandateAccepted
 import io.snabble.pay.app.data.viewModelStates.MandatePendingOrDeclined
 import io.snabble.pay.app.data.viewModelStates.ShowAccount
 import io.snabble.pay.app.data.viewModelStates.UiState
-import io.snabble.pay.app.domain.account.AccountCardModel
-import io.snabble.pay.app.domain.account.usecase.AccountManager
-import io.snabble.pay.app.domain.mandate.usecase.MandateManager
+import io.snabble.pay.app.domain.account.AccountCard
+import io.snabble.pay.app.domain.account.usecase.GetAccountCardUseCase
+import io.snabble.pay.app.domain.account.usecase.GetAllAccountCardsUseCase
+import io.snabble.pay.app.domain.account.usecase.SetAccountCardLabelUseCase
+import io.snabble.pay.app.domain.mandate.usecase.AcceptMandateUseCase
+import io.snabble.pay.app.domain.mandate.usecase.CreateMandateUseCase
+import io.snabble.pay.app.domain.mandate.usecase.GetMandateUseCase
 import io.snabble.pay.mandate.domain.model.Mandate
 import io.snabble.pay.mandate.domain.model.MandateState.ACCEPTED
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class NewAccountViewModel @Inject constructor(
-    private val accountManager: AccountManager,
-    private val mandateManager: MandateManager,
+    private val getAccountCard: GetAccountCardUseCase,
+    private val getAllAccountCards: GetAllAccountCardsUseCase,
+    private val setCardLabel: SetAccountCardLabelUseCase,
+    private val createNewMandate: CreateMandateUseCase,
+    private val getMandate: GetMandateUseCase,
+    private val acceptPendingMandate: AcceptMandateUseCase,
 ) : ViewModel() {
 
     private var _uiState = MutableStateFlow<UiState>(Loading)
@@ -34,15 +44,19 @@ class NewAccountViewModel @Inject constructor(
 
     private fun createMandate(accountId: String) {
         viewModelScope.launch {
-            mandateManager.createMandate(accountId).onFailure {
-                _uiState.tryEmit(Error(it.message))
-            }
+            createNewMandate(accountId = accountId)
+                .onFailure {
+                    _uiState.tryEmit(Error(it.message))
+                }
         }
     }
 
     fun acceptMandate(accountId: String) {
         viewModelScope.launch {
-            mandateManager.getMandate(accountId)
+            getMandate(accountId = accountId)
+                .onFailure {
+                    _uiState.tryEmit(Error(it.message))
+                }
                 .onSuccess {
                     if (it != null) {
                         acceptMandate(accountId, it.id)
@@ -50,40 +64,35 @@ class NewAccountViewModel @Inject constructor(
                         _uiState.tryEmit(Error("No Mandate exists"))
                     }
                 }
-                .onFailure {
-                    _uiState.tryEmit(Error(it.message))
-                }
         }
     }
 
     private suspend fun acceptMandate(accountId: String, mandateId: String) {
-        mandateManager.acceptMandate(accountId, mandateId)
-            .onSuccess {
-                _uiState.tryEmit(
-                    ShowAccount(
-                        accountManager.getAccountModel(accountId)
-                    )
-                )
-            }
+        acceptPendingMandate(accountId = accountId, mandateId = mandateId)
             .onFailure {
                 _uiState.tryEmit(Error(it.message))
+            }
+            .onSuccess {
+                val accountCard = getAccountCard(accountId = accountId)
+                _uiState.tryEmit(ShowAccount(accountCard))
             }
     }
 
     private fun getNewAccount() {
         viewModelScope.launch {
-            accountManager.getAccountModels()
-                .onFailure {
+            getAllAccountCards()
+                .catch {
                     _uiState.tryEmit(Error(it.message))
                 }
-                .onSuccess { accounts ->
-                    val newAccount = accounts.last()
+                .collectLatest { cards ->
+                    val newAccount = cards.last()
                     _uiState.tryEmit(ShowAccount(newAccount))
-                    mandateManager.getMandate(newAccount.accountId)
+                    getMandate(accountId = newAccount.accountId)
+                        .onFailure {
+                            _uiState.tryEmit(Error(it.message))
+                        }
                         .onSuccess { mandate ->
                             checkMandateState(mandate, newAccount)
-                        }.onFailure {
-                            _uiState.tryEmit(Error(it.message))
                         }
                 }
         }
@@ -91,10 +100,10 @@ class NewAccountViewModel @Inject constructor(
 
     private fun checkMandateState(
         mandate: Mandate?,
-        newAccount: AccountCardModel,
+        newAccountCard: AccountCard,
     ) {
         if (mandate == null) {
-            createMandate(newAccount.accountId)
+            createMandate(accountId = newAccountCard.accountId)
         } else {
             if (mandate.state == ACCEPTED) {
                 _uiState.tryEmit(MandateAccepted)
@@ -106,8 +115,9 @@ class NewAccountViewModel @Inject constructor(
 
     fun updateAccountName(id: String, name: String) {
         viewModelScope.launch {
-            accountManager.updateAccountName(id, name)
-            _uiState.tryEmit(ShowAccount(accountManager.getAccountModel(id)))
+            setCardLabel(accountId = id, name = name)
+            val accountCard = getAccountCard(accountId = id)
+            _uiState.tryEmit(ShowAccount(accountCard))
         }
     }
 }

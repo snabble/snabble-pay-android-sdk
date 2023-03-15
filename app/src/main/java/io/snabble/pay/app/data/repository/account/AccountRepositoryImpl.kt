@@ -2,39 +2,58 @@ package io.snabble.pay.app.data.repository.account
 
 import io.snabble.pay.account.domain.model.Account
 import io.snabble.pay.account.domain.model.AccountCheck
-import io.snabble.pay.app.data.entity.AccountCard
-import io.snabble.pay.app.data.repository.account.localdatasource.AccountLocalDataSource
+import io.snabble.pay.app.data.repository.account.label.LocalAccountLabelDataSource
 import io.snabble.pay.app.data.repository.account.remotedatasource.AccountRemoteDataSource
+import io.snabble.pay.app.domain.account.AccountCard
 import io.snabble.pay.app.domain.account.AccountRepository
-import io.snabble.pay.app.domain.account.utils.GradiantGenerator
+import io.snabble.pay.app.domain.account.toAccountCard
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.channelFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.firstOrNull
 import javax.inject.Inject
 
 class AccountRepositoryImpl @Inject constructor(
-    private val localDataSource: AccountLocalDataSource,
     private val remoteDataSource: AccountRemoteDataSource,
+    private val localAccountLabelSource: LocalAccountLabelDataSource,
 ) : AccountRepository {
 
-    override suspend fun getAccounts(): Result<List<AccountCard>> {
+    override fun getAccounts(): Flow<List<AccountCard>> = channelFlow {
         remoteDataSource.getAllAccounts()
-            .onFailure {
-                return Result.failure(it)
+            .onFailure { throw it }
+            .onSuccess { accounts ->
+                localAccountLabelSource.deleteOrphanedLabels(accounts.map(Account::id))
+
+                localAccountLabelSource.getAllLabels()
+                    .collectLatest { labels ->
+                        val accountList: List<AccountCard> = accounts
+                            .map { account ->
+                                val label = labels
+                                    .find { it.accountId == account.id }
+                                    ?.label
+                                account.toAccountCard(savedName = label)
+                            }
+                        send(accountList)
+                    }
             }
-            .onSuccess {
-                if (it.isEmpty()) {
-                    return Result.success(emptyList())
-                } else {
-                    localDataSource.saveAccounts(it.toAccount())
-                }
-            }
-        return Result.success(localDataSource.getAllAccounts())
+    }
+
+    override suspend fun setAccountLabel(id: String, label: String) {
+        localAccountLabelSource.setLabel(
+            id = id,
+            label = label
+        )
     }
 
     override suspend fun getAccount(id: String): AccountCard =
-        localDataSource.getAccountById(id)
-
-    override suspend fun updateAccountName(id: String, name: String) {
-        localDataSource.updateAccountName(id, name)
-    }
+        remoteDataSource.getAccount(id)
+            .getOrThrow()
+            .toAccountCard(
+                savedName = localAccountLabelSource.getAllLabels()
+                    .firstOrNull()
+                    ?.find { it.accountId == id }
+                    ?.label
+            )
 
     override suspend fun addNewAccount(
         appUri: String,
@@ -42,19 +61,4 @@ class AccountRepositoryImpl @Inject constructor(
         twoLetterIsoCountryCode: String,
     ): Result<AccountCheck> =
         remoteDataSource.addNewAccount(appUri, city, twoLetterIsoCountryCode)
-
-    private fun List<Account>.toAccount() =
-        map {
-            AccountCard(
-                id = it.id,
-                holderName = it.holderName,
-                iban = it.iban,
-                bank = it.bank,
-                name = it.name,
-                currencyCode = it.currencyCode,
-                createdAt = it.createdAt,
-                mandateState = it.mandateState,
-                colors = GradiantGenerator.createGradiantColorList()
-            )
-        }
 }

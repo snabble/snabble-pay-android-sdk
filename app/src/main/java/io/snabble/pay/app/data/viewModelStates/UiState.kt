@@ -1,6 +1,6 @@
 package io.snabble.pay.app.data.viewModelStates
 
-import io.snabble.pay.app.domain.account.AccountCardModel
+import io.snabble.pay.app.domain.account.AccountCard
 
 sealed interface UiState
 
@@ -10,11 +10,11 @@ object MandateAccepted : UiState
 
 object MandatePendingOrDeclined : UiState
 data class ShowAccount(
-    val accountCardModel: AccountCardModel,
+    val accountCard: AccountCard,
 ) : UiState
 
 data class ShowAccounts(
-    val accounts: List<AccountCardModel>,
+    val accountCards: List<AccountCard>,
 ) : UiState
 
 data class StartValidationFlow(

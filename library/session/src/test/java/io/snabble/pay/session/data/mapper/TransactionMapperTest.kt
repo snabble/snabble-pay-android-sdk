@@ -21,7 +21,7 @@ internal class TransactionMapperTest : FreeSpec({
     "TransactionMapper should correctly map the" - {
 
         "amount" {
-            val expectedAmount = "7"
+            val expectedAmount = 7
             val tokenDto = mockk<TransactionDto>(relaxed = true) {
                 every { amount } returns expectedAmount
             }
@@ -31,15 +31,15 @@ internal class TransactionMapperTest : FreeSpec({
             sut.map(tokenDto).amount shouldBe expectedAmount
         }
 
-        "currency" {
-            val expectedCurrency = "EUR"
+        "currencyCode" {
+            val expectedCurrencyCode = "EUR"
             val tokenDto = mockk<TransactionDto>(relaxed = true) {
-                every { currency } returns expectedCurrency
+                every { currencyCode } returns expectedCurrencyCode
             }
 
             val sut = createSut()
 
-            sut.map(tokenDto).currency shouldBe expectedCurrency
+            sut.map(tokenDto).currencyCode shouldBe expectedCurrencyCode
         }
 
         "id" {

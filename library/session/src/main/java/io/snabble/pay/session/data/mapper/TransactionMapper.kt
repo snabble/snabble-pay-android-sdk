@@ -11,7 +11,7 @@ internal class TransactionMapper(
     override fun map(from: TransactionDto): Transaction = with(from) {
         Transaction(
             amount = from.amount,
-            currency = from.currency,
+            currencyCode = from.currencyCode,
             id = from.id,
             state = stateMapper.map(state)
         )

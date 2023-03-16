@@ -10,6 +10,7 @@ internal class TransactionStateMapper : Mapper<TransactionStateDto, TransactionS
         TransactionStateDto.ABORTED -> TransactionState.ABORTED
         TransactionStateDto.ERRORED -> TransactionState.ERRORED
         TransactionStateDto.FAILED -> TransactionState.FAILED
+        TransactionStateDto.PENDING -> TransactionState.PENDING
         TransactionStateDto.PREAUTHORIZED -> TransactionState.PREAUTHORIZED
         TransactionStateDto.PREAUTH_FAILED -> TransactionState.PREAUTH_FAILED
         TransactionStateDto.SUCCESSFUL -> TransactionState.SUCCESSFUL

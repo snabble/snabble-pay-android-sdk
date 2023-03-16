@@ -7,6 +7,7 @@ internal enum class TransactionStateDto {
     @SerialName("ABORTED") ABORTED,
     @SerialName("ERRORED") ERRORED,
     @SerialName("FAILED") FAILED,
+    @SerialName("PENDING") PENDING,
     @SerialName("PREAUTHORIZED") PREAUTHORIZED,
     @SerialName("PREAUTH_FAILED") PREAUTH_FAILED,
     @SerialName("SUCCESSFUL") SUCCESSFUL,

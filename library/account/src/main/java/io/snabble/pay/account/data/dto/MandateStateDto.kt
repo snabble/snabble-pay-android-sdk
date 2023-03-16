@@ -8,5 +8,7 @@ internal enum class MandateStateDto {
 
     @SerialName("DECLINED") DECLINED,
 
+    @SerialName("MISSING") MISSING,
+
     @SerialName("PENDING") PENDING,
 }

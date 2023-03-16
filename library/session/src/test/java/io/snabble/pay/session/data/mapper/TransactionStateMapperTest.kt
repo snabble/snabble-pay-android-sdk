@@ -29,6 +29,12 @@ internal class TransactionStateMapperTest : FreeSpec({
             sut.map(TransactionStateDto.FAILED) shouldBe TransactionState.FAILED
         }
 
+        "PENDING" {
+            val sut = createSut()
+
+            sut.map(TransactionStateDto.PENDING) shouldBe TransactionState.PENDING
+        }
+
         "PREAUTHORIZED" {
             val sut = createSut()
 

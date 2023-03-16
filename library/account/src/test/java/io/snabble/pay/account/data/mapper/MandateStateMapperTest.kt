@@ -23,6 +23,12 @@ internal class MandateStateMapperTest : FreeSpec({
             sut.map(from = MandateStateDto.DECLINED) shouldBe MandateState.DECLINED
         }
 
+        "MISSING" {
+            val sut = createSut()
+
+            sut.map(from = MandateStateDto.MISSING) shouldBe MandateState.MISSING
+        }
+
         "PENDING" {
             val sut = createSut()
 

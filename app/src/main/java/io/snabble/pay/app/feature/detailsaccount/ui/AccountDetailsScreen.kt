@@ -19,7 +19,7 @@ import io.snabble.pay.app.feature.detailsaccount.ShowAccount
 @Destination(
     navArgsDelegate = AccountDetailsScreenNavArgs::class,
     deepLinks = [
-        DeepLink(uriPattern = "snabble-pay://account/check?accountId={accountId}"),
+        DeepLink(uriPattern = "snabble-pay://account/check?accountId={accountId}")
     ]
 )
 @Composable

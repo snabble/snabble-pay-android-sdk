@@ -42,7 +42,7 @@ fun VerifyAccountScreen(
     val uiState = verifyAccountViewModel.uiState.collectAsState()
 
     when (val it = uiState.value) {
-        Loading -> Unit// TODO
+        Loading -> Unit // TODO
         is StartValidationFlow -> LocalContext.current.browseUrl(it.validationLink)
         is Error -> Toast.makeText(LocalContext.current, it.message, Toast.LENGTH_SHORT).show()
     }

@@ -22,13 +22,15 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-import io.snabble.pay.app.data.viewModelStates.Error
-import io.snabble.pay.app.data.viewModelStates.MandatePendingOrDeclined
-import io.snabble.pay.app.data.viewModelStates.ShowAccount
 import io.snabble.pay.app.domain.account.AccountCard
 import io.snabble.pay.app.feature.destinations.HomeScreenDestination
 import io.snabble.pay.app.feature.destinations.VerifyAccountScreenDestination
+import io.snabble.pay.app.feature.newaccount.Error
+import io.snabble.pay.app.feature.newaccount.Loading
+import io.snabble.pay.app.feature.newaccount.MandateAccepted
+import io.snabble.pay.app.feature.newaccount.MandatePendingOrDeclined
 import io.snabble.pay.app.feature.newaccount.NewAccountViewModel
+import io.snabble.pay.app.feature.newaccount.ShowAccount
 import io.snabble.pay.app.feature.newaccount.ui.widget.AccountInformation
 import io.snabble.pay.app.ui.AppBarLayout
 import io.snabble.pay.app.ui.theme.SnabblePayTheme
@@ -48,16 +50,20 @@ fun NewAccountScreen(
     var accountCard: AccountCard? by rememberSaveable { mutableStateOf(null) }
 
     when (val it = uiState.value) {
+        Loading -> Unit // TODO
+
         is ShowAccount -> {
             cardName = it.accountCard.name
             accountCard = it.accountCard
         }
 
+        MandateAccepted -> Unit // TODO
+
+        MandatePendingOrDeclined -> Unit // TODO
+
         is Error -> {
             Toast.makeText(LocalContext.current, it.message, Toast.LENGTH_SHORT).show()
         }
-
-        else -> {}
     }
 
     AppBarLayout(

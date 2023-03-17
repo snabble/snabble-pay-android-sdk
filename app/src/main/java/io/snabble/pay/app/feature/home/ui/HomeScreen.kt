@@ -25,11 +25,15 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-import io.snabble.pay.app.data.viewModelStates.Error
-import io.snabble.pay.app.data.viewModelStates.ShowAccounts
-import io.snabble.pay.app.feature.destinations.DetailsAccountScreenDestination
+import com.ramcosta.composedestinations.result.NavResult
+import com.ramcosta.composedestinations.result.ResultRecipient
+import io.snabble.pay.app.feature.destinations.AccountDetailsScreenDestination
 import io.snabble.pay.app.feature.destinations.VerifyAccountScreenDestination
+import io.snabble.pay.app.feature.detailsaccount.ui.AccountDetailsScreenNavArgs
+import io.snabble.pay.app.feature.home.Error
 import io.snabble.pay.app.feature.home.HomeViewModel
+import io.snabble.pay.app.feature.home.Loading
+import io.snabble.pay.app.feature.home.ShowAccounts
 import io.snabble.pay.app.feature.home.ui.widget.SnapplePayTitle
 import io.snabble.pay.app.ui.theme.SnabblePayTheme
 import io.snabble.pay.app.ui.widgets.accountcard.AccountCardPager
@@ -38,9 +42,14 @@ import io.snabble.pay.app.ui.widgets.accountcard.AccountCardPager
 @Destination
 @Composable
 fun HomeScreen(
-    navigator: DestinationsNavigator?,
     homeViewModel: HomeViewModel = hiltViewModel(),
+    navigator: DestinationsNavigator?,
+    resultRecipient: ResultRecipient<AccountDetailsScreenDestination, Boolean>?,
 ) {
+    resultRecipient?.onNavResult { result ->
+        if (result is NavResult.Value) homeViewModel.refresh()
+    }
+
     val uiState = homeViewModel.uiState.collectAsState()
 
     Surface(
@@ -48,8 +57,7 @@ fun HomeScreen(
         color = MaterialTheme.colorScheme.background
     ) {
         ConstraintLayout(
-            modifier = Modifier
-                .fillMaxSize()
+            modifier = Modifier.fillMaxSize()
         ) {
             val (
                 title,
@@ -80,6 +88,8 @@ fun HomeScreen(
                 fontWeight = FontWeight.Bold
             )
             when (val state = uiState.value) {
+                Loading -> Unit // TODO
+
                 is ShowAccounts -> {
                     AccountCardPager(
                         modifier = Modifier
@@ -93,13 +103,19 @@ fun HomeScreen(
                             homeViewModel.getSessionToken(string)
                         }
                     ) { accountCard ->
-                        navigator?.navigate(DetailsAccountScreenDestination(accountCard.accountId))
+                        navigator?.navigate(
+                            AccountDetailsScreenDestination(
+                                navArgs = AccountDetailsScreenNavArgs(
+                                    accountId = accountCard.accountId
+                                )
+                            )
+                        )
                     }
                 }
-                is Error -> Toast.makeText(LocalContext.current, state.message, Toast.LENGTH_LONG)
-                    .show()
 
-                else -> {}
+                is Error -> {
+                    Toast.makeText(LocalContext.current, state.message, Toast.LENGTH_LONG).show()
+                }
             }
             FloatingActionButton(
                 modifier = Modifier
@@ -137,7 +153,8 @@ fun HomeScreenPreview() {
     SnabblePayTheme {
         HomeScreen(
             navigator = null,
-            homeViewModel = hiltViewModel()
+            homeViewModel = hiltViewModel(),
+            resultRecipient = null
         )
     }
 }

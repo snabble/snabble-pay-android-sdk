@@ -3,12 +3,6 @@ package io.snabble.pay.app.feature.newaccount
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.snabble.pay.app.data.viewModelStates.Error
-import io.snabble.pay.app.data.viewModelStates.Loading
-import io.snabble.pay.app.data.viewModelStates.MandateAccepted
-import io.snabble.pay.app.data.viewModelStates.MandatePendingOrDeclined
-import io.snabble.pay.app.data.viewModelStates.ShowAccount
-import io.snabble.pay.app.data.viewModelStates.UiState
 import io.snabble.pay.app.domain.account.AccountCard
 import io.snabble.pay.app.domain.account.usecase.GetAccountCardUseCase
 import io.snabble.pay.app.domain.account.usecase.GetAllAccountCardsUseCase
@@ -121,3 +115,19 @@ class NewAccountViewModel @Inject constructor(
         }
     }
 }
+
+sealed interface UiState
+
+object Loading : UiState
+
+object MandateAccepted : UiState
+
+object MandatePendingOrDeclined : UiState
+
+data class ShowAccount(
+    val accountCard: AccountCard,
+) : UiState
+
+data class Error(
+    val message: String? = "Ups! Something went wrong",
+) : UiState

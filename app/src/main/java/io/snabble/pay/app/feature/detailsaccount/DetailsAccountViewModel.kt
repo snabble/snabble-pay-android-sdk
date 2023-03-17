@@ -1,12 +1,11 @@
 package io.snabble.pay.app.feature.detailsaccount
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.snabble.pay.app.data.viewModelStates.Error
-import io.snabble.pay.app.data.viewModelStates.Loading
-import io.snabble.pay.app.data.viewModelStates.ShowAccount
-import io.snabble.pay.app.data.viewModelStates.UiState
+import io.snabble.pay.app.domain.account.AccountCard
+import io.snabble.pay.app.domain.account.usecase.DeleteAccountUseCase
 import io.snabble.pay.app.domain.account.usecase.GetAccountCardUseCase
 import io.snabble.pay.app.domain.account.usecase.SetAccountCardLabelUseCase
 import io.snabble.pay.app.domain.mandate.usecase.AcceptMandateUseCase
@@ -22,18 +21,19 @@ class DetailsAccountViewModel @Inject constructor(
     private val setCardLabel: SetAccountCardLabelUseCase,
     private val getMandate: GetMandateUseCase,
     private val acceptPendingMandate: AcceptMandateUseCase,
+    private val removeAccount: DeleteAccountUseCase,
+    savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
     private var _uiState = MutableStateFlow<UiState>(Loading)
     val uiState = _uiState.asStateFlow()
+    val accountId: String = requireNotNull(savedStateHandle["accountId"])
 
-    fun getAccount(accountId: String) {
-        viewModelScope.launch {
-            _uiState.tryEmit(ShowAccount(getCard(accountId)))
-        }
+    init {
+        getAccount(accountId)
     }
 
-    fun acceptMandate(accountId: String) {
+    fun acceptMandate() {
         viewModelScope.launch {
             getMandate(accountId = accountId)
                 .onFailure {
@@ -49,6 +49,19 @@ class DetailsAccountViewModel @Inject constructor(
         }
     }
 
+    fun deleteAccount() {
+        viewModelScope.launch {
+            val accountCard = removeAccount(accountId)
+            _uiState.tryEmit(AccountDeleted(accountCard))
+        }
+    }
+
+    private fun getAccount(accountId: String) {
+        viewModelScope.launch {
+            _uiState.tryEmit(ShowAccount(getCard(accountId)))
+        }
+    }
+
     private suspend fun acceptMandate(accountId: String, mandateId: String) {
         acceptPendingMandate(accountId = accountId, mandateId = mandateId)
             .onFailure {
@@ -60,10 +73,27 @@ class DetailsAccountViewModel @Inject constructor(
             }
     }
 
-    fun updateAccountName(id: String, name: String) {
+    fun updateAccountName(name: String) {
         viewModelScope.launch {
-            setCardLabel(id, name)
-//            _uiState.tryEmit(ShowAccount(accountManager.getAccountModel(id)))
+            setCardLabel(accountId = accountId, name = name)
+            // TODO: What do we need to do here?
+            // _uiState.tryEmit(ShowAccount(accountManager.getAccountModel(id)))
         }
     }
 }
+
+sealed interface UiState
+
+object Loading : UiState
+
+data class ShowAccount(
+    val accountCard: AccountCard,
+) : UiState
+
+data class AccountDeleted(
+    val accountCard: AccountCard,
+) : UiState
+
+data class Error(
+    val message: String? = "Ups! Something went wrong",
+) : UiState

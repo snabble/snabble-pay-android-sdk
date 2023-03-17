@@ -22,8 +22,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import io.snabble.pay.app.R
-import io.snabble.pay.app.data.viewModelStates.Error
-import io.snabble.pay.app.data.viewModelStates.StartValidationFlow
+import io.snabble.pay.app.feature.verifyaccount.Error
+import io.snabble.pay.app.feature.verifyaccount.Loading
+import io.snabble.pay.app.feature.verifyaccount.StartValidationFlow
 import io.snabble.pay.app.feature.verifyaccount.VerifyAccountViewModel
 import io.snabble.pay.app.feature.verifyaccount.ui.widget.HyperLinkText
 import io.snabble.pay.app.ui.AppBarLayout
@@ -41,9 +42,9 @@ fun VerifyAccountScreen(
     val uiState = verifyAccountViewModel.uiState.collectAsState()
 
     when (val it = uiState.value) {
+        Loading -> Unit// TODO
         is StartValidationFlow -> LocalContext.current.browseUrl(it.validationLink)
         is Error -> Toast.makeText(LocalContext.current, it.message, Toast.LENGTH_SHORT).show()
-        else -> {}
     }
 
     AppBarLayout(

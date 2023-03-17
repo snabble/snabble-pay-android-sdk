@@ -18,6 +18,23 @@ class AccountRepositoryImpl @Inject constructor(
     private val localAccountLabelSource: LocalAccountLabelDataSource,
 ) : AccountRepository {
 
+    override suspend fun addNewAccount(
+        appUri: String,
+        city: String,
+        twoLetterIsoCountryCode: String,
+    ): Result<AccountCheck> =
+        remoteDataSource.addNewAccount(appUri, city, twoLetterIsoCountryCode)
+
+    override suspend fun deleteAccount(id: String): AccountCard =
+        remoteDataSource.deleteAccount(id)
+            .getOrThrow()
+            .toAccountCard(
+                savedName = localAccountLabelSource.getAllLabels()
+                    .firstOrNull()
+                    ?.find { it.accountId == id }
+                    ?.label
+            )
+
     override fun getAccounts(): Flow<List<AccountCard>> = channelFlow {
         remoteDataSource.getAllAccounts()
             .onFailure { throw it }
@@ -54,11 +71,4 @@ class AccountRepositoryImpl @Inject constructor(
                     ?.find { it.accountId == id }
                     ?.label
             )
-
-    override suspend fun addNewAccount(
-        appUri: String,
-        city: String,
-        twoLetterIsoCountryCode: String,
-    ): Result<AccountCheck> =
-        remoteDataSource.addNewAccount(appUri, city, twoLetterIsoCountryCode)
 }

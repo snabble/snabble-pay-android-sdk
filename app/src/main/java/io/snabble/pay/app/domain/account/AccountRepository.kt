@@ -11,6 +11,8 @@ interface AccountRepository {
         twoLetterIsoCountryCode: String,
     ): Result<AccountCheck>
 
+    suspend fun deleteAccount(id: String): AccountCard
+
     suspend fun getAccount(id: String): AccountCard
 
     fun getAccounts(): Flow<List<AccountCard>>

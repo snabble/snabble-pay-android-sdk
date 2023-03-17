@@ -3,10 +3,7 @@ package io.snabble.pay.app.feature.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.snabble.pay.app.data.viewModelStates.Error
-import io.snabble.pay.app.data.viewModelStates.Loading
-import io.snabble.pay.app.data.viewModelStates.ShowAccounts
-import io.snabble.pay.app.data.viewModelStates.UiState
+import io.snabble.pay.app.domain.account.AccountCard
 import io.snabble.pay.app.domain.account.usecase.GetAllAccountCardsUseCase
 import io.snabble.pay.app.domain.session.GetSessionTokenUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -25,6 +22,10 @@ class HomeViewModel @Inject constructor(
     val uiState = _uiState.asStateFlow()
 
     init {
+        refresh()
+    }
+
+    fun refresh() {
         viewModelScope.launch {
             getAccounts()
                 .catch {
@@ -55,3 +56,15 @@ class HomeViewModel @Inject constructor(
         }
     }
 }
+
+sealed interface UiState
+
+object Loading : UiState
+
+data class ShowAccounts(
+    val accountCards: List<AccountCard>,
+) : UiState
+
+data class Error(
+    val message: String? = "Ups! Something went wrong",
+) : UiState

@@ -6,6 +6,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import io.snabble.pay.app.domain.account.AccountRepository
 import io.snabble.pay.app.domain.account.usecase.AddAccountUseCase
+import io.snabble.pay.app.domain.account.usecase.DeleteAccountUseCase
 import io.snabble.pay.app.domain.account.usecase.GetAccountCardUseCase
 import io.snabble.pay.app.domain.account.usecase.GetAllAccountCardsUseCase
 import io.snabble.pay.app.domain.account.usecase.SetAccountCardLabelUseCase
@@ -23,6 +24,11 @@ class AccountModule {
     fun provideAllAccountUseCase(
         accountRepository: AccountRepository,
     ) = GetAccountCardUseCase(accountRepository::getAccount)
+
+    @Provides
+    fun provideDeleteAccountUseCase(
+        accountRepository: AccountRepository,
+    ) = DeleteAccountUseCase(accountRepository::deleteAccount)
 
     @Provides
     fun provideGetAllAccountsUseCase(

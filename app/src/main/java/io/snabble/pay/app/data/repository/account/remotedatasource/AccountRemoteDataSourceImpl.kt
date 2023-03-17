@@ -9,12 +9,6 @@ class AccountRemoteDataSourceImpl @Inject constructor(
     private val snabblePay: SnabblePay,
 ) : AccountRemoteDataSource {
 
-    override suspend fun getAllAccounts(): Result<List<Account>> =
-        snabblePay.getAccounts()
-
-    override suspend fun getAccount(id: String): Result<Account> =
-        snabblePay.getAccount(id)
-
     override suspend fun addNewAccount(
         appUri: String,
         city: String,
@@ -25,4 +19,13 @@ class AccountRemoteDataSourceImpl @Inject constructor(
             city = city,
             twoLetterIsoCountryCode = twoLetterIsoCountryCode
         )
+
+    override suspend fun deleteAccount(id: String): Result<Account> =
+        snabblePay.removeAccount(id)
+
+    override suspend fun getAllAccounts(): Result<List<Account>> =
+        snabblePay.getAccounts()
+
+    override suspend fun getAccount(id: String): Result<Account> =
+        snabblePay.getAccount(id)
 }

@@ -15,8 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.lifecycleScope
 import io.snabble.pay.app.ui.theme.SnabblePayTheme
-import io.snabble.pay.core.BuildConfig
-import io.snabble.pay.core.dsl.snabblePay
+import io.snabble.pay.dsl.snabblePay
 import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {

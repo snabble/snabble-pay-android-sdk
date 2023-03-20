@@ -1,28 +1,25 @@
 @file:Suppress("UnstableApiUsage")
 
 @Suppress("DSL_SCOPE_VIOLATION") plugins {
-    id(libs.plugins.android.application.get().pluginId)
+    id(libs.plugins.android.library.get().pluginId)
     id(libs.plugins.kotlin.android.get().pluginId)
+    alias(libs.plugins.kotlin.serialization)
     id("de.mannodermaus.android-junit5")
 }
 
 android {
-    namespace = "io.snabble.pay.app"
+    namespace = "io.snabble.pay"
     compileSdk = libs.versions.sdk.compile.get().toInt()
 
     defaultConfig {
-        applicationId = "io.snabble.pay.app"
         minSdk = libs.versions.sdk.min.get().toInt()
+        @Suppress("DEPRECATION")
         targetSdk = libs.versions.sdk.target.get().toInt()
-        versionCode = 1
-        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunnerArguments["runnerBuilder"] =
             "de.mannodermaus.junit5.AndroidJUnit5Builder"
-        vectorDrawables {
-            useSupportLibrary = true
-        }
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
@@ -38,46 +35,41 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
+        isCoreLibraryDesugaringEnabled = true
     }
 
     kotlinOptions {
         jvmTarget = "1.8"
     }
 
-    buildFeatures {
-        compose = true
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
-    }
-
     packagingOptions {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
+        resources.excludes.add("META-INF/*")
     }
 }
 
 dependencies {
-    implementation(project(":pay"))
+    coreLibraryDesugaring(libs.android.desugarJdkLibs)
 
+    api(project(":account"))
+    api(project(":mandate"))
+    api(project(":session"))
+
+    implementation(project(":api"))
+    implementation(project(":network"))
+
+    implementation(libs.androidx.appcompat)
     implementation(libs.androidx.core)
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.5.1")
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.bundles.compose)
-    implementation("androidx.compose.ui:ui")
-    implementation("androidx.compose.ui:ui-graphics")
-    implementation("androidx.compose.ui:ui-tooling-preview")
-    implementation("androidx.compose.material3:material3")
+    implementation(libs.androidx.datastorePreferences)
+    implementation(libs.androidx.startupRuntime)
+
+    implementation(libs.kotlin.serialization)
+
+    implementation(libs.okhttp.loggingInterceptor)
+
+    implementation(libs.bundles.koin)
 
     testImplementation(libs.bundles.testing)
     androidTestImplementation(libs.bundles.testing.android)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
 
     androidTestRuntimeOnly(libs.test.junit5.androidTestRunner)
-
-    debugImplementation("androidx.compose.ui:ui-tooling")
-    debugImplementation("androidx.compose.ui:ui-test-manifest")
 }

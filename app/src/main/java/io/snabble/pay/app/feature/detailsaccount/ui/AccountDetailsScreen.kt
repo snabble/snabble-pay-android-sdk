@@ -31,9 +31,7 @@ fun AccountDetailsScreen(
     val uiState = viewModel.uiState.collectAsState()
 
     when (val state = uiState.value) {
-        is Loading -> {
-            LoadingScreen(navigator = navigator)
-        }
+        is Loading -> LoadingScreen(navigator = navigator)
 
         is ShowAccount -> {
             AccountDetails(

@@ -27,6 +27,7 @@ class DetailsAccountViewModel @Inject constructor(
 
     private var _uiState = MutableStateFlow<UiState>(Loading)
     val uiState = _uiState.asStateFlow()
+
     val accountId: String = requireNotNull(savedStateHandle["accountId"])
 
     init {

@@ -1,7 +1,7 @@
 package io.snabble.pay.api.util
 
+import io.snabble.pay.api.retrofit.ApiError
 import io.snabble.pay.api.retrofit.ApiResponse
-import io.snabble.pay.api.retrofit.Error
 import io.snabble.pay.api.retrofit.Success
 import io.snabble.pay.api.retrofit.SuccessNoContent
 
@@ -14,7 +14,7 @@ fun <T : Any, R> ApiResponse<T>.toResult(mapper: (T) -> R): Result<R> = when (th
         Result.failure(IllegalStateException("Received unexpected 204 NO CONTENT"))
     }
 
-    is Error -> {
+    is ApiError -> {
         Result.failure(exception)
     }
 }
@@ -28,7 +28,7 @@ fun <T : Any, R> ApiResponse<T>.toNullableResult(mapper: (T) -> R): Result<R?> =
         Result.success(null)
     }
 
-    is Error -> {
+    is ApiError -> {
         Result.failure(exception)
     }
 }

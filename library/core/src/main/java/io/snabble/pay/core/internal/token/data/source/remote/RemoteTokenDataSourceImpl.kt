@@ -1,6 +1,6 @@
 package io.snabble.pay.core.internal.token.data.source.remote
 
-import io.snabble.pay.api.retrofit.Error
+import io.snabble.pay.api.retrofit.ApiError
 import io.snabble.pay.api.retrofit.Success
 import io.snabble.pay.api.retrofit.SuccessNoContent
 import io.snabble.pay.api.service.register.AppRegistrationService
@@ -28,7 +28,7 @@ internal class RemoteTokenDataSourceImpl(
         return when (tokenResponse) {
             is Success -> tokenResponse.data
             is SuccessNoContent -> null
-            is Error -> null
+            is ApiError -> null
         }
     }
 }

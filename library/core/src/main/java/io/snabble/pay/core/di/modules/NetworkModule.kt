@@ -53,7 +53,9 @@ internal val networkModule = module {
         get<Json>().asConverterFactory("application/json".toMediaType())
     } bind Converter.Factory::class
 
-    factory { ApiResultCallAdapterFactory.create() } bind ApiResultCallAdapterFactory::class
+    factory {
+        ApiResultCallAdapterFactory.create(json = get())
+    } bind ApiResultCallAdapterFactory::class
 
     single(named(AUTH_FREE_RETROFIT)) {
         Retrofit.Builder()

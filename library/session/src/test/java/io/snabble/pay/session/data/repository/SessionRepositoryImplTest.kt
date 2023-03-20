@@ -10,7 +10,7 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
 import io.mockk.slot
-import io.snabble.pay.api.retrofit.Error
+import io.snabble.pay.api.retrofit.ApiError
 import io.snabble.pay.api.retrofit.Success
 import io.snabble.pay.session.data.dto.AccountIdDto
 import io.snabble.pay.session.data.dto.SessionDto
@@ -89,10 +89,7 @@ internal class SessionRepositoryImplTest : FreeSpec({
             "that's failure if the request failed" {
                 coEvery {
                     service.createSession(accountId = any())
-                } returns Error(
-                    message = null,
-                    exception = Exception()
-                )
+                } returns ApiError(exception = Exception())
 
                 val sut = createSut()
                 val result = sut.createSession(accountId = "a1")
@@ -148,10 +145,7 @@ internal class SessionRepositoryImplTest : FreeSpec({
             "that's failure if the request failed" {
                 coEvery {
                     service.deleteSession(sessionId = any())
-                } returns Error(
-                    message = null,
-                    exception = Exception()
-                )
+                } returns ApiError(exception = Exception())
 
                 val sut = createSut()
                 val result = sut.deleteSession(id = "s1")
@@ -207,10 +201,7 @@ internal class SessionRepositoryImplTest : FreeSpec({
             "that's failure if the request failed" {
                 coEvery {
                     service.getSession(sessionId = any())
-                } returns Error(
-                    message = null,
-                    exception = Exception()
-                )
+                } returns ApiError(exception = Exception())
 
                 val sut = createSut()
                 val result = sut.getSession(id = "s1")
@@ -269,10 +260,7 @@ internal class SessionRepositoryImplTest : FreeSpec({
             "that's failure if the request failed" {
                 coEvery {
                     service.getSessions()
-                } returns Error(
-                    message = null,
-                    exception = Exception()
-                )
+                } returns ApiError(exception = Exception())
 
                 val sut = createSut()
                 val result = sut.getSessions()
@@ -328,10 +316,7 @@ internal class SessionRepositoryImplTest : FreeSpec({
             "that's failure if the request failed" {
                 coEvery {
                     service.updateToken(sessionId = any())
-                } returns Error(
-                    message = null,
-                    exception = Exception()
-                )
+                } returns ApiError(exception = Exception())
 
                 val sut = createSut()
                 val result = sut.updateToken(sessionId = "s1")

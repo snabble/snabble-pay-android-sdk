@@ -15,7 +15,7 @@ import io.snabble.pay.account.data.mapper.AccountMapper
 import io.snabble.pay.account.data.service.AccountService
 import io.snabble.pay.account.domain.model.Account
 import io.snabble.pay.account.domain.model.AccountCheck
-import io.snabble.pay.api.retrofit.Error
+import io.snabble.pay.api.retrofit.ApiError
 import io.snabble.pay.api.retrofit.Success
 
 internal class AccountsRepositoryImplTest : FreeSpec({
@@ -76,10 +76,7 @@ internal class AccountsRepositoryImplTest : FreeSpec({
             "that's failure if the request failed" {
                 coEvery {
                     service.getAccount(id = any())
-                } returns Error(
-                    message = null,
-                    exception = Exception()
-                )
+                } returns ApiError(exception = Exception())
 
                 val sut = createSut()
                 val result = sut.getAccount(id = "a1")
@@ -165,10 +162,7 @@ internal class AccountsRepositoryImplTest : FreeSpec({
                         city = any(),
                         twoLetterIsoCountryCode = any()
                     )
-                } returns Error(
-                    message = null,
-                    exception = Exception()
-                )
+                } returns ApiError(exception = Exception())
 
                 val sut = createSut()
                 val result = sut.getAccountCheck(
@@ -233,10 +227,7 @@ internal class AccountsRepositoryImplTest : FreeSpec({
             "that's failure if the request failed" {
                 coEvery {
                     service.getAccounts()
-                } returns Error(
-                    message = null,
-                    exception = Exception()
-                )
+                } returns ApiError(exception = Exception())
 
                 val sut = createSut()
                 val result = sut.getAccounts()
@@ -292,10 +283,7 @@ internal class AccountsRepositoryImplTest : FreeSpec({
             "that's failure if the request failed" {
                 coEvery {
                     service.removeAccount(id = any())
-                } returns Error(
-                    message = null,
-                    exception = Exception()
-                )
+                } returns ApiError(exception = Exception())
 
                 val sut = createSut()
                 val result = sut.removeAccount(id = "a1")

@@ -1,12 +1,15 @@
 package io.snabble.pay.api.retrofit
 
+import kotlinx.serialization.json.Json
 import retrofit2.Call
 import retrofit2.CallAdapter
 import retrofit2.Retrofit
 import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
 
-class ApiResultCallAdapterFactory private constructor() : CallAdapter.Factory() {
+class ApiResultCallAdapterFactory private constructor(
+    private val json: Json,
+) : CallAdapter.Factory() {
 
     override fun get(
         returnType: Type,
@@ -30,10 +33,10 @@ class ApiResultCallAdapterFactory private constructor() : CallAdapter.Factory() 
     }
 
     internal fun createAdapter(type: Type) =
-        ApiResponseCallAdapter(type = type)
+        ApiResponseCallAdapter(type = type, json)
 
     companion object {
 
-        fun create(): ApiResultCallAdapterFactory = ApiResultCallAdapterFactory()
+        fun create(json: Json): ApiResultCallAdapterFactory = ApiResultCallAdapterFactory(json)
     }
 }

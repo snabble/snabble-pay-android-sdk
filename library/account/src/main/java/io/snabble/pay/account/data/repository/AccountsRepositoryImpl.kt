@@ -7,6 +7,7 @@ import io.snabble.pay.account.domain.model.Account
 import io.snabble.pay.account.domain.model.AccountCheck
 import io.snabble.pay.account.domain.repository.AccountsRepository
 import io.snabble.pay.api.util.toResult
+import io.snabble.pay.core.util.Result
 
 internal class AccountsRepositoryImpl(
     private val service: AccountService,

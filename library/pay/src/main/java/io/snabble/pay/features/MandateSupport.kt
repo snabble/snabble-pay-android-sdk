@@ -1,5 +1,6 @@
 package io.snabble.pay.features
 
+import io.snabble.pay.core.util.Result
 import io.snabble.pay.mandate.domain.model.Mandate
 import io.snabble.pay.mandate.domain.model.MandateResponse
 import io.snabble.pay.mandate.domain.usecase.CreateMandateUseCase

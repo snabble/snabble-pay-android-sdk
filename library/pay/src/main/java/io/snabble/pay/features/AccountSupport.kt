@@ -6,6 +6,7 @@ import io.snabble.pay.account.domain.usecase.CreateAccountCheckUseCase
 import io.snabble.pay.account.domain.usecase.GetAllAccountsUseCase
 import io.snabble.pay.account.domain.usecase.GetSpecificAccountUseCase
 import io.snabble.pay.account.domain.usecase.RemoveAccountUseCase
+import io.snabble.pay.core.util.Result
 
 interface AccountSupport {
 

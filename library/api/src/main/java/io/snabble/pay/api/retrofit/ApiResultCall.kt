@@ -68,10 +68,14 @@ internal fun <T : Any> Response<T>.toSuccessResponse(): ApiResponse<T> {
 
 internal fun <T : Any> Response<in T>.toErrorResponse(json: Json): ApiError {
     val errorBody = errorBody()?.string()
-    val error: SnabblePayError? = try {
-        errorBody?.let<String, Error>(json::decodeFromString)?.error
+    val error: Error? = try {
+        errorBody?.let<String, Error>(json::decodeFromString)
     } catch (ignored: SerializationException) {
         null
     }
-    return ApiError(error = error, rawMessage = errorBody, exception = HttpException(this))
+    return ApiError(
+        error = error?.toPayError(errorBody),
+        rawMessage = errorBody,
+        exception = HttpException(this)
+    )
 }

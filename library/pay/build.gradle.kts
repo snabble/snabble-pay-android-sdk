@@ -55,6 +55,7 @@ dependencies {
     api(project(":session"))
 
     implementation(project(":api"))
+    api(project(":core"))
     implementation(project(":network"))
 
     implementation(libs.androidx.appcompat)

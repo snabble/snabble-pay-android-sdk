@@ -2,6 +2,7 @@ package io.snabble.pay.mandate.data.repository
 
 import io.snabble.pay.api.util.toNullableResult
 import io.snabble.pay.api.util.toResult
+import io.snabble.pay.core.util.Result
 import io.snabble.pay.mandate.data.dto.MandateResponseDto
 import io.snabble.pay.mandate.data.mapper.MandateMapper
 import io.snabble.pay.mandate.data.mapper.MandateResponseMapper

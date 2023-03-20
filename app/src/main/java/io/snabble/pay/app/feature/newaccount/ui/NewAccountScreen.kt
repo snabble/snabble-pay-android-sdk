@@ -89,7 +89,8 @@ fun NewAccountScreen(
                     accountCard?.let {
                         newAccountViewModel.updateAccountName(
                             it.accountId,
-                            cardName
+                            cardName,
+                            it.cardBackgroundColor
                         )
                     }
                 }

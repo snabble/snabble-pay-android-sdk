@@ -7,5 +7,6 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "account_label_table")
 data class AccountLabel(
     @PrimaryKey @ColumnInfo(name = "account_id") val accountId: String,
-    @ColumnInfo(name = "label") val label: String,
+    @ColumnInfo(name = "label") val name: String,
+    @ColumnInfo(name = "colors") val colors: List<String>
 )

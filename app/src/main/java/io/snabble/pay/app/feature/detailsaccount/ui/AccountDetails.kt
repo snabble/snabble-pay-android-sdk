@@ -40,7 +40,7 @@ fun AccountDetails(
     navigator: DestinationsNavigator?,
     isMandateAccepted: Boolean,
     accountCard: AccountCard,
-    onLabelChange: (label: String) -> Unit,
+    onLabelChange: (label: String, colors: List<String>) -> Unit,
     onMandateAccept: () -> Unit,
     onDeleteAccount: () -> Unit,
 ) {
@@ -62,7 +62,7 @@ fun AccountDetails(
                 placeholder = cardName,
                 value = cardName,
                 onValueChange = { cardName = it },
-                onAction = { onLabelChange(cardName) }
+                onAction = { onLabelChange(cardName, accountCard.cardBackgroundColor) }
             )
             Divider(
                 modifier = Modifier
@@ -146,7 +146,7 @@ private fun AccountDetailsPreview() {
             navigator = null,
             isMandateAccepted = false,
             accountCard = card,
-            onLabelChange = {},
+            onLabelChange = {_,_->},
             onMandateAccept = {},
             onDeleteAccount = {}
         )

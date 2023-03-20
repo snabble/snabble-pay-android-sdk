@@ -7,7 +7,6 @@ import io.snabble.pay.app.data.repository.account.remotedatasource.AccountRemote
 import io.snabble.pay.app.domain.account.AccountCard
 import io.snabble.pay.app.domain.account.AccountRepository
 import io.snabble.pay.app.domain.account.toAccountCard
-import io.snabble.pay.core.SnabblePay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -26,15 +25,17 @@ class AccountRepositoryImpl @Inject constructor(
     ): Result<AccountCheck> =
         remoteDataSource.addNewAccount(appUri, city, twoLetterIsoCountryCode)
 
-    override suspend fun deleteAccount(id: String): AccountCard =
-        remoteDataSource.deleteAccount(id)
+    override suspend fun deleteAccount(id: String): AccountCard {
+        val label = localAccountLabelSource.getAllLabels()
+            .firstOrNull()
+            ?.find { it.accountId == id }
+        return remoteDataSource.deleteAccount(id)
             .getOrThrow()
             .toAccountCard(
-                savedName = localAccountLabelSource.getAllLabels()
-                    .firstOrNull()
-                    ?.find { it.accountId == id }
-                    ?.label
+                savedName = label?.name,
+                colors = label?.colors
             )
+    }
 
     override fun getAccounts(): Flow<List<AccountCard>> = channelFlow {
         remoteDataSource.getAllAccounts()
@@ -48,28 +49,33 @@ class AccountRepositoryImpl @Inject constructor(
                             .map { account ->
                                 val label = labels
                                     .find { it.accountId == account.id }
-                                    ?.label
-                                account.toAccountCard(savedName = label)
+                                account.toAccountCard(
+                                    savedName = label?.name,
+                                    colors = label?.colors
+                                )
                             }
                         send(accountList)
                     }
             }
     }
 
-    override suspend fun setAccountLabel(id: String, label: String) {
+    override suspend fun setAccountLabel(id: String, label: String, colors: List<String>) {
         localAccountLabelSource.setLabel(
             id = id,
-            label = label
+            label = label,
+            colors = colors
         )
     }
 
-    override suspend fun getAccount(id: String): AccountCard =
-        remoteDataSource.getAccount(id)
+    override suspend fun getAccount(id: String): AccountCard {
+        val label = localAccountLabelSource.getAllLabels()
+            .firstOrNull()
+            ?.find { it.accountId == id }
+        return remoteDataSource.getAccount(id)
             .getOrThrow()
             .toAccountCard(
-                savedName = localAccountLabelSource.getAllLabels()
-                    .firstOrNull()
-                    ?.find { it.accountId == id }
-                    ?.label
+                savedName = label?.name,
+                colors = label?.colors
             )
+    }
 }

@@ -17,5 +17,5 @@ interface AccountRepository {
 
     fun getAccounts(): Flow<List<AccountCard>>
 
-    suspend fun setAccountLabel(id: String, label: String)
+    suspend fun setAccountLabel(id: String, label: String, colors: List<String>)
 }

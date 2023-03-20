@@ -107,9 +107,9 @@ class NewAccountViewModel @Inject constructor(
         }
     }
 
-    fun updateAccountName(id: String, name: String) {
+    fun updateAccountName(id: String, name: String, colors: List<String>) {
         viewModelScope.launch {
-            setCardLabel(accountId = id, name = name)
+            setCardLabel(accountId = id, name = name, colors = colors)
             val accountCard = getAccountCard(accountId = id)
             _uiState.tryEmit(ShowAccount(accountCard))
         }

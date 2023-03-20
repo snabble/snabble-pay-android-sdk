@@ -20,13 +20,13 @@ data class AccountCard(
     val qrCodeToken: String?,
 ) : Parcelable
 
-fun Account.toAccountCard(savedName: String? = null): AccountCard = AccountCard(
+fun Account.toAccountCard(savedName: String? = null, colors: List<String>?): AccountCard = AccountCard(
     accountId = id,
     name = if (savedName.isNullOrEmpty()) name else savedName,
     mandateState = mandateState,
     holderName = holderName,
     iban = iban,
     bank = bank,
-    cardBackgroundColor = GradiantGenerator.createGradiantColorList(),
+    cardBackgroundColor = if (colors.isNullOrEmpty()) GradiantGenerator.createGradiantColorList() else colors,
     qrCodeToken = null
 )

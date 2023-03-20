@@ -59,7 +59,9 @@ class DetailsAccountViewModel @Inject constructor(
 
     private fun getAccount(accountId: String) {
         viewModelScope.launch {
-            _uiState.tryEmit(ShowAccount(getCard(accountId)))
+            _uiState.tryEmit(ShowAccount(getCard(accountId).also {
+                updateAccountName(it.name, it.cardBackgroundColor)
+            }))
         }
     }
 
@@ -74,9 +76,9 @@ class DetailsAccountViewModel @Inject constructor(
             }
     }
 
-    fun updateAccountName(name: String) {
+    fun updateAccountName(name: String, colors: List<String>) {
         viewModelScope.launch {
-            setCardLabel(accountId = accountId, name = name)
+            setCardLabel(accountId = accountId, name = name, colors = colors)
             // TODO: What do we need to do here?
             // _uiState.tryEmit(ShowAccount(accountManager.getAccountModel(id)))
         }

@@ -2,8 +2,11 @@ package io.snabble.pay.app.feature.home.ui.widget
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
@@ -14,10 +17,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import io.snabble.pay.app.R
+
+@Composable
+fun SnabblePayHeader(modifier: Modifier) {
+    Column(modifier = modifier) {
+        SnapplePayTitle(modifier = modifier.fillMaxWidth())
+        Spacer(modifier = modifier.height(8.dp))
+        SnabblePaySubTitle(modifier = modifier.fillMaxWidth())
+    }
+}
 
 @Composable
 fun SnapplePayTitle(modifier: Modifier = Modifier) {
@@ -46,10 +59,41 @@ fun SnapplePayTitle(modifier: Modifier = Modifier) {
     }
 }
 
+@Composable
+fun SnabblePaySubTitle(modifier: Modifier) {
+    Text(
+        modifier = modifier,
+        text = "The Future of Mobile Payment",
+        style = MaterialTheme.typography.bodyLarge,
+        textAlign = TextAlign.Center,
+        fontWeight = FontWeight.Bold
+    )
+}
+
+
 @Preview(
     showBackground = true
 )
 @Composable
 fun SnabblePayTitlePreview() {
-    SnapplePayTitle()
+    SnapplePayTitle(modifier = Modifier.fillMaxWidth())
 }
+
+
+@Preview(
+    showBackground = true
+)
+@Composable
+fun SnabblePaySubTitlePreview() {
+    SnabblePaySubTitle(modifier = Modifier.fillMaxWidth())
+}
+
+@Preview(
+    showBackground = true
+)
+@Composable
+fun SnabblePayHeaderPreview() {
+    SnabblePayHeader(modifier = Modifier.fillMaxWidth())
+}
+
+

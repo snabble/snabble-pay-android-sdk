@@ -66,33 +66,34 @@ android {
 
 dependencies {
     implementation(project(":core"))
-    implementation("com.google.accompanist:accompanist-pager:0.28.0")
-    implementation("com.google.accompanist:accompanist-pager-indicators:0.28.0")
+    implementation(libs.bundles.accompanist)
+
     implementation(libs.androidx.core)
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.5.1")
+    implementation(libs.androidx.datastorePreferences)
+    implementation(libs.androidx.lifecycleRunitmeKtx)
+    implementation(libs.kotlin.serialization)
+    implementation(libs.zxing.core)
+
+    //Compose
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.bundles.compose)
-    implementation(libs.androidx.constraintlayoutCompose)
-    implementation("androidx.compose.material:material-icons-extended:1.3.1")
-    implementation("com.google.zxing:core:3.5.1")
-    implementation("com.journeyapps:zxing-android-embedded:4.3.0")
-    implementation("com.google.zxing:javase:3.5.1")
+    implementation("androidx.activity:activity-compose")
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-util")
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
+    implementation("androidx.compose.material:material-icons-extended")
 
-    implementation("io.github.raamcosta.compose-destinations:core:1.8.35-beta")
-    ksp("io.github.raamcosta.compose-destinations:ksp:1.8.35-beta")
+    implementation(libs.ramcosta.destinationsCore)
+    ksp(libs.ramcosta.destinationsKsp)
 
     // DI
     implementation(libs.dagger.hilt.android)
-    implementation("androidx.hilt:hilt-navigation-compose:1.1.0-alpha01")
+    implementation(libs.dagger.hilt.navigation.compose)
     kapt(libs.dagger.hilt.android.compiler)
-    implementation(libs.kotlin.serialization)
-    implementation(libs.androidx.datastorePreferences)
 
+    //Testing
     testImplementation(libs.bundles.testing)
     androidTestImplementation(libs.bundles.testing.android)
     androidTestImplementation(platform(libs.androidx.compose.bom))
@@ -103,13 +104,11 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 
-    val roomVersion = "2.5.0"
-
-    implementation("androidx.room:room-runtime:$roomVersion")
-    annotationProcessor("androidx.room:room-compiler:$roomVersion")
-
-    kapt("androidx.room:room-compiler:$roomVersion")
-    implementation("androidx.room:room-ktx:$roomVersion")
+    //Room
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
+    annotationProcessor(libs.room.compiler)
+    kapt(libs.room.compiler)
 }
 
 android.applicationVariants.all {

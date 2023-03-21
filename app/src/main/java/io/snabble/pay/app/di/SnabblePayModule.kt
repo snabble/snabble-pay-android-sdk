@@ -7,10 +7,10 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import io.snabble.pay.SnabblePay
 import io.snabble.pay.app.utils.getMetaDataKey
 import io.snabble.pay.core.BuildConfig
-import io.snabble.pay.core.SnabblePay
-import io.snabble.pay.core.dsl.snabblePay
+import io.snabble.pay.dsl.snabblePay
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)

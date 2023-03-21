@@ -1,6 +1,7 @@
 package io.snabble.pay.app.domain.account.usecase
 
 import io.snabble.pay.account.domain.model.AccountCheck
+import io.snabble.pay.app.data.utils.AppResult
 
 fun interface AddAccountUseCase {
 
@@ -8,5 +9,5 @@ fun interface AddAccountUseCase {
         appUri: String,
         city: String,
         twoLetterIsoCountryCode: String,
-    ): Result<AccountCheck>
+    ): AppResult<AccountCheck>
 }

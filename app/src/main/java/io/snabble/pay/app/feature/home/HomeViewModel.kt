@@ -3,15 +3,17 @@ package io.snabble.pay.app.feature.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import io.snabble.pay.app.data.utils.AppError
+import io.snabble.pay.app.data.utils.AppSuccess
 import io.snabble.pay.app.domain.account.AccountCard
 import io.snabble.pay.app.domain.account.usecase.AddAccountUseCase
 import io.snabble.pay.app.domain.account.usecase.GetAllAccountCardsUseCase
 import io.snabble.pay.app.domain.session.GetSessionTokenUseCase
+import io.snabble.pay.core.PayError
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -28,7 +30,7 @@ class HomeViewModel @Inject constructor(
     private val _validationLink = MutableSharedFlow<String>()
     val validationLink = _validationLink.asSharedFlow()
 
-    private val _error = MutableSharedFlow<String?>()
+    private val _error = MutableSharedFlow<PayError?>()
     val error = _error.asSharedFlow()
 
     init {
@@ -38,14 +40,16 @@ class HomeViewModel @Inject constructor(
     fun refresh() {
         viewModelScope.launch {
             getAccounts()
-                .catch {
-                    _error.emit(it.message)
-                }
                 .collect {
-                    if (it.isEmpty()) {
-                        _uiState.tryEmit(AddNewCart)
-                    } else {
-                        _uiState.tryEmit(ShowAccounts(it))
+                    when (it) {
+                        is AppError -> _error.emit(it.value)
+                        is AppSuccess -> {
+                            if (it.value.isEmpty()) {
+                                _uiState.tryEmit(AddNewCart)
+                            } else {
+                                _uiState.tryEmit(ShowAccounts(it.value))
+                            }
+                        }
                     }
                 }
         }
@@ -72,14 +76,14 @@ class HomeViewModel @Inject constructor(
 
     fun getValidationLink() {
         viewModelScope.launch {
-            addAccountUseCase(
+            val result = addAccountUseCase(
                 appUri = "snabble-pay://account/check",
                 city = "Berlin",
                 twoLetterIsoCountryCode = "DE"
-            ).onSuccess {
-                _validationLink.emit(it.validationLink)
-            }.onFailure {
-                _error.emit(it.message)
+            )
+            when (result) {
+                is AppError -> _error.emit(result.value)
+                is AppSuccess -> _validationLink.emit(result.value.validationLink)
             }
         }
     }

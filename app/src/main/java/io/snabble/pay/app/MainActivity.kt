@@ -8,9 +8,10 @@ import androidx.activity.compose.setContent
 import androidx.lifecycle.lifecycleScope
 import com.ramcosta.composedestinations.DestinationsNavHost
 import dagger.hilt.android.AndroidEntryPoint
+import io.snabble.pay.SnabblePay
 import io.snabble.pay.app.feature.NavGraphs
 import io.snabble.pay.app.ui.theme.SnabblePayTheme
-import io.snabble.pay.core.SnabblePay
+import io.snabble.pay.core.util.Success
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -41,12 +42,15 @@ class MainActivity : ComponentActivity() {
             !uri.queryParameterNames.contains("accountId")
         ) {
             lifecycleScope.launch {
-                val newAccountId = snabblePay.getAccounts().getOrThrow().last().id
-                startActivity(
-                    Intent(Intent.ACTION_VIEW).apply {
-                        data = Uri.parse("$uri?accountId=$newAccountId")
-                    }
-                )
+                val result = snabblePay.getAccounts()
+                if (result is Success){
+                    val newAccountId = result.value.last().id
+                    startActivity(
+                        Intent(Intent.ACTION_VIEW).apply {
+                            data = Uri.parse("$uri?accountId=$newAccountId")
+                        }
+                    )
+                }
             }
         }
     }

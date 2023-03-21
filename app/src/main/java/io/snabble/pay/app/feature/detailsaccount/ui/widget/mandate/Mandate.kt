@@ -1,6 +1,5 @@
 package io.snabble.pay.app.feature.detailsaccount.ui.widget.mandate
 
-import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.CardDefaults
@@ -13,8 +12,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import io.snabble.pay.app.ui.theme.SnabblePayTheme
 import io.snabble.pay.mandate.domain.model.Mandate
-import io.snabble.pay.mandate.domain.model.MandateState.ACCEPTED
 import io.snabble.pay.mandate.domain.model.MandateState.PENDING
+import java.net.URLDecoder
 
 @Composable
 fun Mandate(
@@ -45,7 +44,7 @@ fun Mandate(
             mandateState = mandate?.state ?: PENDING
         )
         MandateBody(
-            mandateText = mandate?.htmlText,
+            mandateText = URLDecoder.decode(mandate?.htmlText, "utf-8"),
             isVisible = showMandate.value,
             onAccept = { onAccept(it) },
         )

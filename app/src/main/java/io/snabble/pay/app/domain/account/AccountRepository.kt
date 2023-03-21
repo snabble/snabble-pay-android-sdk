@@ -1,6 +1,7 @@
 package io.snabble.pay.app.domain.account
 
 import io.snabble.pay.account.domain.model.AccountCheck
+import io.snabble.pay.app.data.utils.AppResult
 import kotlinx.coroutines.flow.Flow
 
 interface AccountRepository {
@@ -9,13 +10,14 @@ interface AccountRepository {
         appUri: String,
         city: String,
         twoLetterIsoCountryCode: String,
-    ): Result<AccountCheck>
+    ): AppResult<AccountCheck>
 
-    suspend fun deleteAccount(id: String): AccountCard
+    suspend fun deleteAccount(id: String): AppResult<AccountCard>
 
-    suspend fun getAccount(id: String): AccountCard
+    suspend fun getAccount(id: String): AppResult<AccountCard>
 
-    fun getAccounts(): Flow<List<AccountCard>>
+    fun getAccounts(): Flow<AppResult<List<AccountCard>>>
 
     suspend fun setAccountLabel(id: String, label: String, colors: List<String>)
 }
+

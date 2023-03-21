@@ -10,7 +10,6 @@ import com.ramcosta.composedestinations.annotation.DeepLink
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.ramcosta.composedestinations.result.ResultBackNavigator
-import io.snabble.pay.account.domain.model.MandateState
 import io.snabble.pay.app.feature.detailsaccount.AccountDeleted
 import io.snabble.pay.app.feature.detailsaccount.DetailsAccountViewModel
 import io.snabble.pay.app.feature.detailsaccount.Loading
@@ -31,7 +30,7 @@ fun AccountDetailsScreen(
     val context = LocalContext.current
     LaunchedEffect(Unit) {
         viewModel.error.collect {
-            Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, it?.message, Toast.LENGTH_SHORT).show()
         }
     }
 

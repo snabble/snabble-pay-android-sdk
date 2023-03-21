@@ -25,7 +25,6 @@ import io.snabble.pay.app.feature.home.ui.widget.DemoCard
 import io.snabble.pay.app.feature.home.ui.widget.Home
 import io.snabble.pay.app.ui.widgets.accountcard.AccountCardPager
 import io.snabble.pay.app.utils.browseUrl
-import kotlinx.coroutines.flow.collect
 
 @RootNavGraph(start = true)
 @Destination
@@ -40,14 +39,14 @@ fun HomeScreen(
     }
 
     val context = LocalContext.current
-    LaunchedEffect(Unit){
-        homeViewModel.validationLink.collect{
+    LaunchedEffect(Unit) {
+        homeViewModel.validationLink.collect {
             context.browseUrl(it)
         }
     }
-    LaunchedEffect(Unit){
-        homeViewModel.error.collect{
-            Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+    LaunchedEffect(Unit) {
+        homeViewModel.error.collect {
+            Toast.makeText(context, it?.message, Toast.LENGTH_SHORT).show()
         }
     }
 

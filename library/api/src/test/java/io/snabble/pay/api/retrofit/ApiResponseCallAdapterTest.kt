@@ -9,7 +9,7 @@ import java.lang.reflect.Type
 
 class ApiResponseCallAdapterTest : FreeSpec({
 
-    fun createSut(type: Type) = ApiResponseCallAdapter(type)
+    fun createSut(type: Type) = ApiResponseCallAdapter(type, json = mockk())
 
     "responseType() returns the type it's been created with" {
         val type = mockk<Type>()

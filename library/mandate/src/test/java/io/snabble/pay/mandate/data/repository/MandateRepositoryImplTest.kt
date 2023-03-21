@@ -9,7 +9,7 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
 import io.mockk.slot
-import io.snabble.pay.api.retrofit.Error
+import io.snabble.pay.api.retrofit.ApiError
 import io.snabble.pay.api.retrofit.Success
 import io.snabble.pay.api.retrofit.SuccessNoContent
 import io.snabble.pay.mandate.data.dto.MandateDto
@@ -83,10 +83,7 @@ internal class MandateRepositoryImplTest : FreeSpec({
             "that's failure if the request failed" {
                 coEvery {
                     service.createMandate(accountId = any())
-                } returns Error(
-                    message = null,
-                    exception = Exception()
-                )
+                } returns ApiError(exception = Exception())
 
                 val sut = createSut()
                 val result = sut.createMandate(accountId = "a1")
@@ -156,10 +153,7 @@ internal class MandateRepositoryImplTest : FreeSpec({
             "that's failure if the request failed" {
                 coEvery {
                     service.getMandate(accountId = any())
-                } returns Error(
-                    message = null,
-                    exception = Exception()
-                )
+                } returns ApiError(exception = Exception())
 
                 val sut = createSut()
                 val result = sut.createMandate(accountId = "a1")
@@ -271,10 +265,7 @@ internal class MandateRepositoryImplTest : FreeSpec({
             "that's failure if the request failed" {
                 coEvery {
                     service.respondToMandate(accountId = any(), response = any())
-                } returns Error(
-                    message = null,
-                    exception = Exception()
-                )
+                } returns ApiError(exception = Exception())
 
                 val sut = createSut()
                 val result = sut.respondToMandate(

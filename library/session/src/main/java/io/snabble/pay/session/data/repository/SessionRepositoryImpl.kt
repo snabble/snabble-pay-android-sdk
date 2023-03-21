@@ -1,6 +1,7 @@
 package io.snabble.pay.session.data.repository
 
 import io.snabble.pay.api.util.toResult
+import io.snabble.pay.core.util.Result
 import io.snabble.pay.session.data.dto.AccountIdDto
 import io.snabble.pay.session.data.mapper.SessionMapper
 import io.snabble.pay.session.data.mapper.TokenMapper

@@ -65,7 +65,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":core"))
+    implementation(project(":pay"))
     implementation(libs.bundles.accompanist)
 
     implementation(libs.androidx.core)

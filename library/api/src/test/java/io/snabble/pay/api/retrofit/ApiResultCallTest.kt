@@ -24,7 +24,7 @@ class ApiResultCallTest : FreeSpec({
 
     val call = mockk<Call<Any>>(relaxed = true)
 
-    fun createSut() = ApiResultCall(call)
+    fun createSut() = ApiResultCall(call, json = mockk(relaxed = true))
 
     beforeEach {
         clearAllMocks()
@@ -41,11 +41,16 @@ class ApiResultCallTest : FreeSpec({
 
         "calls onResponse() on the given callback on onResponse from the call" {
             mockkStatic("io.snabble.pay.api.retrofit.ApiResultCallKt")
-            every { any<Response<*>>().toApiResponse() } returns mockk()
+            every { any<Response<*>>().toSuccessResponse() } returns mockk()
             val callbackSlot = slot<Callback<Any>>()
             every {
                 call.enqueue(capture(callbackSlot))
-            } answers { callbackSlot.captured.onResponse(mockk(), mockk()) }
+            } answers {
+                callbackSlot.captured.onResponse(
+                    mockk(),
+                    mockk { every { isSuccessful } returns true }
+                )
+            }
             val callback = mockk<Callback<ApiResponse<Any>>>(relaxed = true)
 
             val sut = createSut()
@@ -54,9 +59,8 @@ class ApiResultCallTest : FreeSpec({
             verify(exactly = 1) { callback.onResponse(any(), any()) }
         }
 
-        "calls onResponse() on the given callback on onFailure from then call" {
+        "calls onResponse() on the given callback on onFailure from the call" {
             mockkStatic("io.snabble.pay.api.retrofit.ApiResultCallKt")
-            every { any<Response<*>>().toApiResponse() } returns mockk()
             val callbackSlot = slot<Callback<Any>>()
             every {
                 call.enqueue(capture(callbackSlot))
@@ -74,11 +78,16 @@ class ApiResultCallTest : FreeSpec({
 
             "a Success ApiResponse" {
                 mockkStatic("io.snabble.pay.api.retrofit.ApiResultCallKt")
-                every { any<Response<*>>().toApiResponse() } returns mockk<Success<*>>()
+                every { any<Response<*>>().toSuccessResponse() } returns mockk<Success<*>>()
                 val callbackSlot = slot<Callback<Any>>()
                 every {
                     call.enqueue(capture(callbackSlot))
-                } answers { callbackSlot.captured.onResponse(mockk(), mockk()) }
+                } answers {
+                    callbackSlot.captured.onResponse(
+                        mockk(),
+                        mockk { every { isSuccessful } returns true }
+                    )
+                }
                 val responseSlot = slot<Response<ApiResponse<*>>>()
                 val callback = mockk<Callback<ApiResponse<Any>>>(relaxed = true) {
                     every { onResponse(any(), capture(responseSlot)) } just runs
@@ -93,11 +102,16 @@ class ApiResultCallTest : FreeSpec({
 
             "a SuccessNoContent ApiResponse" {
                 mockkStatic("io.snabble.pay.api.retrofit.ApiResultCallKt")
-                every { any<Response<*>>().toApiResponse() } returns mockk<SuccessNoContent>()
+                every { any<Response<*>>().toSuccessResponse() } returns mockk<SuccessNoContent>()
                 val callbackSlot = slot<Callback<Any>>()
                 every {
                     call.enqueue(capture(callbackSlot))
-                } answers { callbackSlot.captured.onResponse(mockk(), mockk()) }
+                } answers {
+                    callbackSlot.captured.onResponse(
+                        mockk(),
+                        mockk { every { isSuccessful } returns true }
+                    )
+                }
                 val responseSlot = slot<Response<ApiResponse<*>>>()
                 val callback = mockk<Callback<ApiResponse<Any>>>(relaxed = true) {
                     every { onResponse(any(), capture(responseSlot)) } just runs
@@ -114,7 +128,6 @@ class ApiResultCallTest : FreeSpec({
 
                 "'No internet connection' if it's an IOException" {
                     mockkStatic("io.snabble.pay.api.retrofit.ApiResultCallKt")
-                    every { any<Response<*>>().toApiResponse() } returns mockk()
                     val callbackSlot = slot<Callback<Any>>()
                     every {
                         call.enqueue(capture(callbackSlot))
@@ -128,22 +141,19 @@ class ApiResultCallTest : FreeSpec({
                     sut.enqueue(callback)
 
                     val apiResponse = responseSlot.captured.body()
-                    apiResponse.shouldBeInstanceOf<Error<*>>()
-                    apiResponse.message shouldBe "No internet connection"
+                    apiResponse.shouldBeInstanceOf<ApiError>()
+                    apiResponse.rawMessage shouldBe "No internet connection"
                 }
 
                 "from the Exception that's been passed" {
                     mockkStatic("io.snabble.pay.api.retrofit.ApiResultCallKt")
-                    every { any<Response<*>>().toApiResponse() } returns mockk()
                     val callbackSlot = slot<Callback<Any>>()
                     every {
                         call.enqueue(capture(callbackSlot))
                     } answers {
                         callbackSlot.captured.onFailure(
                             mockk(),
-                            mockk {
-                                every { localizedMessage } returns "JSON parser exception"
-                            }
+                            mockk { every { localizedMessage } returns "JSON parser exception" }
                         )
                     }
                     val responseSlot = slot<Response<ApiResponse<*>>>()
@@ -155,8 +165,8 @@ class ApiResultCallTest : FreeSpec({
                     sut.enqueue(callback)
 
                     val apiResponse = responseSlot.captured.body()
-                    apiResponse.shouldBeInstanceOf<Error<*>>()
-                    apiResponse.message shouldBe "JSON parser exception"
+                    apiResponse.shouldBeInstanceOf<ApiError>()
+                    apiResponse.rawMessage shouldBe "JSON parser exception"
                 }
             }
         }

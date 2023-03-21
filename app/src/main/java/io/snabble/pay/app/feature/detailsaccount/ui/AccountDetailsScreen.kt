@@ -1,10 +1,10 @@
 package io.snabble.pay.app.feature.detailsaccount.ui
 
-import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ramcosta.composedestinations.annotation.DeepLink
 import com.ramcosta.composedestinations.annotation.Destination
@@ -14,6 +14,8 @@ import io.snabble.pay.app.feature.detailsaccount.AccountDeleted
 import io.snabble.pay.app.feature.detailsaccount.DetailsAccountViewModel
 import io.snabble.pay.app.feature.detailsaccount.Loading
 import io.snabble.pay.app.feature.detailsaccount.ShowAccount
+import io.snabble.pay.app.ui.widgets.AlertWidget
+import io.snabble.pay.core.PayError
 
 @Destination(
     navArgsDelegate = AccountDetailsScreenNavArgs::class,
@@ -27,10 +29,23 @@ fun AccountDetailsScreen(
     navigator: DestinationsNavigator?,
     resultBackNavigator: ResultBackNavigator<Boolean>?,
 ) {
-    val context = LocalContext.current
+    val openDialog = remember {
+        mutableStateOf(false)
+    }
+    val error = viewModel.error.collectAsState(null)
+
     LaunchedEffect(Unit) {
         viewModel.error.collect {
-            Toast.makeText(context, it?.message, Toast.LENGTH_SHORT).show()
+            openDialog.value = true
+        }
+    }
+
+    if (openDialog.value) {
+        when (val err = error.value) {
+            is PayError -> AlertWidget(
+                reason = err.reason.name,
+                message = err.message.toString(),
+                onDismiss = { openDialog.value = false })
         }
     }
 

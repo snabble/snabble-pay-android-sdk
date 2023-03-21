@@ -1,11 +1,12 @@
 package io.snabble.pay.app.feature.home.ui
 
-import android.widget.Toast
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
@@ -23,8 +24,10 @@ import io.snabble.pay.app.feature.home.Loading
 import io.snabble.pay.app.feature.home.ShowAccounts
 import io.snabble.pay.app.feature.home.ui.widget.DemoCard
 import io.snabble.pay.app.feature.home.ui.widget.Home
+import io.snabble.pay.app.ui.widgets.AlertWidget
 import io.snabble.pay.app.ui.widgets.accountcard.AccountCardPager
 import io.snabble.pay.app.utils.browseUrl
+import io.snabble.pay.core.PayError
 
 @RootNavGraph(start = true)
 @Destination
@@ -44,9 +47,23 @@ fun HomeScreen(
             context.browseUrl(it)
         }
     }
+    val openDialog = remember {
+        mutableStateOf(false)
+    }
+    val error = homeViewModel.error.collectAsState(null)
+
     LaunchedEffect(Unit) {
         homeViewModel.error.collect {
-            Toast.makeText(context, it?.message, Toast.LENGTH_SHORT).show()
+            openDialog.value = true
+        }
+    }
+
+    if (openDialog.value) {
+        when (val err = error.value) {
+            is PayError -> AlertWidget(
+                reason = err.reason.name,
+                message = err.message.toString(),
+                onDismiss = { openDialog.value = false })
         }
     }
 

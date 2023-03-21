@@ -7,4 +7,7 @@
     <string name="verify_privacy_description">Weitere Informationen zu unserer Verarbeitung deiner persönlichen Daten findest du in unseren </string>
     <string name="verify_privacy_link">Datenschutzhinweis.</string>
     <string name="verify_account">Konto verifizieren</string>
+
+    <string name="error_reason">Fehler durch %s</string>
+    <string name="error_message">Der Grund dafür ist %s</string>
 </resources>

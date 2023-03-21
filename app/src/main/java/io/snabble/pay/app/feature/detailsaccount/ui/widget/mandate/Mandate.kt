@@ -44,9 +44,15 @@ fun Mandate(
             mandateState = mandate?.state ?: PENDING
         )
         MandateBody(
-            mandateText = URLDecoder.decode(mandate?.htmlText, "utf-8"),
+            mandateText = if (mandate?.htmlText != null) URLDecoder.decode(
+                mandate.htmlText,
+                "utf-8"
+            ) else "",
             isVisible = showMandate.value,
-            onAccept = { onAccept(it) },
+            onAccept = {
+                onAccept(it)
+                showMandate.value = false
+            },
         )
     }
 }

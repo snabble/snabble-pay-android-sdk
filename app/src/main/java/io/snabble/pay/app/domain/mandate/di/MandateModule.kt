@@ -7,6 +7,7 @@ import dagger.hilt.components.SingletonComponent
 import io.snabble.pay.app.domain.mandate.MandateRepository
 import io.snabble.pay.app.domain.mandate.usecase.AcceptMandateUseCase
 import io.snabble.pay.app.domain.mandate.usecase.CreateMandateUseCase
+import io.snabble.pay.app.domain.mandate.usecase.DeclineMandateUseCase
 import io.snabble.pay.app.domain.mandate.usecase.GetMandateUseCase
 
 @InstallIn(SingletonComponent::class)
@@ -27,4 +28,8 @@ class MandateModule {
     fun bindAcceptMandateUseCase(
         mandateRepository: MandateRepository,
     ) = AcceptMandateUseCase(mandateRepository::acceptMandate)
+    @Provides
+    fun bindDeclineMandateUseCase(
+        mandateRepository: MandateRepository,
+    ) = DeclineMandateUseCase(mandateRepository::declineMandate)
 }

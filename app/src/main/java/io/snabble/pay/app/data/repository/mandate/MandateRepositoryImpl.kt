@@ -28,6 +28,13 @@ class MandateRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun declineMandate(accountId: String, mandateId: String): AppResult<Mandate> {
+        return when (val result = snabblePay.declineMandate(accountId, mandateId)) {
+            is Failure -> AppError(result.error)
+            is Success -> AppSuccess(result.value)
+        }
+    }
+
     override suspend fun getMandate(accountId: String): AppResult<Mandate?> {
         return when (val result = snabblePay.getMandate(accountId)) {
             is Failure -> AppError(result.error)

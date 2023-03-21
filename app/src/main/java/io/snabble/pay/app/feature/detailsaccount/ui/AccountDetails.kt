@@ -36,7 +36,7 @@ fun AccountDetails(
     mandate: Mandate?,
     accountCard: AccountCard,
     onLabelChange: (label: String, colors: List<String>) -> Unit,
-    onMandateAccept: () -> Unit,
+    onMandateAccept: (Boolean) -> Unit,
     onDeleteAccount: () -> Unit,
 ) {
     var cardName by rememberSaveable { mutableStateOf(accountCard.name) }
@@ -83,7 +83,7 @@ fun AccountDetails(
                     Mandate(
                         modifier = Modifier,
                         mandate = mandate,
-                        onAccept = { onMandateAccept() }
+                        onAccept = { onMandateAccept(it) }
                     )
                 }
             }

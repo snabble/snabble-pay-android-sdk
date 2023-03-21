@@ -13,6 +13,7 @@ import io.snabble.pay.app.domain.account.usecase.GetAccountCardUseCase
 import io.snabble.pay.app.domain.account.usecase.SetAccountCardLabelUseCase
 import io.snabble.pay.app.domain.mandate.usecase.AcceptMandateUseCase
 import io.snabble.pay.app.domain.mandate.usecase.CreateMandateUseCase
+import io.snabble.pay.app.domain.mandate.usecase.DeclineMandateUseCase
 import io.snabble.pay.app.domain.mandate.usecase.GetMandateUseCase
 import io.snabble.pay.core.PayError
 import io.snabble.pay.mandate.domain.model.Mandate
@@ -30,6 +31,7 @@ class DetailsAccountViewModel @Inject constructor(
     private val getMandate: GetMandateUseCase,
     private val createMandateUseCase: CreateMandateUseCase,
     private val acceptPendingMandate: AcceptMandateUseCase,
+    private val declineMandateUseCase: DeclineMandateUseCase,
     private val removeAccount: DeleteAccountUseCase,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
@@ -46,7 +48,7 @@ class DetailsAccountViewModel @Inject constructor(
         getAccount(accountId)
     }
 
-    fun acceptMandate() {
+    fun acceptMandate(isAccepted: Boolean) {
         viewModelScope.launch {
             val result = getMandate(accountId = accountId)
             when (result) {
@@ -54,7 +56,12 @@ class DetailsAccountViewModel @Inject constructor(
                 is AppSuccess -> {
                     val mandate = result.value
                     if (mandate != null) {
-                        acceptMandate(accountId = accountId, mandate.id)
+                        if (isAccepted) {
+                            acceptMandate(accountId, mandate.id)
+                        } else {
+                            declineMandateUseCase(accountId, mandate.id)
+                        }
+                        getAccount(accountId)
                     } else {
                         _error.tryEmit(null)
                     }

@@ -7,5 +7,6 @@ interface MandateRepository {
 
     suspend fun createMandate(accountId: String): AppResult<Mandate>
     suspend fun acceptMandate(accountId: String, mandateId: String): AppResult<Mandate>
+    suspend fun declineMandate(accountId: String, mandateId: String): AppResult<Mandate>
     suspend fun getMandate(accountId: String): AppResult<Mandate?>
 }

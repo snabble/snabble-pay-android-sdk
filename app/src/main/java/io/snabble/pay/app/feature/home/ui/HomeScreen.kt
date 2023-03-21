@@ -4,6 +4,7 @@ import android.widget.Toast
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -24,6 +25,7 @@ import io.snabble.pay.app.feature.home.ui.widget.DemoCard
 import io.snabble.pay.app.feature.home.ui.widget.Home
 import io.snabble.pay.app.ui.widgets.accountcard.AccountCardPager
 import io.snabble.pay.app.utils.browseUrl
+import kotlinx.coroutines.flow.collect
 
 @RootNavGraph(start = true)
 @Destination
@@ -37,18 +39,19 @@ fun HomeScreen(
         if (result is NavResult.Value) homeViewModel.refresh()
     }
 
+    val context = LocalContext.current
+    LaunchedEffect(Unit){
+        homeViewModel.validationLink.collect{
+            context.browseUrl(it)
+        }
+    }
+    LaunchedEffect(Unit){
+        homeViewModel.error.collect{
+            Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+        }
+    }
+
     val uiState = homeViewModel.uiState.collectAsState()
-    val validationLink = homeViewModel.validationLink.collectAsState(null)
-    val error = homeViewModel.error.collectAsState(null)
-
-    validationLink.value?.let {
-        LocalContext.current.browseUrl(it)
-    }
-
-    error.value?.let {
-        Toast.makeText(LocalContext.current, it, Toast.LENGTH_SHORT).show()
-    }
-
     when (val state = uiState.value) {
         Loading -> Home(
             cardComposable = { CircularProgressIndicator() },

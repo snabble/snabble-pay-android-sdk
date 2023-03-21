@@ -2,6 +2,7 @@ package io.snabble.pay.app.feature.detailsaccount.ui
 
 import android.widget.Toast
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -12,7 +13,6 @@ import com.ramcosta.composedestinations.result.ResultBackNavigator
 import io.snabble.pay.account.domain.model.MandateState
 import io.snabble.pay.app.feature.detailsaccount.AccountDeleted
 import io.snabble.pay.app.feature.detailsaccount.DetailsAccountViewModel
-import io.snabble.pay.app.feature.detailsaccount.Error
 import io.snabble.pay.app.feature.detailsaccount.Loading
 import io.snabble.pay.app.feature.detailsaccount.ShowAccount
 
@@ -28,6 +28,13 @@ fun AccountDetailsScreen(
     navigator: DestinationsNavigator?,
     resultBackNavigator: ResultBackNavigator<Boolean>?,
 ) {
+    val context = LocalContext.current
+    LaunchedEffect(Unit) {
+        viewModel.error.collect {
+            Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+        }
+    }
+
     val uiState = viewModel.uiState.collectAsState()
 
     when (val state = uiState.value) {
@@ -36,7 +43,7 @@ fun AccountDetailsScreen(
         is ShowAccount -> {
             AccountDetails(
                 navigator = navigator,
-                isMandateAccepted = state.accountCard.mandateState == MandateState.ACCEPTED,
+                mandate = state.mandate,
                 accountCard = state.accountCard,
                 onLabelChange = viewModel::updateAccountName,
                 onMandateAccept = viewModel::acceptMandate,
@@ -45,10 +52,6 @@ fun AccountDetailsScreen(
         }
 
         is AccountDeleted -> resultBackNavigator?.navigateBack(result = true)
-
-        is Error -> {
-            Toast.makeText(LocalContext.current, state.message, Toast.LENGTH_SHORT).show()
-        }
     }
 }
 

@@ -10,7 +10,10 @@ import io.snabble.pay.app.domain.account.usecase.GetAccountCardUseCase
 import io.snabble.pay.app.domain.account.usecase.SetAccountCardLabelUseCase
 import io.snabble.pay.app.domain.mandate.usecase.AcceptMandateUseCase
 import io.snabble.pay.app.domain.mandate.usecase.GetMandateUseCase
+import io.snabble.pay.mandate.domain.model.Mandate
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -28,6 +31,9 @@ class DetailsAccountViewModel @Inject constructor(
     private var _uiState = MutableStateFlow<UiState>(Loading)
     val uiState = _uiState.asStateFlow()
 
+    private val _error = MutableSharedFlow<String?>()
+    val error = _error.asSharedFlow()
+
     val accountId: String = requireNotNull(savedStateHandle["accountId"])
 
     init {
@@ -38,13 +44,13 @@ class DetailsAccountViewModel @Inject constructor(
         viewModelScope.launch {
             getMandate(accountId = accountId)
                 .onFailure {
-                    _uiState.tryEmit(Error(it.message))
+                    _error.tryEmit(it.message)
                 }
                 .onSuccess {
                     if (it != null) {
                         acceptMandate(accountId = accountId, it.id)
                     } else {
-                        _uiState.tryEmit(Error("No Mandate exists"))
+                        _error.tryEmit("No Mandate exists")
                     }
                 }
         }
@@ -57,22 +63,33 @@ class DetailsAccountViewModel @Inject constructor(
         }
     }
 
+    private suspend fun getMandateFor(accountId: String): Mandate? {
+        val mandate = getMandate(accountId).onFailure {
+            _error.emit(it.message)
+        }
+        return mandate.getOrNull()
+    }
+
     private fun getAccount(accountId: String) {
         viewModelScope.launch {
-            _uiState.tryEmit(ShowAccount(getCard(accountId).also {
-                updateAccountName(it.name, it.cardBackgroundColor)
-            }))
+            val account = getCard(accountId)
+            val mandate = getMandateFor(accountId)
+
+            updateAccountName(account.name, account.cardBackgroundColor)
+
+            _uiState.tryEmit(ShowAccount(account, mandate))
         }
     }
 
     private suspend fun acceptMandate(accountId: String, mandateId: String) {
         acceptPendingMandate(accountId = accountId, mandateId = mandateId)
             .onFailure {
-                _uiState.tryEmit(Error(it.message ?: "Something went wrong"))
+                _error.tryEmit(it.message ?: "Something went wrong")
             }
             .onSuccess {
                 val accountCard = getCard(accountId)
-                _uiState.tryEmit(ShowAccount(accountCard))
+                val mandate = getMandateFor(accountId)
+                _uiState.tryEmit(ShowAccount(accountCard, mandate))
             }
     }
 
@@ -91,12 +108,9 @@ object Loading : UiState
 
 data class ShowAccount(
     val accountCard: AccountCard,
+    val mandate: Mandate?,
 ) : UiState
 
 data class AccountDeleted(
     val accountCard: AccountCard,
-) : UiState
-
-data class Error(
-    val message: String? = "Ups! Something went wrong",
 ) : UiState

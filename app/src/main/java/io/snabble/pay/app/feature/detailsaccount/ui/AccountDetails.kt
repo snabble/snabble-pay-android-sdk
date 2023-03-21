@@ -15,7 +15,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -23,7 +22,6 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import io.snabble.pay.account.domain.model.MandateState
 import io.snabble.pay.app.domain.account.AccountCard
 import io.snabble.pay.app.domain.account.utils.GradiantGenerator
-import io.snabble.pay.app.feature.detailsaccount.ui.widget.DeleteButton
 import io.snabble.pay.app.feature.detailsaccount.ui.widget.DetailsBackground
 import io.snabble.pay.app.feature.detailsaccount.ui.widget.mandate.Mandate
 import io.snabble.pay.app.ui.AppBarLayout
@@ -69,33 +67,24 @@ fun AccountDetails(
             Spacer(modifier = Modifier.height(16.dp))
             Box(modifier = Modifier.fillMaxWidth()) {
                 DetailsBackground(modifier = Modifier.fillMaxWidth())
-                Column(modifier = Modifier.fillMaxWidth()) {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
-                            .weight(1f)
-                    ) {
-                        AccountCard(
-                            accountCard = accountCard,
-                            onClick = {},
-                            qrCodeString = "https://www.google.com/"
-                        )
-                        Spacer(modifier = Modifier.height(16.dp))
-                        Mandate(
-                            modifier = Modifier,
-                            mandate = mandate,
-                            onAccept = { onMandateAccept() }
-                        )
-                    }
-
-//                    DeleteButton(
-//                        modifier = Modifier
-//                            .height(40.dp)
-//                            .align(CenterHorizontally),
-//                        onClick = { onDeleteAccount() }
-//                    )
-                    Spacer(modifier = Modifier.height(32.dp))
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
+                ) {
+                    AccountCard(
+                        accountCard = accountCard,
+                        onClick = {},
+                        qrCodeString = "https://www.google.com/",
+                        isEditable = true,
+                        onDelete = { onDeleteAccount() }
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Mandate(
+                        modifier = Modifier,
+                        mandate = mandate,
+                        onAccept = { onMandateAccept() }
+                    )
                 }
             }
         }

@@ -1,5 +1,7 @@
 package io.snabble.pay.api.retrofit
 
+import io.snabble.pay.api.model.ErrorDto
+import io.snabble.pay.api.model.toPayError
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
@@ -68,13 +70,13 @@ internal fun <T : Any> Response<T>.toSuccessResponse(): ApiResponse<T> {
 
 internal fun <T : Any> Response<in T>.toErrorResponse(json: Json): ApiError {
     val errorBody = errorBody()?.string()
-    val error: Error? = try {
-        errorBody?.let<String, Error>(json::decodeFromString)
+    val error: ErrorDto? = try {
+        errorBody?.let<String, ErrorDto>(json::decodeFromString)
     } catch (ignored: SerializationException) {
         null
     }
     return ApiError(
-        error = error?.toPayError(errorBody),
+        error = error?.toPayError(rawMessage = errorBody),
         rawMessage = errorBody,
         exception = HttpException(this)
     )

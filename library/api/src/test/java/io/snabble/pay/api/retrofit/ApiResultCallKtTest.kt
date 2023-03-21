@@ -6,7 +6,9 @@ import io.kotest.matchers.types.shouldBeInstanceOf
 import io.kotest.matchers.types.shouldBeTypeOf
 import io.mockk.every
 import io.mockk.mockk
+import io.snabble.pay.api.model.ReasonDto
 import io.snabble.pay.core.PayError
+import io.snabble.pay.core.Reason
 import kotlinx.serialization.json.Json
 import retrofit2.HttpException
 import retrofit2.Response
@@ -95,7 +97,7 @@ class ApiResultCallKtTest : FreeSpec({
 
                     sut.rawMessage shouldBe """{ "error": { "reason": "unauthorized", "message": "" } }"""
                     sut.error shouldBe PayError(
-                        reason = io.snabble.pay.core.Reason.UNAUTHORIZED,
+                        reason = Reason.UNAUTHORIZED,
                         message = ""
                     )
                 }
@@ -115,9 +117,9 @@ class ApiResultCallKtTest : FreeSpec({
             }
         }
 
-        "decodes the enum Reason value" - {
+        "decodes the enum ReasonDto value" - {
 
-            Reason.values().size shouldBe 7
+            ReasonDto.values().size shouldBe 7
 
             fun mockResponse(code: Int, reason: String, message: String = "") =
                 mockk<Response<*>> {
@@ -133,7 +135,7 @@ class ApiResultCallKtTest : FreeSpec({
                     reason = "account_not_found"
                 ).toErrorResponse(json = Json)
 
-                sut.error?.reason shouldBe io.snabble.pay.core.Reason.ACCOUNT_NOT_FOUND
+                sut.error?.reason shouldBe Reason.ACCOUNT_NOT_FOUND
             }
 
             "INVALID_CLIENT" {
@@ -142,7 +144,7 @@ class ApiResultCallKtTest : FreeSpec({
                     reason = "invalid_client"
                 ).toErrorResponse(json = Json)
 
-                sut.error?.reason shouldBe io.snabble.pay.core.Reason.INVALID_CLIENT
+                sut.error?.reason shouldBe Reason.INVALID_CLIENT
             }
 
             "INVALID_SESSION_STATE" {
@@ -151,7 +153,7 @@ class ApiResultCallKtTest : FreeSpec({
                     reason = "invalid_session_state"
                 ).toErrorResponse(json = Json)
 
-                sut.error?.reason shouldBe io.snabble.pay.core.Reason.INVALID_SESSION_STATE
+                sut.error?.reason shouldBe Reason.INVALID_SESSION_STATE
                 val exception = sut.exception
                 exception.shouldBeInstanceOf<HttpException>()
                 exception.code()
@@ -163,7 +165,7 @@ class ApiResultCallKtTest : FreeSpec({
                     reason = "mandate_not_accepted"
                 ).toErrorResponse(json = Json)
 
-                sut.error?.reason shouldBe io.snabble.pay.core.Reason.MANDATE_NOT_ACCEPTED
+                sut.error?.reason shouldBe Reason.MANDATE_NOT_ACCEPTED
             }
 
             "SESSION_NOT_FOUND" {
@@ -172,7 +174,7 @@ class ApiResultCallKtTest : FreeSpec({
                     reason = "session_not_found"
                 ).toErrorResponse(json = Json)
 
-                sut.error?.reason shouldBe io.snabble.pay.core.Reason.SESSION_NOT_FOUND
+                sut.error?.reason shouldBe Reason.SESSION_NOT_FOUND
             }
 
             "UNAUTHORIZED" {
@@ -181,7 +183,7 @@ class ApiResultCallKtTest : FreeSpec({
                     reason = "unauthorized"
                 ).toErrorResponse(json = Json)
 
-                sut.error?.reason shouldBe io.snabble.pay.core.Reason.UNAUTHORIZED
+                sut.error?.reason shouldBe Reason.UNAUTHORIZED
             }
 
             "VALIDATION_ERROR" {
@@ -190,7 +192,7 @@ class ApiResultCallKtTest : FreeSpec({
                     reason = "validation_error"
                 ).toErrorResponse(json = Json)
 
-                sut.error?.reason shouldBe io.snabble.pay.core.Reason.VALIDATION_ERROR
+                sut.error?.reason shouldBe Reason.VALIDATION_ERROR
             }
         }
     }

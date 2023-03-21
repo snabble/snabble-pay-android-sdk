@@ -1,10 +1,12 @@
 package io.snabble.pay.core.util
 
+import io.snabble.pay.core.PayError
+
 sealed class Result<out T> {
 
     val isSuccess: Boolean get() = this is Success
 
-    val isFailure: Boolean get() = this is Failure<*>
+    val isFailure: Boolean get() = this is Failure
 
     fun getOrNull(): T? =
         when {
@@ -14,7 +16,7 @@ sealed class Result<out T> {
 
     fun exceptionOrNull(): Throwable? =
         when {
-            isFailure -> (this as Failure<*>).exception
+            isFailure -> (this as Failure).exception
             else -> null
         }
 
@@ -22,11 +24,11 @@ sealed class Result<out T> {
 
         fun <T> success(value: T): Result<T> = Success(value)
 
-        fun <T> failure(exception: Throwable, value: T? = null): Result<Nothing> =
-            Failure(exception, value)
+        fun failure(exception: Throwable, error: PayError? = null): Result<Nothing> =
+            Failure(exception, error)
     }
 }
 
-data class Success<T : Any?>(val value: T) : Result<T>()
+data class Success<T>(val value: T) : Result<T>()
 
-data class Failure<T : Any?>(val exception: Throwable, val value: T) : Result<Nothing>()
+data class Failure(val exception: Throwable, val error: PayError?) : Result<Nothing>()

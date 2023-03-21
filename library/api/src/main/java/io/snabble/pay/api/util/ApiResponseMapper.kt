@@ -12,11 +12,11 @@ fun <T : Any, R> ApiResponse<T>.toResult(mapper: (T) -> R): Result<R> = when (th
     }
 
     is SuccessNoContent -> {
-        Result.failure(IllegalStateException("Received unexpected 204 NO CONTENT"), value = null)
+        Result.failure(IllegalStateException("Received unexpected 204 NO CONTENT"))
     }
 
     is ApiError -> {
-        Result.failure(exception, value = error)
+        Result.failure(exception, error = error)
     }
 }
 
@@ -30,6 +30,6 @@ fun <T : Any, R> ApiResponse<T>.toNullableResult(mapper: (T) -> R): Result<R?> =
     }
 
     is ApiError -> {
-        Result.failure(exception, value = error)
+        Result.failure(exception, error = error)
     }
 }

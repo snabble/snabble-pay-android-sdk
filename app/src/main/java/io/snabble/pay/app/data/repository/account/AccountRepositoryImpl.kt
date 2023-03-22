@@ -8,6 +8,7 @@ import io.snabble.pay.app.data.repository.account.remotedatasource.AccountRemote
 import io.snabble.pay.app.data.utils.AppError
 import io.snabble.pay.app.data.utils.AppResult
 import io.snabble.pay.app.data.utils.AppSuccess
+import io.snabble.pay.app.data.utils.toErrorResponse
 import io.snabble.pay.app.domain.account.AccountCard
 import io.snabble.pay.app.domain.account.AccountRepository
 import io.snabble.pay.app.domain.account.toAccountCard
@@ -30,7 +31,7 @@ class AccountRepositoryImpl @Inject constructor(
         twoLetterIsoCountryCode: String,
     ): AppResult<AccountCheck> =
         when (val result = remoteDataSource.addNewAccount(appUri, city, twoLetterIsoCountryCode)) {
-            is Failure -> AppError(result.error)
+            is Failure -> AppError(result.error.toErrorResponse())
             is Success -> AppSuccess(result.value)
         }
 
@@ -39,7 +40,7 @@ class AccountRepositoryImpl @Inject constructor(
             .firstOrNull()
             ?.find { it.accountId == id }
         return when (val result = remoteDataSource.deleteAccount(id)) {
-            is Failure -> AppError(result.error)
+            is Failure -> AppError(result.error.toErrorResponse())
             is Success -> AppSuccess(
                 result.value.toAccountCard(
                     savedName = label?.name,
@@ -51,7 +52,7 @@ class AccountRepositoryImpl @Inject constructor(
 
     override fun getAccounts(): Flow<AppResult<List<AccountCard>>> = channelFlow {
         when (val result = remoteDataSource.getAllAccounts()) {
-            is Failure -> send(AppError(result.error))
+            is Failure -> send(AppError(result.error.toErrorResponse()))
             is Success -> {
                 localAccountLabelSource.deleteOrphanedLabels(result.value.map(Account::id))
                 localAccountLabelSource.getAllLabels()
@@ -85,7 +86,7 @@ class AccountRepositoryImpl @Inject constructor(
             .firstOrNull()
             ?.find { it.accountId == id }
         return when (val result = remoteDataSource.getAccount(id)) {
-            is Failure -> AppError(result.error)
+            is Failure -> AppError(result.error.toErrorResponse())
             is Success -> AppSuccess(
                 result.value.toAccountCard(
                     savedName = label?.name,

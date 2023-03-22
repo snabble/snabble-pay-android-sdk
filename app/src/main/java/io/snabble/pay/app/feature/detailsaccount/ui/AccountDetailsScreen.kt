@@ -10,12 +10,12 @@ import com.ramcosta.composedestinations.annotation.DeepLink
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.ramcosta.composedestinations.result.ResultBackNavigator
+import io.snabble.pay.app.data.utils.ErrorResponse
 import io.snabble.pay.app.feature.detailsaccount.AccountDeleted
 import io.snabble.pay.app.feature.detailsaccount.DetailsAccountViewModel
 import io.snabble.pay.app.feature.detailsaccount.Loading
 import io.snabble.pay.app.feature.detailsaccount.ShowAccount
 import io.snabble.pay.app.ui.widgets.AlertWidget
-import io.snabble.pay.core.PayError
 
 @Destination(
     navArgsDelegate = AccountDetailsScreenNavArgs::class,
@@ -42,7 +42,7 @@ fun AccountDetailsScreen(
 
     if (openDialog.value) {
         when (val payError = error.value) {
-            is PayError -> AlertWidget(
+            is ErrorResponse -> AlertWidget(
                 payError = payError,
                 onDismiss = { openDialog.value = false }
             )

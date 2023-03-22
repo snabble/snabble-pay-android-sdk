@@ -7,6 +7,9 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import io.snabble.pay.account.domain.model.MandateState
 import io.snabble.pay.app.data.utils.AppError
 import io.snabble.pay.app.data.utils.AppSuccess
+import io.snabble.pay.app.data.utils.ErrorResponse
+import io.snabble.pay.app.data.utils.onError
+import io.snabble.pay.app.data.utils.onSuccess
 import io.snabble.pay.app.domain.account.AccountCard
 import io.snabble.pay.app.domain.account.usecase.DeleteAccountUseCase
 import io.snabble.pay.app.domain.account.usecase.GetAccountCardUseCase
@@ -15,7 +18,6 @@ import io.snabble.pay.app.domain.mandate.usecase.AcceptMandateUseCase
 import io.snabble.pay.app.domain.mandate.usecase.CreateMandateUseCase
 import io.snabble.pay.app.domain.mandate.usecase.DeclineMandateUseCase
 import io.snabble.pay.app.domain.mandate.usecase.GetMandateUseCase
-import io.snabble.pay.core.PayError
 import io.snabble.pay.mandate.domain.model.Mandate
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -39,7 +41,7 @@ class DetailsAccountViewModel @Inject constructor(
     private var _uiState = MutableStateFlow<UiState>(Loading)
     val uiState = _uiState.asStateFlow()
 
-    private val _error = MutableSharedFlow<PayError?>()
+    private val _error = MutableSharedFlow<ErrorResponse?>()
     val error = _error.asSharedFlow()
 
     val accountId: String = requireNotNull(savedStateHandle["accountId"])
@@ -50,11 +52,9 @@ class DetailsAccountViewModel @Inject constructor(
 
     fun acceptMandate(isAccepted: Boolean) {
         viewModelScope.launch {
-            val result = getMandate(accountId = accountId)
-            when (result) {
-                is AppError -> _error.emit(result.value)
-                is AppSuccess -> {
-                    val mandate = result.value
+            getMandate(accountId = accountId)
+                .onError { error -> _error.emit(error) }
+                .onSuccess { mandate ->
                     if (mandate != null) {
                         if (isAccepted) {
                             acceptMandate(accountId, mandate.id)
@@ -66,14 +66,12 @@ class DetailsAccountViewModel @Inject constructor(
                         _error.tryEmit(null)
                     }
                 }
-            }
         }
     }
 
     fun deleteAccount() {
         viewModelScope.launch {
-            val result = removeAccount(accountId)
-            when (result) {
+            when (val result = removeAccount(accountId)) {
                 is AppError -> _error.emit(result.value)
                 is AppSuccess -> _uiState.tryEmit(AccountDeleted(result.value))
             }
@@ -81,20 +79,18 @@ class DetailsAccountViewModel @Inject constructor(
     }
 
     private suspend fun getMandateFor(accountId: String): Mandate? {
-        val result = getMandate(accountId)
-        when (result) {
+        return when (val result = getMandate(accountId)) {
             is AppError -> {
                 _error.emit(result.value)
-                return null
+                null
             }
-            is AppSuccess -> return result.value
+            is AppSuccess -> result.value
         }
     }
 
     private fun getAccount(accountId: String) {
         viewModelScope.launch {
-            val result = getCard(accountId)
-            when (result) {
+            when (val result = getCard(accountId)) {
                 is AppError -> _error.emit(result.value)
                 is AppSuccess -> {
                     val account = result.value
@@ -112,20 +108,17 @@ class DetailsAccountViewModel @Inject constructor(
     }
 
     private suspend fun createMandate(accountId: String) {
-        val result = createMandateUseCase(accountId)
-        when (result) {
+        when (val result = createMandateUseCase(accountId)) {
             is AppError -> _error.emit(result.value)
             is AppSuccess -> return
         }
     }
 
     private suspend fun acceptMandate(accountId: String, mandateId: String) {
-        val result = acceptPendingMandate(accountId = accountId, mandateId = mandateId)
-        when (result) {
+        when (val result = acceptPendingMandate(accountId = accountId, mandateId = mandateId)) {
             is AppError -> _error.emit(result.value)
             is AppSuccess -> {
-                val accountCardResult = getCard(accountId)
-                when (accountCardResult) {
+                when (val accountCardResult = getCard(accountId)) {
                     is AppError -> _error.emit(accountCardResult.value)
                     is AppSuccess -> {
                         val mandate = getMandateFor(accountId)

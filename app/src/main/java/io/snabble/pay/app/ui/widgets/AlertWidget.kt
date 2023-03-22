@@ -20,14 +20,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.snabble.pay.app.R
+import io.snabble.pay.app.data.utils.ErrorResponse
 import io.snabble.pay.app.ui.theme.SnabblePayTheme
 import io.snabble.pay.app.ui.theme.lightGrey
-import io.snabble.pay.core.PayError
 import io.snabble.pay.core.Reason
 
 @Composable
 fun AlertWidget(
-    payError: PayError?,
+    payError: ErrorResponse?,
     onDismiss: () -> Unit,
 ) {
     AlertDialog(
@@ -80,7 +80,7 @@ fun AlertWidget(
 fun AlertPreview() {
     SnabblePayTheme {
         AlertWidget(
-            PayError(
+            ErrorResponse(
                 reason = Reason.UNKNOWN,
                 message = "Something unexpected happend"
             ),

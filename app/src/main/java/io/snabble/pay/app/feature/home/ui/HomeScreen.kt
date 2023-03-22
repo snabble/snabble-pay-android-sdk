@@ -16,6 +16,7 @@ import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.ramcosta.composedestinations.result.NavResult
 import com.ramcosta.composedestinations.result.ResultRecipient
+import io.snabble.pay.app.data.utils.ErrorResponse
 import io.snabble.pay.app.feature.destinations.AccountDetailsScreenDestination
 import io.snabble.pay.app.feature.detailsaccount.ui.AccountDetailsScreenNavArgs
 import io.snabble.pay.app.feature.home.AddNewCart
@@ -26,7 +27,6 @@ import io.snabble.pay.app.feature.home.ui.widget.DemoCard
 import io.snabble.pay.app.ui.widgets.AlertWidget
 import io.snabble.pay.app.ui.widgets.accountcard.AccountCardPager
 import io.snabble.pay.app.utils.browseUrl
-import io.snabble.pay.core.PayError
 
 @RootNavGraph(start = true)
 @Destination
@@ -59,7 +59,7 @@ fun HomeScreen(
 
     if (openDialog.value) {
         when (val payError = error.value) {
-            is PayError -> AlertWidget(
+            is ErrorResponse -> AlertWidget(
                 payError = payError,
                 onDismiss = { openDialog.value = false })
         }

@@ -72,17 +72,17 @@ class ApiResultCallKtTest : FreeSpec({
                     exception.message shouldBe "HTTP 404 NOT FOUND"
                 }
 
-                "w/ a null error object if json cannot be parsed" {
+                "w/ with the reason UNKNOWN if the json cannot be parsed" {
                     val response = mockk<Response<*>> {
                         every { code() } returns 400
                         every { message() } returns "Unauthorized"
                         every { errorBody()?.string() } returns
-                            """{ "error": { "reason": "Hello World", "message": "Unknown Error occurred" } }"""
+                            """{ "error": { "reason": "", "message": "Unknown error occurred" } }"""
                     }
 
                     val sut = response.toErrorResponse(json = Json)
 
-                    sut.error shouldBe null
+                    sut.error?.reason shouldBe Reason.UNKNOWN
                 }
 
                 "w/ the rawMessage being the errorBody() if can be parsed" {
@@ -103,16 +103,16 @@ class ApiResultCallKtTest : FreeSpec({
                 }
 
                 "w/ the rawMessage being the errorBody() if it cannot be parsed" {
+                    val errorBody = """Hello World"""
                     val response = mockk<Response<*>> {
                         every { code() } returns 400
                         every { message() } returns "Unauthorized"
-                        every { errorBody()?.string() } returns """Hello World"""
+                        every { errorBody()?.string() } returns errorBody
                     }
 
                     val sut = response.toErrorResponse(json = Json)
 
-                    sut.rawMessage shouldBe """Hello World"""
-                    sut.error shouldBe null
+                    sut.rawMessage shouldBe errorBody
                 }
             }
         }
@@ -193,6 +193,15 @@ class ApiResultCallKtTest : FreeSpec({
                 ).toErrorResponse(json = Json)
 
                 sut.error?.reason shouldBe Reason.VALIDATION_ERROR
+            }
+
+            "that's not known to UKNOWN" {
+                val sut = mockResponse(
+                    code = 400,
+                    reason = "some_new"
+                ).toErrorResponse(json = Json)
+
+                sut.error?.reason shouldBe Reason.UNKNOWN
             }
         }
     }

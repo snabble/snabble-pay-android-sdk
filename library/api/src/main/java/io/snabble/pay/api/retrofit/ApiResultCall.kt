@@ -2,6 +2,8 @@ package io.snabble.pay.api.retrofit
 
 import io.snabble.pay.api.model.ErrorDto
 import io.snabble.pay.api.model.toPayError
+import io.snabble.pay.core.PayError
+import io.snabble.pay.core.Reason
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
@@ -42,7 +44,11 @@ internal class ApiResultCall<T : Any>(
                     is IOException -> "No internet connection"
                     else -> t.localizedMessage
                 }
-                val fail: ApiResponse<T> = ApiError(rawMessage = message, exception = t)
+                val fail: ApiResponse<T> = ApiError(
+                    rawMessage = message,
+                    exception = t,
+                    error = PayError(reason = Reason.UNKNOWN)
+                )
                 callback.onResponse(this@ApiResultCall, Response.success(fail))
             }
         })
@@ -76,7 +82,7 @@ internal fun <T : Any> Response<in T>.toErrorResponse(json: Json): ApiError {
         null
     }
     return ApiError(
-        error = error?.toPayError(rawMessage = errorBody),
+        error = error.toPayError(rawMessage = errorBody),
         rawMessage = errorBody,
         exception = HttpException(this)
     )

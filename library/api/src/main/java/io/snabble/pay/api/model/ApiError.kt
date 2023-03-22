@@ -38,10 +38,7 @@ internal fun PayErrorDto?.toReason() = when (this?.reason) {
     else -> Reason.UNKNOWN
 }
 
-internal fun ErrorDto.toPayError(rawMessage: String?): PayError = with(error) {
-    val reason = toReason()
-    PayError(
-        reason = reason,
-        message = this?.message ?: rawMessage
-    )
-}
+internal fun ErrorDto?.toPayError(rawMessage: String?): PayError = PayError(
+    reason = this?.error.toReason(),
+    message = this?.error?.message ?: rawMessage
+)

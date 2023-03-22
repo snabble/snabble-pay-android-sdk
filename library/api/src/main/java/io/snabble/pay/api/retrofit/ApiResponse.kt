@@ -10,7 +10,7 @@ data class Success<T : Any>(val data: T, val response: Response<T>) : ApiRespons
 data class SuccessNoContent(val response: Response<*>) : ApiResponse<Nothing>()
 
 data class ApiError(
-    val error: PayError? = null,
+    val error: PayError,
     val rawMessage: String? = null,
     val exception: Throwable,
 ) : ApiResponse<Nothing>()

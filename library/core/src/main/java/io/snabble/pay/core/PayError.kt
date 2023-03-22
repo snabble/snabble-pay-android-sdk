@@ -2,7 +2,7 @@ package io.snabble.pay.core
 
 data class PayError(
     val reason: Reason,
-    val message: String?,
+    val message: String? = null,
 )
 
 enum class Reason {

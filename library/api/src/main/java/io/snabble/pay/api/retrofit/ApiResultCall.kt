@@ -47,7 +47,7 @@ internal class ApiResultCall<T : Any>(
                 val fail: ApiResponse<T> = ApiError(
                     rawMessage = message,
                     exception = t,
-                    error = PayError(reason = Reason.UNKNOWN)
+                    error = PayError(reason = Reason.UNKNOWN, exception = t)
                 )
                 callback.onResponse(this@ApiResultCall, Response.success(fail))
             }

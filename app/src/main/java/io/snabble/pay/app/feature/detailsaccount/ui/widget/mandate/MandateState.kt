@@ -9,8 +9,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import io.snabble.pay.app.R
 import io.snabble.pay.mandate.domain.model.MandateState
 
 @Composable
@@ -30,9 +32,9 @@ fun MandateState(
         Text(
             modifier = Modifier.padding(start = 8.dp),
             text = when (mandateState) {
-                MandateState.ACCEPTED -> "Sepa Mandat erteilt"
-                MandateState.DECLINED -> "Sepa Mandat abgelehnt"
-                MandateState.PENDING -> "Sepa Mandat ausstehend"
+                MandateState.ACCEPTED -> stringResource(id = R.string.mandate_accepted)
+                MandateState.DECLINED -> stringResource(id = R.string.mandate_declined)
+                MandateState.PENDING -> stringResource(id = R.string.mandate_pending)
             },
         )
     }

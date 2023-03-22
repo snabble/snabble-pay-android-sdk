@@ -17,11 +17,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import io.snabble.pay.app.R
 import io.snabble.pay.app.domain.account.utils.GradiantGenerator
 import io.snabble.pay.app.ui.widgets.accountcard.toColorList
 
@@ -50,22 +52,23 @@ fun DemoCard(modifier: Modifier) {
             verticalArrangement = Arrangement.Center
         ) {
             Text(
-                text = "Your Card could be here!",
+                text = stringResource(id = R.string.home_democard),
                 color = Color.Black,
                 fontWeight = FontWeight.Bold,
                 style = MaterialTheme.typography.bodySmall,
                 letterSpacing = 1.5.sp,
-                textAlign = TextAlign.Start
+                textAlign = TextAlign.Center
 
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = "Click on the add Button below and get started!",
+                modifier = Modifier.padding(horizontal = 16.dp),
+                text = stringResource(id = R.string.home_democard_hint),
                 color = Color.Black,
                 fontWeight = FontWeight.Bold,
                 style = MaterialTheme.typography.bodySmall,
                 letterSpacing = 1.5.sp,
-                textAlign = TextAlign.Start
+                textAlign = TextAlign.Center
 
             )
         }

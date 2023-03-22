@@ -1,39 +1,47 @@
 package io.snabble.pay.app.feature.detailsaccount.ui.widget
 
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Icon
+import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import io.snabble.pay.app.R
+import io.snabble.pay.app.ui.theme.SnabblePayTheme
 
 @Composable
-fun DeleteButton(
+fun DefaultButton(
     modifier: Modifier,
-    onClick: () -> Unit,
+    text: String,
+    onclick: () -> Unit,
 ) {
-    TextButton(
+    ElevatedButton(
         modifier = modifier,
         colors = ButtonDefaults.elevatedButtonColors(
-            containerColor = colorResource(id = R.color.gray),
+            containerColor = Color.White,
             contentColor = MaterialTheme.colorScheme.onPrimary
         ),
-        onClick = { onClick() }
+        onClick = { onclick() }
     ) {
-        Icon(
-            imageVector = ImageVector.vectorResource(id = R.drawable.ic_snabble_delete),
-            contentDescription = ""
-        )
         Text(
             modifier = Modifier.padding(start = 8.dp),
-            text = "Bankverbindung löschen"
+            text = text
         )
+    }
+}
+
+@Preview
+@Composable
+fun DefaulButtonPreview() {
+    SnabblePayTheme {
+        DefaultButton(
+            modifier = Modifier.fillMaxWidth(),
+            text = "Demo Button"
+        ) {
+        }
     }
 }

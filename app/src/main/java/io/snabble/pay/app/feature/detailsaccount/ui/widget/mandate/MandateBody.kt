@@ -12,9 +12,11 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
-import io.snabble.pay.app.ui.widgets.DefaultButton
+import io.snabble.pay.app.R
+import io.snabble.pay.app.feature.detailsaccount.ui.widget.DefaultButton
 
 @Composable
 fun MandateBody(
@@ -39,16 +41,18 @@ fun MandateBody(
                         webViewClient = WebViewClient()
                         loadData(mandateText, "text/html; charset=UTF-8", null)
                     }
-                }, update = {
+                },
+                update = {
                     it.loadData(mandateText, "text/html; charset=UTF-8", null)
-                })
+                }
+            )
             Spacer(modifier = Modifier.height(16.dp))
             Spacer(modifier = Modifier.weight(1f))
             DefaultButton(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp),
-                text = "Mandat akzeptieren"
+                text = stringResource(id = R.string.mandate_accept)
             ) {
                 onAccept(true)
             }
@@ -57,7 +61,7 @@ fun MandateBody(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp),
-                text = "Mandat verweigern"
+                text = stringResource(id = R.string.mandate_decline)
             ) {
                 onAccept(false)
             }

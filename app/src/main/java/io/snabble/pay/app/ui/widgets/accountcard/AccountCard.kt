@@ -1,6 +1,5 @@
 package io.snabble.pay.app.ui.widgets.accountcard
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -36,7 +35,6 @@ fun AccountCard(
     isEditable: Boolean,
     onClick: (AccountCard) -> Unit,
 ) {
-    Log.d("xx", "AccountCard: $isEditable ")
     ElevatedCard(
         elevation = CardDefaults.cardElevation(
             defaultElevation = 8.dp

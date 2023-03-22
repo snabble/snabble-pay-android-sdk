@@ -23,7 +23,6 @@ import io.snabble.pay.app.feature.home.HomeViewModel
 import io.snabble.pay.app.feature.home.Loading
 import io.snabble.pay.app.feature.home.ShowAccounts
 import io.snabble.pay.app.feature.home.ui.widget.DemoCard
-import io.snabble.pay.app.feature.home.ui.widget.Home
 import io.snabble.pay.app.ui.widgets.AlertWidget
 import io.snabble.pay.app.ui.widgets.accountcard.AccountCardPager
 import io.snabble.pay.app.utils.browseUrl
@@ -59,10 +58,9 @@ fun HomeScreen(
     }
 
     if (openDialog.value) {
-        when (val err = error.value) {
+        when (val payError = error.value) {
             is PayError -> AlertWidget(
-                reason = err.reason.name,
-                message = err.message.toString(),
+                payError = payError,
                 onDismiss = { openDialog.value = false })
         }
     }

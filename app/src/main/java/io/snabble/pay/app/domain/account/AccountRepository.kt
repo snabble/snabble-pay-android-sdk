@@ -20,4 +20,3 @@ interface AccountRepository {
 
     suspend fun setAccountLabel(id: String, label: String, colors: List<String>)
 }
-

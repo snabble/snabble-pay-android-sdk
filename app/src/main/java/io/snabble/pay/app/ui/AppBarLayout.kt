@@ -16,6 +16,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
+import io.snabble.pay.app.ui.theme.SnabblePayTheme
 
 @Composable
 fun AppBarLayout(
@@ -55,5 +57,16 @@ fun AppBarLayout(
         ) {
             content()
         }
+    }
+}
+
+@Preview
+@Composable
+fun AppBarLayoutPreview() {
+    SnabblePayTheme {
+        AppBarLayout(
+            title = "DemoBar",
+            onBackClick = {},
+        ) {}
     }
 }

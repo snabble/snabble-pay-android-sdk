@@ -20,30 +20,33 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.snabble.pay.app.R
+import io.snabble.pay.app.ui.theme.SnabblePayTheme
+import io.snabble.pay.app.ui.theme.lightGrey
+import io.snabble.pay.core.PayError
+import io.snabble.pay.core.Reason
 
 @Composable
 fun AlertWidget(
-    reason: String,
-    message: String,
+    payError: PayError?,
     onDismiss: () -> Unit,
 ) {
     AlertDialog(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp),
-        backgroundColor = Color(0xFFEEF2FA),
+        backgroundColor = lightGrey,
         title = {
             Text(
                 modifier = Modifier.fillMaxWidth(),
                 text = stringResource(
-                    id = R.string.error_reason, reason
+                    id = R.string.error_reason, payError?.reason?.name.toString()
                 )
             )
         },
         text = {
             Text(
                 modifier = Modifier.fillMaxWidth(),
-                text = stringResource(id = R.string.error_message, message)
+                text = stringResource(id = R.string.error_message, payError?.message.toString())
             )
         },
         onDismissRequest = {},
@@ -62,7 +65,7 @@ fun AlertWidget(
                     )
                 ) {
                     Text(
-                        text = ("OK"),
+                        text = stringResource(id = R.string.alert_message),
                         textAlign = TextAlign.Center,
                     )
                 }
@@ -75,9 +78,13 @@ fun AlertWidget(
 @Preview
 @Composable
 fun AlertPreview() {
-    AlertWidget(
-        reason = "Laden der Daten",
-        message = "Falsche ID",
-        onDismiss = {}
-    )
+    SnabblePayTheme {
+        AlertWidget(
+            PayError(
+                reason = Reason.UNKNOWN,
+                message = "Something unexpected happend"
+            ),
+            onDismiss = {}
+        )
+    }
 }

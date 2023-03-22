@@ -23,10 +23,10 @@ import io.snabble.pay.account.domain.model.MandateState
 import io.snabble.pay.app.domain.account.AccountCard
 import io.snabble.pay.app.domain.account.utils.GradiantGenerator
 import io.snabble.pay.app.feature.detailsaccount.ui.widget.DetailsBackground
+import io.snabble.pay.app.feature.detailsaccount.ui.widget.EditTextField
 import io.snabble.pay.app.feature.detailsaccount.ui.widget.mandate.Mandate
 import io.snabble.pay.app.ui.AppBarLayout
 import io.snabble.pay.app.ui.theme.SnabblePayTheme
-import io.snabble.pay.app.ui.widgets.EditTextField
 import io.snabble.pay.app.ui.widgets.accountcard.AccountCard
 import io.snabble.pay.mandate.domain.model.Mandate
 

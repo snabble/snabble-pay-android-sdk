@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SnabblePay</string>
+
+    <string name="home_snabble">Snabble</string>
+    <string name="home_pay">Pay</string>
+    <string name="home_subtitle">The Future of Mobile Payment</string>
+    <string name="home_democard">Hier werden deine Karten sein.</string>
+    <string name="home_democard_hint">Klicke auf den Plus-Button und füge deinen Account hinzu!</string>
+
+    <string name="mandate_accept">Mandat akzeptieren</string>
+    <string name="mandate_decline">Mandat verweigern</string>
+    <string name="mandate_accepted">Sepa Mandat erteilt</string>
+    <string name="mandate_declined">Sepa Mandat abgelehnt</string>
+    <string name="mandate_pending">Sepa Mandat ausstehend</string>
+
+    <string name="error_reason">Fehler: %s</string>
+    <string name="error_message">Verursacht durch: %s</string>
+    <string name="alert_message">OK</string>
+</resources>

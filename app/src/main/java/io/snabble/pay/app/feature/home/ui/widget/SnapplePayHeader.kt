@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -40,13 +41,13 @@ fun SnapplePayTitle(modifier: Modifier = Modifier) {
         horizontalArrangement = Arrangement.Center
     ) {
         Text(
-            text = "SNABBLE",
+            text = stringResource(id = R.string.home_snabble),
             style = MaterialTheme.typography.displaySmall,
             letterSpacing = 6.sp
         )
         Text(
             modifier = Modifier.padding(start = 8.dp),
-            text = "PAY",
+            text = stringResource(id = R.string.home_pay),
             style = MaterialTheme.typography.displaySmall,
             fontWeight = FontWeight.Bold,
             letterSpacing = 6.sp
@@ -63,7 +64,7 @@ fun SnapplePayTitle(modifier: Modifier = Modifier) {
 fun SnabblePaySubTitle(modifier: Modifier) {
     Text(
         modifier = modifier,
-        text = "The Future of Mobile Payment",
+        text = stringResource(id = R.string.home_subtitle),
         style = MaterialTheme.typography.bodyLarge,
         textAlign = TextAlign.Center,
         fontWeight = FontWeight.Bold

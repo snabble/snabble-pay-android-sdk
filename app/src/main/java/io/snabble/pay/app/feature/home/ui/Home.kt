@@ -1,4 +1,4 @@
-package io.snabble.pay.app.feature.home.ui.widget
+package io.snabble.pay.app.feature.home.ui
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import io.snabble.pay.app.feature.home.ui.widget.SnabblePayHeader
 import io.snabble.pay.app.ui.theme.SnabblePayTheme
 
 @Composable

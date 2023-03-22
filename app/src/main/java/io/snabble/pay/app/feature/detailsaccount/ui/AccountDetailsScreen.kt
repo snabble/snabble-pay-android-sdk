@@ -41,11 +41,11 @@ fun AccountDetailsScreen(
     }
 
     if (openDialog.value) {
-        when (val err = error.value) {
+        when (val payError = error.value) {
             is PayError -> AlertWidget(
-                reason = err.reason.name,
-                message = err.message.toString(),
-                onDismiss = { openDialog.value = false })
+                payError = payError,
+                onDismiss = { openDialog.value = false }
+            )
         }
     }
 

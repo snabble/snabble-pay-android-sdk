@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import androidx.core.content.ContextCompat
+import java.net.URLDecoder
 
 fun Context.getMetaDataKey(key: String) =
     if (containsMetaDataKey(key)) {
@@ -50,3 +51,6 @@ fun Context.browseUrl(url: String) {
     intent.data = android.net.Uri.parse(url)
     ContextCompat.startActivity(this, intent, null)
 }
+
+fun String?.decodeUrlUtf8(): String =
+    if (this != null) URLDecoder.decode(this, "utf-8") else ""

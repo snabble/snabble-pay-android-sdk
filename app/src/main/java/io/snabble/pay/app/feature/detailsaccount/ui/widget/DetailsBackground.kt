@@ -9,13 +9,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.snabble.pay.app.R
+import io.snabble.pay.app.ui.theme.lightGrey
 
 @Composable
 fun DetailsBackground(
@@ -32,7 +32,7 @@ fun DetailsBackground(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(color = Color(0xFFEEF2FA))
+                .background(color = lightGrey)
         )
     }
 }
@@ -40,11 +40,13 @@ fun DetailsBackground(
 @Preview(
     showBackground = true,
     showSystemUi = true,
-    backgroundColor = 0xFF708090,
+    backgroundColor = 0xFF708090
 )
 @Composable
 fun BackGroundPreview() {
-    DetailsBackground(modifier = Modifier
-        .fillMaxWidth()
-        .padding(top = 100.dp))
+    DetailsBackground(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 100.dp)
+    )
 }

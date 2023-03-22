@@ -11,9 +11,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import io.snabble.pay.app.ui.theme.SnabblePayTheme
+import io.snabble.pay.app.utils.decodeUrlUtf8
 import io.snabble.pay.mandate.domain.model.Mandate
 import io.snabble.pay.mandate.domain.model.MandateState.PENDING
-import java.net.URLDecoder
 
 @Composable
 fun Mandate(
@@ -21,7 +21,6 @@ fun Mandate(
     mandate: Mandate?,
     onAccept: (Boolean) -> Unit,
 ) {
-
     val showMandate = remember {
         mutableStateOf(false)
     }
@@ -44,15 +43,12 @@ fun Mandate(
             mandateState = mandate?.state ?: PENDING
         )
         MandateBody(
-            mandateText = if (mandate?.htmlText != null) URLDecoder.decode(
-                mandate.htmlText,
-                "utf-8"
-            ) else "",
+            mandateText = mandate?.htmlText.decodeUrlUtf8(),
             isVisible = showMandate.value,
             onAccept = {
                 onAccept(it)
                 showMandate.value = false
-            },
+            }
         )
     }
 }

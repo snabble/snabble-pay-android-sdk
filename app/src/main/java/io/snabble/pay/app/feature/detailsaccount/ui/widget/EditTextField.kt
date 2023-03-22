@@ -1,4 +1,4 @@
-package io.snabble.pay.app.ui.widgets
+package io.snabble.pay.app.feature.detailsaccount.ui.widget
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardActions
@@ -37,7 +37,8 @@ fun EditTextField(
         colors = TextFieldDefaults.textFieldColors(
             backgroundColor = MaterialTheme.colorScheme.background,
             textColor = MaterialTheme.colorScheme.onSurface,
-            focusedIndicatorColor = Color.Transparent,
+            cursorColor = MaterialTheme.colorScheme.onPrimary,
+            focusedIndicatorColor = MaterialTheme.colorScheme.onPrimary,
             disabledIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent
         ),
@@ -66,7 +67,8 @@ fun EditTextField(
         value = value,
         onValueChange = {
             onValueChange(it)
-        }
+        },
+        maxLines = 1
     )
 }
 

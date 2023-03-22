@@ -13,6 +13,9 @@ import io.mockk.mockkStatic
 import io.mockk.runs
 import io.mockk.slot
 import io.mockk.verify
+import io.snabble.pay.api.model.ErrorDto
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
 import okhttp3.Request
 import okio.IOException
 import okio.Timeout
@@ -124,36 +127,21 @@ class ApiResultCallTest : FreeSpec({
                 apiResponse.shouldBeInstanceOf<SuccessNoContent>()
             }
 
-            "an Error ApiResponse w/ the message" - {
+            "an error ApiResponse " - {
 
-                "'No internet connection' if it's an IOException" {
+                "if the response is not successful" {
                     mockkStatic("io.snabble.pay.api.retrofit.ApiResultCallKt")
-                    val callbackSlot = slot<Callback<Any>>()
-                    every {
-                        call.enqueue(capture(callbackSlot))
-                    } answers { callbackSlot.captured.onFailure(mockk(), mockk<IOException>()) }
-                    val responseSlot = slot<Response<ApiResponse<*>>>()
-                    val callback = mockk<Callback<ApiResponse<Any>>>(relaxed = true) {
-                        every { onResponse(any(), capture(responseSlot)) } just runs
+                    val json: Json = mockk {
+                        every { decodeFromString<ErrorDto>(string = any()) } returns mockk()
                     }
-
-                    val sut = createSut()
-                    sut.enqueue(callback)
-
-                    val apiResponse = responseSlot.captured.body()
-                    apiResponse.shouldBeInstanceOf<ApiError>()
-                    apiResponse.rawMessage shouldBe "No internet connection"
-                }
-
-                "from the Exception that's been passed" {
-                    mockkStatic("io.snabble.pay.api.retrofit.ApiResultCallKt")
+                    every { any<Response<*>>().toErrorResponse(json = json) } returns mockk()
                     val callbackSlot = slot<Callback<Any>>()
                     every {
                         call.enqueue(capture(callbackSlot))
                     } answers {
-                        callbackSlot.captured.onFailure(
+                        callbackSlot.captured.onResponse(
                             mockk(),
-                            mockk { every { localizedMessage } returns "JSON parser exception" }
+                            mockk(relaxed = true) { every { isSuccessful } returns false }
                         )
                     }
                     val responseSlot = slot<Response<ApiResponse<*>>>()
@@ -166,7 +154,52 @@ class ApiResultCallTest : FreeSpec({
 
                     val apiResponse = responseSlot.captured.body()
                     apiResponse.shouldBeInstanceOf<ApiError>()
-                    apiResponse.rawMessage shouldBe "JSON parser exception"
+                }
+
+                "w/ the message" - {
+
+                    "'No internet connection' if it's an IOException" {
+                        mockkStatic("io.snabble.pay.api.retrofit.ApiResultCallKt")
+                        val callbackSlot = slot<Callback<Any>>()
+                        every {
+                            call.enqueue(capture(callbackSlot))
+                        } answers { callbackSlot.captured.onFailure(mockk(), mockk<IOException>()) }
+                        val responseSlot = slot<Response<ApiResponse<*>>>()
+                        val callback = mockk<Callback<ApiResponse<Any>>>(relaxed = true) {
+                            every { onResponse(any(), capture(responseSlot)) } just runs
+                        }
+
+                        val sut = createSut()
+                        sut.enqueue(callback)
+
+                        val apiResponse = responseSlot.captured.body()
+                        apiResponse.shouldBeInstanceOf<ApiError>()
+                        apiResponse.rawMessage shouldBe "No internet connection"
+                    }
+
+                    "from the Exception that's been passed" {
+                        mockkStatic("io.snabble.pay.api.retrofit.ApiResultCallKt")
+                        val callbackSlot = slot<Callback<Any>>()
+                        every {
+                            call.enqueue(capture(callbackSlot))
+                        } answers {
+                            callbackSlot.captured.onFailure(
+                                mockk(),
+                                mockk { every { localizedMessage } returns "JSON parser exception" }
+                            )
+                        }
+                        val responseSlot = slot<Response<ApiResponse<*>>>()
+                        val callback = mockk<Callback<ApiResponse<Any>>>(relaxed = true) {
+                            every { onResponse(any(), capture(responseSlot)) } just runs
+                        }
+
+                        val sut = createSut()
+                        sut.enqueue(callback)
+
+                        val apiResponse = responseSlot.captured.body()
+                        apiResponse.shouldBeInstanceOf<ApiError>()
+                        apiResponse.rawMessage shouldBe "JSON parser exception"
+                    }
                 }
             }
         }

@@ -24,11 +24,11 @@ sealed class Result<out T> {
 
         fun <T> success(value: T): Result<T> = Success(value)
 
-        fun failure(exception: Throwable, error: PayError? = null): Result<Nothing> =
+        fun failure(exception: Throwable, error: PayError): Result<Nothing> =
             Failure(exception, error)
     }
 }
 
 data class Success<T>(val value: T) : Result<T>()
 
-data class Failure(val exception: Throwable, val error: PayError?) : Result<Nothing>()
+data class Failure(val exception: Throwable, val error: PayError) : Result<Nothing>()

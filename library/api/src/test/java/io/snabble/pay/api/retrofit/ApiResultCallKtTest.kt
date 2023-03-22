@@ -82,7 +82,7 @@ class ApiResultCallKtTest : FreeSpec({
 
                     val sut = response.toErrorResponse(json = Json)
 
-                    sut.error?.reason shouldBe Reason.UNKNOWN
+                    sut.error.reason shouldBe Reason.UNKNOWN
                 }
 
                 "w/ the rawMessage being the errorBody() if can be parsed" {
@@ -135,7 +135,7 @@ class ApiResultCallKtTest : FreeSpec({
                     reason = "account_not_found"
                 ).toErrorResponse(json = Json)
 
-                sut.error?.reason shouldBe Reason.ACCOUNT_NOT_FOUND
+                sut.error.reason shouldBe Reason.ACCOUNT_NOT_FOUND
             }
 
             "INVALID_CLIENT" {
@@ -144,7 +144,7 @@ class ApiResultCallKtTest : FreeSpec({
                     reason = "invalid_client"
                 ).toErrorResponse(json = Json)
 
-                sut.error?.reason shouldBe Reason.INVALID_CLIENT
+                sut.error.reason shouldBe Reason.INVALID_CLIENT
             }
 
             "INVALID_SESSION_STATE" {
@@ -153,7 +153,7 @@ class ApiResultCallKtTest : FreeSpec({
                     reason = "invalid_session_state"
                 ).toErrorResponse(json = Json)
 
-                sut.error?.reason shouldBe Reason.INVALID_SESSION_STATE
+                sut.error.reason shouldBe Reason.INVALID_SESSION_STATE
                 val exception = sut.exception
                 exception.shouldBeInstanceOf<HttpException>()
                 exception.code()
@@ -165,7 +165,7 @@ class ApiResultCallKtTest : FreeSpec({
                     reason = "mandate_not_accepted"
                 ).toErrorResponse(json = Json)
 
-                sut.error?.reason shouldBe Reason.MANDATE_NOT_ACCEPTED
+                sut.error.reason shouldBe Reason.MANDATE_NOT_ACCEPTED
             }
 
             "SESSION_NOT_FOUND" {
@@ -174,7 +174,7 @@ class ApiResultCallKtTest : FreeSpec({
                     reason = "session_not_found"
                 ).toErrorResponse(json = Json)
 
-                sut.error?.reason shouldBe Reason.SESSION_NOT_FOUND
+                sut.error.reason shouldBe Reason.SESSION_NOT_FOUND
             }
 
             "UNAUTHORIZED" {
@@ -183,7 +183,7 @@ class ApiResultCallKtTest : FreeSpec({
                     reason = "unauthorized"
                 ).toErrorResponse(json = Json)
 
-                sut.error?.reason shouldBe Reason.UNAUTHORIZED
+                sut.error.reason shouldBe Reason.UNAUTHORIZED
             }
 
             "VALIDATION_ERROR" {
@@ -192,7 +192,7 @@ class ApiResultCallKtTest : FreeSpec({
                     reason = "validation_error"
                 ).toErrorResponse(json = Json)
 
-                sut.error?.reason shouldBe Reason.VALIDATION_ERROR
+                sut.error.reason shouldBe Reason.VALIDATION_ERROR
             }
 
             "that's not known to UKNOWN" {
@@ -201,7 +201,7 @@ class ApiResultCallKtTest : FreeSpec({
                     reason = "some_new"
                 ).toErrorResponse(json = Json)
 
-                sut.error?.reason shouldBe Reason.UNKNOWN
+                sut.error.reason shouldBe Reason.UNKNOWN
             }
         }
     }

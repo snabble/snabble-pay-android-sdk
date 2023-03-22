@@ -83,7 +83,7 @@ internal class MandateRepositoryImplTest : FreeSpec({
             "that's failure if the request failed" {
                 coEvery {
                     service.createMandate(accountId = any())
-                } returns ApiError(exception = Exception())
+                } returns mockk<ApiError>(relaxed = true)
 
                 val sut = createSut()
                 val result = sut.createMandate(accountId = "a1")
@@ -153,7 +153,7 @@ internal class MandateRepositoryImplTest : FreeSpec({
             "that's failure if the request failed" {
                 coEvery {
                     service.getMandate(accountId = any())
-                } returns ApiError(exception = Exception())
+                } returns mockk<ApiError>()
 
                 val sut = createSut()
                 val result = sut.createMandate(accountId = "a1")
@@ -265,7 +265,7 @@ internal class MandateRepositoryImplTest : FreeSpec({
             "that's failure if the request failed" {
                 coEvery {
                     service.respondToMandate(accountId = any(), response = any())
-                } returns ApiError(exception = Exception())
+                } returns mockk<ApiError>(relaxed = true)
 
                 val sut = createSut()
                 val result = sut.respondToMandate(

@@ -38,7 +38,7 @@ internal fun PayErrorDto?.toReason() = when (this?.reason) {
     else -> Reason.UNKNOWN
 }
 
-internal fun ErrorDto?.toPayError(rawMessage: String?): PayError = PayError(
+internal fun ErrorDto?.toPayError(): PayError = PayError(
     reason = this?.error.toReason(),
-    message = this?.error?.message ?: rawMessage
+    message = this?.error?.message
 )

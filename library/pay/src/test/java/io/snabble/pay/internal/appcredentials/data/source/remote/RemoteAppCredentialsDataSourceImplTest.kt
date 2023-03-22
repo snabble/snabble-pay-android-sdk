@@ -42,7 +42,7 @@ class RemoteAppCredentialsDataSourceImplTest : FreeSpec({
         "return null on error" {
             coEvery {
                 appRegistrationService.getAppCredentials(key = "")
-            } returns ApiError(exception = mockk())
+            } returns mockk<ApiError>()
 
             val sut = createSut()
             val appCredentials = sut.fetchAppCredentials()

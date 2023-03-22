@@ -82,7 +82,7 @@ internal fun <T : Any> Response<in T>.toErrorResponse(json: Json): ApiError {
         null
     }
     return ApiError(
-        error = error.toPayError(rawMessage = errorBody),
+        error = error.toPayError(),
         rawMessage = errorBody,
         exception = HttpException(this)
     )

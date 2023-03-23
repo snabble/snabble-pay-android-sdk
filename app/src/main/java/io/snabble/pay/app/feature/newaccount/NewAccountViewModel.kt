@@ -1,4 +1,4 @@
-package io.snabble.pay.app.feature.detailsaccount
+package io.snabble.pay.app.feature.newaccount
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -8,9 +8,9 @@ import io.snabble.pay.account.domain.model.MandateState
 import io.snabble.pay.app.data.utils.AppError
 import io.snabble.pay.app.data.utils.AppSuccess
 import io.snabble.pay.app.domain.account.AccountCard
-import io.snabble.pay.app.domain.account.usecase.DeleteAccountUseCase
 import io.snabble.pay.app.domain.account.usecase.GetAccountCardUseCase
 import io.snabble.pay.app.domain.account.usecase.SetAccountCardLabelUseCase
+import io.snabble.pay.app.domain.mandate.usecase.AcceptMandateUseCase
 import io.snabble.pay.app.domain.mandate.usecase.CreateMandateUseCase
 import io.snabble.pay.app.domain.mandate.usecase.GetMandateUseCase
 import io.snabble.pay.core.PayError
@@ -23,12 +23,12 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class DetailsAccountViewModel @Inject constructor(
+class NewAccountViewModel @Inject constructor(
     private val getCard: GetAccountCardUseCase,
     private val setCardLabel: SetAccountCardLabelUseCase,
     private val getMandate: GetMandateUseCase,
     private val createMandateUseCase: CreateMandateUseCase,
-    private val removeAccount: DeleteAccountUseCase,
+    private val acceptPendingMandate: AcceptMandateUseCase,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
@@ -44,11 +44,19 @@ class DetailsAccountViewModel @Inject constructor(
         getAccount(accountId)
     }
 
-    fun deleteAccount() {
+    fun acceptMandate() {
         viewModelScope.launch {
-            when (val result = removeAccount(accountId)) {
+            when (val result = getMandate(accountId = accountId)) {
                 is AppError -> _error.emit(result.value)
-                is AppSuccess -> _uiState.tryEmit(AccountDeleted(result.value))
+                is AppSuccess -> {
+                    val mandate = result.value
+                    if (mandate != null) {
+                        acceptMandate(accountId, mandate.id)
+                        getAccount(accountId)
+                    } else {
+                        _error.tryEmit(null)
+                    }
+                }
             }
         }
     }
@@ -89,6 +97,21 @@ class DetailsAccountViewModel @Inject constructor(
         }
     }
 
+    private suspend fun acceptMandate(accountId: String, mandateId: String) {
+        when (val result = acceptPendingMandate(accountId = accountId, mandateId = mandateId)) {
+            is AppError -> _error.emit(result.value)
+            is AppSuccess -> {
+                when (val accountCardResult = getCard(accountId)) {
+                    is AppError -> _error.emit(accountCardResult.value)
+                    is AppSuccess -> {
+                        val mandate = getMandateFor(accountId)
+                        _uiState.tryEmit(ShowAccount(accountCardResult.value, mandate))
+                    }
+                }
+            }
+        }
+    }
+
     fun updateAccountName(name: String, colors: List<String>) {
         viewModelScope.launch {
             setCardLabel(accountId = accountId, name = name, colors = colors)
@@ -105,6 +128,3 @@ data class ShowAccount(
     val mandate: Mandate?,
 ) : UiState
 
-data class AccountDeleted(
-    val accountCard: AccountCard,
-) : UiState

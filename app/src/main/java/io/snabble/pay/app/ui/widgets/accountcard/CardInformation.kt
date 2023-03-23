@@ -27,14 +27,13 @@ fun CardInformation(
             text = holderName,
             color = Black,
             fontWeight = Bold,
-            style = MaterialTheme.typography.bodySmall,
-            letterSpacing = 1.5.sp,
+            style = MaterialTheme.typography.labelMedium,
             textAlign = TextAlign.Start
 
         )
         Text(
             modifier = Modifier.fillMaxWidth(),
-            text = iban,
+            text = iban.toIban(),
             color = Black,
             style = MaterialTheme.typography.bodyMedium,
             textAlign = TextAlign.Start
@@ -45,7 +44,7 @@ fun CardInformation(
             text = bank,
             color = Black,
             fontWeight = Bold,
-            style = MaterialTheme.typography.bodySmall,
+            style = MaterialTheme.typography.labelMedium,
             letterSpacing = 1.5.sp,
             textAlign = TextAlign.Start
         )
@@ -63,3 +62,19 @@ fun AccountInformationPreview() {
         bank = "Mustermann Bank"
     )
 }
+
+fun String.toIban(): String {
+    var iban = ""
+    forEachIndexed { index, c ->
+        iban = if (index % TARGET_MOD == TARGET_INDEX) {
+            "$iban "
+        } else {
+            "$iban$c"
+        }
+    }
+    return iban
+}
+
+private const val TARGET_INDEX = 4
+private const val TARGET_MOD = 5
+

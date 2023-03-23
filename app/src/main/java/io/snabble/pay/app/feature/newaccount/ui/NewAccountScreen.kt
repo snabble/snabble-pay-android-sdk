@@ -1,30 +1,36 @@
-package io.snabble.pay.app.feature.detailsaccount.ui
+package io.snabble.pay.app.feature.newaccount.ui
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.ramcosta.composedestinations.annotation.DeepLink
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-import com.ramcosta.composedestinations.result.ResultBackNavigator
-import io.snabble.pay.app.feature.detailsaccount.AccountDeleted
-import io.snabble.pay.app.feature.detailsaccount.DetailsAccountViewModel
-import io.snabble.pay.app.feature.detailsaccount.Loading
-import io.snabble.pay.app.feature.detailsaccount.ShowAccount
+import io.snabble.pay.app.feature.detailsaccount.ui.LoadingScreen
+import io.snabble.pay.app.feature.newaccount.Loading
+import io.snabble.pay.app.feature.newaccount.NewAccount
+import io.snabble.pay.app.feature.newaccount.NewAccountViewModel
+import io.snabble.pay.app.feature.newaccount.ShowAccount
+import io.snabble.pay.app.ui.theme.SnabblePayTheme
 import io.snabble.pay.app.ui.widgets.AlertWidget
 import io.snabble.pay.core.PayError
 
 @Destination(
-    navArgsDelegate = AccountDetailsScreenNavArgs::class,
+    navArgsDelegate = NewAccountScreenNavArgs::class,
+    deepLinks = [
+        DeepLink(uriPattern = "snabble-pay://account/check?accountId={accountId}")
+    ]
 )
 @Composable
-fun AccountDetailsScreen(
-    viewModel: DetailsAccountViewModel = hiltViewModel(),
+fun NewAccountScreen(
     navigator: DestinationsNavigator?,
-    resultBackNavigator: ResultBackNavigator<Boolean>?,
+    viewModel: NewAccountViewModel = hiltViewModel(),
 ) {
+
     val openDialog = remember {
         mutableStateOf(false)
     }
@@ -44,26 +50,33 @@ fun AccountDetailsScreen(
             )
         }
     }
-
     val uiState = viewModel.uiState.collectAsState()
 
-    when (val state = uiState.value) {
-        is Loading -> LoadingScreen(navigator = navigator)
+    when (val it = uiState.value) {
+        Loading -> LoadingScreen(navigator = navigator)
 
         is ShowAccount -> {
-            AccountDetails(
+            NewAccount(
                 navigator = navigator,
-                mandate = state.mandate,
-                accountCard = state.accountCard,
+                mandate = it.mandate,
+                accountCard = it.accountCard,
                 onLabelChange = viewModel::updateAccountName,
-                onDeleteAccount = viewModel::deleteAccount
+                onMandateAccept = viewModel::acceptMandate
             )
         }
-
-        is AccountDeleted -> resultBackNavigator?.navigateBack(result = true)
     }
 }
 
-data class AccountDetailsScreenNavArgs(
+@Preview(
+    showBackground = true
+)
+@Composable
+fun NewAccountScreenPreview() {
+    SnabblePayTheme {
+        NewAccountScreen(navigator = null)
+    }
+}
+
+data class NewAccountScreenNavArgs(
     val accountId: String,
 )

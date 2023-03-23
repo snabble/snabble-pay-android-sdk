@@ -9,26 +9,33 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
-import androidx.compose.material3.Divider
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import io.snabble.pay.account.domain.model.MandateState
 import io.snabble.pay.app.domain.account.AccountCard
 import io.snabble.pay.app.domain.account.utils.GradiantGenerator
+import io.snabble.pay.app.feature.destinations.HomeScreenDestination
+import io.snabble.pay.app.feature.destinations.NewAccountScreenDestination
+import io.snabble.pay.app.feature.detailsaccount.ui.widget.DeleteButton
 import io.snabble.pay.app.feature.detailsaccount.ui.widget.DetailsBackground
-import io.snabble.pay.app.feature.detailsaccount.ui.widget.EditTextField
-import io.snabble.pay.app.feature.detailsaccount.ui.widget.mandate.Mandate
+import io.snabble.pay.app.feature.detailsaccount.ui.widget.EditTextFieldCentered
+import io.snabble.pay.app.feature.detailsaccount.ui.widget.mandate.MandateState
+import io.snabble.pay.app.feature.newaccount.ui.NewAccountScreenNavArgs
 import io.snabble.pay.app.ui.AppBarLayout
 import io.snabble.pay.app.ui.theme.SnabblePayTheme
 import io.snabble.pay.app.ui.widgets.accountcard.AccountCard
 import io.snabble.pay.mandate.domain.model.Mandate
+import io.snabble.pay.mandate.domain.model.MandateState.PENDING
 
 @Composable
 fun AccountDetails(
@@ -36,7 +43,6 @@ fun AccountDetails(
     mandate: Mandate?,
     accountCard: AccountCard,
     onLabelChange: (label: String, colors: List<String>) -> Unit,
-    onMandateAccept: (Boolean) -> Unit,
     onDeleteAccount: () -> Unit,
 ) {
     var cardName by rememberSaveable { mutableStateOf(accountCard.name) }
@@ -45,24 +51,18 @@ fun AccountDetails(
         title = "",
         icon = Icons.Filled.Clear,
         onBackClick = {
-            navigator?.navigateUp()
+            navigator?.navigate(HomeScreenDestination)
         }
     ) {
         Column(modifier = Modifier.fillMaxWidth()) {
-            Spacer(modifier = Modifier.height(40.dp))
-            EditTextField(
+            Spacer(modifier = Modifier.height(16.dp))
+            EditTextFieldCentered(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp),
-                placeholder = cardName,
                 value = cardName,
                 onValueChange = { cardName = it },
-                onAction = { onLabelChange(cardName, accountCard.cardBackgroundColor) }
-            )
-            Divider(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp)
+                onAction = { onLabelChange(cardName, accountCard.cardBackgroundColor) },
             )
             Spacer(modifier = Modifier.height(16.dp))
             Box(modifier = Modifier.fillMaxWidth()) {
@@ -74,16 +74,31 @@ fun AccountDetails(
                 ) {
                     AccountCard(
                         accountCard = accountCard,
-                        onClick = {},
+                        onClick = {
+                            navigator?.navigate(
+                                NewAccountScreenDestination(
+                                    navArgs = NewAccountScreenNavArgs(
+                                        accountCard.accountId
+                                    )
+                                )
+                            )
+                        },
                         qrCodeString = "https://www.google.com/",
-                        isEditable = true,
-                        onDelete = { onDeleteAccount() }
                     )
                     Spacer(modifier = Modifier.height(16.dp))
-                    Mandate(
-                        modifier = Modifier,
-                        mandate = mandate,
-                        onAccept = { onMandateAccept(it) }
+                    ElevatedCard(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        colors = CardDefaults.cardColors(
+                            containerColor = Color.White
+                        )
+                    ) {
+                        MandateState(mandateState = mandate?.state ?: PENDING)
+                    }
+                    Spacer(modifier = Modifier.weight(1f))
+                    DeleteButton(
+                        modifier = Modifier.fillMaxWidth(),
+                        onClick = onDeleteAccount
                     )
                 }
             }
@@ -115,7 +130,7 @@ private fun AccountDetailsPreview() {
             "ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam" +
             " et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus" +
             " est Lorem ipsum dolor sit amet.",
-        state = io.snabble.pay.mandate.domain.model.MandateState.PENDING
+        state = PENDING
     )
 
     SnabblePayTheme {
@@ -124,7 +139,6 @@ private fun AccountDetailsPreview() {
             mandate = mandate,
             accountCard = card,
             onLabelChange = { _, _ -> },
-            onMandateAccept = {},
             onDeleteAccount = {}
         )
     }

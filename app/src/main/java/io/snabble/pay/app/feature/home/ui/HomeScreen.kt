@@ -34,7 +34,7 @@ import io.snabble.pay.core.PayError
 fun HomeScreen(
     homeViewModel: HomeViewModel = hiltViewModel(),
     navigator: DestinationsNavigator?,
-    resultRecipient: ResultRecipient<AccountDetailsScreenDestination, Boolean>?,
+    resultRecipient: ResultRecipient<AccountDetailsScreenDestination, Boolean>? = null,
 ) {
     resultRecipient?.onNavResult { result ->
         if (result is NavResult.Value) homeViewModel.refresh()

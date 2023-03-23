@@ -65,7 +65,7 @@ fun SnabblePaySubTitle(modifier: Modifier) {
     Text(
         modifier = modifier,
         text = stringResource(id = R.string.home_subtitle),
-        style = MaterialTheme.typography.bodyLarge,
+        style = MaterialTheme.typography.labelLarge,
         textAlign = TextAlign.Center,
         fontWeight = FontWeight.Bold
     )

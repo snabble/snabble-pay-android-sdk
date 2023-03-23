@@ -1,15 +1,18 @@
 package io.snabble.pay.app.feature.detailsaccount.ui.widget.mandate
 
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ElevatedCard
+import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import io.snabble.pay.app.R
+import io.snabble.pay.app.feature.detailsaccount.ui.widget.DefaultButton
 import io.snabble.pay.app.ui.theme.SnabblePayTheme
 import io.snabble.pay.app.utils.decodeUrlUtf8
 import io.snabble.pay.mandate.domain.model.Mandate
@@ -19,37 +22,34 @@ import io.snabble.pay.mandate.domain.model.MandateState.PENDING
 fun Mandate(
     modifier: Modifier,
     mandate: Mandate?,
-    onAccept: (Boolean) -> Unit,
+    onMandateAccept: () -> Unit,
 ) {
-    val showMandate = remember {
-        mutableStateOf(false)
-    }
-
-    ElevatedCard(
-        modifier = modifier,
-        colors = CardDefaults.cardColors(
-            containerColor = Color.White
-        )
-    ) {
-        MandateState(
-            modifier = Modifier
-                .clickable {
-                    if (showMandate.value) {
-                        showMandate.value = false
-                    } else {
-                        showMandate.value = mandate?.state == PENDING
-                    }
-                },
-            mandateState = mandate?.state ?: PENDING
-        )
-        MandateBody(
-            mandateText = mandate?.htmlText.decodeUrlUtf8(),
-            isVisible = showMandate.value,
-            onAccept = {
-                onAccept(it)
-                showMandate.value = false
+    if (mandate?.state == PENDING) {
+        Column(
+            modifier = modifier,
+            verticalArrangement = Arrangement.SpaceBetween
+        ) {
+            Box(
+                modifier = Modifier
+                    .weight(1f, fill = true)
+                    .fillMaxWidth(),
+            ) {
+                MandateBody(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    mandateText = mandate.htmlText.decodeUrlUtf8()
+                )
             }
-        )
+            Spacer(modifier = Modifier.height(16.dp))
+            DefaultButton(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                text = stringResource(id = R.string.mandate_accept)
+            ) {
+                onMandateAccept()
+            }
+            Spacer(modifier = Modifier.height(16.dp))
+        }
     }
 }
 
@@ -71,7 +71,7 @@ fun MandateGrantedPreview() {
                     " est Lorem ipsum dolor sit amet.",
                 state = PENDING
             ),
-            onAccept = {}
+            onMandateAccept = {}
         )
     }
 }

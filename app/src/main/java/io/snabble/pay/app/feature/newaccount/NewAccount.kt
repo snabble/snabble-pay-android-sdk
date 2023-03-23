@@ -17,9 +17,9 @@ import androidx.compose.ui.unit.dp
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import io.snabble.pay.app.domain.account.AccountCard
 import io.snabble.pay.app.feature.destinations.AccountDetailsScreenDestination
-import io.snabble.pay.app.feature.detailsaccount.ui.widget.EditTextField
-import io.snabble.pay.app.feature.detailsaccount.ui.widget.mandate.Mandate
 import io.snabble.pay.app.feature.newaccount.ui.widget.AccountInformation
+import io.snabble.pay.app.feature.newaccount.ui.widget.EditTextField
+import io.snabble.pay.app.feature.newaccount.ui.widget.mandate.Mandate
 import io.snabble.pay.app.ui.AppBarLayout
 import io.snabble.pay.mandate.domain.model.Mandate
 

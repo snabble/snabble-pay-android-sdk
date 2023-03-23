@@ -1,4 +1,4 @@
-package io.snabble.pay.app.feature.detailsaccount.ui.widget.mandate
+package io.snabble.pay.app.feature.newaccount.ui.widget.mandate
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -12,7 +12,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.snabble.pay.app.R
-import io.snabble.pay.app.feature.detailsaccount.ui.widget.DefaultButton
+import io.snabble.pay.app.feature.newaccount.ui.widget.DefaultButton
 import io.snabble.pay.app.ui.theme.SnabblePayTheme
 import io.snabble.pay.app.utils.decodeUrlUtf8
 import io.snabble.pay.mandate.domain.model.Mandate

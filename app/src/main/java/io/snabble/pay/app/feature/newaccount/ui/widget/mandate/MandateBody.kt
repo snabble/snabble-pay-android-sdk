@@ -1,4 +1,4 @@
-package io.snabble.pay.app.feature.detailsaccount.ui.widget.mandate
+package io.snabble.pay.app.feature.newaccount.ui.widget.mandate
 
 import android.view.ViewGroup
 import android.webkit.WebView

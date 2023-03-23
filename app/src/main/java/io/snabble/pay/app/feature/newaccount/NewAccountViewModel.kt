@@ -127,4 +127,3 @@ data class ShowAccount(
     val accountCard: AccountCard,
     val mandate: Mandate?,
 ) : UiState
-

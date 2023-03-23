@@ -49,10 +49,10 @@ fun EditTextFieldCentered(
     }
     val customTextSelectionColors = TextSelectionColors(
         handleColor = Transparent,
-        backgroundColor = Transparent,
+        backgroundColor = Transparent
     )
     CompositionLocalProvider(
-        LocalTextSelectionColors provides customTextSelectionColors,
+        LocalTextSelectionColors provides customTextSelectionColors
     ) {
         Column(modifier = Modifier.fillMaxWidth()) {
             TextField(
@@ -116,7 +116,7 @@ fun EditTextFieldPreview() {
     EditTextFieldCentered(
         modifier = Modifier.fillMaxWidth(),
         onValueChange = {},
-        onAction = {},
+        onAction = {}
     )
 }
 
@@ -134,10 +134,10 @@ fun EditTextField(
     }
     val customTextSelectionColors = TextSelectionColors(
         handleColor = Transparent,
-        backgroundColor = Transparent,
+        backgroundColor = Transparent
     )
     CompositionLocalProvider(
-        LocalTextSelectionColors provides customTextSelectionColors,
+        LocalTextSelectionColors provides customTextSelectionColors
     ) {
         Column(modifier = Modifier.fillMaxWidth()) {
             TextField(

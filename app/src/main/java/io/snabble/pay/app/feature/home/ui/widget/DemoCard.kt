@@ -36,7 +36,7 @@ fun DemoCard(modifier: Modifier) {
         modifier = Modifier
             .fillMaxWidth()
             .height(200.dp)
-            .then(modifier),
+            .then(modifier)
     ) {
         Column(
             modifier = Modifier

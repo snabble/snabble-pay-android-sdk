@@ -30,61 +30,6 @@ fun AccountCard(
     qrCodeString: String?,
     onClick: (AccountCard) -> Unit,
 ) {
-//    val density = LocalDensity.current.density
-//    ElevatedCard(
-//        elevation = CardDefaults.cardElevation(
-//            defaultElevation = 8.dp
-//        ),
-//        modifier = Modifier
-//            .fillMaxWidth()
-//            .wrapContentHeight()
-//            .then(modifier),
-//        onClick = { onClick(accountCard) }
-//    ) {
-//        Box(
-//            modifier = Modifier
-//                .fillMaxWidth()
-//                .background(
-//                    brush = Brush.horizontalGradient(
-//                        colors = accountCard.cardBackgroundColor.toColorList()
-//                    )
-//                )
-//        ) {
-//            ConstraintLayout(
-//                modifier = Modifier
-//                    .fillMaxWidth()
-//                    .padding(horizontal = 16.dp)
-//                    .background(color = Color.Transparent)
-//            ) {
-//                val (qrCode, accInf) = this.createRefs()
-//                QrCodeImage(
-//                    modifier = Modifier
-//                        .size(width = 100.dp, height = 100.dp)
-//                        .constrainAs(qrCode) {
-//                            end.linkTo(parent.end)
-//                            top.linkTo(parent.top, margin = 16.dp)
-//                            start.linkTo(parent.start)
-//                        },
-//                    qrCodeToken = qrCodeString
-//                )
-//                CardInformation(
-//                    modifier = Modifier
-//                        .padding(bottom = 16.dp)
-//                        .constrainAs(accInf) {
-//                            top.linkTo(qrCode.bottom, margin = 16.dp)
-//                            start.linkTo(parent.start)
-//                            bottom.linkTo(parent.bottom, margin = 16.dp)
-//                        },
-//                    holderName = accountCard.holderName,
-//                    iban = accountCard.iban,
-//                    bank = accountCard.bank
-//                )
-//
-//            }
-//        }
-//    }
-//}
-
     ElevatedCard(
         elevation = CardDefaults.cardElevation(
             defaultElevation = 8.dp
@@ -93,7 +38,7 @@ fun AccountCard(
             .fillMaxWidth()
             .wrapContentHeight()
             .then(modifier),
-        onClick = { onClick(accountCard) },
+        onClick = { onClick(accountCard) }
     ) {
         Column(
             modifier = Modifier
@@ -149,4 +94,3 @@ fun PreviewAccountCard() {
 
 fun List<String>.toColorList() =
     map { Color(android.graphics.Color.parseColor(it)) }
-

@@ -30,7 +30,6 @@ fun NewAccountScreen(
     navigator: DestinationsNavigator?,
     viewModel: NewAccountViewModel = hiltViewModel(),
 ) {
-
     val openDialog = remember {
         mutableStateOf(false)
     }

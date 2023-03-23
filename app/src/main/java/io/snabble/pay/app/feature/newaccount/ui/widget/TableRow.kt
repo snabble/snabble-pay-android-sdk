@@ -31,7 +31,7 @@ fun TableRow(
             modifier = Modifier.weight(1f),
             text = descriptor,
             color = MaterialTheme.colorScheme.onSurface,
-            style = MaterialTheme.typography.labelLarge,
+            style = MaterialTheme.typography.labelLarge
         )
         Text(
             modifier = Modifier
@@ -39,7 +39,7 @@ fun TableRow(
                 .padding(start = 8.dp),
             text = value,
             color = Color.Gray,
-            style = MaterialTheme.typography.labelLarge,
+            style = MaterialTheme.typography.labelLarge
         )
     }
 }

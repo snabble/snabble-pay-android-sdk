@@ -38,7 +38,7 @@ fun AppBarLayout(
             title = {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
                         modifier = Modifier.weight(1f),
@@ -83,7 +83,7 @@ fun AppBarLayoutPreview() {
     SnabblePayTheme {
         AppBarLayout(
             title = "DemoBar",
-            onBackClick = {},
+            onBackClick = {}
         ) {}
     }
 }

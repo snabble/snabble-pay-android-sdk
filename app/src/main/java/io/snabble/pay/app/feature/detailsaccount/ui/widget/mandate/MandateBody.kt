@@ -45,7 +45,7 @@ fun MandateBody(
                         null
                     )
                 }
-            },
+            }
         )
     }
 }

@@ -71,7 +71,6 @@ fun SnabblePaySubTitle(modifier: Modifier) {
     )
 }
 
-
 @Preview(
     showBackground = true
 )
@@ -79,7 +78,6 @@ fun SnabblePaySubTitle(modifier: Modifier) {
 fun SnabblePayTitlePreview() {
     SnapplePayTitle(modifier = Modifier.fillMaxWidth())
 }
-
 
 @Preview(
     showBackground = true
@@ -96,5 +94,3 @@ fun SnabblePaySubTitlePreview() {
 fun SnabblePayHeaderPreview() {
     SnabblePayHeader(modifier = Modifier.fillMaxWidth())
 }
-
-

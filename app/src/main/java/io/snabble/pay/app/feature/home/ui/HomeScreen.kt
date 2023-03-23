@@ -61,7 +61,8 @@ fun HomeScreen(
         when (val payError = error.value) {
             is PayError -> AlertWidget(
                 payError = payError,
-                onDismiss = { openDialog.value = false })
+                onDismiss = { openDialog.value = false }
+            )
         }
     }
 
@@ -102,9 +103,3 @@ fun HomeScreen(
         )
     }
 }
-
-
-
-
-
-

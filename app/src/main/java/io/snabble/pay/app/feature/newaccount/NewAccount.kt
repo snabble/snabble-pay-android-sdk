@@ -49,7 +49,7 @@ fun NewAccount(
                     .fillMaxWidth(),
                 value = cardName,
                 onValueChange = { cardName = it },
-                onAction = { onLabelChange(cardName, accountCard.cardBackgroundColor) },
+                onAction = { onLabelChange(cardName, accountCard.cardBackgroundColor) }
             )
             AccountInformation(
                 holderName = accountCard.holderName,

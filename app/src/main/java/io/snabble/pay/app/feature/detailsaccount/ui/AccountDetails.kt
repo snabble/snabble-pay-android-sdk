@@ -62,7 +62,7 @@ fun AccountDetails(
                     .padding(horizontal = 16.dp),
                 value = cardName,
                 onValueChange = { cardName = it },
-                onAction = { onLabelChange(cardName, accountCard.cardBackgroundColor) },
+                onAction = { onLabelChange(cardName, accountCard.cardBackgroundColor) }
             )
             Spacer(modifier = Modifier.height(16.dp))
             Box(modifier = Modifier.fillMaxWidth()) {
@@ -83,7 +83,7 @@ fun AccountDetails(
                                 )
                             )
                         },
-                        qrCodeString = "https://www.google.com/",
+                        qrCodeString = "https://www.google.com/"
                     )
                     Spacer(modifier = Modifier.height(16.dp))
                     ElevatedCard(

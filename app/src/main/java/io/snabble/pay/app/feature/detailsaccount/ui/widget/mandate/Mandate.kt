@@ -32,7 +32,7 @@ fun Mandate(
             Box(
                 modifier = Modifier
                     .weight(1f, fill = true)
-                    .fillMaxWidth(),
+                    .fillMaxWidth()
             ) {
                 MandateBody(
                     modifier = Modifier

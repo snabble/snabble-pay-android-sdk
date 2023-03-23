@@ -17,7 +17,7 @@ import io.snabble.pay.app.ui.widgets.AlertWidget
 import io.snabble.pay.core.PayError
 
 @Destination(
-    navArgsDelegate = AccountDetailsScreenNavArgs::class,
+    navArgsDelegate = AccountDetailsScreenNavArgs::class
 )
 @Composable
 fun AccountDetailsScreen(

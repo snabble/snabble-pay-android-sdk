@@ -3,6 +3,7 @@ package io.snabble.pay.app.feature.newaccount.ui.widget
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Divider
+import androidx.compose.material3.DividerDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -21,9 +22,9 @@ fun AccountInformation(
     ) {
         Column(modifier = Modifier.padding(horizontal = 16.dp)) {
             TableRow(descriptor = "KontoInhaber", value = holderName)
-            Divider()
+            Divider(color = DividerDefaults.color)
             TableRow(descriptor = "IBAN", value = iban)
-            Divider()
+            Divider(color = DividerDefaults.color)
             TableRow(descriptor = "Bank", value = bank)
         }
     }

@@ -10,6 +10,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.ramcosta.composedestinations.annotation.DeepLink
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import io.snabble.pay.app.data.utils.ErrorResponse
 import io.snabble.pay.app.feature.detailsaccount.ui.LoadingScreen
 import io.snabble.pay.app.feature.newaccount.Loading
 import io.snabble.pay.app.feature.newaccount.NewAccount
@@ -17,7 +18,6 @@ import io.snabble.pay.app.feature.newaccount.NewAccountViewModel
 import io.snabble.pay.app.feature.newaccount.ShowAccount
 import io.snabble.pay.app.ui.theme.SnabblePayTheme
 import io.snabble.pay.app.ui.widgets.AlertWidget
-import io.snabble.pay.core.PayError
 
 @Destination(
     navArgsDelegate = NewAccountScreenNavArgs::class,
@@ -43,7 +43,7 @@ fun NewAccountScreen(
 
     if (openDialog.value) {
         when (val payError = error.value) {
-            is PayError -> AlertWidget(
+            is ErrorResponse -> AlertWidget(
                 payError = payError,
                 onDismiss = { openDialog.value = false }
             )

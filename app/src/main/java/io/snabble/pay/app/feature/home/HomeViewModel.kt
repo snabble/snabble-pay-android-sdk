@@ -9,7 +9,7 @@ import io.snabble.pay.app.data.utils.ErrorResponse
 import io.snabble.pay.app.domain.account.AccountCard
 import io.snabble.pay.app.domain.account.usecase.AddAccountUseCase
 import io.snabble.pay.app.domain.account.usecase.GetAllAccountCardsUseCase
-import io.snabble.pay.app.domain.session.GetSessionTokenUseCase
+import io.snabble.pay.app.domain.session.usecase.CreateSessionUseCase
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -20,8 +20,8 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val getAccounts: GetAllAccountCardsUseCase,
-    private val getSession: GetSessionTokenUseCase,
     private val addAccountUseCase: AddAccountUseCase,
+    private val createSessionUseCase: CreateSessionUseCase,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<UiState>(Loading)
@@ -61,7 +61,13 @@ class HomeViewModel @Inject constructor(
                 is ShowAccounts -> {
                     val accounts = state.accountCards.map { accMod ->
                         if (accMod.accountId == accountId) {
-                            accMod.copy(qrCodeToken = getSession(accountId))
+                            when (val sessionResult = createSessionUseCase(accountId)) {
+                                is AppError -> {
+                                    _error.emit(sessionResult.value)
+                                    accMod
+                                }
+                                is AppSuccess -> accMod.copy(qrCodeToken = sessionResult.value.token.value)
+                            }
                         } else {
                             accMod
                         }

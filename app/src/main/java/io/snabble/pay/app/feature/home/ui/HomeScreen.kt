@@ -76,8 +76,8 @@ fun HomeScreen(
                 AccountCardPager(
                     modifier = Modifier,
                     accountCardList = state.accountCards,
-                    onCurrentPage = { string ->
-                        homeViewModel.getSessionToken(string)
+                    onCurrentPage = { accountId ->
+                        homeViewModel.getSessionToken(accountId.trimIndent())
                     }
                 ) { accountCard ->
                     navigator?.navigate(

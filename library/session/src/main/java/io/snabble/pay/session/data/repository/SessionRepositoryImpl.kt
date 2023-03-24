@@ -17,7 +17,7 @@ internal class SessionRepositoryImpl(
 ) : SessionRepository {
 
     override suspend fun createSession(accountId: String): Result<Session> = service
-        .createSession(accountId = AccountIdDto(id = accountId))
+        .createSession(accountId = AccountIdDto(accountId = accountId))
         .toResult(sessionMapper::map)
 
     override suspend fun deleteSession(id: String): Result<Session> = service

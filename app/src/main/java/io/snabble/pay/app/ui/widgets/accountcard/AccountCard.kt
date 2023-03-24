@@ -28,6 +28,7 @@ fun AccountCard(
     modifier: Modifier = Modifier,
     accountCard: AccountCard,
     qrCodeString: String?,
+    useLabel: Boolean = false,
     onClick: (AccountCard) -> Unit,
 ) {
     ElevatedCard(
@@ -60,7 +61,7 @@ fun AccountCard(
             CardInformation(
                 modifier = Modifier
                     .padding(horizontal = 16.dp),
-                holderName = accountCard.holderName,
+                holderName = if (useLabel) accountCard.name else accountCard.holderName,
                 iban = accountCard.iban,
                 bank = accountCard.bank
             )

@@ -55,6 +55,7 @@ fun AccountCardPager(
         ) { page ->
             AccountCard(
                 accountCard = accountCardList[page],
+                useLabel = true,
                 modifier = Modifier
                     .graphicsLayer {
                         val pageOffset = calculateCurrentOffsetForPage(page).absoluteValue

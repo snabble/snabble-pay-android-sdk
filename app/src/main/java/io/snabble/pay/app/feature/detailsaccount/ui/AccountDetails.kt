@@ -96,7 +96,7 @@ fun AccountDetails(
 private fun AccountDetailsPreview() {
     val card = AccountCard(
         cardBackgroundColor = GradiantGenerator.createGradiantColorList(),
-        qrCodeToken = "https://www.google.com/",
+        session = null,
         holderName = "Muster Mann",
         accountId = "1",
         mandateState = MandateState.ACCEPTED,

@@ -75,7 +75,8 @@ fun AccountCardPager(
                         )
                     },
                 onClick = { onClick(it) },
-                qrCodeString = if (page == pagerState.currentPage) accountCardList[page].qrCodeToken else null,
+                qrCodeString = if (page == pagerState.currentPage)
+                    accountCardList[page].session?.token?.value else null,
                 isEditable = false,
                 onDelete = {}
             )
@@ -109,7 +110,7 @@ fun AccountCardPagerPreview() {
 private val previewList = listOf(
     AccountCard(
         cardBackgroundColor = GradiantGenerator.createGradiantColorList(),
-        qrCodeToken = "test",
+        session = null,
         holderName = "Petra MusterMann",
         accountId = "1",
         mandateState = MandateState.ACCEPTED,
@@ -119,7 +120,7 @@ private val previewList = listOf(
     ),
     AccountCard(
         cardBackgroundColor = GradiantGenerator.createGradiantColorList(),
-        qrCodeToken = "test",
+        session = null,
         holderName = "Muster Mann",
         accountId = "2",
         mandateState = MandateState.ACCEPTED,
@@ -129,7 +130,7 @@ private val previewList = listOf(
     ),
     AccountCard(
         cardBackgroundColor = GradiantGenerator.createGradiantColorList(),
-        qrCodeToken = "test",
+        session = null,
         name = "Mein Konto",
         holderName = "Muster Mann",
         accountId = "3",

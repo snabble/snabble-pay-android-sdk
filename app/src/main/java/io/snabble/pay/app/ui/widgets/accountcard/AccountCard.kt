@@ -115,7 +115,7 @@ fun PreviewAccountCard() {
             .padding(horizontal = 32.dp),
         accountCard = AccountCard(
             cardBackgroundColor = GradiantGenerator.createGradiantColorList(),
-            qrCodeToken = "https://www.google.com/",
+            session = null,
             holderName = "Muster Mann",
             accountId = "1",
             mandateState = MandateState.ACCEPTED,

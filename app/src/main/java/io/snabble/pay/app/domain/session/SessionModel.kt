@@ -1,18 +1,21 @@
 package io.snabble.pay.app.domain.session
 
+import android.os.Parcelable
 import io.snabble.pay.session.domain.model.Session
 import io.snabble.pay.session.domain.model.SessionToken
 import io.snabble.pay.session.domain.model.Transaction
 import io.snabble.pay.session.domain.model.TransactionState
+import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.Serializable
 import java.time.ZonedDateTime
 
 @Serializable
+@Parcelize
 data class SessionModel(
     val id: String,
     val token: SessionTokenModel,
     val transaction: TransactionModel?,
-) {
+) : Parcelable {
 
     companion object {
 
@@ -25,12 +28,13 @@ data class SessionModel(
 }
 
 @Serializable
+@Parcelize
 data class TransactionModel(
     val id: String,
     val amount: Int,
     val currencyCode: String,
     val state: TransactionState,
-) {
+) : Parcelable {
 
     companion object {
 
@@ -47,12 +51,13 @@ data class TransactionModel(
 }
 
 @Serializable
+@Parcelize
 data class SessionTokenModel(
     val id: String,
     @Serializable(with = KZonedDateTimeSerializer::class) val refreshAt: ZonedDateTime,
     @Serializable(with = KZonedDateTimeSerializer::class) val validUntil: ZonedDateTime,
     val value: String,
-) {
+) : Parcelable {
 
     companion object {
 

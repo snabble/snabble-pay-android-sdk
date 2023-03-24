@@ -1,5 +1,7 @@
 package io.snabble.pay.app.feature.home
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -10,11 +12,15 @@ import io.snabble.pay.app.domain.account.AccountCard
 import io.snabble.pay.app.domain.account.usecase.AddAccountUseCase
 import io.snabble.pay.app.domain.account.usecase.GetAllAccountCardsUseCase
 import io.snabble.pay.app.domain.session.usecase.CreateSessionUseCase
+import io.snabble.pay.app.domain.session.usecase.UpdateTokenUseCase
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import java.time.ZonedDateTime
+import java.time.temporal.ChronoUnit
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -22,6 +28,7 @@ class HomeViewModel @Inject constructor(
     private val getAccounts: GetAllAccountCardsUseCase,
     private val addAccountUseCase: AddAccountUseCase,
     private val createSessionUseCase: CreateSessionUseCase,
+    private val updateTokenUseCase: UpdateTokenUseCase,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<UiState>(Loading)
@@ -55,7 +62,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun getSessionToken(accountId: String) {
+    @RequiresApi(Build.VERSION_CODES.O) fun getSessionToken(accountId: String) {
         viewModelScope.launch {
             when (val state = uiState.value) {
                 is ShowAccounts -> {
@@ -66,7 +73,13 @@ class HomeViewModel @Inject constructor(
                                     _error.emit(sessionResult.value)
                                     accMod
                                 }
-                                is AppSuccess -> accMod.copy(qrCodeToken = sessionResult.value.token.value)
+                                is AppSuccess -> {
+                                    Timer().schedule(
+                                        setRefreshTimer(sessionResult.value.id),
+                                        inSeconds(sessionResult.value.token.refreshAt)
+                                    )
+                                    accMod.copy(session = sessionResult.value)
+                                }
                             }
                         } else {
                             accMod
@@ -79,6 +92,20 @@ class HomeViewModel @Inject constructor(
             }
         }
     }
+
+    @RequiresApi(Build.VERSION_CODES.O) fun inSeconds(zonedDateTime: ZonedDateTime): Long {
+        return ChronoUnit.MILLIS.between(ZonedDateTime.now(), zonedDateTime)
+    }
+
+    private fun setRefreshTimer(sessionId: String) =
+        object : TimerTask() {
+            override fun run() {
+                viewModelScope.launch {
+                    val result = updateTokenUseCase(sessionId)
+
+                }
+            }
+        }
 
     fun getValidationLink() {
         viewModelScope.launch {

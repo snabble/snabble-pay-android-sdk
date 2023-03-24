@@ -4,6 +4,7 @@ import android.os.Parcelable
 import io.snabble.pay.account.domain.model.Account
 import io.snabble.pay.account.domain.model.MandateState
 import io.snabble.pay.app.domain.account.utils.GradiantGenerator
+import io.snabble.pay.app.domain.session.SessionModel
 import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.Serializable
 
@@ -17,7 +18,7 @@ data class AccountCard(
     val name: String,
     val mandateState: MandateState,
     val cardBackgroundColor: List<String>,
-    val qrCodeToken: String?,
+    val session: SessionModel?,
 ) : Parcelable
 
 fun Account.toAccountCard(savedName: String? = null, colors: List<String>?): AccountCard = AccountCard(
@@ -28,5 +29,5 @@ fun Account.toAccountCard(savedName: String? = null, colors: List<String>?): Acc
     iban = iban,
     bank = bank,
     cardBackgroundColor = if (colors.isNullOrEmpty()) GradiantGenerator.createGradiantColorList() else colors,
-    qrCodeToken = null
+    session = null
 )

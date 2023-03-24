@@ -55,6 +55,7 @@ fun AccountCardPager(
         ) { page ->
             AccountCard(
                 accountCard = accountCardList[page],
+                useLabel = true,
                 modifier = Modifier
                     .graphicsLayer {
                         val pageOffset = calculateCurrentOffsetForPage(page).absoluteValue
@@ -77,8 +78,6 @@ fun AccountCardPager(
                 onClick = { onClick(it) },
                 qrCodeString = if (page == pagerState.currentPage)
                     accountCardList[page].session?.token?.value else null,
-                isEditable = false,
-                onDelete = {}
             )
         }
         HorizontalPagerIndicator(

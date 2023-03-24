@@ -39,7 +39,7 @@ fun Home(
         ) {
             Spacer(modifier = Modifier.height(100.dp))
             SnabblePayHeader(modifier = Modifier.fillMaxWidth())
-            Spacer(modifier = Modifier.height(32.dp))
+            Spacer(modifier = Modifier.height(56.dp))
             cardComposable()
             Spacer(modifier = Modifier.weight(1f))
             FloatingActionButton(

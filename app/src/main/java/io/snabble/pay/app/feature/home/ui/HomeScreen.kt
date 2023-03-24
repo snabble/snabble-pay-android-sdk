@@ -34,7 +34,7 @@ import io.snabble.pay.app.utils.browseUrl
 fun HomeScreen(
     homeViewModel: HomeViewModel = hiltViewModel(),
     navigator: DestinationsNavigator?,
-    resultRecipient: ResultRecipient<AccountDetailsScreenDestination, Boolean>?,
+    resultRecipient: ResultRecipient<AccountDetailsScreenDestination, Boolean>? = null,
 ) {
     resultRecipient?.onNavResult { result ->
         if (result is NavResult.Value) homeViewModel.refresh()
@@ -61,7 +61,8 @@ fun HomeScreen(
         when (val payError = error.value) {
             is ErrorResponse -> AlertWidget(
                 payError = payError,
-                onDismiss = { openDialog.value = false })
+                onDismiss = { openDialog.value = false }
+            )
         }
     }
 
@@ -102,9 +103,3 @@ fun HomeScreen(
         )
     }
 }
-
-
-
-
-
-

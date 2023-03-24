@@ -19,7 +19,7 @@ import io.snabble.pay.app.domain.account.AccountCard
 import io.snabble.pay.app.feature.destinations.AccountDetailsScreenDestination
 import io.snabble.pay.app.feature.newaccount.ui.widget.AccountInformation
 import io.snabble.pay.app.feature.newaccount.ui.widget.EditTextField
-import io.snabble.pay.app.feature.newaccount.ui.widget.mandate.MandateDemo
+import io.snabble.pay.app.feature.newaccount.ui.widget.mandate.Mandate
 import io.snabble.pay.app.ui.AppBarLayout
 import io.snabble.pay.mandate.domain.model.Mandate
 
@@ -57,7 +57,7 @@ fun NewAccount(
                 bank = accountCard.bank
             )
             Spacer(modifier = Modifier.height(16.dp))
-            MandateDemo(
+            Mandate(
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
                     .fillMaxWidth(),

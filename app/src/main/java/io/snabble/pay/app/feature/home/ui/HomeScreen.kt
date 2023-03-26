@@ -1,5 +1,7 @@
 package io.snabble.pay.app.feature.home.ui
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
@@ -9,13 +11,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-import com.ramcosta.composedestinations.result.NavResult
-import com.ramcosta.composedestinations.result.ResultRecipient
 import io.snabble.pay.app.data.utils.ErrorResponse
 import io.snabble.pay.app.feature.destinations.AccountDetailsScreenDestination
 import io.snabble.pay.app.feature.detailsaccount.ui.AccountDetailsScreenNavArgs
@@ -28,18 +29,15 @@ import io.snabble.pay.app.ui.widgets.AlertWidget
 import io.snabble.pay.app.ui.widgets.accountcard.AccountCardPager
 import io.snabble.pay.app.utils.browseUrl
 
+@RequiresApi(Build.VERSION_CODES.O)
 @RootNavGraph(start = true)
 @Destination
 @Composable
 fun HomeScreen(
     homeViewModel: HomeViewModel = hiltViewModel(),
     navigator: DestinationsNavigator?,
-    resultRecipient: ResultRecipient<AccountDetailsScreenDestination, Boolean>? = null,
 ) {
-    resultRecipient?.onNavResult { result ->
-        if (result is NavResult.Value) homeViewModel.refresh()
-    }
-
+    LocalLifecycleOwner.current.lifecycle.addObserver(homeViewModel)
     val context = LocalContext.current
     LaunchedEffect(Unit) {
         homeViewModel.validationLink.collect {

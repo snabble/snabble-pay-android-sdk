@@ -2,6 +2,8 @@ package io.snabble.pay.app.feature.home
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -29,7 +31,7 @@ class HomeViewModel @Inject constructor(
     private val addAccountUseCase: AddAccountUseCase,
     private val updateTokenUseCase: UpdateTokenUseCase,
     private val getCurrentSessionUseCase: GetCurrentSessionUseCase,
-) : ViewModel() {
+) : ViewModel(), DefaultLifecycleObserver {
 
     private val _uiState = MutableStateFlow<UiState>(Loading)
     val uiState = _uiState.asStateFlow()
@@ -40,11 +42,11 @@ class HomeViewModel @Inject constructor(
     private val _error = MutableSharedFlow<ErrorResponse?>()
     val error = _error.asSharedFlow()
 
-    init {
+    override fun onStart(owner: LifecycleOwner) {
         refresh()
     }
 
-    fun refresh() {
+    private fun refresh() {
         viewModelScope.launch {
             getAccounts()
                 .collect {

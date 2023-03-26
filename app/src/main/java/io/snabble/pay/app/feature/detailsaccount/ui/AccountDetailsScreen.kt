@@ -8,8 +8,8 @@ import androidx.compose.runtime.remember
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-import com.ramcosta.composedestinations.result.ResultBackNavigator
 import io.snabble.pay.app.data.utils.ErrorResponse
+import io.snabble.pay.app.feature.destinations.HomeScreenDestination
 import io.snabble.pay.app.feature.detailsaccount.AccountDeleted
 import io.snabble.pay.app.feature.detailsaccount.DetailsAccountViewModel
 import io.snabble.pay.app.feature.detailsaccount.Loading
@@ -23,7 +23,6 @@ import io.snabble.pay.app.ui.widgets.AlertWidget
 fun AccountDetailsScreen(
     viewModel: DetailsAccountViewModel = hiltViewModel(),
     navigator: DestinationsNavigator?,
-    resultBackNavigator: ResultBackNavigator<Boolean>?,
 ) {
     val openDialog = remember {
         mutableStateOf(false)
@@ -60,7 +59,7 @@ fun AccountDetailsScreen(
             )
         }
 
-        is AccountDeleted -> resultBackNavigator?.navigateBack(result = true)
+        is AccountDeleted -> navigator?.navigate(HomeScreenDestination)
     }
 }
 

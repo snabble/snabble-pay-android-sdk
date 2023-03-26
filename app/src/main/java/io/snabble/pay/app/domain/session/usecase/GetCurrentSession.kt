@@ -1,6 +1,5 @@
 package io.snabble.pay.app.domain.session.usecase
 
-import android.util.Log
 import io.snabble.pay.app.data.utils.AppError
 import io.snabble.pay.app.data.utils.AppResult
 import io.snabble.pay.app.data.utils.AppSuccess
@@ -18,7 +17,6 @@ class GetCurrentSessionUseCaseImpl @Inject constructor(
 ) : GetCurrentSessionUseCase {
 
     override suspend operator fun invoke(accountId: String): AppResult<SessionModel> {
-        Log.d("xx", "invoke: ${getSessionsUseCase()}")
         return when (val result = getSessionsUseCase()) {
             is AppError -> AppError(result.value)
             is AppSuccess -> {

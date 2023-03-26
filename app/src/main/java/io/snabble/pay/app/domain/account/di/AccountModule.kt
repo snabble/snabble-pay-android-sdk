@@ -1,5 +1,6 @@
 package io.snabble.pay.app.domain.account.di
 
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -7,6 +8,7 @@ import dagger.hilt.components.SingletonComponent
 import io.snabble.pay.app.domain.account.AccountRepository
 import io.snabble.pay.app.domain.account.usecase.AddAccountUseCase
 import io.snabble.pay.app.domain.account.usecase.DeleteAccountUseCase
+import io.snabble.pay.app.domain.account.usecase.DeleteAccountUseCaseImpl
 import io.snabble.pay.app.domain.account.usecase.GetAccountCardUseCase
 import io.snabble.pay.app.domain.account.usecase.GetAllAccountCardsUseCase
 import io.snabble.pay.app.domain.account.usecase.SetAccountCardLabelUseCase
@@ -26,11 +28,6 @@ class AccountModule {
     ) = GetAccountCardUseCase(accountRepository::getAccount)
 
     @Provides
-    fun provideDeleteAccountUseCase(
-        accountRepository: AccountRepository,
-    ) = DeleteAccountUseCase(accountRepository::deleteAccount)
-
-    @Provides
     fun provideGetAllAccountsUseCase(
         accountRepository: AccountRepository,
     ) = GetAllAccountCardsUseCase(accountRepository::getAccounts)
@@ -39,4 +36,13 @@ class AccountModule {
     fun provideSetAccountLabelUseCase(
         accountRepository: AccountRepository,
     ) = SetAccountCardLabelUseCase(accountRepository::setAccountLabel)
+}
+
+@InstallIn(SingletonComponent::class)
+@Module interface SessionModule {
+
+    @Binds
+    fun bindDeleteAccountUseCase(
+        deleteAccountUseCaseUseCase: DeleteAccountUseCaseImpl,
+    ): DeleteAccountUseCase
 }

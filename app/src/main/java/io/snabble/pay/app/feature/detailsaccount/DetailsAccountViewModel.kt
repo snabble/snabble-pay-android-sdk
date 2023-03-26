@@ -8,15 +8,11 @@ import io.snabble.pay.account.domain.model.MandateState
 import io.snabble.pay.app.data.utils.AppError
 import io.snabble.pay.app.data.utils.AppSuccess
 import io.snabble.pay.app.data.utils.ErrorResponse
-import io.snabble.pay.app.data.utils.onError
-import io.snabble.pay.app.data.utils.onSuccess
 import io.snabble.pay.app.domain.account.AccountCard
 import io.snabble.pay.app.domain.account.usecase.DeleteAccountUseCase
 import io.snabble.pay.app.domain.account.usecase.GetAccountCardUseCase
 import io.snabble.pay.app.domain.account.usecase.SetAccountCardLabelUseCase
-import io.snabble.pay.app.domain.mandate.usecase.AcceptMandateUseCase
 import io.snabble.pay.app.domain.mandate.usecase.CreateMandateUseCase
-import io.snabble.pay.app.domain.mandate.usecase.DeclineMandateUseCase
 import io.snabble.pay.app.domain.mandate.usecase.GetMandateUseCase
 import io.snabble.pay.mandate.domain.model.Mandate
 import kotlinx.coroutines.flow.MutableSharedFlow

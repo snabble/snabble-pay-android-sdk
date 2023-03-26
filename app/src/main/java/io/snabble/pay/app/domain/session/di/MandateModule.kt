@@ -1,5 +1,6 @@
 package io.snabble.pay.app.domain.session.di
 
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -7,6 +8,8 @@ import dagger.hilt.components.SingletonComponent
 import io.snabble.pay.app.domain.session.SessionRepository
 import io.snabble.pay.app.domain.session.usecase.CreateSessionUseCase
 import io.snabble.pay.app.domain.session.usecase.DeleteSessionUseCase
+import io.snabble.pay.app.domain.session.usecase.GetCurrentSessionUseCase
+import io.snabble.pay.app.domain.session.usecase.GetCurrentSessionUseCaseImpl
 import io.snabble.pay.app.domain.session.usecase.GetSessionUseCase
 import io.snabble.pay.app.domain.session.usecase.GetSessionsUseCase
 import io.snabble.pay.app.domain.session.usecase.UpdateTokenUseCase
@@ -39,4 +42,13 @@ class MandateModule {
     fun bindUpdateSessionTokenUseCase(
         sessionRepository: SessionRepository,
     ) = UpdateTokenUseCase(sessionRepository::updateToken)
+}
+
+@InstallIn(SingletonComponent::class)
+@Module interface SessionModule {
+
+    @Binds
+    fun bindGetCurrentSessionUseCase(
+        getCurrentSessionUseCase: GetCurrentSessionUseCaseImpl,
+    ): GetCurrentSessionUseCase
 }

@@ -11,7 +11,7 @@ import java.lang.reflect.ParameterizedType
 
 class ApiResultCallAdapterFactoryTest : FreeSpec({
 
-    fun createSut() = ApiResultCallAdapterFactory.create()
+    fun createSut() = ApiResultCallAdapterFactory.create(json = mockk())
 
     "ApiResultCallAdapterFactory.get(...) returns" - {
 

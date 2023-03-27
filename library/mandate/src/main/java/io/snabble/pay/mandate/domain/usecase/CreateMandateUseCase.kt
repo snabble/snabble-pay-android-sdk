@@ -1,5 +1,6 @@
 package io.snabble.pay.mandate.domain.usecase
 
+import io.snabble.pay.core.util.Result
 import io.snabble.pay.mandate.domain.model.Mandate
 
 fun interface CreateMandateUseCase {

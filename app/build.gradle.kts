@@ -60,7 +60,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":core"))
+    implementation(project(":pay"))
 
     implementation(libs.androidx.core)
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.5.1")

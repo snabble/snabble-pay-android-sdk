@@ -1,5 +1,6 @@
 package io.snabble.pay.session.domain.repository
 
+import io.snabble.pay.core.util.Result
 import io.snabble.pay.session.domain.model.Session
 import io.snabble.pay.session.domain.model.SessionToken
 

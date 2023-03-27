@@ -24,6 +24,6 @@ internal interface SessionService {
     @GET("/apps/sessions")
     suspend fun getSessions(): ApiResponse<List<SessionDto>>
 
-    @POST("POST /apps/sessions/{id}/token")
+    @POST("/apps/sessions/{id}/token")
     suspend fun updateToken(@Path("id") sessionId: String): ApiResponse<TokenDto>
 }

@@ -1,0 +1,14 @@
+$dokka.format:html-v1
+$dokka.linkExtension:html
+
+module:core
+io.snabble.pay.core
+io.snabble.pay.core.util
+module:pay
+io.snabble.pay
+io.snabble.pay.di.modules
+io.snabble.pay.dsl
+io.snabble.pay.features
+io.snabble.pay.features.di
+io.snabble.pay.internal.appcredentials.data.source.remote
+io.snabble.pay.internal.appcredentials.di

@@ -15,10 +15,10 @@ internal interface SessionService {
     @POST("/apps/sessions")
     suspend fun createSession(@Body accountId: AccountIdDto): ApiResponse<SessionDto>
 
-    @DELETE("/apps/session/{id}")
+    @DELETE("/apps/sessions/{id}")
     suspend fun deleteSession(@Path("id") sessionId: String): ApiResponse<SessionDto>
 
-    @GET("/apps/session/{id}")
+    @GET("/apps/sessions/{id}")
     suspend fun getSession(@Path("id") sessionId: String): ApiResponse<SessionDto>
 
     @GET("/apps/sessions")

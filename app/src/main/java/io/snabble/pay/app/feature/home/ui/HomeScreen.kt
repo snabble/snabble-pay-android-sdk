@@ -2,13 +2,19 @@ package io.snabble.pay.app.feature.home.ui
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
@@ -67,7 +73,19 @@ fun HomeScreen(
     val uiState = homeViewModel.uiState.collectAsState()
     when (val state = uiState.value) {
         Loading -> Home(
-            cardComposable = { CircularProgressIndicator() },
+            cardComposable = {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(200.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    CircularProgressIndicator(
+                        modifier = Modifier.size(50.dp),
+                        color = MaterialTheme.colorScheme.onPrimary
+                    )
+                }
+            },
             onFloatingActionButtonClick = homeViewModel::getValidationLink
         )
         is ShowAccounts -> Home(
@@ -76,7 +94,7 @@ fun HomeScreen(
                     modifier = Modifier,
                     accountCardList = state.accountCards,
                     onCurrentPage = { accountId ->
-                        homeViewModel.getSessionToken(accountId.trimIndent())
+                        homeViewModel.setActiveAccountCard(accountId.trimIndent())
                     }
                 ) { accountCard ->
                     navigator?.navigate(

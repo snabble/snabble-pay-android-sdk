@@ -80,7 +80,7 @@ fun PreviewAccountCard() {
             .padding(horizontal = 32.dp),
         accountCard = AccountCard(
             cardBackgroundColor = GradiantGenerator.createGradiantColorList(),
-            session = null,
+            sessionToken = null,
             holderName = "Muster Mann",
             accountId = "1",
             mandateState = MandateState.ACCEPTED,

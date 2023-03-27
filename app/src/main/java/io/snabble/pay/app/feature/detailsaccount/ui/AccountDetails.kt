@@ -83,7 +83,7 @@ fun AccountDetails(
                                 )
                             )
                         },
-                        qrCodeString = "https://www.google.com/"
+                        qrCodeString = accountCard.sessionToken?.value
                     )
                     Spacer(modifier = Modifier.height(16.dp))
                     ElevatedCard(
@@ -111,7 +111,7 @@ fun AccountDetails(
 private fun AccountDetailsPreview() {
     val card = AccountCard(
         cardBackgroundColor = GradiantGenerator.createGradiantColorList(),
-        session = null,
+        sessionToken = null,
         holderName = "Muster Mann",
         accountId = "1",
         mandateState = MandateState.ACCEPTED,

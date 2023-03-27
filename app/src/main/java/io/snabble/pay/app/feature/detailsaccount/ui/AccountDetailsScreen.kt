@@ -5,6 +5,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -24,6 +25,7 @@ fun AccountDetailsScreen(
     viewModel: DetailsAccountViewModel = hiltViewModel(),
     navigator: DestinationsNavigator?,
 ) {
+    LocalLifecycleOwner.current.lifecycle.addObserver(viewModel)
     val openDialog = remember {
         mutableStateOf(false)
     }

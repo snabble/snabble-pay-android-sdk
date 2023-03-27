@@ -13,8 +13,11 @@ import io.snabble.pay.app.data.utils.ErrorResponse
 import io.snabble.pay.app.domain.account.AccountCard
 import io.snabble.pay.app.domain.account.usecase.AddAccountUseCase
 import io.snabble.pay.app.domain.account.usecase.GetAllAccountCardsUseCase
+import io.snabble.pay.app.domain.session.SessionModel
 import io.snabble.pay.app.domain.session.usecase.GetCurrentSessionUseCase
 import io.snabble.pay.app.domain.session.usecase.UpdateTokenUseCase
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -42,8 +45,14 @@ class HomeViewModel @Inject constructor(
     private val _error = MutableSharedFlow<ErrorResponse?>()
     val error = _error.asSharedFlow()
 
+    private var sessionRefreshJob: Job? = null
+
     override fun onStart(owner: LifecycleOwner) {
         refresh()
+    }
+
+    override fun onPause(owner: LifecycleOwner) {
+        sessionRefreshJob?.cancel()
     }
 
     private fun refresh() {
@@ -66,48 +75,49 @@ class HomeViewModel @Inject constructor(
 
     @RequiresApi(Build.VERSION_CODES.O) fun getSessionToken(accountId: String) {
         viewModelScope.launch {
-            when (val state = uiState.value) {
-                is ShowAccounts -> {
-                    val accounts = state.accountCards.map { accMod ->
-                        if (accMod.accountId == accountId) {
-                            when (val sessionResult = getCurrentSessionUseCase(accountId)) {
-                                is AppError -> {
-                                    _error.emit(sessionResult.value)
-                                    accMod
-                                }
-                                is AppSuccess -> {
-                                    Timer().schedule(
-                                        setRefreshTimer(sessionResult.value.id),
-                                        50
-                                    )
-                                    accMod.copy(session = sessionResult.value)
-                                }
-                            }
-                        } else {
-                            accMod
-                        }
-                    }
-                    _uiState.tryEmit(ShowAccounts(accounts))
+            when (val sessionResult = getCurrentSessionUseCase(accountId)) {
+                is AppError -> _error.emit(sessionResult.value)
+                is AppSuccess -> {
+                    setRefreshTimer(sessionResult.value, accountId)
+                    addSessionToAccount(accountId, sessionResult.value)
                 }
-
-                else -> {}
             }
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O) fun inSeconds(zonedDateTime: ZonedDateTime): Long {
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun setRefreshTimer(session: SessionModel, accountId: String) {
+        sessionRefreshJob = viewModelScope.launch {
+            delay(refreshDelay(session.token.refreshAt))
+            addSessionToAccount(accountId, null)
+            when (val result = updateTokenUseCase(session.id)) {
+                is AppError -> _error.emit(result.value)
+                is AppSuccess -> getSessionToken(accountId)
+            }
+        }
+    }
+    @RequiresApi(Build.VERSION_CODES.O) fun refreshDelay(zonedDateTime: ZonedDateTime): Long {
         return ChronoUnit.MILLIS.between(ZonedDateTime.now(), zonedDateTime)
     }
 
-    private fun setRefreshTimer(sessionId: String) =
-        object : TimerTask() {
-            override fun run() {
-                viewModelScope.launch {
-                    val result = updateTokenUseCase(sessionId)
-
+    suspend fun addSessionToAccount(
+        accountId: String,
+        session: SessionModel?,
+    ) {
+        when (val state = uiState.value) {
+            is ShowAccounts -> {
+                val accounts = state.accountCards.map { accMod ->
+                    if (accMod.accountId == accountId) {
+                        accMod.copy(session = session)
+                    } else {
+                        accMod
+                    }
                 }
+                _uiState.tryEmit(ShowAccounts(accounts))
             }
+            else -> {}
         }
+    }
 
     fun getValidationLink() {
         viewModelScope.launch {

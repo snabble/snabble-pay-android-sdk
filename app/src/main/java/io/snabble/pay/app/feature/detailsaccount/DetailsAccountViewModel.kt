@@ -1,5 +1,7 @@
 package io.snabble.pay.app.feature.detailsaccount
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -14,12 +16,14 @@ import io.snabble.pay.app.domain.account.usecase.GetAccountCardUseCase
 import io.snabble.pay.app.domain.account.usecase.SetAccountCardLabelUseCase
 import io.snabble.pay.app.domain.mandate.usecase.CreateMandateUseCase
 import io.snabble.pay.app.domain.mandate.usecase.GetMandateUseCase
+import io.snabble.pay.app.domain.session.usecase.GetCurrentSessionUseCase
 import io.snabble.pay.mandate.domain.model.Mandate
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -29,6 +33,7 @@ class DetailsAccountViewModel @Inject constructor(
     private val getMandate: GetMandateUseCase,
     private val createMandateUseCase: CreateMandateUseCase,
     private val removeAccount: DeleteAccountUseCase,
+    private val getCurrentSessionUseCase: GetCurrentSessionUseCase,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
@@ -49,6 +54,29 @@ class DetailsAccountViewModel @Inject constructor(
             when (val result = removeAccount(accountId)) {
                 is AppError -> _error.emit(result.value)
                 is AppSuccess -> _uiState.tryEmit(AccountDeleted(result.value))
+            }
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O) fun getSessionToken(accountId: String) {
+        viewModelScope.launch {
+            when (val state = uiState.value) {
+                is ShowAccount -> {
+                    when (val sessionResult = getCurrentSessionUseCase(accountId)) {
+                        is AppError -> {
+                            _error.emit(sessionResult.value)
+                        }
+                        is AppSuccess -> {
+                            _uiState.tryEmit(
+                                ShowAccount(
+                                    state.accountCard.copy(session = sessionResult.value),
+                                    mandate = state.mandate
+                                )
+                            )
+                        }
+                    }
+                }
+                else -> {}
             }
         }
     }

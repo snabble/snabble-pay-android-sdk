@@ -1,6 +1,7 @@
 package io.snabble.pay.di
 
 import io.snabble.pay.account.di.accountModule
+import io.snabble.pay.customerinfo.di.customerInfoModule
 import io.snabble.pay.di.modules.networkModule
 import io.snabble.pay.di.modules.serviceModule
 import io.snabble.pay.features.di.featureModule
@@ -13,6 +14,7 @@ import org.koin.core.module.Module
 internal val koinModules: List<Module> = listOf(
     accountModule,
     appCredentialsModule,
+    customerInfoModule,
     featureModule,
     mandateModule,
     networkModule,

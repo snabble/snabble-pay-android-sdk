@@ -7,6 +7,7 @@ import io.snabble.pay.features.SessionSupport
 
 interface SnabblePay : AccountSupport, CustomerInfoSupport, MandateSupport, SessionSupport
 
+/** @suppress */
 class SnabblePayImpl internal constructor(
     accountSupport: AccountSupport,
     customerInfoSupport: CustomerInfoSupport,

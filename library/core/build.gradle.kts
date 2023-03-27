@@ -5,6 +5,7 @@
     id(libs.plugins.kotlin.android.get().pluginId)
     alias(libs.plugins.kotlin.serialization)
     id("de.mannodermaus.android-junit5")
+    id(libs.plugins.dokka.get().pluginId)
 }
 
 android {

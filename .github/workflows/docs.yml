@@ -24,7 +24,7 @@ jobs:
           java-version: '11'
           cache: gradle
 
-      - name: Build Release App Bundle
+      - name: Build Documentation using Dokka
         run: ./gradlew dokkaHtmlMultiModule
 
       - name: Provide Documentation as Artifact
@@ -47,5 +47,5 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./public
+          publish_dir: ./
           commit_message: ${{ github.event.head_commit.message }}

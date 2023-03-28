@@ -43,26 +43,26 @@ class NewAccountViewModel @Inject constructor(
     val accountId: String = requireNotNull(savedStateHandle["accountId"])
 
     init {
-        getAccount(accountId)
+        viewModelScope.launch {
+            getAccount(accountId)
+        }
     }
 
-    private fun getAccount(accountId: String) {
-        viewModelScope.launch {
-            getAccountCard(accountId = accountId)
-                .onError { _error.emit(it) }
-                .onSuccess { account ->
-                    val mandate =
-                        if (account.mandateState == MandateState.MISSING) {
-                            createMandateFor(accountId)
-                        } else {
-                            getMandateFor(accountId)
-                        }
+    private suspend fun getAccount(accountId: String) {
+        getAccountCard(accountId = accountId)
+            .onError { _error.emit(it) }
+            .onSuccess { account ->
+                val mandate =
+                    if (account.mandateState == MandateState.MISSING) {
+                        createMandateFor(accountId)
+                    } else {
+                        getMandateFor(accountId)
+                    }
 
-                    updateAccountName(account.name, account.cardBackgroundColor)
+                updateAccountName(account.name, account.cardBackgroundColor)
 
-                    _uiState.tryEmit(ShowAccount(account, mandate))
-                }
-        }
+                _uiState.tryEmit(ShowAccount(account, mandate))
+            }
     }
 
     fun acceptMandate() {
@@ -89,15 +89,14 @@ class NewAccountViewModel @Inject constructor(
         }
     }
 
-    private suspend fun createMandateFor(accountId: String): Mandate? {
-        return when (val result = createMandate(accountId = accountId)) {
+    private suspend fun createMandateFor(accountId: String): Mandate? =
+        when (val result = createMandate(accountId = accountId)) {
             is AppError -> {
                 _error.emit(result.value)
                 null
             }
             is AppSuccess -> result.value
         }
-    }
 
     private suspend fun acceptMandate(accountId: String, mandateId: String) {
         acceptPendingMandate(accountId = accountId, mandateId = mandateId)

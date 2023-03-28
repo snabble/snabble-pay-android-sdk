@@ -8,6 +8,8 @@ import io.snabble.pay.account.domain.model.MandateState
 import io.snabble.pay.app.data.utils.AppError
 import io.snabble.pay.app.data.utils.AppSuccess
 import io.snabble.pay.app.data.utils.ErrorResponse
+import io.snabble.pay.app.data.utils.onError
+import io.snabble.pay.app.data.utils.onSuccess
 import io.snabble.pay.app.domain.account.AccountCard
 import io.snabble.pay.app.domain.account.usecase.GetAccountCardUseCase
 import io.snabble.pay.app.domain.account.usecase.SetAccountCardLabelUseCase
@@ -24,10 +26,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class NewAccountViewModel @Inject constructor(
-    private val getCard: GetAccountCardUseCase,
-    private val setCardLabel: SetAccountCardLabelUseCase,
+    private val getAccountCard: GetAccountCardUseCase,
+    private val setCardLabelAndColors: SetAccountCardLabelUseCase,
     private val getMandate: GetMandateUseCase,
-    private val createMandateUseCase: CreateMandateUseCase,
+    private val createMandate: CreateMandateUseCase,
     private val acceptPendingMandate: AcceptMandateUseCase,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
@@ -44,20 +46,36 @@ class NewAccountViewModel @Inject constructor(
         getAccount(accountId)
     }
 
+    private fun getAccount(accountId: String) {
+        viewModelScope.launch {
+            getAccountCard(accountId = accountId)
+                .onError { _error.emit(it) }
+                .onSuccess { account ->
+                    val mandate =
+                        if (account.mandateState == MandateState.MISSING) {
+                            createMandateFor(accountId)
+                        } else {
+                            getMandateFor(accountId)
+                        }
+
+                    updateAccountName(account.name, account.cardBackgroundColor)
+
+                    _uiState.tryEmit(ShowAccount(account, mandate))
+                }
+        }
+    }
+
     fun acceptMandate() {
         viewModelScope.launch {
-            when (val result = getMandate(accountId = accountId)) {
-                is AppError -> _error.emit(result.value)
-                is AppSuccess -> {
-                    val mandate = result.value
+            getMandate(accountId = accountId)
+                .onError { _error.emit(it) }
+                .onSuccess { mandate ->
                     if (mandate != null) {
                         acceptMandate(accountId, mandate.id)
-                        getAccount(accountId)
                     } else {
                         _error.tryEmit(null)
                     }
                 }
-            }
         }
     }
 
@@ -71,50 +89,31 @@ class NewAccountViewModel @Inject constructor(
         }
     }
 
-    private fun getAccount(accountId: String) {
-        viewModelScope.launch {
-            when (val result = getCard(accountId)) {
-                is AppError -> _error.emit(result.value)
-                is AppSuccess -> {
-                    val account = result.value
-                    if (account.mandateState == MandateState.MISSING) {
-                        createMandate(accountId)
-                    }
-                    val mandate = getMandateFor(accountId)
-
-                    updateAccountName(account.name, account.cardBackgroundColor)
-
-                    _uiState.tryEmit(ShowAccount(account, mandate))
-                }
+    private suspend fun createMandateFor(accountId: String): Mandate? {
+        return when (val result = createMandate(accountId = accountId)) {
+            is AppError -> {
+                _error.emit(result.value)
+                null
             }
-        }
-    }
-
-    private suspend fun createMandate(accountId: String) {
-        when (val result = createMandateUseCase(accountId)) {
-            is AppError -> _error.emit(result.value)
-            is AppSuccess -> return
+            is AppSuccess -> result.value
         }
     }
 
     private suspend fun acceptMandate(accountId: String, mandateId: String) {
-        when (val result = acceptPendingMandate(accountId = accountId, mandateId = mandateId)) {
-            is AppError -> _error.emit(result.value)
-            is AppSuccess -> {
-                when (val accountCardResult = getCard(accountId)) {
-                    is AppError -> _error.emit(accountCardResult.value)
-                    is AppSuccess -> {
-                        val mandate = getMandateFor(accountId)
-                        _uiState.tryEmit(ShowAccount(accountCardResult.value, mandate))
+        acceptPendingMandate(accountId = accountId, mandateId = mandateId)
+            .onError { _error.emit(it) }
+            .onSuccess { mandate ->
+                getAccountCard(accountId)
+                    .onError { _error.emit(it) }
+                    .onSuccess { account ->
+                        _uiState.tryEmit(ShowAccount(account, mandate))
                     }
-                }
             }
-        }
     }
 
     fun updateAccountName(name: String, colors: List<String>) {
         viewModelScope.launch {
-            setCardLabel(accountId = accountId, name = name, colors = colors)
+            setCardLabelAndColors(accountId = accountId, name = name, colors = colors)
         }
     }
 }

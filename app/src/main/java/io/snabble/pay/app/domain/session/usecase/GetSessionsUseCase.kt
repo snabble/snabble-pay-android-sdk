@@ -5,7 +5,5 @@ import io.snabble.pay.app.domain.session.SessionModel
 
 fun interface GetSessionsUseCase {
 
-   suspend operator fun invoke(): AppResult<List<SessionModel>>
-
+    suspend operator fun invoke(): AppResult<List<SessionModel>>
 }
-

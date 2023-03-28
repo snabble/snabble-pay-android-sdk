@@ -28,12 +28,13 @@ import kotlinx.coroutines.launch
 import java.time.Duration
 import java.time.ZonedDateTime
 import javax.inject.Inject
+import kotlin.time.Duration.Companion.seconds
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val getAccounts: GetAllAccountCardsUseCase,
-    private val addAccountUseCase: AddAccountUseCase,
-    private val updateTokenUseCase: UpdateTokenUseCase,
+    private val getValidationLink: AddAccountUseCase,
+    private val fetchNewToken: UpdateTokenUseCase,
     private val loadSessionFor: GetCurrentSessionUseCase,
 ) : ViewModel(), DefaultLifecycleObserver {
 
@@ -69,11 +70,11 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             loadSessionFor(accountId)
                 .onError { _error.emit(it) }
-                .onSuccess { updateAccountsAndRefreshTimer(accountId, it) }
+                .onSuccess { updateAccountsAndStartAutoRefresh(accountId, it) }
         }
     }
 
-    private fun updateAccountsAndRefreshTimer(accountId: String, session: SessionModel) {
+    private fun updateAccountsAndStartAutoRefresh(accountId: String, session: SessionModel) {
         addSessionTokenToAccount(accountId, session.token)
         setTokenRefreshTimer(accountId, session)
     }
@@ -83,7 +84,7 @@ class HomeViewModel @Inject constructor(
         sessionRefreshJob = viewModelScope.launch {
             val refreshTokenJob = viewModelScope.async {
                 delay(refreshDelay(session.token.refreshAt))
-                updateTokenUseCase(session.id)
+                fetchNewToken(session.id)
             }
 
             delay(refreshDelay(session.token.validUntil))
@@ -94,7 +95,7 @@ class HomeViewModel @Inject constructor(
             refreshTokenJob.await()
                 .onError { _error.emit(it) }
                 .onSuccess {
-                    updateAccountsAndRefreshTimer(
+                    updateAccountsAndStartAutoRefresh(
                         accountId = accountId,
                         session = session.copy(token = it)
                     )
@@ -124,17 +125,17 @@ class HomeViewModel @Inject constructor(
                             accMod
                         }
                     }
-                    delay(1000)
+                    delay(1.seconds)
                     _uiState.tryEmit(ShowAccounts(accounts))
                 }
-                else -> {}
+                else -> Unit
             }
         }
     }
 
     fun getValidationLink() {
         viewModelScope.launch {
-            val result = addAccountUseCase(
+            val result = getValidationLink(
                 appUri = "snabble-pay://account/check",
                 city = "Berlin",
                 twoLetterIsoCountryCode = "DE"

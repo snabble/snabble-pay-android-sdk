@@ -6,6 +6,4 @@ import io.snabble.pay.app.domain.session.SessionModel
 fun interface GetSessionUseCase {
 
     suspend operator fun invoke(id: String): AppResult<SessionModel>
-
 }
-

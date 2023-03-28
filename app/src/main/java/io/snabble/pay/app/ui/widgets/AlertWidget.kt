@@ -39,14 +39,18 @@ fun AlertWidget(
             Text(
                 modifier = Modifier.fillMaxWidth(),
                 text = stringResource(
-                    id = R.string.error_reason, payError?.reason?.name.toString()
+                    id = R.string.error_reason,
+                    payError?.reason?.name.toString()
                 )
             )
         },
         text = {
             Text(
                 modifier = Modifier.fillMaxWidth(),
-                text = stringResource(id = R.string.error_message, payError?.message.toString())
+                text = stringResource(
+                    id = R.string.error_message,
+                    payError?.message.toString()
+                )
             )
         },
         onDismissRequest = {},
@@ -66,12 +70,12 @@ fun AlertWidget(
                 ) {
                     Text(
                         text = stringResource(id = R.string.alert_message),
-                        textAlign = TextAlign.Center,
+                        textAlign = TextAlign.Center
                     )
                 }
                 Spacer(modifier = Modifier.height(16.dp))
             }
-        },
+        }
     )
 }
 

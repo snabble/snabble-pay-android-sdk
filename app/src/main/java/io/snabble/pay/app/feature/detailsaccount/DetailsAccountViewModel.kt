@@ -34,16 +34,18 @@ import kotlinx.coroutines.launch
 import java.time.Duration
 import java.time.ZonedDateTime
 import javax.inject.Inject
+import kotlin.time.Duration.Companion.seconds
 
 @HiltViewModel
+@Suppress("TooManyFunctions")
 class DetailsAccountViewModel @Inject constructor(
-    private val getCard: GetAccountCardUseCase,
-    private val setCardLabel: SetAccountCardLabelUseCase,
+    private val getAccountCard: GetAccountCardUseCase,
+    private val setCardLabelAndColors: SetAccountCardLabelUseCase,
     private val getMandate: GetMandateUseCase,
-    private val createMandateUseCase: CreateMandateUseCase,
+    private val createMandate: CreateMandateUseCase,
     private val removeAccount: DeleteAccountUseCase,
     private val loadSessionFor: GetCurrentSessionUseCase,
-    private val updateTokenUseCase: UpdateTokenUseCase,
+    private val fetchNewToken: UpdateTokenUseCase,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel(), DefaultLifecycleObserver {
 
@@ -62,17 +64,17 @@ class DetailsAccountViewModel @Inject constructor(
 
     private fun getAccount(accountId: String) {
         viewModelScope.launch {
-            getCard(accountId)
+            getAccountCard(accountId)
                 .onError { _error.emit(it) }
                 .onSuccess { account ->
                     if (account.mandateState == MandateState.MISSING) {
-                        createMandate(accountId)
+                        createMandateFor(accountId)
                     }
                     val mandate = getMandateFor(accountId)
 
                     updateAccountName(account.name, account.cardBackgroundColor)
-                    loadSessionToken()
                     _uiState.tryEmit(ShowAccount(account, mandate))
+                    loadSessionToken()
                 }
         }
     }
@@ -87,22 +89,22 @@ class DetailsAccountViewModel @Inject constructor(
         }
     }
 
-    private suspend fun createMandate(accountId: String) {
-        when (val result = createMandateUseCase(accountId)) {
+    private suspend fun createMandateFor(accountId: String) {
+        when (val result = createMandate(accountId)) {
             is AppError -> _error.emit(result.value)
             is AppSuccess -> return
         }
     }
 
-    private fun loadSessionToken() {
-        viewModelScope.launch {
-            loadSessionFor(accountId)
-                .onError { _error.emit(it) }
-                .onSuccess { updateAccountsAndRefreshTimer(it) }
-        }
+    private suspend fun loadSessionToken() {
+        loadSessionFor(accountId)
+            .onError { _error.emit(it) }
+            .onSuccess {
+                updateAccountsAndRefreshTimer(it)
+            }
     }
 
-    private fun updateAccountsAndRefreshTimer(session: SessionModel) {
+    private suspend fun updateAccountsAndRefreshTimer(session: SessionModel) {
         addSessionTokenToAccount(session.token)
         setTokenRefreshTimer(session)
     }
@@ -112,7 +114,7 @@ class DetailsAccountViewModel @Inject constructor(
         sessionRefreshJob = viewModelScope.launch {
             val refreshTokenJob = viewModelScope.async {
                 delay(refreshDelay(session.token.refreshAt))
-                updateTokenUseCase(session.id)
+                fetchNewToken(session.id)
             }
 
             delay(refreshDelay(session.token.validUntil))
@@ -120,47 +122,43 @@ class DetailsAccountViewModel @Inject constructor(
                 removeExpiredSessionToken()
             }
 
-            when (val result = refreshTokenJob.await()) {
-                is AppError -> _error.emit(result.value)
-                is AppSuccess -> updateAccountsAndRefreshTimer(
-                    session = session.copy(token = result.value)
-                )
-            }
+            refreshTokenJob.await()
+                .onError { _error.emit(it) }
+                .onSuccess {
+                    updateAccountsAndRefreshTimer(session = session.copy(token = it))
+                }
         }
     }
 
     private fun refreshDelay(zonedDateTime: ZonedDateTime): Long =
         Duration.between(ZonedDateTime.now(), zonedDateTime).toMillis()
 
-    private fun removeExpiredSessionToken() = addSessionTokenToAccount(null)
+    private suspend fun removeExpiredSessionToken() = addSessionTokenToAccount(null)
 
-    private fun addSessionTokenToAccount(
+    private suspend fun addSessionTokenToAccount(
         sessionToken: SessionTokenModel?,
     ) {
-        viewModelScope.launch {
-            when (val state = uiState.value) {
-                is ShowAccount -> {
-                    val account = state.accountCard.copy(sessionToken = sessionToken)
-                    delay(1000)
-                    _uiState.tryEmit(ShowAccount(account, state.mandate))
-                }
-                else -> {}
+        when (val state = uiState.value) {
+            is ShowAccount -> {
+                val account = state.accountCard.copy(sessionToken = sessionToken)
+                delay(1.seconds)
+                _uiState.tryEmit(ShowAccount(account, state.mandate))
             }
+            else -> {}
         }
     }
 
     fun updateAccountName(name: String, colors: List<String>) {
         viewModelScope.launch {
-            setCardLabel(accountId = accountId, name = name, colors = colors)
+            setCardLabelAndColors(accountId = accountId, name = name, colors = colors)
         }
     }
 
     fun deleteAccount() {
         viewModelScope.launch {
-            when (val result = removeAccount(accountId)) {
-                is AppError -> _error.emit(result.value)
-                is AppSuccess -> _uiState.tryEmit(AccountDeleted(result.value))
-            }
+            removeAccount(accountId = accountId)
+                .onError { _error.emit(it) }
+                .onSuccess { _uiState.tryEmit(AccountDeleted(it)) }
         }
     }
 

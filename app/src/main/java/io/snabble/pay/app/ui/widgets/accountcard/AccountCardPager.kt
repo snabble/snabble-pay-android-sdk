@@ -76,8 +76,11 @@ fun AccountCardPager(
                         )
                     },
                 onClick = { onClick(it) },
-                qrCodeString = if (page == pagerState.currentPage)
-                    accountCardList[page].sessionToken?.value else null,
+                qrCodeString = if (page == pagerState.currentPage) {
+                    accountCardList[page].sessionToken?.value
+                } else {
+                    null
+                }
             )
         }
         HorizontalPagerIndicator(

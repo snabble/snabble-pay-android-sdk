@@ -40,9 +40,9 @@ class SessionRepositoryImpl @Inject constructor(
     override suspend fun getSessions(): AppResult<List<SessionModel>> {
         return when (val result = snabblePay.getAllSessions()) {
             is Failure -> AppError(result.error.toErrorResponse())
-            is Success -> AppSuccess(result.value.map {
-                SessionModel.from(it)
-            })
+            is Success -> AppSuccess(
+                result.value.map { SessionModel.from(it) }
+            )
         }
     }
 

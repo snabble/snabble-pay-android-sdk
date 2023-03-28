@@ -77,4 +77,3 @@ fun String.toIban(): String {
 
 private const val TARGET_INDEX = 4
 private const val TARGET_MOD = 5
-

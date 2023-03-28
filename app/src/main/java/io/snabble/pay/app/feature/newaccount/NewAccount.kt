@@ -11,8 +11,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import io.snabble.pay.app.R
 import io.snabble.pay.app.domain.account.AccountCard
 import io.snabble.pay.app.feature.newaccount.ui.widget.AccountInformation
 import io.snabble.pay.app.feature.newaccount.ui.widget.EditTextField
@@ -33,7 +35,7 @@ fun NewAccount(
     }
 
     AppBarLayout(
-        title = "Bankkonto",
+        title = stringResource(id = R.string.new_account_app_bar),
         onBackClick = { navigator?.navigateUp() }
     ) {
         Column(

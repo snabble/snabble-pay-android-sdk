@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import io.snabble.pay.app.R
@@ -33,7 +34,7 @@ fun DeleteButton(
         )
         Text(
             modifier = Modifier.padding(start = 8.dp),
-            text = "Bankverbindung löschen"
+            text = stringResource(id = R.string.details_delete_account)
         )
     }
 }

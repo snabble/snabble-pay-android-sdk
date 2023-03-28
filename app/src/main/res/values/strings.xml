@@ -4,8 +4,8 @@
     <string name="home_snabble">Snabble</string>
     <string name="home_pay">Pay</string>
     <string name="home_subtitle">The Future of Mobile Payment</string>
-    <string name="home_democard">Your Card could be here!</string>
-    <string name="home_democard_hint">Click on the add Button below and get started!</string>
+    <string name="home_democard">Your card could be here!</string>
+    <string name="home_democard_hint">Click on the add button below and get started!</string>
 
     <string name="mandate_accept">Accept Mandate</string>
     <string name="mandate_decline">Decline Mandate</string>
@@ -13,6 +13,11 @@
     <string name="mandate_declined">Mandate declined</string>
     <string name="mandate_pending">Mandate pending</string>
     <string name="mandate_required">Please accept the mandate to proceed.</string>
+
+    <string name="details_delete_account">Delete Account</string>
+
+    <string name="new_account_app_bar">Account</string>
+    <string name="new_account_owner">Account holder</string>
 
     <string name="error_reason">Error: %s</string>
     <string name="error_message">caused by: %s</string>

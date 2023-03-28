@@ -15,6 +15,12 @@
     <string name="mandate_pending">Sepa Mandat ausstehend</string>
     <string name="mandate_required">Bitte akzeptieren Sie das Mandat um fortzufahren.</string>
 
+    <string name="details_delete_account">Bankverbindung löschen</string>
+
+    <string name="new_account_app_bar">Bankkonto</string>
+    <string name="new_account_owner">Kontoinhaber</string>
+
+
     <string name="error_reason">Fehler: %s</string>
     <string name="error_message">Verursacht durch: %s</string>
     <string name="alert_message">OK</string>

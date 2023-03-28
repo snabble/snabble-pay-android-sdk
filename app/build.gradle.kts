@@ -66,7 +66,7 @@ android {
 }
 
 dependencies {
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.2")
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.1")
     implementation(project(":pay"))
     implementation(libs.bundles.accompanist)
 

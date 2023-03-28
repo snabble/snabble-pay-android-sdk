@@ -76,7 +76,6 @@ internal class AccountsRepositoryImplTest : FreeSpec({
             "that's failure if the request failed" {
                 coEvery {
                     service.getAccount(id = any())
-                } returns ApiError(exception = Exception())
                 } returns mockk<ApiError>(relaxed = true)
 
                 val sut = createSut()
@@ -85,55 +84,29 @@ internal class AccountsRepositoryImplTest : FreeSpec({
                 result.isSuccess.shouldBeFalse()
             }
         }
-    }
 
-    "::getAccountCheck" - {
 
-        "call the service's method w/ the given parameters" {
-            val sut = createSut()
-            sut.getAccountCheck(
-                appUri = "snabble-pay://sample",
-                city = "Bonn",
-                twoLetterIsoCountryCode = "DE"
-            )
+        "::getAccountCheck" - {
 
-            coVerify {
-                service.getAccountCheck(
+            "call the service's method w/ the given parameters" {
+                val sut = createSut()
+                sut.getAccountCheck(
                     appUri = "snabble-pay://sample",
                     city = "Bonn",
                     twoLetterIsoCountryCode = "DE"
                 )
+
+                coVerify {
+                    service.getAccountCheck(
+                        appUri = "snabble-pay://sample",
+                        city = "Bonn",
+                        twoLetterIsoCountryCode = "DE"
+                    )
+                }
             }
-        }
 
-        "maps the result from the service to the domain model" {
-            val accountCheckDtoMock: AccountCheckDto = mockk()
-            coEvery {
-                service.getAccountCheck(
-                    appUri = any(),
-                    city = any(),
-                    twoLetterIsoCountryCode = any()
-                )
-            } returns Success(
-                data = accountCheckDtoMock,
-                response = mockk()
-            )
-
-            val sut = createSut()
-            sut.getAccountCheck(
-                appUri = "snabble-pay://sample",
-                city = "Bonn",
-                twoLetterIsoCountryCode = "DE"
-            )
-
-            coVerify { accountCheckMapper.map(from = accountCheckDtoMock) }
-        }
-
-        "returns a Result" - {
-
-            "with the mapped object" {
-                val accountCheckMock: AccountCheck = mockk()
-                coEvery { accountCheckMapper.map(from = any()) } returns accountCheckMock
+            "maps the result from the service to the domain model" {
+                val accountCheckDtoMock: AccountCheckDto = mockk()
                 coEvery {
                     service.getAccountCheck(
                         appUri = any(),
@@ -141,153 +114,180 @@ internal class AccountsRepositoryImplTest : FreeSpec({
                         twoLetterIsoCountryCode = any()
                     )
                 } returns Success(
-                    data = mockk(),
+                    data = accountCheckDtoMock,
                     response = mockk()
                 )
 
                 val sut = createSut()
-                val result = sut.getAccountCheck(
+                sut.getAccountCheck(
                     appUri = "snabble-pay://sample",
                     city = "Bonn",
                     twoLetterIsoCountryCode = "DE"
                 )
 
-                result.isSuccess.shouldBeTrue()
-                result.getOrNull() shouldBe accountCheckMock
+                coVerify { accountCheckMapper.map(from = accountCheckDtoMock) }
             }
 
-            "that's failure if the request failed" {
-                coEvery {
-                    service.getAccountCheck(
-                        appUri = any(),
-                        city = any(),
-                        twoLetterIsoCountryCode = any()
+            "returns a Result" - {
+
+                "with the mapped object" {
+                    val accountCheckMock: AccountCheck = mockk()
+                    coEvery { accountCheckMapper.map(from = any()) } returns accountCheckMock
+                    coEvery {
+                        service.getAccountCheck(
+                            appUri = any(),
+                            city = any(),
+                            twoLetterIsoCountryCode = any()
+                        )
+                    } returns Success(
+                        data = mockk(),
+                        response = mockk()
                     )
-                } returns mockk<ApiError>(relaxed = true)
 
-                val sut = createSut()
-                val result = sut.getAccountCheck(
-                    appUri = "snabble-pay://sample",
-                    city = "Bonn",
-                    twoLetterIsoCountryCode = "DE"
-                )
+                    val sut = createSut()
+                    val result = sut.getAccountCheck(
+                        appUri = "snabble-pay://sample",
+                        city = "Bonn",
+                        twoLetterIsoCountryCode = "DE"
+                    )
 
-                result.isSuccess.shouldBeFalse()
-            }
-        }
-    }
-
-    "::getAccounts" - {
-
-        "call the service's method" {
-            val sut = createSut()
-            sut.getAccounts()
-
-            coVerify { service.getAccounts() }
-        }
-
-        "maps the result from the service to the domain model" {
-            val accountDtoMock: List<AccountDto> = listOf(mockk(), mockk())
-            coEvery {
-                service.getAccounts()
-            } returns Success(
-                data = accountDtoMock,
-                response = mockk()
-            )
-
-            val sut = createSut()
-            sut.getAccounts()
-
-            accountDtoMock.forEach { accountDto ->
-                coVerify { accountMapper.map(from = accountDto) }
-            }
-        }
-
-        "returns a Result" - {
-
-            "with the mapped object" {
-                val accountDtoListMock: List<AccountDto> = listOf(mockk(), mockk())
-                val accountListMock: List<Account> = listOf(mockk(), mockk())
-                accountDtoListMock.forEachIndexed { index, accountDto ->
-                    coEvery { accountMapper.map(from = accountDto) } returns accountListMock[index]
+                    result.isSuccess.shouldBeTrue()
+                    result.getOrNull() shouldBe accountCheckMock
                 }
+
+                "that's failure if the request failed" {
+                    coEvery {
+                        service.getAccountCheck(
+                            appUri = any(),
+                            city = any(),
+                            twoLetterIsoCountryCode = any()
+                        )
+                    } returns mockk<ApiError>(relaxed = true)
+
+                    val sut = createSut()
+                    val result = sut.getAccountCheck(
+                        appUri = "snabble-pay://sample",
+                        city = "Bonn",
+                        twoLetterIsoCountryCode = "DE"
+                    )
+
+                    result.isSuccess.shouldBeFalse()
+                }
+            }
+        }
+
+        "::getAccounts" - {
+
+            "call the service's method" {
+                val sut = createSut()
+                sut.getAccounts()
+
+                coVerify { service.getAccounts() }
+            }
+
+            "maps the result from the service to the domain model" {
+                val accountDtoMock: List<AccountDto> = listOf(mockk(), mockk())
                 coEvery {
                     service.getAccounts()
                 } returns Success(
-                    data = accountDtoListMock,
+                    data = accountDtoMock,
                     response = mockk()
                 )
 
                 val sut = createSut()
-                val result = sut.getAccounts()
+                sut.getAccounts()
 
-                result.isSuccess.shouldBeTrue()
-                result.getOrNull() shouldContainExactly accountListMock
+                accountDtoMock.forEach { accountDto ->
+                    coVerify { accountMapper.map(from = accountDto) }
+                }
             }
 
-            "that's failure if the request failed" {
-                coEvery { service.getAccounts() } returns mockk<ApiError>(relaxed = true)
+            "returns a Result" - {
 
+                "with the mapped object" {
+                    val accountDtoListMock: List<AccountDto> = listOf(mockk(), mockk())
+                    val accountListMock: List<Account> = listOf(mockk(), mockk())
+                    accountDtoListMock.forEachIndexed { index, accountDto ->
+                        coEvery { accountMapper.map(from = accountDto) } returns accountListMock[index]
+                    }
+                    coEvery {
+                        service.getAccounts()
+                    } returns Success(
+                        data = accountDtoListMock,
+                        response = mockk()
+                    )
+
+                    val sut = createSut()
+                    val result = sut.getAccounts()
+
+                    result.isSuccess.shouldBeTrue()
+                    result.getOrNull() shouldContainExactly accountListMock
+                }
+
+                "that's failure if the request failed" {
+                    coEvery { service.getAccounts() } returns mockk<ApiError>(relaxed = true)
+
+                    val sut = createSut()
+                    val result = sut.getAccounts()
+
+                    result.isSuccess.shouldBeFalse()
+                }
+            }
+        }
+
+        "::removeAccount" - {
+
+            "call the service's method w/ the given account id" {
                 val sut = createSut()
-                val result = sut.getAccounts()
+                sut.removeAccount(id = "a1")
 
-                result.isSuccess.shouldBeFalse()
+                coVerify { service.removeAccount(id = "a1") }
             }
-        }
-    }
 
-    "::removeAccount" - {
-
-        "call the service's method w/ the given account id" {
-            val sut = createSut()
-            sut.removeAccount(id = "a1")
-
-            coVerify { service.removeAccount(id = "a1") }
-        }
-
-        "maps the result from the service to the domain model" {
-            val accountDtoMock: AccountDto = mockk()
-            coEvery {
-                service.removeAccount(id = any())
-            } returns Success(
-                data = accountDtoMock,
-                response = mockk()
-            )
-
-            val sut = createSut()
-            sut.removeAccount(id = "a1")
-
-            coVerify { accountMapper.map(from = accountDtoMock) }
-        }
-
-        "returns a Result" - {
-
-            "with the mapped object" {
-                val accountMock: Account = mockk()
-                coEvery { accountMapper.map(from = any()) } returns accountMock
+            "maps the result from the service to the domain model" {
+                val accountDtoMock: AccountDto = mockk()
                 coEvery {
                     service.removeAccount(id = any())
                 } returns Success(
-                    data = mockk(),
+                    data = accountDtoMock,
                     response = mockk()
                 )
 
                 val sut = createSut()
-                val result = sut.removeAccount(id = "a1")
+                sut.removeAccount(id = "a1")
 
-                result.isSuccess.shouldBeTrue()
-                result.getOrNull() shouldBe accountMock
+                coVerify { accountMapper.map(from = accountDtoMock) }
             }
 
-            "that's failure if the request failed" {
-                coEvery {
-                    service.removeAccount(id = any())
-                } returns mockk<ApiError>(relaxed = true)
+            "returns a Result" - {
 
-                val sut = createSut()
-                val result = sut.removeAccount(id = "a1")
+                "with the mapped object" {
+                    val accountMock: Account = mockk()
+                    coEvery { accountMapper.map(from = any()) } returns accountMock
+                    coEvery {
+                        service.removeAccount(id = any())
+                    } returns Success(
+                        data = mockk(),
+                        response = mockk()
+                    )
 
-                result.isSuccess.shouldBeFalse()
+                    val sut = createSut()
+                    val result = sut.removeAccount(id = "a1")
+
+                    result.isSuccess.shouldBeTrue()
+                    result.getOrNull() shouldBe accountMock
+                }
+
+                "that's failure if the request failed" {
+                    coEvery {
+                        service.removeAccount(id = any())
+                    } returns mockk<ApiError>(relaxed = true)
+
+                    val sut = createSut()
+                    val result = sut.removeAccount(id = "a1")
+
+                    result.isSuccess.shouldBeFalse()
+                }
             }
         }
     }

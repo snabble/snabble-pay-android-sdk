@@ -85,7 +85,6 @@ internal class AccountsRepositoryImplTest : FreeSpec({
             }
         }
 
-
         "::getAccountCheck" - {
 
             "call the service's method w/ the given parameters" {

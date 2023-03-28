@@ -77,6 +77,7 @@ internal class AccountsRepositoryImplTest : FreeSpec({
                 coEvery {
                     service.getAccount(id = any())
                 } returns ApiError(exception = Exception())
+                } returns mockk<ApiError>(relaxed = true)
 
                 val sut = createSut()
                 val result = sut.getAccount(id = "a1")
@@ -162,7 +163,7 @@ internal class AccountsRepositoryImplTest : FreeSpec({
                         city = any(),
                         twoLetterIsoCountryCode = any()
                     )
-                } returns ApiError(exception = Exception())
+                } returns mockk<ApiError>(relaxed = true)
 
                 val sut = createSut()
                 val result = sut.getAccountCheck(
@@ -225,9 +226,7 @@ internal class AccountsRepositoryImplTest : FreeSpec({
             }
 
             "that's failure if the request failed" {
-                coEvery {
-                    service.getAccounts()
-                } returns ApiError(exception = Exception())
+                coEvery { service.getAccounts() } returns mockk<ApiError>(relaxed = true)
 
                 val sut = createSut()
                 val result = sut.getAccounts()
@@ -283,7 +282,7 @@ internal class AccountsRepositoryImplTest : FreeSpec({
             "that's failure if the request failed" {
                 coEvery {
                     service.removeAccount(id = any())
-                } returns ApiError(exception = Exception())
+                } returns mockk<ApiError>(relaxed = true)
 
                 val sut = createSut()
                 val result = sut.removeAccount(id = "a1")

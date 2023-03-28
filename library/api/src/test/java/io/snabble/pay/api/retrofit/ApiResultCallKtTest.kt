@@ -82,7 +82,7 @@ class ApiResultCallKtTest : FreeSpec({
 
                     val sut = response.toErrorResponse(json = Json)
 
-                    sut.error?.reason shouldBe Reason.UNKNOWN
+                    sut.error.reason shouldBe Reason.UNKNOWN
                 }
 
                 "w/ the rawMessage being the errorBody() if can be parsed" {
@@ -119,7 +119,7 @@ class ApiResultCallKtTest : FreeSpec({
 
         "decodes the enum ReasonDto value" - {
 
-            ReasonDto.values().size shouldBe 7
+            ReasonDto.values().size shouldBe 16
 
             fun mockResponse(code: Int, reason: String, message: String = "") =
                 mockk<Response<*>> {
@@ -135,16 +135,25 @@ class ApiResultCallKtTest : FreeSpec({
                     reason = "account_not_found"
                 ).toErrorResponse(json = Json)
 
-                sut.error?.reason shouldBe Reason.ACCOUNT_NOT_FOUND
+                sut.error.reason shouldBe Reason.ACCOUNT_NOT_FOUND
             }
 
-            "INVALID_CLIENT" {
+            "CUSTOMER_NOT_FOUND" {
                 val sut = mockResponse(
-                    code = 401,
-                    reason = "invalid_client"
+                    code = 404,
+                    reason = "customer_not_found"
                 ).toErrorResponse(json = Json)
 
-                sut.error?.reason shouldBe Reason.INVALID_CLIENT
+                sut.error.reason shouldBe Reason.CUSTOMER_NOT_FOUND
+            }
+
+            "INTERNAL_ERROR" {
+                val sut = mockResponse(
+                    code = 500,
+                    reason = "internal_error"
+                ).toErrorResponse(json = Json)
+
+                sut.error.reason shouldBe Reason.INTERNAL_ERROR
             }
 
             "INVALID_SESSION_STATE" {
@@ -153,10 +162,16 @@ class ApiResultCallKtTest : FreeSpec({
                     reason = "invalid_session_state"
                 ).toErrorResponse(json = Json)
 
-                sut.error?.reason shouldBe Reason.INVALID_SESSION_STATE
-                val exception = sut.exception
-                exception.shouldBeInstanceOf<HttpException>()
-                exception.code()
+                sut.error.reason shouldBe Reason.INVALID_SESSION_STATE
+            }
+
+            "INVALID_TRANSACTION_STATE" {
+                val sut = mockResponse(
+                    code = 400,
+                    reason = "invalid_transaction_state"
+                ).toErrorResponse(json = Json)
+
+                sut.error.reason shouldBe Reason.INVALID_TRANSACTION_STATE
             }
 
             "MANDATE_NOT_ACCEPTED" {
@@ -165,7 +180,16 @@ class ApiResultCallKtTest : FreeSpec({
                     reason = "mandate_not_accepted"
                 ).toErrorResponse(json = Json)
 
-                sut.error?.reason shouldBe Reason.MANDATE_NOT_ACCEPTED
+                sut.error.reason shouldBe Reason.MANDATE_NOT_ACCEPTED
+            }
+
+            "SESSION_HAS_TRANSACTION" {
+                val sut = mockResponse(
+                    code = 400,
+                    reason = "session_has_transaction"
+                ).toErrorResponse(json = Json)
+
+                sut.error.reason shouldBe Reason.SESSION_HAS_TRANSACTION
             }
 
             "SESSION_NOT_FOUND" {
@@ -174,7 +198,43 @@ class ApiResultCallKtTest : FreeSpec({
                     reason = "session_not_found"
                 ).toErrorResponse(json = Json)
 
-                sut.error?.reason shouldBe Reason.SESSION_NOT_FOUND
+                sut.error.reason shouldBe Reason.SESSION_NOT_FOUND
+            }
+
+            "SESSION_TOKEN_EXPIRED" {
+                val sut = mockResponse(
+                    code = 400,
+                    reason = "session_token_expired"
+                ).toErrorResponse(json = Json)
+
+                sut.error.reason shouldBe Reason.SESSION_TOKEN_EXPIRED
+            }
+
+            "TOKEN_NOT_FOUND" {
+                val sut = mockResponse(
+                    code = 404,
+                    reason = "token_not_found"
+                ).toErrorResponse(json = Json)
+
+                sut.error.reason shouldBe Reason.TOKEN_NOT_FOUND
+            }
+
+            "TRANSACTION_ALREADY_STARTED" {
+                val sut = mockResponse(
+                    code = 400,
+                    reason = "transaction_already_started"
+                ).toErrorResponse(json = Json)
+
+                sut.error.reason shouldBe Reason.TRANSACTION_ALREADY_STARTED
+            }
+
+            "TRANSACTION_NOT_FOUND" {
+                val sut = mockResponse(
+                    code = 404,
+                    reason = "transaction_not_found"
+                ).toErrorResponse(json = Json)
+
+                sut.error.reason shouldBe Reason.TRANSACTION_NOT_FOUND
             }
 
             "UNAUTHORIZED" {
@@ -183,7 +243,16 @@ class ApiResultCallKtTest : FreeSpec({
                     reason = "unauthorized"
                 ).toErrorResponse(json = Json)
 
-                sut.error?.reason shouldBe Reason.UNAUTHORIZED
+                sut.error.reason shouldBe Reason.UNAUTHORIZED
+            }
+
+            "USER_NOT_FOUND" {
+                val sut = mockResponse(
+                    code = 404,
+                    reason = "user_not_found"
+                ).toErrorResponse(json = Json)
+
+                sut.error.reason shouldBe Reason.USER_NOT_FOUND
             }
 
             "VALIDATION_ERROR" {
@@ -192,16 +261,16 @@ class ApiResultCallKtTest : FreeSpec({
                     reason = "validation_error"
                 ).toErrorResponse(json = Json)
 
-                sut.error?.reason shouldBe Reason.VALIDATION_ERROR
+                sut.error.reason shouldBe Reason.VALIDATION_ERROR
             }
 
-            "that's not known to UKNOWN" {
+            "that's not known to UNKNOWN" {
                 val sut = mockResponse(
                     code = 400,
                     reason = "some_new"
                 ).toErrorResponse(json = Json)
 
-                sut.error?.reason shouldBe Reason.UNKNOWN
+                sut.error.reason shouldBe Reason.UNKNOWN
             }
         }
     }

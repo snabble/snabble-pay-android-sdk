@@ -89,7 +89,7 @@ internal class SessionRepositoryImplTest : FreeSpec({
             "that's failure if the request failed" {
                 coEvery {
                     service.createSession(accountId = any())
-                } returns ApiError(exception = Exception())
+                } returns mockk<ApiError>(relaxed = true)
 
                 val sut = createSut()
                 val result = sut.createSession(accountId = "a1")
@@ -145,7 +145,7 @@ internal class SessionRepositoryImplTest : FreeSpec({
             "that's failure if the request failed" {
                 coEvery {
                     service.deleteSession(sessionId = any())
-                } returns ApiError(exception = Exception())
+                } returns mockk<ApiError>(relaxed = true)
 
                 val sut = createSut()
                 val result = sut.deleteSession(id = "s1")
@@ -201,7 +201,7 @@ internal class SessionRepositoryImplTest : FreeSpec({
             "that's failure if the request failed" {
                 coEvery {
                     service.getSession(sessionId = any())
-                } returns ApiError(exception = Exception())
+                } returns mockk<ApiError>(relaxed = true)
 
                 val sut = createSut()
                 val result = sut.getSession(id = "s1")
@@ -258,9 +258,7 @@ internal class SessionRepositoryImplTest : FreeSpec({
             }
 
             "that's failure if the request failed" {
-                coEvery {
-                    service.getSessions()
-                } returns ApiError(exception = Exception())
+                coEvery { service.getSessions() } returns mockk<ApiError>(relaxed = true)
 
                 val sut = createSut()
                 val result = sut.getSessions()
@@ -316,7 +314,7 @@ internal class SessionRepositoryImplTest : FreeSpec({
             "that's failure if the request failed" {
                 coEvery {
                     service.updateToken(sessionId = any())
-                } returns ApiError(exception = Exception())
+                } returns mockk<ApiError>(relaxed = true)
 
                 val sut = createSut()
                 val result = sut.updateToken(sessionId = "s1")

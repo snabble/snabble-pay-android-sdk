@@ -4,4 +4,4 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-internal data class AccountIdDto(@SerialName("accountId") val accountId: String)
+internal data class AccountIdDto(@SerialName("accountId") val id: String)

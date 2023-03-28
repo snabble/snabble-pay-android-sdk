@@ -97,9 +97,13 @@ tasks.dokkaHtmlMultiModule {
 
     suppressInheritedMembers.set(true)
 
-    includes.from("README.md")
+    includes.from("Module.md")
 
-    pluginConfiguration<org.jetbrains.dokka.base.DokkaBase, org.jetbrains.dokka.base.DokkaBaseConfiguration> {
-        footerMessage = "© ${java.time.Year.now()} snabble GmbH"
-    }
+    pluginsMapConfiguration.set(
+        mapOf(
+            "org.jetbrains.dokka.base.DokkaBase" to """{
+              "footerMessage": "© ${java.time.Year.now()} snabble GmbH"
+            }"""
+        )
+    )
 }

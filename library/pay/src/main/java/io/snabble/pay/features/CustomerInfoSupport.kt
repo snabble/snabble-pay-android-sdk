@@ -6,6 +6,7 @@ import io.snabble.pay.customerinfo.domain.usecase.CreateCustomerInfoUseCase
 import io.snabble.pay.customerinfo.domain.usecase.GetCustomerInfoUseCase
 import io.snabble.pay.customerinfo.domain.usecase.RemoveCustomerInfoUseCase
 
+/** @suppress Dokka */
 interface CustomerInfoSupport {
 
     suspend fun sendCustomerInfo(id: String?, loyaltyId: String?): Result<CustomerInfo>
@@ -15,7 +16,7 @@ interface CustomerInfoSupport {
     suspend fun removeCustomerInfo(): Result<CustomerInfo>
 }
 
-class CustomerInfoSupportImpl(
+internal class CustomerInfoSupportImpl(
     private val createInfo: CreateCustomerInfoUseCase,
     private val getInfo: GetCustomerInfoUseCase,
     private val removeInfo: RemoveCustomerInfoUseCase,

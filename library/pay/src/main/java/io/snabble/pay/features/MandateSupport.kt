@@ -7,6 +7,7 @@ import io.snabble.pay.mandate.domain.usecase.CreateMandateUseCase
 import io.snabble.pay.mandate.domain.usecase.GetMandateUseCase
 import io.snabble.pay.mandate.domain.usecase.RespondToMandateUseCase
 
+/** @suppress Dokka */
 interface MandateSupport {
 
     suspend fun createMandate(accountId: String): Result<Mandate>
@@ -18,7 +19,7 @@ interface MandateSupport {
     suspend fun declineMandate(accountId: String, mandateId: String): Result<Mandate>
 }
 
-class MandateSupportImpl(
+internal class MandateSupportImpl(
     private val requestMandate: CreateMandateUseCase,
     private val getMandateState: GetMandateUseCase,
     private val sendMandateResponse: RespondToMandateUseCase,

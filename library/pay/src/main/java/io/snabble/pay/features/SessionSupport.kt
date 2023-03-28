@@ -9,6 +9,7 @@ import io.snabble.pay.session.domain.usecase.GetAllSessionsUseCase
 import io.snabble.pay.session.domain.usecase.GetSessionUseCase
 import io.snabble.pay.session.domain.usecase.UpdateSessionTokenUseCase
 
+/** @suppress Dokka */
 interface SessionSupport {
 
     suspend fun createNewSession(accountId: String): Result<Session>
@@ -22,7 +23,7 @@ interface SessionSupport {
     suspend fun updateSessionToken(sessionId: String): Result<SessionToken>
 }
 
-class SessionSupportImpl(
+internal class SessionSupportImpl(
     private val createSession: CreateSessionUseCase,
     private val deleteSpecificSession: DeleteSessionUseCase,
     private val getSessions: GetAllSessionsUseCase,

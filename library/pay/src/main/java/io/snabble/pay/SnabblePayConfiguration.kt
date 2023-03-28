@@ -62,9 +62,9 @@ class SnabblePayConfiguration private constructor() {
         koin = koinApplication.koin
     }
 
-    companion object {
+    internal companion object {
 
-        internal fun init(
+        fun init(
             context: Context,
             setup: SnabblePayConfiguration.() -> Unit,
         ): SnabblePayConfiguration =

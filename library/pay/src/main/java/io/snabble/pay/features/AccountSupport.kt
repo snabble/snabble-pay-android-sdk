@@ -8,6 +8,7 @@ import io.snabble.pay.account.domain.usecase.GetSpecificAccountUseCase
 import io.snabble.pay.account.domain.usecase.RemoveAccountUseCase
 import io.snabble.pay.core.util.Result
 
+/** @suppress Dokka */
 interface AccountSupport {
 
     suspend fun addNewAccount(
@@ -23,7 +24,7 @@ interface AccountSupport {
     suspend fun removeAccount(id: String): Result<Account>
 }
 
-class AccountSupportImpl(
+internal class AccountSupportImpl(
     private val getAccountCheck: CreateAccountCheckUseCase,
     private val getAllAccounts: GetAllAccountsUseCase,
     private val getSpecificAccount: GetSpecificAccountUseCase,

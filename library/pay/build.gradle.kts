@@ -1,5 +1,7 @@
 @file:Suppress("UnstableApiUsage")
 
+import java.time.Year
+
 @Suppress("DSL_SCOPE_VIOLATION") plugins {
     id(libs.plugins.android.library.get().pluginId)
     id(libs.plugins.kotlin.android.get().pluginId)
@@ -75,4 +77,21 @@ dependencies {
     androidTestImplementation(libs.bundles.testing.android)
 
     androidTestRuntimeOnly(libs.test.junit5.androidTestRunner)
+}
+
+tasks.dokkaHtmlPartial {
+    dokkaSourceSets {
+        named("main") {
+            moduleName.set("SnabblePay")
+            includes.from("Module.md")
+        }
+    }
+
+    pluginsMapConfiguration.set(
+        mapOf(
+            "org.jetbrains.dokka.base.DokkaBase" to """{
+              "footerMessage": "© ${Year.now()} snabble GmbH"
+            }"""
+        )
+    )
 }

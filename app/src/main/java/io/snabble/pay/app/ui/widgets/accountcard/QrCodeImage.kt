@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
@@ -26,7 +27,8 @@ fun QrCodeImage(
         Icon(
             modifier = modifier,
             imageVector = ImageVector.vectorResource(id = R.drawable.ic_snabble_qrcode),
-            contentDescription = ""
+            contentDescription = "",
+            tint = Color(android.graphics.Color.parseColor("#79747E"))
         )
     }
 }

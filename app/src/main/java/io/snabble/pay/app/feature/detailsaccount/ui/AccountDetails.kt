@@ -12,10 +12,8 @@ import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
@@ -45,7 +43,9 @@ fun AccountDetails(
     onLabelChange: (label: String, colors: List<String>) -> Unit,
     onDeleteAccount: () -> Unit,
 ) {
-    var cardName by rememberSaveable { mutableStateOf(accountCard.name) }
+    val cardName = rememberSaveable(inputs = arrayOf(accountCard.name)) {
+        mutableStateOf(accountCard.name)
+    }
 
     AppBarLayout(
         title = "",
@@ -60,9 +60,9 @@ fun AccountDetails(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp),
-                value = cardName,
-                onValueChange = { cardName = it },
-                onAction = { onLabelChange(cardName, accountCard.cardBackgroundColor) }
+                value = cardName.value,
+                onValueChange = { cardName.value = it },
+                onAction = { onLabelChange(cardName.value, accountCard.cardBackgroundColor) }
             )
             Spacer(modifier = Modifier.height(16.dp))
             Box(modifier = Modifier.fillMaxWidth()) {

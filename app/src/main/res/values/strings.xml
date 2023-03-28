@@ -12,6 +12,7 @@
     <string name="mandate_accepted">Mandate accepted</string>
     <string name="mandate_declined">Mandate declined</string>
     <string name="mandate_pending">Mandate pending</string>
+    <string name="mandate_required">Please accept the mandate to proceed.</string>
 
     <string name="error_reason">Error: %s</string>
     <string name="error_message">caused by: %s</string>

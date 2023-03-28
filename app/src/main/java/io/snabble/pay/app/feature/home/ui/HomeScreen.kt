@@ -1,6 +1,7 @@
 package io.snabble.pay.app.feature.home.ui
 
 import android.os.Build
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -23,6 +24,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import io.snabble.pay.app.R
 import io.snabble.pay.app.data.utils.ErrorResponse
 import io.snabble.pay.app.feature.destinations.AccountDetailsScreenDestination
 import io.snabble.pay.app.feature.detailsaccount.ui.AccountDetailsScreenNavArgs
@@ -34,6 +36,7 @@ import io.snabble.pay.app.feature.home.ui.widget.DemoCard
 import io.snabble.pay.app.ui.widgets.AlertWidget
 import io.snabble.pay.app.ui.widgets.accountcard.AccountCardPager
 import io.snabble.pay.app.utils.browseUrl
+import io.snabble.pay.core.Reason
 
 @RequiresApi(Build.VERSION_CODES.O)
 @RootNavGraph(start = true)
@@ -57,7 +60,17 @@ fun HomeScreen(
 
     LaunchedEffect(Unit) {
         homeViewModel.error.collect {
-            openDialog.value = true
+            if (it?.reason == Reason.MANDATE_NOT_ACCEPTED) {
+                Toast
+                    .makeText(
+                        context,
+                        context.getText(R.string.mandate_required),
+                        Toast.LENGTH_SHORT
+                    )
+                    .show()
+            } else {
+                openDialog.value = true
+            }
         }
     }
 

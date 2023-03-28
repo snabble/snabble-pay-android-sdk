@@ -58,10 +58,6 @@ class DetailsAccountViewModel @Inject constructor(
     val accountId: String = requireNotNull(savedStateHandle["accountId"])
     private var sessionRefreshJob: Job? = null
 
-    init {
-        getAccount(accountId)
-    }
-
     private fun getAccount(accountId: String) {
         viewModelScope.launch {
             getAccountCard(accountId)
@@ -72,7 +68,6 @@ class DetailsAccountViewModel @Inject constructor(
                     }
                     val mandate = getMandateFor(accountId)
 
-                    updateAccountName(account.name, account.cardBackgroundColor)
                     _uiState.tryEmit(ShowAccount(account, mandate))
                     loadSessionToken()
                 }
@@ -160,6 +155,10 @@ class DetailsAccountViewModel @Inject constructor(
                 .onError { _error.emit(it) }
                 .onSuccess { _uiState.tryEmit(AccountDeleted(it)) }
         }
+    }
+
+    override fun onStart(owner: LifecycleOwner) {
+        getAccount(accountId)
     }
 
     override fun onPause(owner: LifecycleOwner) {

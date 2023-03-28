@@ -13,6 +13,7 @@
     <string name="mandate_accepted">Sepa Mandat erteilt</string>
     <string name="mandate_declined">Sepa Mandat abgelehnt</string>
     <string name="mandate_pending">Sepa Mandat ausstehend</string>
+    <string name="mandate_required">Bitte akzeptieren Sie das Mandat um fortzufahren.</string>
 
     <string name="error_reason">Fehler: %s</string>
     <string name="error_message">Verursacht durch: %s</string>

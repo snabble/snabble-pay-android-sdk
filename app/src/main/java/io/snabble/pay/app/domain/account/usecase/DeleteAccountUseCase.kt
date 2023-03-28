@@ -7,4 +7,3 @@ fun interface DeleteAccountUseCase {
 
     suspend operator fun invoke(accountId: String): AppResult<AccountCard>
 }
-

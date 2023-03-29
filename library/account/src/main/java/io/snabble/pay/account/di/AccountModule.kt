@@ -15,6 +15,7 @@ import org.koin.dsl.bind
 import org.koin.dsl.module
 import retrofit2.Retrofit
 
+/** @suppress Dokka */
 val accountModule = module {
     factory { CreateAccountCheckUseCase(get<AccountsRepository>()::getAccountCheck) }
     factory { GetSpecificAccountUseCase(get<AccountsRepository>()::getAccount) }

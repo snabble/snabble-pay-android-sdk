@@ -18,6 +18,7 @@ import org.koin.dsl.bind
 import org.koin.dsl.module
 import retrofit2.Retrofit
 
+/** @suppress Dokka */
 val sessionModule = module {
     factory { CreateSessionUseCase(get<SessionRepository>()::createSession) }
     factory { DeleteSessionUseCase(get<SessionRepository>()::deleteSession) }

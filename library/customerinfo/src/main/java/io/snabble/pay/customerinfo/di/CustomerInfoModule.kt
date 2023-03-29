@@ -13,6 +13,7 @@ import org.koin.dsl.bind
 import org.koin.dsl.module
 import retrofit2.Retrofit
 
+/** @suppress Dokka */
 val customerInfoModule = module {
     factory { CreateCustomerInfoUseCase(get<CustomerInfoRepository>()::createCustomerInfo) }
     factory { GetCustomerInfoUseCase(get<CustomerInfoRepository>()::getCustomerInfo) }

@@ -7,7 +7,6 @@ import io.snabble.pay.mandate.domain.usecase.CreateMandateUseCase
 import io.snabble.pay.mandate.domain.usecase.GetMandateUseCase
 import io.snabble.pay.mandate.domain.usecase.RespondToMandateUseCase
 
-
 /**
  * Interface with features related to the mandate, providing functions
  * to create, accept or deny a given mandate.

@@ -13,5 +13,6 @@ io.snabble.pay.mandate.domain.model
 module:SnabblePay
 io.snabble.pay
 io.snabble.pay.dsl
+io.snabble.pay.features
 module:Session
 io.snabble.pay.session.domain.model

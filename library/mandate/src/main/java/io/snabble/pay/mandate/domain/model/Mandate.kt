@@ -6,7 +6,7 @@ package io.snabble.pay.mandate.domain.model
  * A Mandate's property is optional, since it is not required if the mandate is already accepted or declined.
  *
  * @property htmlText Mandate terms to accepted or declined
- * @property id ID associated with this mandate
+ * @property id Unique identifier for the mandate
  * @property state Current state of the mandate, e.g.
  * [PENDING](io.snabble.pay.mandate.domain.model.MandateState.PENDING),
  * [ACCEPTED](io.snabble.pay.mandate.domain.model.MandateState.ACCEPTED) or

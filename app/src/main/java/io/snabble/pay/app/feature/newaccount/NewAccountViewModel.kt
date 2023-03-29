@@ -58,6 +58,9 @@ class NewAccountViewModel @Inject constructor(
                     } else {
                         getMandateFor(accountId)
                     }
+
+                updateAccountName(account.name, account.cardBackgroundColor)
+
                 _uiState.tryEmit(ShowAccount(account, mandate))
             }
     }

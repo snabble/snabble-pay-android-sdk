@@ -3,9 +3,9 @@ package io.snabble.pay.account.domain.model
 /**
  * Represents the state of a Mandate.
  *
- * The initial mandate state of a new bank account is [MISSING]. If a new mandate has been created
- * but has been neither accepted nor declined, the state is [PENDING]. After it has been accepted
- * or declined it is in its final state [ACCEPTED] or [DECLINED].
+ * If a new mandate has been created but has been neither accepted nor declined, the state is
+ * [PENDING]. After it has been accepted or declined it is in its final state [ACCEPTED] or
+ * [DECLINED]. If there is no mandate for the account the state is [MISSING].
  */
 enum class MandateState {
 
@@ -25,7 +25,7 @@ enum class MandateState {
     MISSING,
 
     /**
-     * Initial state for a new mandate.
+     * State for not yet accepted or declined mandate.
      */
     PENDING,
 }

@@ -1,9 +1,17 @@
 $dokka.format:html-v1
 $dokka.linkExtension:html
 
+module:Account
+io.snabble.pay.account.domain.model
 module:Core
 io.snabble.pay.core
 io.snabble.pay.core.util
+module:CustomerInfo
+io.snabble.pay.customerinfo.domain.model
+module:Mandate
+io.snabble.pay.mandate.domain.model
 module:SnabblePay
 io.snabble.pay
 io.snabble.pay.dsl
+module:Session
+io.snabble.pay.session.domain.model

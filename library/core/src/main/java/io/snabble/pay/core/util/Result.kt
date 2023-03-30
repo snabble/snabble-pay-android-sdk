@@ -39,9 +39,8 @@ sealed class Result<out T> {
             Failure(exception, error)
     }
 }
-/**
- * Represents a result that succeeded, containing the requested object
- */
+
+/** Represents a result that succeeded, containing the requested object */
 data class Success<T>(val value: T) : Result<T>()
 
 /**

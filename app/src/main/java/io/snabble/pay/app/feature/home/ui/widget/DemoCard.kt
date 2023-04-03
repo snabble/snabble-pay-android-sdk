@@ -65,8 +65,7 @@ fun DemoCard(modifier: Modifier) {
                 text = stringResource(id = R.string.home_democard_hint),
                 color = Color.Black,
                 fontWeight = FontWeight.Bold,
-                style = MaterialTheme.typography.bodySmall,
-                letterSpacing = 1.5.sp,
+                style = MaterialTheme.typography.labelMedium,
                 textAlign = TextAlign.Center
 
             )

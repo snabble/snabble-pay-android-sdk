@@ -55,7 +55,8 @@ fun AccountCard(
             QrCodeImage(
                 modifier = Modifier
                     .size(width = 100.dp, height = 100.dp),
-                qrCodeToken = qrCodeString
+                qrCodeToken = qrCodeString,
+                isMandatePending = accountCard.mandateState == MandateState.PENDING
             )
             Spacer(modifier = Modifier.height(16.dp))
             CardInformation(

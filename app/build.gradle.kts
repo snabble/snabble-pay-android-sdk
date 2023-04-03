@@ -105,6 +105,7 @@ dependencies {
 
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
+    implementation("com.airbnb.android:lottie-compose:6.0.0")
 
     // Room
     implementation(libs.room.runtime)

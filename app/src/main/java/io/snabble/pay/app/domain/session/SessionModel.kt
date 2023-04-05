@@ -1,6 +1,8 @@
 package io.snabble.pay.app.domain.session
 
 import android.os.Parcelable
+import io.snabble.pay.app.domain.account.AccountCard
+import io.snabble.pay.app.domain.account.toAccountCard
 import io.snabble.pay.session.domain.model.Session
 import io.snabble.pay.session.domain.model.SessionToken
 import io.snabble.pay.session.domain.model.Transaction
@@ -13,6 +15,7 @@ import java.time.ZonedDateTime
 @Parcelize
 data class SessionModel(
     val id: String,
+    val accountCard: AccountCard,
     val token: SessionTokenModel,
     val transaction: TransactionModel?,
 ) : Parcelable {
@@ -21,6 +24,7 @@ data class SessionModel(
 
         fun from(session: Session) = SessionModel(
             id = session.id,
+            accountCard = session.account.toAccountCard(null, emptyList()),
             token = SessionTokenModel.from(session.token),
             transaction = TransactionModel.from(session.transaction)
         )

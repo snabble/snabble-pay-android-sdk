@@ -1,11 +1,11 @@
-package io.snabble.pay.account.data.dto
+package io.snabble.pay.shared.account.data.dto
 
 import io.snabble.pay.api.util.ZonedDateTimeAsText
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-internal data class AccountDto(
+data class AccountDto(
     @SerialName("bank") val bank: String,
     @SerialName("createdAt") val createdAt: ZonedDateTimeAsText,
     @SerialName("currencyCode") val currencyCode: String,

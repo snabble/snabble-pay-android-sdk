@@ -1,4 +1,4 @@
-package io.snabble.pay.account.domain.model
+package io.snabble.pay.shared.account.domain.model
 
 enum class MandateState {
     ACCEPTED,

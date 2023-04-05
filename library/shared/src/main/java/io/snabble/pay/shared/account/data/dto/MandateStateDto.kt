@@ -1,8 +1,8 @@
-package io.snabble.pay.account.data.dto
+package io.snabble.pay.shared.account.data.dto
 
 import kotlinx.serialization.SerialName
 
-internal enum class MandateStateDto {
+enum class MandateStateDto {
 
     @SerialName("ACCEPTED") ACCEPTED,
 

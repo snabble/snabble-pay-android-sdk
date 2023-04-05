@@ -6,8 +6,10 @@ import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
-import io.snabble.pay.account.data.dto.AccountDto
-import io.snabble.pay.account.domain.model.MandateState
+import io.snabble.pay.shared.account.data.dto.AccountDto
+import io.snabble.pay.shared.account.domain.model.MandateState
+import io.snabble.pay.shared.account.data.mapper.AccountMapper
+import io.snabble.pay.shared.account.data.mapper.MandateStateMapper
 import java.time.ZonedDateTime
 
 internal class AccountMapperTest : FreeSpec({

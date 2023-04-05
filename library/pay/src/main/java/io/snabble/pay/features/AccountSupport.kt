@@ -1,12 +1,12 @@
 package io.snabble.pay.features
 
-import io.snabble.pay.account.domain.model.Account
 import io.snabble.pay.account.domain.model.AccountCheck
 import io.snabble.pay.account.domain.usecase.CreateAccountCheckUseCase
 import io.snabble.pay.account.domain.usecase.GetAllAccountsUseCase
 import io.snabble.pay.account.domain.usecase.GetSpecificAccountUseCase
 import io.snabble.pay.account.domain.usecase.RemoveAccountUseCase
 import io.snabble.pay.core.util.Result
+import io.snabble.pay.shared.account.domain.model.Account
 
 interface AccountSupport {
 

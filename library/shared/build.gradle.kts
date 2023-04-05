@@ -8,7 +8,7 @@
 }
 
 android {
-    namespace = "io.snabble.pay.account"
+    namespace = "io.snabble.pay.shared"
     compileSdk = libs.versions.sdk.compile.get().toInt()
 
     defaultConfig {
@@ -46,13 +46,7 @@ android {
 }
 
 dependencies {
-    coreLibraryDesugaring(libs.android.desugarJdkLibs)
-
     implementation(project(":api"))
-    implementation(project(":core"))
-    implementation(project(":shared"))
-
-    implementation(libs.kotlinx.coroutinesCore)
 
     implementation(libs.kotlin.serialization)
 

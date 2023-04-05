@@ -20,8 +20,9 @@ class GetCurrentSessionUseCaseImpl @Inject constructor(
         return when (val result = getSessionsUseCase()) {
             is AppError -> AppError(result.value)
             is AppSuccess -> {
-                if (result.value.isNotEmpty()) {
-                    AppSuccess(result.value.first())
+                val sessionModel = result.value.find { it.accountCard.accountId == accountId }
+                if (sessionModel != null) {
+                    AppSuccess(sessionModel)
                 } else {
                     createSessionUseCase(accountId)
                 }

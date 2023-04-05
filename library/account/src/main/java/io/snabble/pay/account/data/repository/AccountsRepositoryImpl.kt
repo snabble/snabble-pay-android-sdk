@@ -1,12 +1,12 @@
 package io.snabble.pay.account.data.repository
 
 import io.snabble.pay.account.data.mapper.AccountCheckMapper
-import io.snabble.pay.shared.account.data.mapper.AccountMapper
 import io.snabble.pay.account.data.service.AccountService
 import io.snabble.pay.account.domain.model.AccountCheck
 import io.snabble.pay.account.domain.repository.AccountsRepository
 import io.snabble.pay.api.util.toResult
 import io.snabble.pay.core.util.Result
+import io.snabble.pay.shared.account.data.mapper.AccountMapper
 import io.snabble.pay.shared.account.domain.model.Account
 
 internal class AccountsRepositoryImpl(

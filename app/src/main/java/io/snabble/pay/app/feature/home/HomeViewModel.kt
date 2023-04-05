@@ -1,6 +1,5 @@
 package io.snabble.pay.app.feature.home
 
-import android.util.Log
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModel
@@ -71,9 +70,7 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             loadSessionFor(accountId)
                 .onError { _error.emit(it) }
-                .onSuccess {
-                    Log.d("xx", "setActiveAccountCard: $it ")
-                    updateAccountsAndStartAutoRefresh(accountId, it) }
+                .onSuccess { updateAccountsAndStartAutoRefresh(accountId, it) }
         }
     }
 

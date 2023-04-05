@@ -15,7 +15,7 @@ class AccountModuleTest : FreeSpec(), KoinTest {
     override fun extensions(): List<Extension> = listOf(
         KoinExtension(
             listOf(
-                sharedModule,
+                sharedModule
             )
         )
     )

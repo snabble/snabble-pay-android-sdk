@@ -19,7 +19,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-import io.snabble.pay.account.domain.model.MandateState
 import io.snabble.pay.app.domain.account.AccountCard
 import io.snabble.pay.app.domain.account.utils.GradiantGenerator
 import io.snabble.pay.app.feature.destinations.HomeScreenDestination
@@ -34,6 +33,7 @@ import io.snabble.pay.app.ui.theme.SnabblePayTheme
 import io.snabble.pay.app.ui.widgets.accountcard.AccountCard
 import io.snabble.pay.mandate.domain.model.Mandate
 import io.snabble.pay.mandate.domain.model.MandateState.PENDING
+import io.snabble.pay.shared.account.domain.model.MandateState
 
 @Composable
 fun AccountDetails(

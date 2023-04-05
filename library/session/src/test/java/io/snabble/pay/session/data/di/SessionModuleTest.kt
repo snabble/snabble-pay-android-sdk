@@ -18,6 +18,7 @@ import io.snabble.pay.session.domain.usecase.DeleteSessionUseCase
 import io.snabble.pay.session.domain.usecase.GetAllSessionsUseCase
 import io.snabble.pay.session.domain.usecase.GetSessionUseCase
 import io.snabble.pay.session.domain.usecase.UpdateSessionTokenUseCase
+import io.snabble.pay.shared.account.di.sharedModule
 import org.koin.dsl.module
 import org.koin.test.KoinTest
 import org.koin.test.get
@@ -29,6 +30,7 @@ class SessionModuleTest : FreeSpec(), KoinTest {
         KoinExtension(
             listOf(
                 sessionModule,
+                sharedModule,
                 module {
                     single {
                         mockk<Retrofit> {

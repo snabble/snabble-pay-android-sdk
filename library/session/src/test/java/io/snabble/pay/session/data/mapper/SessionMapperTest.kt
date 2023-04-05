@@ -8,14 +8,18 @@ import io.mockk.mockk
 import io.snabble.pay.session.data.dto.SessionDto
 import io.snabble.pay.session.domain.model.SessionToken
 import io.snabble.pay.session.domain.model.Transaction
+import io.snabble.pay.shared.account.data.mapper.AccountMapper
+import io.snabble.pay.shared.account.domain.model.Account
 import java.time.ZonedDateTime
 
 internal class SessionMapperTest : FreeSpec({
 
     val tokenMapper = mockk<TokenMapper>(relaxed = true)
     val transactionMapper = mockk<TransactionMapper>(relaxed = true)
+    val accountMapper = mockk<AccountMapper>(relaxed = true)
 
     fun createSut(): SessionMapper = SessionMapper(
+        accountMapper = accountMapper,
         tokenMapper = tokenMapper,
         transactionMapper = transactionMapper
     )
@@ -46,6 +50,15 @@ internal class SessionMapperTest : FreeSpec({
             val sut = createSut()
 
             sut.map(sessionDto).id shouldBe sessionId
+        }
+
+        "account" {
+            val account = mockk<Account>(relaxed = true)
+            every { accountMapper.map(any()) } returns account
+
+            val sut = createSut()
+
+            sut.map(mockk(relaxed = true)).account shouldBe account
         }
 
         "token" {

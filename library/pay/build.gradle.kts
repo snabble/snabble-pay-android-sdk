@@ -57,6 +57,7 @@ dependencies {
 
     implementation(project(":api"))
     api(project(":core"))
+    api(project(":shared"))
     implementation(project(":network"))
 
     implementation(libs.androidx.appcompat)

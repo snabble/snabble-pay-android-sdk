@@ -14,38 +14,27 @@ import org.koin.dsl.module
 
 class SnabblePayConfiguration private constructor() {
 
-    internal var appCredentials: AppCredentials? = null
-        private set
+    var appIdentifier: String? = null
 
-    internal var baseUrl = "https://payment.snabble.io"
-        private set
+    var appSecret: String? = null
 
-    internal lateinit var snabblePayKey: String
-        private set
+    var baseUrl = "https://payment.snabble.io"
 
-    internal var onNewAppCredentialsCallback: SnabblePayAppCredentialsCallback? = null
-        private set
+    lateinit var snabblePayKey: String
+
+    var onNewAppCredentialsCallback: SnabblePayAppCredentialsCallback? = null
 
     internal lateinit var koin: Koin
 
-    fun setAppCredentials(appId: String, appSecret: String) {
-        appCredentials = AppCredentials(id = AppIdentifier(appId), secret = AppSecret(appSecret))
-    }
-
-    fun setBaseUrl(url: String) {
-        baseUrl = url
-    }
-
-    fun setOnNewAppCredentialsCallback(callback: SnabblePayAppCredentialsCallback) {
-        onNewAppCredentialsCallback = callback
-    }
-
-    fun setSnabblePayKey(snabblePayKey: String) {
-        this.snabblePayKey = snabblePayKey
-    }
+    internal val appCredentials: AppCredentials?
+        get() {
+            val id = appIdentifier ?: return null
+            val secret = appSecret ?: return null
+            return AppCredentials(id = AppIdentifier(id), secret = AppSecret(secret))
+        }
 
     private fun ensureSnabblePayKeyOrThrow() {
-        assert(this::snabblePayKey.isInitialized) { "SnabblePayKey must be set." }
+        assert(::snabblePayKey.isInitialized) { "SnabblePayKey must be set." }
     }
 
     private fun setupDi(context: Context) {
@@ -62,17 +51,15 @@ class SnabblePayConfiguration private constructor() {
         koin = koinApplication.koin
     }
 
-    internal companion object {
+    companion object {
 
-        fun init(
+        internal fun create(
             context: Context,
-            setup: SnabblePayConfiguration.() -> Unit,
-        ): SnabblePayConfiguration =
-            SnabblePayConfiguration()
-                .apply {
-                    setup()
-                    ensureSnabblePayKeyOrThrow()
-                    setupDi(context)
-                }
+            init: SnabblePayConfiguration.() -> Unit,
+        ): SnabblePayConfiguration = SnabblePayConfiguration().apply {
+            init()
+            ensureSnabblePayKeyOrThrow()
+            setupDi(context)
+        }
     }
 }

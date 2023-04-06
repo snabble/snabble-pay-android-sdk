@@ -141,7 +141,7 @@ complexity:
     ignoreDefaultParameters: false
     ignoreDataClasses: true
     ignoreAnnotatedParameter: [ ]
-    ignoreAnnotated: [ 'Composable' ]
+    ignoreAnnotated: [ 'Composable', 'HiltViewModel' ]
   MethodOverloading:
     active: false
     threshold: 6
@@ -525,6 +525,7 @@ style:
   DestructuringDeclarationWithTooManyEntries:
     active: true
     maxDestructuringEntries: 3
+    ignoreAnnotated: [ 'Composable' ]
   EqualsNullCall:
     active: true
   EqualsOnSignatureLine:
@@ -572,7 +573,7 @@ style:
     maxJumpCount: 1
   MagicNumber:
     active: true
-    excludes: [ '**/test/**', '**/androidTest/**', '**/commonTest/**', '**/jvmTest/**', '**/jsTest/**', '**/iosTest/**', '**/*.kts' ]
+    excludes: [ '**/test/**', '**/androidTest/**', '**/commonTest/**', '**/jvmTest/**', '**/jsTest/**', '**/iosTest/**', '**/*.kts','**/theme/**' ]
     ignoreNumbers:
       - '-1'
       - '0'
@@ -588,6 +589,7 @@ style:
     ignoreEnums: false
     ignoreRanges: false
     ignoreExtensionFunctions: true
+    ignoreAnnotated: [ 'Composable' ]
   MandatoryBracesIfStatements:
     active: false
   MandatoryBracesLoops:
@@ -691,6 +693,7 @@ style:
   UnusedPrivateMember:
     active: true
     allowedNames: '(_|ignored|expected|serialVersionUID)'
+    ignoreAnnotated: [ 'Preview' ]
   UseAnyOrNoneInsteadOfFind:
     active: true
   UseArrayLiteralsInAnnotations:

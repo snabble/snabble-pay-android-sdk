@@ -6,10 +6,6 @@ on:
 
   workflow_dispatch:
 
-  push:
-    branches:
-      - "apps-712-library-documentation"
-
 jobs:
   dokka:
     runs-on: ubuntu-latest

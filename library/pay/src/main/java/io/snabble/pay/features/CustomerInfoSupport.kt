@@ -9,6 +9,8 @@ import io.snabble.pay.customerinfo.domain.usecase.RemoveCustomerInfoUseCase
 /**
  * Interface with features related to the customer's transactions, helping identifying the customer
  * from transaction point of view.
+ *
+ * @since 1.0.0
  */
 interface CustomerInfoSupport {
 
@@ -20,6 +22,8 @@ interface CustomerInfoSupport {
      *
      * @return Returns [Success](io.snabble.pay.core.util.Success) containing the [CustomerInfo]
      * that's been set, or [Failure](io.snabble.pay.core.util.Failure) otherwise.
+     *
+     * @since 1.0.0
      */
     suspend fun sendCustomerInfo(id: String?, loyaltyId: String?): Result<CustomerInfo>
 
@@ -28,6 +32,8 @@ interface CustomerInfoSupport {
      *
      * @return Returns [Success](io.snabble.pay.core.util.Success) with the [CustomerInfo], or
      * [Failure](io.snabble.pay.core.util.Failure) otherwise.
+     *
+     * @since 1.0.0
      */
     suspend fun getCustomerInfo(): Result<CustomerInfo>
 
@@ -36,6 +42,8 @@ interface CustomerInfoSupport {
      *
      * @return Returns [Success](io.snabble.pay.core.util.Success) with the [CustomerInfo] that's
      * been deleted, or [Failure](io.snabble.pay.core.util.Failure) otherwise.
+     *
+     * @since 1.0.0
      */
     suspend fun removeCustomerInfo(): Result<CustomerInfo>
 }

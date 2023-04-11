@@ -12,6 +12,8 @@ import java.time.ZonedDateTime
  * @property refreshAt Timestamp indicating refresh is available
  * @property validUntil Timestamp indicating that the token is invalid
  * @property value Encrypted information for transactions
+ *
+ * @since 1.0.0
  */
 data class SessionToken(
     val createdAt: ZonedDateTime,

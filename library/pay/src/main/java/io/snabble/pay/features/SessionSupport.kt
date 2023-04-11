@@ -12,6 +12,8 @@ import io.snabble.pay.session.domain.usecase.UpdateSessionTokenUseCase
 /**
  * Interface with features related to the session, providing functions
  * to create, delete or fetch sessions, including the feature to update a [SessionToken].
+ *
+ * @since 1.0.0
  */
 interface SessionSupport {
 
@@ -22,9 +24,10 @@ interface SessionSupport {
      *
      * @param accountId ID for the account associated with the session
      *
-     * @return
-     * Returns [Success](io.snabble.pay.core.util.Success) containing the [Session]
+     * @return Returns [Success](io.snabble.pay.core.util.Success) containing the [Session]
      * created for the given account, or [Failure](io.snabble.pay.core.util.Failure) otherwise.
+     *
+     * @since 1.0.0
      */
     suspend fun createNewSession(accountId: String): Result<Session>
 
@@ -36,15 +39,18 @@ interface SessionSupport {
      * @return
      * Returns [Success](io.snabble.pay.core.util.Success) containing the [Session]
      * that has been deleted, or [Failure](io.snabble.pay.core.util.Failure) otherwise.
+     *
+     * @since 1.0.0
      */
     suspend fun deleteSession(id: String): Result<Session>
 
     /**
      * Fetch all sessions available for the current application.
      *
-     * @return
-     * Returns [Success](io.snabble.pay.core.util.Success) containing a list of [Session]`s
+     * @return Returns [Success](io.snabble.pay.core.util.Success) containing a list of [Session]`s
      * available, or [Failure](io.snabble.pay.core.util.Failure) otherwise.
+     *
+     * @since 1.0.0
      */
     suspend fun getAllSessions(): Result<List<Session>>
 
@@ -52,9 +58,10 @@ interface SessionSupport {
      * Fetch a specific session.
      *
      * @param id ID for the specific session to fetch
-     * @return
-     * Returns [Success](io.snabble.pay.core.util.Success) containing the specific [Session],
+     * @return Returns [Success](io.snabble.pay.core.util.Success) containing the specific [Session],
      * or [Failure](io.snabble.pay.core.util.Failure) otherwise.
+     *
+     * @since 1.0.0
      */
     suspend fun getSession(id: String): Result<Session>
 
@@ -65,9 +72,10 @@ interface SessionSupport {
      * associated to the given session id.
      *
      * @param sessionId ID for session associated to the session token
-     * @return
-     * Returns [Success](io.snabble.pay.core.util.Success) containing a new [SessionToken]
+     * @return Returns [Success](io.snabble.pay.core.util.Success) containing a new [SessionToken]
      * for the given session, or [Failure](io.snabble.pay.core.util.Failure) otherwise.
+     *
+     * @since 1.0.0
      */
     suspend fun updateSessionToken(sessionId: String): Result<SessionToken>
 }

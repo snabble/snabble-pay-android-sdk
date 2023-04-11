@@ -9,6 +9,8 @@ package io.snabble.pay.account.domain.model
  *
  * @property validationLink The link for the customer to add a new bank account using his device.
  * @property appUri The deep link the service calls after a successful bank account check.
+ *
+ * @since 1.0.0
  */
 data class AccountCheck(
     val validationLink: String,

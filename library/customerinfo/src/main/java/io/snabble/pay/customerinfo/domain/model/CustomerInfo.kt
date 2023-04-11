@@ -5,6 +5,8 @@ package io.snabble.pay.customerinfo.domain.model
  *
  * @property id An optional ID
  * @property loyaltyId An optional LoyaltyID
+ *
+ * @since 1.0.0
  */
 data class CustomerInfo(
     val id: String? = null,

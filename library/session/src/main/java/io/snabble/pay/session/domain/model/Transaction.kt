@@ -7,6 +7,8 @@ package io.snabble.pay.session.domain.model
  * @property currencyCode Identifier for the used currency
  * @property id Unique identifier for the transaction
  * @property state  Current state of the transaction
+ *
+ * @since 1.0.0
  */
 data class Transaction(
     val amount: Int,

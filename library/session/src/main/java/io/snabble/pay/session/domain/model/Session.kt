@@ -13,7 +13,7 @@ import java.time.ZonedDateTime
  * @property token token information associated with the session
  * @property transaction transaction information associated with session
  *
- *
+ * @since 1.0.0
  */
 data class Session(
     val createdAt: ZonedDateTime,

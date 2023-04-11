@@ -12,6 +12,7 @@ package io.snabble.pay.mandate.domain.model
  * [ACCEPTED](io.snabble.pay.mandate.domain.model.MandateState.ACCEPTED) or
  * [DECLINED](io.snabble.pay.mandate.domain.model.MandateState.DECLINED)
  *
+ * @since 1.0.0
  */
 class Mandate(
     val htmlText: String?,

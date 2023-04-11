@@ -11,6 +11,8 @@ import io.snabble.pay.core.util.Result
 /**
  * Interface with features related to the [Account], like adding or removing a customer's bank
  * account.
+ *
+ * @since 1.0.0
  */
 interface AccountSupport {
 
@@ -26,6 +28,8 @@ interface AccountSupport {
      * @return Returns [Success](io.snabble.pay.core.util.Success) with an [AccountCheck] containing
      * the validation link to add a new account and the given [appUri], or a
      * [Failure](io.snabble.pay.core.util.Failure) otherwise.
+     *
+     * @since 1.0.0
      */
     suspend fun addNewAccount(
         appUri: String,
@@ -40,6 +44,8 @@ interface AccountSupport {
      *
      * @return Returns [Success](io.snabble.pay.core.util.Success) with an [Account],
      * [Failure](io.snabble.pay.core.util.Failure) otherwise.
+     *
+     * @since 1.0.0
      */
     suspend fun getAccount(id: String): Result<Account>
 
@@ -49,6 +55,8 @@ interface AccountSupport {
      * @return Returns [Success](io.snabble.pay.core.util.Success) with a list of [Account]s that's
      * empty if the user hasn't added any bank accounts yet,
      * or a [Failure](io.snabble.pay.core.util.Failure) otherwise.
+     *
+     * @since 1.0.0
      */
     suspend fun getAccounts(): Result<List<Account>>
 
@@ -59,6 +67,8 @@ interface AccountSupport {
      *
      * @return Returns [Success](io.snabble.pay.core.util.Success) with the [Account] that's been
      * removed, [Failure](io.snabble.pay.core.util.Failure) otherwise.
+     *
+     * @since 1.0.0
      */
     suspend fun removeAccount(id: String): Result<Account>
 }

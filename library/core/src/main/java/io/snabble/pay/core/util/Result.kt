@@ -12,6 +12,8 @@ import io.snabble.pay.core.PayError
  *
  * @property isSuccess True if the request for the result has succeeded
  * @property isFailure True if the request for the result has failed
+ *
+ * @since 1.0.0
  */
 sealed class Result<out T> {
 

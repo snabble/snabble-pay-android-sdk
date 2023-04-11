@@ -10,6 +10,8 @@ package io.snabble.pay
  *
  * **CAUTION:** Save the credentials provided through this callback to restore an app/user after the
  * [SnabblePay] instance has been destroyed.
+ *
+ * @since 1.0.0
  */
 fun interface SnabblePayAppCredentialsCallback {
 

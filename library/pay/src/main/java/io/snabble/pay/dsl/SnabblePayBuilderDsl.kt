@@ -31,6 +31,8 @@ import io.snabble.pay.SnabblePayImpl
  * @param init The init block to create a [SnabblePayConfiguration] for [SnabblePay]
  *
  * @return An instance of [SnabblePay] using the configuration from the [init] block
+ *
+ * @since 1.0.0
  */
 fun snabblePay(
     context: Context,

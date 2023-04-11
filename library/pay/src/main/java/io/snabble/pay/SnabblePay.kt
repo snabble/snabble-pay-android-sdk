@@ -10,6 +10,8 @@ import io.snabble.pay.features.SessionSupport
  * created using [io.snabble.pay.dsl.snabblePay].
  *
  * See each interface implemented by [SnabblePay] to check the capabilities
+ *
+ * @since 1.0.0
  */
 interface SnabblePay : AccountSupport, CustomerInfoSupport, MandateSupport, SessionSupport
 

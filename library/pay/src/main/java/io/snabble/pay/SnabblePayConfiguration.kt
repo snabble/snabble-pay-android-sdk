@@ -34,7 +34,7 @@ class SnabblePayConfiguration private constructor() {
     var appSecret: String? = null
 
     /**
-     * baseUrl The base url for Snabble Pay, the default url is the one for production.
+     * The base url for Snabble Pay, the default url is the one for production.
      *
      * Available Environments:
      * * production - _https://payment.snabble.io_
@@ -44,7 +44,7 @@ class SnabblePayConfiguration private constructor() {
     var baseUrl = "https://payment.snabble.io"
 
     /**
-     * Key to identify the project using SnabblePay _(supplied by Snabble)_.
+     * The key to identify the project using SnabblePay _(supplied by Snabble)_.
      *
      * This key is necessary to integrate and provide Snabble Pay for the app users.
      */

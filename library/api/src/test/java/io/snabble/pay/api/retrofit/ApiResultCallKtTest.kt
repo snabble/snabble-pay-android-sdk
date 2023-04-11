@@ -119,7 +119,7 @@ class ApiResultCallKtTest : FreeSpec({
 
         "decodes the enum ReasonDto value" - {
 
-            ReasonDto.values().size shouldBe 16
+            ReasonDto.values().size shouldBe 17
 
             fun mockResponse(code: Int, reason: String, message: String = "") =
                 mockk<Response<*>> {
@@ -181,6 +181,15 @@ class ApiResultCallKtTest : FreeSpec({
                 ).toErrorResponse(json = Json)
 
                 sut.error.reason shouldBe Reason.MANDATE_NOT_ACCEPTED
+            }
+
+            "MANDATE_NOT_FOUND" {
+                val sut = mockResponse(
+                    code = 404,
+                    reason = "mandate_not_found"
+                ).toErrorResponse(json = Json)
+
+                sut.error.reason shouldBe Reason.MANDATE_NOT_FOUND
             }
 
             "SESSION_HAS_TRANSACTION" {

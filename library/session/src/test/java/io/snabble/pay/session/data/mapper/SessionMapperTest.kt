@@ -5,10 +5,10 @@ import io.kotest.matchers.shouldBe
 import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.mockk
+import io.snabble.pay.internal.account.data.mapper.AccountMapper
 import io.snabble.pay.session.data.dto.SessionDto
 import io.snabble.pay.session.domain.model.SessionToken
 import io.snabble.pay.session.domain.model.Transaction
-import io.snabble.pay.shared.account.data.mapper.AccountMapper
 import io.snabble.pay.shared.account.domain.model.Account
 import java.time.ZonedDateTime
 

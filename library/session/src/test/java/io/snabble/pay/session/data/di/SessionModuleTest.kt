@@ -6,6 +6,7 @@ import io.kotest.koin.KoinExtension
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.mockk.every
 import io.mockk.mockk
+import io.snabble.pay.internal.di.sharedModule
 import io.snabble.pay.session.data.mapper.SessionMapper
 import io.snabble.pay.session.data.mapper.TokenMapper
 import io.snabble.pay.session.data.mapper.TransactionMapper
@@ -18,7 +19,6 @@ import io.snabble.pay.session.domain.usecase.DeleteSessionUseCase
 import io.snabble.pay.session.domain.usecase.GetAllSessionsUseCase
 import io.snabble.pay.session.domain.usecase.GetSessionUseCase
 import io.snabble.pay.session.domain.usecase.UpdateSessionTokenUseCase
-import io.snabble.pay.shared.account.di.sharedModule
 import org.koin.dsl.module
 import org.koin.test.KoinTest
 import org.koin.test.get

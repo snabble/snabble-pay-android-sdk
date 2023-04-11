@@ -50,6 +50,7 @@ dependencies {
 
     implementation(project(":api"))
     implementation(project(":core"))
+    implementation(project(":internal"))
     implementation(project(":shared"))
 
     implementation(libs.kotlinx.coroutinesCore)

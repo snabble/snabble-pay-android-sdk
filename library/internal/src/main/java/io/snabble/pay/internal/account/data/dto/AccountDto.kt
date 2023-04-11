@@ -1,4 +1,4 @@
-package io.snabble.pay.shared.account.data.dto
+package io.snabble.pay.internal.account.data.dto
 
 import io.snabble.pay.api.util.ZonedDateTimeAsText
 import kotlinx.serialization.SerialName

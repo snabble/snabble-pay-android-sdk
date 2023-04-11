@@ -14,8 +14,8 @@ import io.snabble.pay.account.data.service.AccountService
 import io.snabble.pay.account.domain.model.AccountCheck
 import io.snabble.pay.api.retrofit.ApiError
 import io.snabble.pay.api.retrofit.Success
-import io.snabble.pay.shared.account.data.dto.AccountDto
-import io.snabble.pay.shared.account.data.mapper.AccountMapper
+import io.snabble.pay.internal.account.data.dto.AccountDto
+import io.snabble.pay.internal.account.data.mapper.AccountMapper
 import io.snabble.pay.shared.account.domain.model.Account
 
 internal class AccountsRepositoryImplTest : FreeSpec({

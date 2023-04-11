@@ -1,4 +1,4 @@
-package io.snabble.pay.shared.account.data.dto
+package io.snabble.pay.internal.account.data.dto
 
 import kotlinx.serialization.SerialName
 

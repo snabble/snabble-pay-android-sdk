@@ -12,16 +12,53 @@ import org.koin.dsl.bind
 import org.koin.dsl.koinApplication
 import org.koin.dsl.module
 
+/**
+ * A configuration that is supplied to a new [SnabblePay] instance.
+ *
+ * The properties must be set by the building function [io.snabble.pay.dsl.snabblePay].
+ */
 class SnabblePayConfiguration private constructor() {
 
+    /**
+     * Individual identifier for an app instance or user
+     *
+     * @see [SnabblePayAppCredentialsCallback]
+     */
     var appIdentifier: String? = null
 
+    /**
+     * Individual secret for the [appIdentifier]
+     *
+     * @see [SnabblePayAppCredentialsCallback]
+     */
     var appSecret: String? = null
 
+    /**
+     * baseUrl The base url for Snabble Pay, the default url is the one for production.
+     *
+     * Available Environments:
+     * * production - _https://payment.snabble.io_
+     * * staging - _https://payment.snabble-staging.io_
+     * * testing - _https://payment.snabble-testing.io_
+     */
     var baseUrl = "https://payment.snabble.io"
 
+    /**
+     * Key to identify the project using SnabblePay _(supplied by Snabble)_.
+     *
+     * This key is necessary to integrate and provide Snabble Pay for the app users.
+     */
     lateinit var snabblePayKey: String
 
+    /**
+     * Callback for a new [appIdentifier] and [appSecret] if none has been provided.
+     *
+     * Each time a new instance of [SnabblePay] is created without an appIdentifier and appSecret
+     * new credentials are created and this callback gets called, if set.
+     *
+     * **CAUTION:** Save the credentials provided through this callback to restore a user after the
+     * [SnabblePay] instance has been destroyed.
+     */
     var onNewAppCredentialsCallback: SnabblePayAppCredentialsCallback? = null
 
     internal lateinit var koin: Koin
@@ -51,6 +88,7 @@ class SnabblePayConfiguration private constructor() {
         koin = koinApplication.koin
     }
 
+    /** @suppress */
     companion object {
 
         internal fun create(

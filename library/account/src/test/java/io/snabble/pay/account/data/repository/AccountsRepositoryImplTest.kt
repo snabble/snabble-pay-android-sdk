@@ -9,14 +9,14 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
 import io.snabble.pay.account.data.dto.AccountCheckDto
-import io.snabble.pay.account.data.dto.AccountDto
 import io.snabble.pay.account.data.mapper.AccountCheckMapper
-import io.snabble.pay.account.data.mapper.AccountMapper
 import io.snabble.pay.account.data.service.AccountService
-import io.snabble.pay.account.domain.model.Account
 import io.snabble.pay.account.domain.model.AccountCheck
 import io.snabble.pay.api.retrofit.ApiError
 import io.snabble.pay.api.retrofit.Success
+import io.snabble.pay.internal.account.data.dto.AccountDto
+import io.snabble.pay.internal.account.data.mapper.AccountMapper
+import io.snabble.pay.shared.account.domain.model.Account
 
 internal class AccountsRepositoryImplTest : FreeSpec({
 

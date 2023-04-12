@@ -70,6 +70,13 @@ enum class Reason {
     MANDATE_NOT_ACCEPTED,
 
     /**
+     * No mandate found for the specified account
+     *
+     * @since 1.0.0
+     */
+    MANDATE_NOT_FOUND,
+
+    /**
      * Delete session has failed due to running transaction
      *
      * @since 1.0.0

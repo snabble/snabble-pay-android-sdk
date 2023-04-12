@@ -1,6 +1,5 @@
 package io.snabble.pay.app.data.repository.account
 
-import io.snabble.pay.account.domain.model.Account
 import io.snabble.pay.account.domain.model.AccountCheck
 import io.snabble.pay.app.data.accountlabel.model.AccountLabel
 import io.snabble.pay.app.data.repository.account.label.LocalAccountLabelDataSource
@@ -14,6 +13,7 @@ import io.snabble.pay.app.domain.account.AccountRepository
 import io.snabble.pay.app.domain.account.toAccountCard
 import io.snabble.pay.core.util.Failure
 import io.snabble.pay.core.util.Success
+import io.snabble.pay.shared.account.domain.model.Account
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.collectLatest

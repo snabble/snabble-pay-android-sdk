@@ -18,9 +18,9 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import io.snabble.pay.account.domain.model.MandateState
 import io.snabble.pay.app.domain.account.AccountCard
 import io.snabble.pay.app.domain.account.utils.GradiantGenerator
+import io.snabble.pay.shared.account.domain.model.MandateState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

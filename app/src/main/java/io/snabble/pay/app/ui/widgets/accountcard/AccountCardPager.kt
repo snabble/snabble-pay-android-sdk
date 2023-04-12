@@ -18,10 +18,10 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.google.accompanist.pager.calculateCurrentOffsetForPage
 import com.google.accompanist.pager.rememberPagerState
-import io.snabble.pay.account.domain.model.MandateState
 import io.snabble.pay.app.domain.account.AccountCard
 import io.snabble.pay.app.domain.account.utils.GradiantGenerator
 import io.snabble.pay.app.ui.theme.SnabblePayTheme
+import io.snabble.pay.shared.account.domain.model.MandateState
 import kotlin.math.absoluteValue
 
 @OptIn(ExperimentalPagerApi::class)

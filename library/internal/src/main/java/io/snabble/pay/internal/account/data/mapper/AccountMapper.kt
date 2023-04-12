@@ -1,10 +1,10 @@
-package io.snabble.pay.account.data.mapper
+package io.snabble.pay.internal.account.data.mapper
 
-import io.snabble.pay.account.data.dto.AccountDto
-import io.snabble.pay.account.domain.model.Account
 import io.snabble.pay.api.util.Mapper
+import io.snabble.pay.internal.account.data.dto.AccountDto
+import io.snabble.pay.shared.account.domain.model.Account
 
-internal class AccountMapper(
+class AccountMapper(
     private val mandateStateMapper: MandateStateMapper,
 ) : Mapper<AccountDto, Account> {
 

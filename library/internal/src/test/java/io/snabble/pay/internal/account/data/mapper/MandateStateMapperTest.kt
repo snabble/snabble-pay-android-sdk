@@ -1,9 +1,9 @@
-package io.snabble.pay.account.data.mapper
+package io.snabble.pay.internal.account.data.mapper
 
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
-import io.snabble.pay.account.data.dto.MandateStateDto
-import io.snabble.pay.account.domain.model.MandateState
+import io.snabble.pay.internal.account.data.dto.MandateStateDto
+import io.snabble.pay.shared.account.domain.model.MandateState
 
 internal class MandateStateMapperTest : FreeSpec({
 

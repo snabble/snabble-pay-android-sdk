@@ -1,8 +1,8 @@
 package io.snabble.pay.account.data.service
 
 import io.snabble.pay.account.data.dto.AccountCheckDto
-import io.snabble.pay.account.data.dto.AccountDto
 import io.snabble.pay.api.retrofit.ApiResponse
+import io.snabble.pay.internal.account.data.dto.AccountDto
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Path

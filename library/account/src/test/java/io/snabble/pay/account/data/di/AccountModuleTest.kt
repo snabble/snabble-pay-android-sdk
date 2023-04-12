@@ -7,8 +7,6 @@ import io.kotest.matchers.nulls.shouldNotBeNull
 import io.mockk.every
 import io.mockk.mockk
 import io.snabble.pay.account.data.mapper.AccountCheckMapper
-import io.snabble.pay.account.data.mapper.AccountMapper
-import io.snabble.pay.account.data.mapper.MandateStateMapper
 import io.snabble.pay.account.data.service.AccountService
 import io.snabble.pay.account.di.accountModule
 import io.snabble.pay.account.domain.repository.AccountsRepository
@@ -65,14 +63,6 @@ class AccountModuleTest : FreeSpec(), KoinTest {
             }
 
             "the mapper" - {
-
-                "AccountMapper" {
-                    get<AccountMapper>().shouldNotBeNull()
-                }
-
-                "MandateStateMapper" {
-                    get<MandateStateMapper>().shouldNotBeNull()
-                }
 
                 "AccountCheckMapper" {
                     get<AccountCheckMapper>().shouldNotBeNull()

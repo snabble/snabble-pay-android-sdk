@@ -1,4 +1,4 @@
-package io.snabble.pay.account.data.mapper
+package io.snabble.pay.internal.account.data.mapper
 
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
@@ -6,8 +6,8 @@ import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
-import io.snabble.pay.account.data.dto.AccountDto
-import io.snabble.pay.account.domain.model.MandateState
+import io.snabble.pay.internal.account.data.dto.AccountDto
+import io.snabble.pay.shared.account.domain.model.MandateState
 import java.time.ZonedDateTime
 
 internal class AccountMapperTest : FreeSpec({

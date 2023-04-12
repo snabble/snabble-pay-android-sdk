@@ -4,7 +4,6 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.snabble.pay.account.domain.model.MandateState
 import io.snabble.pay.app.data.utils.AppError
 import io.snabble.pay.app.data.utils.AppSuccess
 import io.snabble.pay.app.data.utils.ErrorResponse
@@ -17,6 +16,7 @@ import io.snabble.pay.app.domain.mandate.usecase.AcceptMandateUseCase
 import io.snabble.pay.app.domain.mandate.usecase.CreateMandateUseCase
 import io.snabble.pay.app.domain.mandate.usecase.GetMandateUseCase
 import io.snabble.pay.mandate.domain.model.Mandate
+import io.snabble.pay.shared.account.domain.model.MandateState
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow

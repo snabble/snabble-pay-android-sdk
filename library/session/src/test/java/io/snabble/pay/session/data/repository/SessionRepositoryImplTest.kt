@@ -21,6 +21,7 @@ import io.snabble.pay.session.data.service.SessionService
 import io.snabble.pay.session.domain.model.Session
 import io.snabble.pay.session.domain.model.SessionToken
 
+/** @suppress Dokka */
 internal class SessionRepositoryImplTest : FreeSpec({
 
     val service = mockk<SessionService>(relaxed = true)

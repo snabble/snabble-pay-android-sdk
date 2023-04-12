@@ -8,11 +8,14 @@
     alias(libs.plugins.ktlint)
     alias(libs.plugins.benManesVersions)
     alias(libs.plugins.versionCatalogUpdate)
+    alias(libs.plugins.dokka)
 }
 
 buildscript {
     dependencies {
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.10")
+        classpath(libs.classpath.kotlinGradlePlugin)
+        classpath(libs.classpath.dokka.gradlePlugin)
+        classpath(libs.classpath.dokka.base)
         classpath(libs.test.junit5.androidPlugin)
     }
 }
@@ -88,4 +91,20 @@ tasks.withType<com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
             }
         }
     }
+}
+
+tasks.dokkaHtmlMultiModule {
+    outputDirectory.set(buildDir.resolve("snabble-pay-docs"))
+
+    suppressInheritedMembers.set(true)
+
+    includes.from("Module.md")
+
+    pluginsMapConfiguration.set(
+        mapOf(
+            "org.jetbrains.dokka.base.DokkaBase" to """{
+              "footerMessage": "© ${java.time.Year.now()} snabble GmbH"
+            }"""
+        )
+    )
 }

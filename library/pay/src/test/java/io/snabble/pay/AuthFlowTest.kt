@@ -42,9 +42,9 @@ class AuthFlowTest : FreeSpec(), KoinTest {
                 testModule,
                 module {
                     single {
-                        SnabblePayConfiguration.init(context = mockk(relaxed = true)) {
-                            setBaseUrl(mockWebServer.url("").toString())
-                            setSnabblePayKey("42")
+                        SnabblePayConfiguration.create(context = mockk(relaxed = true)) {
+                            baseUrl = mockWebServer.url("").toString()
+                            snabblePayKey = "42"
                         }
                     }
                 }

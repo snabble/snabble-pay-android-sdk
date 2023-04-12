@@ -12,7 +12,7 @@ import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
 import org.koin.dsl.module
 
-val featureModule = module {
+internal val featureModule = module {
     singleOf(::AccountSupportImpl) bind AccountSupport::class
     singleOf(::CustomerInfoSupportImpl) bind CustomerInfoSupport::class
     singleOf(::MandateSupportImpl) bind MandateSupport::class

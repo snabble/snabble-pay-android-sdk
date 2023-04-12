@@ -1,10 +1,13 @@
 @file:Suppress("UnstableApiUsage")
 
+import java.time.Year
+
 @Suppress("DSL_SCOPE_VIOLATION") plugins {
     id(libs.plugins.android.library.get().pluginId)
     id(libs.plugins.kotlin.android.get().pluginId)
     alias(libs.plugins.kotlin.serialization)
     id("de.mannodermaus.android-junit5")
+    id(libs.plugins.dokka.get().pluginId)
 }
 
 android {
@@ -61,4 +64,20 @@ dependencies {
     androidTestImplementation(libs.bundles.testing.android)
 
     androidTestRuntimeOnly(libs.test.junit5.androidTestRunner)
+}
+
+tasks.dokkaHtmlPartial {
+    dokkaSourceSets {
+        named("main") {
+            moduleName.set("Mandate")
+        }
+    }
+
+    pluginsMapConfiguration.set(
+        mapOf(
+            "org.jetbrains.dokka.base.DokkaBase" to """{
+              "footerMessage": "© ${Year.now()} snabble GmbH"
+            }"""
+        )
+    )
 }

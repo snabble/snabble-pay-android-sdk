@@ -11,4 +11,13 @@ data class Account(
     val id: String,
     val mandateState: MandateState,
     val name: String,
-)
+) {
+
+    enum class MandateState {
+
+        ACCEPTED,
+        DECLINED,
+        MISSING,
+        PENDING,
+    }
+}

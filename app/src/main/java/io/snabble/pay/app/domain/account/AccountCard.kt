@@ -4,7 +4,7 @@ import android.os.Parcelable
 import io.snabble.pay.app.domain.account.utils.GradiantGenerator
 import io.snabble.pay.app.domain.session.SessionTokenModel
 import io.snabble.pay.shared.account.domain.model.Account
-import io.snabble.pay.shared.account.domain.model.MandateState
+import io.snabble.pay.shared.account.domain.model.Account.MandateState
 import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.Serializable
 

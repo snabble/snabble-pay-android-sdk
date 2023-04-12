@@ -16,12 +16,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import io.snabble.pay.app.R
-import io.snabble.pay.mandate.domain.model.MandateState
+import io.snabble.pay.mandate.domain.model.Mandate.State
+import io.snabble.pay.mandate.domain.model.Mandate.State.ACCEPTED
+import io.snabble.pay.mandate.domain.model.Mandate.State.DECLINED
+import io.snabble.pay.mandate.domain.model.Mandate.State.PENDING
 
 @Composable
 fun MandateState(
     modifier: Modifier = Modifier,
-    mandateState: MandateState,
+    mandateState: State,
 ) {
     Row(
         modifier = Modifier
@@ -35,9 +38,9 @@ fun MandateState(
         Text(
             modifier = Modifier.padding(start = 12.dp),
             text = when (mandateState) {
-                MandateState.ACCEPTED -> stringResource(id = R.string.mandate_accepted)
-                MandateState.DECLINED -> stringResource(id = R.string.mandate_declined)
-                MandateState.PENDING -> stringResource(id = R.string.mandate_pending)
+                ACCEPTED -> stringResource(id = R.string.mandate_accepted)
+                DECLINED -> stringResource(id = R.string.mandate_declined)
+                PENDING -> stringResource(id = R.string.mandate_pending)
             },
             color = Color.Black,
             style = MaterialTheme.typography.labelLarge,
@@ -51,7 +54,7 @@ fun MandateState(
 )
 @Composable
 fun AcceptedStatePreview() {
-    MandateState(mandateState = MandateState.ACCEPTED)
+    MandateState(mandateState = ACCEPTED)
 }
 
 @Preview(
@@ -59,7 +62,7 @@ fun AcceptedStatePreview() {
 )
 @Composable
 fun PendingStatePreview() {
-    MandateState(mandateState = MandateState.PENDING)
+    MandateState(mandateState = PENDING)
 }
 
 @Preview(
@@ -67,5 +70,5 @@ fun PendingStatePreview() {
 )
 @Composable
 fun DeclinedStatePreview() {
-    MandateState(mandateState = MandateState.DECLINED)
+    MandateState(mandateState = DECLINED)
 }

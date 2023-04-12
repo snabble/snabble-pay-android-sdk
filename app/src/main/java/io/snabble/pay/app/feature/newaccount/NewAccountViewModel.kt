@@ -16,7 +16,7 @@ import io.snabble.pay.app.domain.mandate.usecase.AcceptMandateUseCase
 import io.snabble.pay.app.domain.mandate.usecase.CreateMandateUseCase
 import io.snabble.pay.app.domain.mandate.usecase.GetMandateUseCase
 import io.snabble.pay.mandate.domain.model.Mandate
-import io.snabble.pay.shared.account.domain.model.MandateState
+import io.snabble.pay.shared.account.domain.model.Account
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -53,7 +53,7 @@ class NewAccountViewModel @Inject constructor(
             .onError { _error.emit(it) }
             .onSuccess { account ->
                 val mandate =
-                    if (account.mandateState == MandateState.MISSING) {
+                    if (account.mandateState == Account.MandateState.MISSING) {
                         createMandateFor(accountId)
                     } else {
                         getMandateFor(accountId)
@@ -85,6 +85,7 @@ class NewAccountViewModel @Inject constructor(
                 _error.emit(result.value)
                 null
             }
+
             is AppSuccess -> result.value
         }
     }
@@ -95,6 +96,7 @@ class NewAccountViewModel @Inject constructor(
                 _error.emit(result.value)
                 null
             }
+
             is AppSuccess -> result.value
         }
 

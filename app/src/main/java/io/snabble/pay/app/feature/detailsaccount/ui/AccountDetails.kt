@@ -32,8 +32,7 @@ import io.snabble.pay.app.ui.AppBarLayout
 import io.snabble.pay.app.ui.theme.SnabblePayTheme
 import io.snabble.pay.app.ui.widgets.accountcard.AccountCard
 import io.snabble.pay.mandate.domain.model.Mandate
-import io.snabble.pay.mandate.domain.model.MandateState.PENDING
-import io.snabble.pay.shared.account.domain.model.MandateState
+import io.snabble.pay.shared.account.domain.model.Account
 
 @Composable
 fun AccountDetails(
@@ -93,7 +92,7 @@ fun AccountDetails(
                             containerColor = Color.White
                         )
                     ) {
-                        MandateState(mandateState = mandate?.state ?: PENDING)
+                        MandateState(mandateState = mandate?.state ?: Mandate.State.PENDING)
                     }
                     Spacer(modifier = Modifier.weight(1f))
                     DeleteButton(
@@ -114,7 +113,7 @@ private fun AccountDetailsPreview() {
         sessionToken = null,
         holderName = "Muster Mann",
         accountId = "1",
-        mandateState = MandateState.ACCEPTED,
+        mandateState = Account.MandateState.ACCEPTED,
         iban = "DE 1234 1234 1234 1234",
         bank = "Deutsche Bank",
         name = "Mein Konto"
@@ -128,9 +127,9 @@ private fun AccountDetailsPreview() {
             "gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum " +
             "dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt " +
             "ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam" +
-            " et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus" +
-            " est Lorem ipsum dolor sit amet.",
-        state = PENDING
+            " et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata " +
+            "sanctus est Lorem ipsum dolor sit amet.",
+        state = Mandate.State.PENDING
     )
 
     SnabblePayTheme {

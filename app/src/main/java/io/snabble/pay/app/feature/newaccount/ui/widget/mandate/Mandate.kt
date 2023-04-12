@@ -26,7 +26,6 @@ import io.snabble.pay.app.R
 import io.snabble.pay.app.feature.newaccount.ui.widget.DefaultButton
 import io.snabble.pay.app.utils.decodeUrlUtf8
 import io.snabble.pay.mandate.domain.model.Mandate
-import io.snabble.pay.mandate.domain.model.MandateState
 
 @Composable
 fun Mandate(
@@ -36,7 +35,7 @@ fun Mandate(
 ) {
     val backgroundColor = MaterialTheme.colorScheme.background
     val fontColor = if (isSystemInDarkTheme()) "rgb(251,251,255)" else ""
-    if (mandate?.state == MandateState.PENDING) {
+    if (mandate?.state == Mandate.State.PENDING) {
         Column(
             modifier = modifier,
             verticalArrangement = Arrangement.SpaceBetween

@@ -22,7 +22,7 @@ import io.snabble.pay.app.domain.session.SessionTokenModel
 import io.snabble.pay.app.domain.session.usecase.GetCurrentSessionUseCase
 import io.snabble.pay.app.domain.session.usecase.UpdateTokenUseCase
 import io.snabble.pay.mandate.domain.model.Mandate
-import io.snabble.pay.shared.account.domain.model.MandateState
+import io.snabble.pay.shared.account.domain.model.Account
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
@@ -63,7 +63,7 @@ class DetailsAccountViewModel @Inject constructor(
             getAccountCard(accountId)
                 .onError { _error.emit(it) }
                 .onSuccess { account ->
-                    if (account.mandateState == MandateState.MISSING) {
+                    if (account.mandateState == Account.MandateState.MISSING) {
                         createMandateFor(accountId)
                     }
                     val mandate = getMandateFor(accountId)
@@ -80,6 +80,7 @@ class DetailsAccountViewModel @Inject constructor(
                 _error.emit(result.value)
                 null
             }
+
             is AppSuccess -> result.value
         }
     }
@@ -139,6 +140,7 @@ class DetailsAccountViewModel @Inject constructor(
                 delay(1.seconds)
                 _uiState.tryEmit(ShowAccount(account, state.mandate))
             }
+
             else -> {}
         }
     }

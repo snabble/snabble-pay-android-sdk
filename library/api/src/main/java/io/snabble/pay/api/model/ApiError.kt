@@ -25,6 +25,7 @@ internal enum class ReasonDto {
     @SerialName("invalid_session_state") INVALID_SESSION_STATE,
     @SerialName("invalid_transaction_state") INVALID_TRANSACTION_STATE,
     @SerialName("mandate_not_accepted") MANDATE_NOT_ACCEPTED,
+    @SerialName("mandate_not_found") MANDATE_NOT_FOUND,
     @SerialName("session_has_transaction") SESSION_HAS_TRANSACTION,
     @SerialName("session_not_found") SESSION_NOT_FOUND,
     @SerialName("session_token_expired") SESSION_TOKEN_EXPIRED,
@@ -45,6 +46,7 @@ internal fun PayErrorDto?.toReason(): Reason = when (this?.reason) {
     ReasonDto.INVALID_SESSION_STATE -> Reason.INVALID_SESSION_STATE
     ReasonDto.INVALID_TRANSACTION_STATE -> Reason.INVALID_TRANSACTION_STATE
     ReasonDto.MANDATE_NOT_ACCEPTED -> Reason.MANDATE_NOT_ACCEPTED
+    ReasonDto.MANDATE_NOT_FOUND -> Reason.MANDATE_NOT_FOUND
     ReasonDto.SESSION_HAS_TRANSACTION -> Reason.SESSION_HAS_TRANSACTION
     ReasonDto.SESSION_NOT_FOUND -> Reason.SESSION_NOT_FOUND
     ReasonDto.SESSION_TOKEN_EXPIRED -> Reason.SESSION_TOKEN_EXPIRED

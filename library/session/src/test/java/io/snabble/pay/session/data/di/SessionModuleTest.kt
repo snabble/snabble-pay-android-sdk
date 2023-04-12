@@ -6,7 +6,7 @@ import io.kotest.koin.KoinExtension
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.mockk.every
 import io.mockk.mockk
-import io.snabble.pay.internal.di.sharedModule
+import io.snabble.pay.internal.di.internalModule
 import io.snabble.pay.session.data.mapper.SessionMapper
 import io.snabble.pay.session.data.mapper.TokenMapper
 import io.snabble.pay.session.data.mapper.TransactionMapper
@@ -30,7 +30,7 @@ class SessionModuleTest : FreeSpec(), KoinTest {
         KoinExtension(
             listOf(
                 sessionModule,
-                sharedModule,
+                internalModule,
                 module {
                     single {
                         mockk<Retrofit> {

@@ -20,7 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.snabble.pay.app.domain.account.AccountCard
 import io.snabble.pay.app.domain.account.utils.GradiantGenerator
-import io.snabble.pay.shared.account.domain.model.MandateState
+import io.snabble.pay.shared.account.domain.model.Account
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -56,7 +56,7 @@ fun AccountCard(
                 modifier = Modifier
                     .size(width = 100.dp, height = 100.dp),
                 qrCodeToken = qrCodeString,
-                isMandatePending = accountCard.mandateState == MandateState.PENDING
+                isMandatePending = accountCard.mandateState == Account.MandateState.PENDING
             )
             Spacer(modifier = Modifier.height(16.dp))
             CardInformation(
@@ -84,7 +84,7 @@ fun PreviewAccountCard() {
             sessionToken = null,
             holderName = "Muster Mann",
             accountId = "1",
-            mandateState = MandateState.ACCEPTED,
+            mandateState = Account.MandateState.ACCEPTED,
             iban = "DE 1234 1234 1234 1234",
             bank = "Deutsche Bank",
             name = "Mein Konto"

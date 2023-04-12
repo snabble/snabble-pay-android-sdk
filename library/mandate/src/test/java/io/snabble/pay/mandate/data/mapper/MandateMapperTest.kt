@@ -8,7 +8,7 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import io.snabble.pay.mandate.data.dto.MandateDto
-import io.snabble.pay.mandate.domain.model.MandateState
+import io.snabble.pay.mandate.domain.model.Mandate
 
 internal class MandateMapperTest : FreeSpec({
 
@@ -53,7 +53,7 @@ internal class MandateMapperTest : FreeSpec({
         }
 
         "state" {
-            val mandateStateMock = mockk<MandateState>()
+            val mandateStateMock = mockk<Mandate.State>()
             every { mandateStateMapper.map(from = any()) } returns mandateStateMock
 
             val sut = createSut()

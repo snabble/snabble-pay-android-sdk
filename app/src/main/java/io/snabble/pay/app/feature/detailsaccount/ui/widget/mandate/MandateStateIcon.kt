@@ -18,12 +18,15 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.snabble.pay.app.R
-import io.snabble.pay.mandate.domain.model.MandateState
+import io.snabble.pay.mandate.domain.model.Mandate
+import io.snabble.pay.mandate.domain.model.Mandate.State.ACCEPTED
+import io.snabble.pay.mandate.domain.model.Mandate.State.DECLINED
+import io.snabble.pay.mandate.domain.model.Mandate.State.PENDING
 
 @Composable
 fun MandateStateIcon(
     modifier: Modifier = Modifier,
-    mandateState: MandateState,
+    mandateState: Mandate.State,
 ) {
     Surface(
         modifier = Modifier
@@ -40,9 +43,9 @@ fun MandateStateIcon(
                 .padding(8.dp)
                 .size(24.dp),
             imageVector = when (mandateState) {
-                MandateState.ACCEPTED -> Icons.Filled.Check
-                MandateState.DECLINED -> Icons.Filled.Clear
-                MandateState.PENDING -> ImageVector.vectorResource(id = R.drawable.ic_snabble_mandate_missing)
+                ACCEPTED -> Icons.Filled.Check
+                DECLINED -> Icons.Filled.Clear
+                PENDING -> ImageVector.vectorResource(id = R.drawable.ic_snabble_mandate_missing)
             },
             contentDescription = "",
             tint = Color.Black
@@ -53,17 +56,17 @@ fun MandateStateIcon(
 @Preview
 @Composable
 fun AcceptedIconPreview() {
-    MandateStateIcon(mandateState = MandateState.ACCEPTED)
+    MandateStateIcon(mandateState = ACCEPTED)
 }
 
 @Preview
 @Composable
 fun PendingIconPreview() {
-    MandateStateIcon(mandateState = MandateState.PENDING)
+    MandateStateIcon(mandateState = PENDING)
 }
 
 @Preview
 @Composable
 fun DeclinedIconPreview() {
-    MandateStateIcon(mandateState = MandateState.DECLINED)
+    MandateStateIcon(mandateState = DECLINED)
 }

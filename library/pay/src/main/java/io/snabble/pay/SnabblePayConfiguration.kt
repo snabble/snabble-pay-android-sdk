@@ -12,40 +12,78 @@ import org.koin.dsl.bind
 import org.koin.dsl.koinApplication
 import org.koin.dsl.module
 
+/**
+ * A configuration that is supplied to a new [SnabblePay] instance.
+ *
+ * The properties must be set by the building function [io.snabble.pay.dsl.snabblePay].
+ *
+ * @since 1.0.0
+ */
 class SnabblePayConfiguration private constructor() {
 
-    internal var appCredentials: AppCredentials? = null
-        private set
+    /**
+     * Individual identifier for an app instance or user
+     *
+     * @see [SnabblePayAppCredentialsCallback]
+     *
+     * @since 1.0.0
+     */
+    var appIdentifier: String? = null
 
-    internal var baseUrl = "https://payment.snabble.io"
-        private set
+    /**
+     * Individual secret for the [appIdentifier]
+     *
+     * @see [SnabblePayAppCredentialsCallback]
+     *
+     * @since 1.0.0
+     */
+    var appSecret: String? = null
 
-    internal lateinit var snabblePayKey: String
-        private set
+    /**
+     * The base url for Snabble Pay, the default url is the one for production.
+     *
+     * Available Environments:
+     * * production - _https://payment.snabble.io_
+     * * staging - _https://payment.snabble-staging.io_
+     * * testing - _https://payment.snabble-testing.io_
+     *
+     * @since 1.0.0
+     */
+    var baseUrl = "https://payment.snabble.io"
 
-    internal var onNewAppCredentialsCallback: SnabblePayAppCredentialsCallback? = null
-        private set
+    /**
+     * The key to identify the project using SnabblePay _(supplied by Snabble)_.
+     *
+     * This key is necessary to integrate and provide Snabble Pay for the app users.
+     *
+     * @since 1.0.0
+     */
+    lateinit var snabblePayKey: String
+
+    /**
+     * Callback for a new [appIdentifier] and [appSecret] if none has been provided.
+     *
+     * Each time a new instance of [SnabblePay] is created without an appIdentifier and appSecret
+     * new credentials are created and this callback gets called, if set.
+     *
+     * **CAUTION:** Save the credentials provided through this callback to restore a user after the
+     * [SnabblePay] instance has been destroyed.
+     *
+     * @since 1.0.0
+     */
+    var onNewAppCredentialsCallback: SnabblePayAppCredentialsCallback? = null
 
     internal lateinit var koin: Koin
 
-    fun setAppCredentials(appId: String, appSecret: String) {
-        appCredentials = AppCredentials(id = AppIdentifier(appId), secret = AppSecret(appSecret))
-    }
-
-    fun setBaseUrl(url: String) {
-        baseUrl = url
-    }
-
-    fun setOnNewAppCredentialsCallback(callback: SnabblePayAppCredentialsCallback) {
-        onNewAppCredentialsCallback = callback
-    }
-
-    fun setSnabblePayKey(snabblePayKey: String) {
-        this.snabblePayKey = snabblePayKey
-    }
+    internal val appCredentials: AppCredentials?
+        get() {
+            val id = appIdentifier ?: return null
+            val secret = appSecret ?: return null
+            return AppCredentials(id = AppIdentifier(id), secret = AppSecret(secret))
+        }
 
     private fun ensureSnabblePayKeyOrThrow() {
-        assert(this::snabblePayKey.isInitialized) { "SnabblePayKey must be set." }
+        assert(::snabblePayKey.isInitialized) { "SnabblePayKey must be set." }
     }
 
     private fun setupDi(context: Context) {
@@ -62,17 +100,16 @@ class SnabblePayConfiguration private constructor() {
         koin = koinApplication.koin
     }
 
+    /** @suppress */
     companion object {
 
-        internal fun init(
+        internal fun create(
             context: Context,
-            setup: SnabblePayConfiguration.() -> Unit,
-        ): SnabblePayConfiguration =
-            SnabblePayConfiguration()
-                .apply {
-                    setup()
-                    ensureSnabblePayKeyOrThrow()
-                    setupDi(context)
-                }
+            init: SnabblePayConfiguration.() -> Unit,
+        ): SnabblePayConfiguration = SnabblePayConfiguration().apply {
+            init()
+            ensureSnabblePayKeyOrThrow()
+            setupDi(context)
+        }
     }
 }

@@ -4,6 +4,7 @@ import io.snabble.pay.account.domain.model.AccountCheck
 import io.snabble.pay.core.util.Result
 import io.snabble.pay.shared.account.domain.model.Account
 
+/** @suppress Dokka */
 interface AccountsRepository {
 
     suspend fun getAccount(id: String): Result<Account>

@@ -15,6 +15,7 @@ import org.koin.dsl.bind
 import org.koin.dsl.module
 import retrofit2.Retrofit
 
+/** @suppress Dokka */
 val mandateModule = module {
     factory { CreateMandateUseCase(get<MandateRepository>()::createMandate) }
     factory { GetMandateUseCase(get<MandateRepository>()::getMandate) }

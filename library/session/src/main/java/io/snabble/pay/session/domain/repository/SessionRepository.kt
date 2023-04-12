@@ -4,6 +4,7 @@ import io.snabble.pay.core.util.Result
 import io.snabble.pay.session.domain.model.Session
 import io.snabble.pay.session.domain.model.SessionToken
 
+/** @suppress Dokka */
 interface SessionRepository {
 
     suspend fun createSession(accountId: String): Result<Session>

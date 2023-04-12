@@ -8,6 +8,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import io.snabble.pay.SnabblePay
+import io.snabble.pay.SnabblePayAppCredentialsCallback
 import io.snabble.pay.app.utils.getMetaDataKey
 import io.snabble.pay.core.BuildConfig
 import io.snabble.pay.dsl.snabblePay
@@ -25,20 +26,21 @@ object SnabblePayModule {
     ): SnabblePay =
         snabblePay(context = context) {
             if (BuildConfig.DEBUG) {
-                setBaseUrl(DEBUG_URL)
+                baseUrl = DEBUG_URL
             }
-            setSnabblePayKey(
-                context.getMetaDataKey(KEY_META_DATA).trim()
-            )
-            setOnNewAppCredentialsCallback { id: String, secret: String ->
-                sharedPreferences.saveAppCredentials(id, secret)
-            }
+            snabblePayKey = context.getMetaDataKey(KEY_META_DATA).trim()
+            onNewAppCredentialsCallback =
+                SnabblePayAppCredentialsCallback { id: String, secret: String ->
+                    sharedPreferences.saveAppCredentials(id, secret)
+                }
 
-            val appIdentifier =
-                sharedPreferences.getAppCredentials() ?: return@snabblePay
+            val (id, secret) = sharedPreferences
+                .getAppCredentials()
+                ?.split(";")
+                ?: return@snabblePay
 
-            val (id, secret) = appIdentifier.split(";")
-            setAppCredentials(id, secret)
+            appIdentifier = id
+            appSecret = secret
         }
 
     @Provides

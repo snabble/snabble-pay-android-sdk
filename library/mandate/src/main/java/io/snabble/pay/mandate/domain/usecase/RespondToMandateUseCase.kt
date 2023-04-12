@@ -4,6 +4,7 @@ import io.snabble.pay.core.util.Result
 import io.snabble.pay.mandate.domain.model.Mandate
 import io.snabble.pay.mandate.domain.model.MandateResponse
 
+/** @suppress Dokka */
 fun interface RespondToMandateUseCase {
 
     suspend operator fun invoke(

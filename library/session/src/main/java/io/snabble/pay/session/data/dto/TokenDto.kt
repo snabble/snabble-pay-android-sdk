@@ -7,8 +7,8 @@ import kotlinx.serialization.Serializable
 @Serializable
 internal data class TokenDto(
     @SerialName("createdAt") val createdAt: ZonedDateTimeAsText,
+    @SerialName("expiresAt") val expiresAt: ZonedDateTimeAsText,
     @SerialName("id") val id: String,
     @SerialName("refreshAt") val refreshAt: ZonedDateTimeAsText,
-    @SerialName("validUntil") val validUntil: ZonedDateTimeAsText,
     @SerialName("value") val value: String,
 )

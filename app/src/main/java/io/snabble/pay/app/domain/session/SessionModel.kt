@@ -59,7 +59,7 @@ data class TransactionModel(
 data class SessionTokenModel(
     val id: String,
     @Serializable(with = KZonedDateTimeSerializer::class) val refreshAt: ZonedDateTime,
-    @Serializable(with = KZonedDateTimeSerializer::class) val validUntil: ZonedDateTime,
+    @Serializable(with = KZonedDateTimeSerializer::class) val expiresAt: ZonedDateTime,
     val value: String,
 ) : Parcelable {
 
@@ -68,7 +68,7 @@ data class SessionTokenModel(
         fun from(sessionToken: SessionToken) = SessionTokenModel(
             id = sessionToken.id,
             refreshAt = sessionToken.refreshAt,
-            validUntil = sessionToken.validUntil,
+            expiresAt = sessionToken.expiresAt,
             value = sessionToken.value
         )
     }

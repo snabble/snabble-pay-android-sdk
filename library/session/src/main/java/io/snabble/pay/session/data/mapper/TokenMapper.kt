@@ -9,9 +9,9 @@ internal class TokenMapper : Mapper<TokenDto, SessionToken> {
     override fun map(from: TokenDto): SessionToken = with(from) {
         SessionToken(
             createdAt = createdAt,
+            expiresAt = expiresAt,
             id = id,
             refreshAt = refreshAt,
-            validUntil = validUntil,
             value = value
         )
     }

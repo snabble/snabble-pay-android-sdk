@@ -14,6 +14,7 @@ internal class SessionMapper(
     override fun map(from: SessionDto): Session = with(from) {
         Session(
             createdAt = createdAt,
+            expiresAt = expiresAt,
             id = id,
             account = accountMapper.map(accountDto),
             token = tokenMapper.map(token),

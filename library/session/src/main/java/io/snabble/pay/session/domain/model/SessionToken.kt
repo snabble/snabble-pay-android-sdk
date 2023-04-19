@@ -8,17 +8,17 @@ import java.time.ZonedDateTime
  * Contains information and timestamps to trigger transactions and refresh`s.
  *
  * @property createdAt Timestamp of the creation
+ * @property expiresAt Timestamp indicating when the token is invalid
  * @property id Unique identifier for the session token
  * @property refreshAt Timestamp indicating refresh is available
- * @property validUntil Timestamp indicating that the token is invalid
  * @property value Encrypted information for transactions
  *
  * @since 1.0.0
  */
 data class SessionToken(
     val createdAt: ZonedDateTime,
+    val expiresAt: ZonedDateTime,
     val id: String,
     val refreshAt: ZonedDateTime,
-    val validUntil: ZonedDateTime,
     val value: String,
 )

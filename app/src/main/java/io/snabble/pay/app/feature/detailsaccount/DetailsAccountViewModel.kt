@@ -113,7 +113,7 @@ class DetailsAccountViewModel @Inject constructor(
                 fetchNewToken(session.id)
             }
 
-            delay(refreshDelay(session.token.validUntil))
+            delay(refreshDelay(session.token.expiresAt))
             if (!refreshTokenJob.isCompleted) {
                 removeExpiredSessionToken()
             }

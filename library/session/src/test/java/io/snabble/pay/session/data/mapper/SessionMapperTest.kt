@@ -28,7 +28,7 @@ internal class SessionMapperTest : FreeSpec({
         clearAllMocks()
     }
 
-    "MandateMapper should correctly map the" - {
+    "SessionMapper should correctly map the" - {
 
         "createdAt" {
             val now = ZonedDateTime.now()
@@ -39,6 +39,17 @@ internal class SessionMapperTest : FreeSpec({
             val sut = createSut()
 
             sut.map(sessionDto).createdAt shouldBe now
+        }
+
+        "expiresAt" {
+            val now = ZonedDateTime.now()
+            val sessionDto = mockk<SessionDto>(relaxed = true) {
+                every { expiresAt } returns now
+            }
+
+            val sut = createSut()
+
+            sut.map(sessionDto).expiresAt shouldBe now
         }
 
         "id" {

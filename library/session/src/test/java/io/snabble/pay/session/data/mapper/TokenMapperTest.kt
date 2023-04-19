@@ -29,6 +29,17 @@ internal class TokenMapperTest : FreeSpec({
             sut.map(tokenDto).createdAt shouldBe now
         }
 
+        "expiresAt" {
+            val now = ZonedDateTime.now()
+            val tokenDto = mockk<TokenDto>(relaxed = true) {
+                every { expiresAt } returns now
+            }
+
+            val sut = createSut()
+
+            sut.map(tokenDto).expiresAt shouldBe now
+        }
+
         "id" {
             val tokenId = "t1"
             val tokenDto = mockk<TokenDto>(relaxed = true) {
@@ -49,17 +60,6 @@ internal class TokenMapperTest : FreeSpec({
             val sut = createSut()
 
             sut.map(tokenDto).refreshAt shouldBe now
-        }
-
-        "validUntil" {
-            val now = ZonedDateTime.now()
-            val tokenDto = mockk<TokenDto>(relaxed = true) {
-                every { validUntil } returns now
-            }
-
-            val sut = createSut()
-
-            sut.map(tokenDto).validUntil shouldBe now
         }
 
         "value" {

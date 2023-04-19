@@ -10,6 +10,7 @@ import java.time.ZonedDateTime
  *  A transaction is by default null until a transaction is started.
  *
  * @property createdAt Timestamp of the creation
+ * @property expiresAt Timestamp indicating when the token is invalid
  * @property id Unique identifier for the session
  * @property token token information associated with the session
  * @property transaction transaction information associated with session
@@ -18,6 +19,7 @@ import java.time.ZonedDateTime
  */
 data class Session(
     val createdAt: ZonedDateTime,
+    val expiresAt: ZonedDateTime,
     val id: String,
     val account: Account,
     val token: SessionToken,

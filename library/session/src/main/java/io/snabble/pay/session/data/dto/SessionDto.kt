@@ -8,6 +8,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 internal data class SessionDto(
     @SerialName("createdAt") val createdAt: ZonedDateTimeAsText,
+    @SerialName("expiresAt") val expiresAt: ZonedDateTimeAsText,
     @SerialName("id") val id: String,
     @SerialName("account") val accountDto: AccountDto,
     @SerialName("token") val token: TokenDto,

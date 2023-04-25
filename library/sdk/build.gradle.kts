@@ -8,11 +8,18 @@ import java.time.Year
     alias(libs.plugins.kotlin.serialization)
     id(libs.plugins.dokka.get().pluginId)
     id("de.mannodermaus.android-junit5")
+    id("maven-publish")
 }
 
 android {
-    namespace = "io.snabble.pay"
+    namespace = "io.snabble.pay.sdk"
     compileSdk = libs.versions.sdk.compile.get().toInt()
+
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+        }
+    }
 
     defaultConfig {
         minSdk = libs.versions.sdk.min.get().toInt()
@@ -57,10 +64,9 @@ dependencies {
     api(project(":customerinfo"))
     api(project(":mandate"))
     api(project(":session"))
-
-    implementation(project(":api"))
     api(project(":core"))
     api(project(":shared"))
+    implementation(project(":api"))
     implementation(project(":network"))
 
     implementation(libs.androidx.appcompat)
@@ -95,4 +101,17 @@ tasks.dokkaHtmlPartial {
             }"""
         )
     )
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            create("sdk", MavenPublication::class.java) {
+                from(components["release"])
+                groupId = project.group.toString()
+                artifactId = project.name
+                version = project.extra.get("sdkVersion").toString()
+            }
+        }
+    }
 }

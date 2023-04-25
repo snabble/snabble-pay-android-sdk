@@ -9,6 +9,7 @@
     alias(libs.plugins.benManesVersions)
     alias(libs.plugins.versionCatalogUpdate)
     alias(libs.plugins.dokka)
+    id("maven-publish")
 }
 
 buildscript {
@@ -35,6 +36,15 @@ subprojects {
 }
 
 allprojects {
+    group = "io.snabble.pay"
+    project.extra.apply {
+        set(
+            "sdkVersion",
+            (System.getenv("SDK_VERSION_NAME")?.replace("v", "") ?: "dev") +
+                (project.properties["versionSuffix"] ?: "")
+        )
+    }
+
     apply {
         plugin(rootProject.libs.plugins.ktlint.get().pluginId)
     }
@@ -107,4 +117,15 @@ tasks.dokkaHtmlMultiModule {
             }"""
         )
     )
+}
+
+afterEvaluate {
+    publishing {
+        repositories {
+            maven {
+                name = "LocalBuildDir"
+                setUrl("file://" + project.rootDir.absolutePath + "/build/maven-releases/")
+            }
+        }
+    }
 }

@@ -5,9 +5,9 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import com.ramcosta.composedestinations.DestinationsNavHost
 import dagger.hilt.android.AndroidEntryPoint
-import io.snabble.pay.SnabblePay
 import io.snabble.pay.app.feature.NavGraphs
 import io.snabble.pay.app.ui.theme.SnabblePayTheme
+import io.snabble.pay.sdk.SnabblePay
 import javax.inject.Inject
 
 @AndroidEntryPoint

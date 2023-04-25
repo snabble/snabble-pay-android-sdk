@@ -5,11 +5,18 @@
     id(libs.plugins.kotlin.android.get().pluginId)
     alias(libs.plugins.kotlin.serialization)
     id("de.mannodermaus.android-junit5")
+    id("maven-publish")
 }
 
 android {
     namespace = "io.snabble.pay.shared"
     compileSdk = libs.versions.sdk.compile.get().toInt()
+
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+        }
+    }
 
     defaultConfig {
         minSdk = libs.versions.sdk.min.get().toInt()
@@ -56,4 +63,17 @@ dependencies {
     androidTestImplementation(libs.bundles.testing.android)
 
     androidTestRuntimeOnly(libs.test.junit5.androidTestRunner)
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            create("shared", MavenPublication::class.java) {
+                from(components["release"])
+                groupId = project.group.toString()
+                artifactId = project.name
+                version = project.extra.get("sdkVersion").toString()
+            }
+        }
+    }
 }

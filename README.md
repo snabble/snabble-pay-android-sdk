@@ -4,6 +4,38 @@
 
 # Snabble Pay Android SDK
 
+## Requirements
+
+```
+minSdkVersion = 21
+compileSdkVersion = 33
+java 8
+
+```
+
+## Installation
+
+#### Using the snabble github Repository
+
+Add the snabble Repository to your gradle Repositories
+
+```groovy
+repositories {
+    maven {
+        url 'https://raw.githubusercontent.com/snabble/maven-repository/releases'
+    }
+}
+```
+
+Then add the library to your dependencies.
+
+```groovy
+dependencies {
+    // core library
+    implementation 'io.snabble.pay:sdk:{currentVersion}'
+}
+```
+
 ## Getting started
 
 ### Initialize Snabble Pay
@@ -12,7 +44,7 @@ To use and integrate Snabble Pay into an existing application an instance of `Sn
 To initialize `SnabblePay` a configuration needs to be provided over the SnabblePay builder function.
 
 ```kotlin
-val pay: SnabblePay = snabblePay(context = context) {
+val pay: SnabblePay = SnabblePay.getInstance(context = context) {
     baseUrl = "https://payment.snabble-staging.io"
 
     snabblePayKey = "shOnRkO4y5Gy..."
@@ -48,7 +80,7 @@ The given `appUri` will be called by the backend after the account verification 
 The given `twoLetterIsoCountryCode` need to be provided in two-letter-format (also see: [supported values](https://docs.payone.com/pages/releaseview.action?pageId=1213959) )
 
 
-After a succeeded validation the user will be redirected to the application over the given appUri, which contains the needed accountId as path parameter.
+After a succeeded validation the user will be redirected to the application over the given appUri, which contains the needed accountId as query parameter.
 The account can then be fetched with the given id.
 ```kotlin
 snabblePay.getAccount(id)

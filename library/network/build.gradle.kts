@@ -1,6 +1,7 @@
 @Suppress("DSL_SCOPE_VIOLATION") plugins {
     id("java-library")
     id("org.jetbrains.kotlin.jvm")
+    id("maven-publish")
 }
 
 java {
@@ -24,4 +25,17 @@ dependencies {
 
 tasks.withType<Test>().configureEach {
     useJUnitPlatform()
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            create("network", MavenPublication::class.java) {
+                from(components["java"])
+                groupId = project.group.toString()
+                artifactId = project.name
+                version = project.extra.get("sdkVersion").toString()
+            }
+        }
+    }
 }

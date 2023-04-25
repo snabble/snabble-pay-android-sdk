@@ -1,0 +1,33 @@
+name: Publish
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
+      - name: Build
+        run: ./gradlew build
+      - name: Publish to Maven Repository
+        env:
+          SDK_VERSION_NAME: ${{ github.ref_name }}
+        run: |
+          eval $(ssh-agent -s)
+          ssh-add -D
+          ssh-add - <<< "${{ secrets.TOKEN }}"
+          ./github_release.sh
+      - name: Generate documentation
+        run: ./gradlew dokkaHtmlMultiModule
+      - name: Deploy documentation
+        uses: JamesIves/github-pages-deploy-action@v4.3.3
+        with:
+          branch: gh-pages
+          folder: docs

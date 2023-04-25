@@ -9,6 +9,7 @@
     alias(libs.plugins.benManesVersions)
     alias(libs.plugins.versionCatalogUpdate)
     alias(libs.plugins.dokka)
+    id("maven-publish")
 }
 
 buildscript {
@@ -35,6 +36,15 @@ subprojects {
 }
 
 allprojects {
+    group = "io.snabble.pay"
+    project.extra.apply {
+        set(
+            "sdkVersion",
+            (System.getenv("SDK_VERSION_NAME")?.replace("v", "") ?: "dev") +
+                (project.properties["versionSuffix"] ?: "")
+        )
+    }
+
     apply {
         plugin(rootProject.libs.plugins.ktlint.get().pluginId)
     }
@@ -94,17 +104,32 @@ tasks.withType<com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 }
 
 tasks.dokkaHtmlMultiModule {
-    outputDirectory.set(buildDir.resolve("snabble-pay-docs"))
+    outputDirectory.set(rootDir.toPath().resolve("docs").toFile())
 
     suppressInheritedMembers.set(true)
 
     includes.from("Module.md")
+    val escapedLogoPath = file("dokka/assets/logo-icon.svg").absolutePath.replace("\\\\", "\\\\\\\\")
 
     pluginsMapConfiguration.set(
         mapOf(
             "org.jetbrains.dokka.base.DokkaBase" to """{
-              "footerMessage": "© ${java.time.Year.now()} snabble GmbH"
+              "footerMessage": "© ${java.time.Year.now()} snabble GmbH",
+              "customAssets": [
+                "$escapedLogoPath"
+            ]
             }"""
         )
     )
+}
+
+afterEvaluate {
+    publishing {
+        repositories {
+            maven {
+                name = "LocalBuildDir"
+                setUrl("file://" + project.rootDir.absolutePath + "/build/maven-releases/")
+            }
+        }
+    }
 }

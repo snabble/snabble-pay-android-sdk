@@ -1,6 +1,5 @@
 package io.snabble.pay.app.data.repository.mandate
 
-import io.snabble.pay.SnabblePay
 import io.snabble.pay.app.data.utils.AppError
 import io.snabble.pay.app.data.utils.AppResult
 import io.snabble.pay.app.data.utils.AppSuccess
@@ -9,6 +8,7 @@ import io.snabble.pay.app.domain.mandate.MandateRepository
 import io.snabble.pay.core.util.Failure
 import io.snabble.pay.core.util.Success
 import io.snabble.pay.mandate.domain.model.Mandate
+import io.snabble.pay.sdk.SnabblePay
 import javax.inject.Inject
 
 class MandateRepositoryImpl @Inject constructor(

@@ -104,16 +104,20 @@ tasks.withType<com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 }
 
 tasks.dokkaHtmlMultiModule {
-    outputDirectory.set(buildDir.resolve("snabble-pay-docs"))
+    outputDirectory.set(rootDir.toPath().resolve("docs").toFile())
 
     suppressInheritedMembers.set(true)
 
     includes.from("Module.md")
+    val escapedLogoPath = file("dokka/assets/logo-icon.svg").absolutePath.replace("\\\\", "\\\\\\\\")
 
     pluginsMapConfiguration.set(
         mapOf(
             "org.jetbrains.dokka.base.DokkaBase" to """{
-              "footerMessage": "© ${java.time.Year.now()} snabble GmbH"
+              "footerMessage": "© ${java.time.Year.now()} snabble GmbH",
+              "customAssets": [
+                "$escapedLogoPath"
+            ]
             }"""
         )
     )

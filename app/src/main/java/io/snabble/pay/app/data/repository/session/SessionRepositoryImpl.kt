@@ -1,6 +1,5 @@
 package io.snabble.pay.app.data.repository.session
 
-import io.snabble.pay.SnabblePay
 import io.snabble.pay.app.data.utils.AppError
 import io.snabble.pay.app.data.utils.AppResult
 import io.snabble.pay.app.data.utils.AppSuccess
@@ -10,6 +9,7 @@ import io.snabble.pay.app.domain.session.SessionRepository
 import io.snabble.pay.app.domain.session.SessionTokenModel
 import io.snabble.pay.core.util.Failure
 import io.snabble.pay.core.util.Success
+import io.snabble.pay.sdk.SnabblePay
 import javax.inject.Inject
 
 class SessionRepositoryImpl @Inject constructor(

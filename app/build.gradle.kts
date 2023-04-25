@@ -67,7 +67,7 @@ android {
 
 dependencies {
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.2")
-    implementation(project(":pay"))
+    implementation(project(":sdk"))
     implementation(libs.bundles.accompanist)
 
     implementation(libs.androidx.core)
@@ -106,7 +106,6 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
     implementation("com.airbnb.android:lottie-compose:6.0.0")
-    implementation("io.snabble.pay:sdk:1.0.0")
     // Room
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)

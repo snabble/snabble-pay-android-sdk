@@ -4,6 +4,38 @@
 
 # Snabble Pay Android SDK
 
+## Requirements
+
+```
+minSdkVersion = 21
+compileSdkVersion = 33
+java 8
+
+```
+
+## Installation
+
+#### Using the snabble github Repository
+
+Add the snabble Repository to your gradle Repositories
+
+```groovy
+repositories {
+    maven {
+        url 'https://raw.githubusercontent.com/snabble/maven-repository/releases'
+    }
+}
+```
+
+Then add the library to your dependencies.
+
+```groovy
+dependencies {
+    // core library
+    implementation 'io.snabble.pay:sdk:{currentVersion}'
+}
+```
+
 ## Getting started
 
 ### Initialize Snabble Pay

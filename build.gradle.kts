@@ -123,13 +123,3 @@ tasks.dokkaHtmlMultiModule {
     )
 }
 
-afterEvaluate {
-    publishing {
-        repositories {
-            maven {
-                name = "LocalBuildDir"
-                setUrl("file://" + project.rootDir.absolutePath + "/build/maven-releases/")
-            }
-        }
-    }
-}

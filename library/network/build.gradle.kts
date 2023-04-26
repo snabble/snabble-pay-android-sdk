@@ -30,6 +30,12 @@ tasks.withType<Test>().configureEach {
 afterEvaluate {
     publishing {
         publications {
+            repositories {
+                maven {
+                    name = "LocalBuildDir"
+                    setUrl("file://${project.rootDir.absolutePath}/build/maven-releases/")
+                }
+            }
             create("network", MavenPublication::class.java) {
                 from(components["java"])
                 groupId = project.group.toString()

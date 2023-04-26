@@ -73,6 +73,12 @@ dependencies {
 afterEvaluate {
     publishing {
         publications {
+            repositories {
+                maven {
+                    name = "LocalBuildDir"
+                    setUrl("file://${project.rootDir.absolutePath}/build/maven-releases/")
+                }
+            }
             create("api", MavenPublication::class.java) {
                 from(components["release"])
                 groupId = project.group.toString()

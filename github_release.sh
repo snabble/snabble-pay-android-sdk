@@ -21,7 +21,7 @@ if [ -d "build/maven-snapshots" ]; then
     git clone --depth 1 -b snapshots git@github.com:snabble/maven-repository.git maven-repository
 fi
 
-cd maven-repository
+cd build/maven-repository
 
 cp -r ../build/maven-releases/* . 2>/dev/null
 cp -r ../build/maven-snapshots/* . 2>/dev/null

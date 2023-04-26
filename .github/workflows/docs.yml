@@ -26,7 +26,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: Snabble Pay Documentation
-          path: build/snabble-pay-docs
+          path: docs
 
   deploy:
     name: Deploy Documentation to GitHub Pages

@@ -13,5 +13,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.0.0]
 Initial release of `SnabblePay`
-* SDK Documenation: https://docs.snabble.io/snabble-pay-android-sdk/docs
-* API Documentation: https://docs.snabble.io/payment-service/
+* [SDK Documenation](https://docs.snabble.io/snabble-pay-android-sdk/)
+* [API Documentation](https://docs.snabble.io/payment-service/)

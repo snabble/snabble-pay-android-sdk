@@ -19,6 +19,7 @@ import io.snabble.pay.app.domain.mandate.usecase.CreateMandateUseCase
 import io.snabble.pay.app.domain.mandate.usecase.GetMandateUseCase
 import io.snabble.pay.app.domain.session.SessionModel
 import io.snabble.pay.app.domain.session.SessionTokenModel
+import io.snabble.pay.app.domain.session.usecase.CreateSessionUseCase
 import io.snabble.pay.app.domain.session.usecase.GetCurrentSessionUseCase
 import io.snabble.pay.app.domain.session.usecase.UpdateTokenUseCase
 import io.snabble.pay.mandate.domain.model.Mandate
@@ -42,6 +43,7 @@ class DetailsAccountViewModel @Inject constructor(
     private val getAccountCard: GetAccountCardUseCase,
     private val setCardLabelAndColors: SetAccountCardLabelUseCase,
     private val getMandate: GetMandateUseCase,
+    private val createNewSession: CreateSessionUseCase,
     private val createMandate: CreateMandateUseCase,
     private val removeAccount: DeleteAccountUseCase,
     private val loadSessionFor: GetCurrentSessionUseCase,
@@ -56,6 +58,7 @@ class DetailsAccountViewModel @Inject constructor(
     val error = _error.asSharedFlow()
 
     val accountId: String = requireNotNull(savedStateHandle["accountId"])
+    private var tokenRefreshJob: Job? = null
     private var sessionRefreshJob: Job? = null
 
     private fun getAccount(accountId: String) {
@@ -103,11 +106,26 @@ class DetailsAccountViewModel @Inject constructor(
     private suspend fun updateAccountsAndRefreshTimer(session: SessionModel) {
         addSessionTokenToAccount(session.token)
         setTokenRefreshTimer(session)
+        setSessionRefreshTimer(session)
+    }
+
+    private fun setSessionRefreshTimer(session: SessionModel) {
+        sessionRefreshJob?.cancel()
+        sessionRefreshJob = viewModelScope.launch {
+            delay(refreshDelay(session.expiresAt))
+            createNewSession(accountId)
+                .onError { _error.emit(it) }
+                .onSuccess {
+                    updateAccountsAndRefreshTimer(
+                        session = it
+                    )
+                }
+        }
     }
 
     private fun setTokenRefreshTimer(session: SessionModel) {
-        sessionRefreshJob?.cancel()
-        sessionRefreshJob = viewModelScope.launch {
+        tokenRefreshJob?.cancel()
+        tokenRefreshJob = viewModelScope.launch {
             val refreshTokenJob = viewModelScope.async {
                 delay(refreshDelay(session.token.refreshAt))
                 fetchNewToken(session.id)
@@ -164,7 +182,7 @@ class DetailsAccountViewModel @Inject constructor(
     }
 
     override fun onPause(owner: LifecycleOwner) {
-        sessionRefreshJob?.cancel()
+        tokenRefreshJob?.cancel()
     }
 }
 

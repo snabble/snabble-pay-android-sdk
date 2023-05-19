@@ -22,6 +22,7 @@ import io.snabble.pay.app.domain.session.SessionTokenModel
 import io.snabble.pay.app.domain.session.usecase.CreateSessionUseCase
 import io.snabble.pay.app.domain.session.usecase.GetCurrentSessionUseCase
 import io.snabble.pay.app.domain.session.usecase.UpdateTokenUseCase
+import io.snabble.pay.core.Reason
 import io.snabble.pay.mandate.domain.model.Mandate
 import io.snabble.pay.shared.account.domain.model.Account
 import kotlinx.coroutines.Job
@@ -137,7 +138,17 @@ class DetailsAccountViewModel @Inject constructor(
             }
 
             refreshTokenJob.await()
-                .onError { _error.emit(it) }
+                .onError {
+                    if (it?.reason == Reason.INVALID_SESSION_STATE) {
+                        createNewSession(accountId).onError { err ->
+                            _error.emit(err)
+                        }.onSuccess {
+                            updateAccountsAndRefreshTimer(session)
+                        }
+                    } else {
+                        _error.emit(it)
+                    }
+                }
                 .onSuccess {
                     updateAccountsAndRefreshTimer(session = session.copy(token = it))
                 }

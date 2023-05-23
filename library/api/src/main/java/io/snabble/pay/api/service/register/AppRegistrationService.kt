@@ -3,10 +3,10 @@ package io.snabble.pay.api.service.register
 import io.snabble.pay.api.retrofit.ApiResponse
 import io.snabble.pay.api.service.register.dto.AppCredentialsDto
 import io.snabble.pay.api.service.register.dto.TokenDto
-import retrofit2.http.GET
+import retrofit2.http.Field
+import retrofit2.http.FormUrlEncoded
 import retrofit2.http.Header
 import retrofit2.http.POST
-import retrofit2.http.Query
 
 /**
  * Service related to registering an App instance to be able to use Snabble Pay.
@@ -30,11 +30,12 @@ interface AppRegistrationService {
      *
      * [Docs to authenticate the app](https://snabble.atlassian.net/wiki/spaces/PAYMENT/pages/131301398/Backend+Requirements#App-Authentication)
      */
-    @GET("/apps/token")
+    @POST("/apps/token")
+    @FormUrlEncoded
     suspend fun getToken(
-        @Query("grant_type") grantType: String = "client_credentials",
-        @Query("client_id") appIdentifier: String,
-        @Query("client_secret") appSecret: String,
-        @Query("scope") scope: String = "all",
+        @Field("grant_type") grantType: String = "client_credentials",
+        @Field("client_id") appIdentifier: String,
+        @Field("client_secret") appSecret: String,
+        @Field("scope") scope: String = "all",
     ): ApiResponse<TokenDto>
 }

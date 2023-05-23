@@ -142,7 +142,7 @@ class DetailsAccountViewModel @Inject constructor(
                     if (it?.reason == Reason.INVALID_SESSION_STATE) {
                         createNewSession(accountId).onError { err ->
                             _error.emit(err)
-                        }.onSuccess {
+                        }.onSuccess { session ->
                             updateAccountsAndRefreshTimer(session)
                         }
                     } else {

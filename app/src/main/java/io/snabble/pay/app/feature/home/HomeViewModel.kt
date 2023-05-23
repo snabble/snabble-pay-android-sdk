@@ -118,8 +118,11 @@ class HomeViewModel @Inject constructor(
                     if (it?.reason == Reason.INVALID_SESSION_STATE) {
                         createNewSession(accountId).onError { err ->
                             _error.emit(err)
-                        }.onSuccess {
-                            updateAccountsAndStartAutoRefresh(accountId, session)
+                        }.onSuccess { session ->
+                            updateAccountsAndStartAutoRefresh(
+                                accountId = accountId,
+                                session = session
+                            )
                         }
                     } else {
                         _error.emit(it)
@@ -185,6 +188,7 @@ class HomeViewModel @Inject constructor(
 
     override fun onPause(owner: LifecycleOwner) {
         tokenRefreshJob?.cancel()
+        sessionRefreshJob?.cancel()
     }
 }
 

@@ -30,7 +30,6 @@ interface AppRegistrationService {
      *
      * [Docs to authenticate the app](https://snabble.atlassian.net/wiki/spaces/PAYMENT/pages/131301398/Backend+Requirements#App-Authentication)
      */
-
     @POST("/apps/token")
     @FormUrlEncoded
     suspend fun getToken(

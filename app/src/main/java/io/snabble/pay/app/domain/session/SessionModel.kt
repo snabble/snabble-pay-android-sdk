@@ -15,6 +15,8 @@ import java.time.ZonedDateTime
 @Parcelize
 data class SessionModel(
     val id: String,
+    @Serializable(with = KZonedDateTimeSerializer::class) val createdAt: ZonedDateTime,
+    @Serializable(with = KZonedDateTimeSerializer::class) val expiresAt: ZonedDateTime,
     val accountCard: AccountCard,
     val token: SessionTokenModel,
     val transaction: TransactionModel?,
@@ -24,6 +26,8 @@ data class SessionModel(
 
         fun from(session: Session) = SessionModel(
             id = session.id,
+            createdAt = session.createdAt,
+            expiresAt = session.expiresAt,
             accountCard = session.account.toAccountCard(null, emptyList()),
             token = SessionTokenModel.from(session.token),
             transaction = TransactionModel.from(session.transaction)

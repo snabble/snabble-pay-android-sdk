@@ -62,5 +62,4 @@ enum class TransactionState {
      * @since 1.0.0
      */
     SUCCESSFUL,
-
 }

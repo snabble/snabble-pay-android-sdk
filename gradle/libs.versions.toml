@@ -1,4 +1,5 @@
 [versions]
+accompanist = "0.28.0"
 sdk-compile = "33"
 sdk-target = "33"
 sdk-min = "21"
@@ -13,8 +14,9 @@ kotlin = "1.8.10"
 okhttp3 = "4.10.0"
 
 [libraries]
-accompanist-pager = "com.google.accompanist:accompanist-pager:0.28.0"
-accompanist-pagerIndicator = "com.google.accompanist:accompanist-pager-indicators:0.28.0"
+accompanist-pager = { module = "com.google.accompanist:accompanist-pager", version.ref = "accompanist" }
+accompanist-pagerIndicators = { module = "com.google.accompanist:accompanist-pager-indicators", version.ref = "accompanist" }
+accompanist-systemuicontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanist" }
 # Android
 # @pin - newer versions break androidTests
 android-desugarJdkLibs = "com.android.tools:desugar_jdk_libs:1.2.2"
@@ -78,8 +80,8 @@ ramacosta = [
 
 accompanist = [
     "accompanist-pager",
-    "accompanist-pagerIndicator"
-
+    "accompanist-pagerIndicators",
+    "accompanist-systemuicontroller"
 ]
 compose = [
     "androidx-constraintlayoutCompose",

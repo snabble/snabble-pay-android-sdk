@@ -14,5 +14,6 @@ internal class TransactionStateMapper : Mapper<TransactionStateDto, TransactionS
         TransactionStateDto.PREAUTHORIZED -> TransactionState.PREAUTHORIZED
         TransactionStateDto.PREAUTH_FAILED -> TransactionState.PREAUTH_FAILED
         TransactionStateDto.SUCCESSFUL -> TransactionState.SUCCESSFUL
+        TransactionStateDto.PREAUTHORIZATION_SUCCESSFUL -> TransactionState.PREAUTHORIZATION_SUCCESSFUL
     }
 }

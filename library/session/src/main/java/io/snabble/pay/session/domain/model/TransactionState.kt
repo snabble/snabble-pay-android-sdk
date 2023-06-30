@@ -50,9 +50,17 @@ enum class TransactionState {
     PREAUTH_FAILED,
 
     /**
+     * Final state if a transaction authorization succeeded.
+     *
+     * @since 1.0.0
+     */
+    PREAUTHORIZATION_SUCCESSFUL,
+
+    /**
      * Final state if a transaction has been successfully finished by the customer.
      *
      * @since 1.0.0
      */
     SUCCESSFUL,
+
 }

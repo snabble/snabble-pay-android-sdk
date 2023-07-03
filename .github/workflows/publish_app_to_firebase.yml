@@ -1,0 +1,51 @@
+name: Publish App to Firebase
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: gradle
+
+      - name: Decode Upload Keystore
+        env:
+          ENCODED_KEYSTORE: ${{ secrets.RELEASE_KEYSTORE }}
+        run: echo $ENCODED_KEYSTORE | base64 -d > app/keystore.jks
+
+      - name: Decode Google Services JSON
+        env:
+          ENCODED_GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON_B64 }}
+        run: echo $ENCODED_GOOGLE_SERVICES_JSON | base64 -d > app/src/release/google-services.json
+
+      - name: Build Release App APK
+        env:
+          VERSION_CODE: ${{ github.run_number }}
+          RELEASE_STORE_PATH: 'keystore.jks'
+          RELEASE_STORE_PASSWORD: ${{ secrets.RELEASE_STORE_PASSWORD }}
+          RELEASE_KEY_ALIAS: ${{ secrets.RELEASE_KEY_ALIAS }}
+          RELEASE_KEY_PASSWORD: ${{ secrets.RELEASE_KEY_PASSWORD }}
+        run: ./gradlew app:assembleRelease
+
+      - name: Provide Release App APK as Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: Release App APK
+          path: app/build/outputs/apk/release/app-release.apk
+
+      - name: Decode Firebase Publisher Service Account JSON File
+        env:
+          ENCODED_SERVICE_ACCOUNT_CREDENTIALS: ${{ secrets.SERVICE_ACCOUNT_CREDENTIALS_FILE_B64 }}
+        run: echo $ENCODED_SERVICE_ACCOUNT_CREDENTIALS | base64 -d > app/snabble-pay-8f2f5f418ddc.json
+
+      - name: Publish App APK to Firebase App Distribution
+        run: ./gradlew appDistributionUploadRelease

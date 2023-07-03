@@ -17,6 +17,8 @@ buildscript {
         classpath(libs.classpath.kotlinGradlePlugin)
         classpath(libs.classpath.dokka.gradlePlugin)
         classpath(libs.classpath.dokka.base)
+        classpath(libs.classpath.firebaseAppDistribution)
+        classpath(libs.classpath.googleServices)
         classpath(libs.test.junit5.androidPlugin)
     }
 }

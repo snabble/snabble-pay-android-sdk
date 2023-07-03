@@ -52,9 +52,11 @@ retrofit2 = "com.squareup.retrofit2:retrofit:2.9.0"
 retrofit-kotlinSerialization = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0"
 zxing-core = "com.google.zxing:core:3.5.1"
 ## Classpath
-classpath-kotlinGradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 classpath-dokka-gradlePlugin = { module = "org.jetbrains.dokka:dokka-gradle-plugin", version.ref = "dokka" }
 classpath-dokka-base = { module = "org.jetbrains.dokka:dokka-base", version.ref = "dokka" }
+classpath-firebaseAppDistribution = "com.google.firebase:firebase-appdistribution-gradle:4.0.0"
+classpath-googleServices = "com.google.gms:google-services:4.3.15"
+classpath-kotlinGradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 ## Android Testing
 test-junit = "androidx.test.ext:junit:1.1.5"
 test-espresso = "androidx.test.espresso:espresso-core:3.5.1"

@@ -1,14 +1,16 @@
 @file:Suppress("UnstableApiUsage")
 
 @Suppress("DSL_SCOPE_VIOLATION") plugins {
+    alias(libs.plugins.kotlin.serialization)
     id(libs.plugins.android.application.get().pluginId)
     id(libs.plugins.kotlin.android.get().pluginId)
     id(libs.plugins.kotlin.kapt.get().pluginId)
-    alias(libs.plugins.kotlin.serialization)
-    id("kotlin-parcelize")
     id("com.google.devtools.ksp") version "1.8.10-1.0.9"
-    id("de.mannodermaus.android-junit5")
     id("com.google.dagger.hilt.android")
+    id("com.google.gms.google-services")
+    id("com.google.firebase.appdistribution")
+    id("de.mannodermaus.android-junit5")
+    id("kotlin-parcelize")
 }
 
 android {
@@ -30,13 +32,29 @@ android {
         }
     }
 
+    signingConfigs {
+        create("release") {
+            storeFile = file(System.getenv("RELEASE_STORE_PATH") ?: ".")
+            storePassword = System.getenv("RELEASE_STORE_PASSWORD")
+            keyAlias = System.getenv("RELEASE_KEY_ALIAS")
+            keyPassword = System.getenv("RELEASE_KEY_PASSWORD")
+        }
+    }
+
     buildTypes {
         release {
+            signingConfig = signingConfigs.getByName("debug")
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+        }
+
+        firebaseAppDistribution {
+            artifactType = "APK"
+            groups = "Snabble"
+            serviceCredentialsFile = "app/snabble-pay-8f2f5f418ddc.json"
         }
     }
 
@@ -125,4 +143,16 @@ android.applicationVariants.all {
     addJavaSourceFoldersToModel(
         File(buildDir, "generated/ksp/$name/kotlin")
     )
+}
+
+androidComponents {
+    onVariants { variant ->
+        if (variant.name != "release") return@onVariants
+
+        val versionCode: Int = System.getenv("VERSION_CODE")?.toIntOrNull() ?: return@onVariants
+
+        for (output in variant.outputs) {
+            output.versionCode.set(versionCode)
+        }
+    }
 }

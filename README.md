@@ -100,3 +100,10 @@ The application needs to provide an account id, which the session should be asso
 ```kotlin
 snabblePay.createNewSession(accountId)
 ```
+
+----
+
+## How to test?
+
+To test the sample you need to have access to our tink console.
+Afterwards the [test instructions can be found here](https://docs.tink.com/resources/account-check/test-different-account-check-scenarios).

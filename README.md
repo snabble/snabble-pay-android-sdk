@@ -106,4 +106,4 @@ snabblePay.createNewSession(accountId)
 ## How to test?
 
 To test the sample you need to have access to our tink console.
-Afterwards the [test instructions can be found here](https://docs.tink.com/resources/account-check/test-different-account-check-scenarios).
+Afterwards, launch the demo application, tap the Plus _(+)_ FAB and follow the [test instructions here](https://docs.tink.com/resources/account-check/test-different-account-check-scenarios).

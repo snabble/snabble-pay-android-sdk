@@ -11,6 +11,7 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import com.ramcosta.composedestinations.navigation.popUpTo
 import io.snabble.pay.app.R
 import io.snabble.pay.app.data.utils.ErrorResponse
 import io.snabble.pay.app.feature.destinations.HomeScreenDestination
@@ -73,7 +74,11 @@ fun AccountDetailsScreen(
             )
         }
 
-        is AccountDeleted -> navigator?.navigate(HomeScreenDestination)
+        is AccountDeleted -> navigator?.navigate(HomeScreenDestination) {
+            popUpTo(HomeScreenDestination) {
+                inclusive = true
+            }
+        }
     }
 }
 

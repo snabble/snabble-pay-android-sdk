@@ -30,7 +30,7 @@ class QrCodeGenerator {
         for (y in 0 until height) {
             for (x in 0 until width) {
                 pixels[y * width + x] =
-                    if (bitMapMatrix.get(x, y)) Color.BLACK else Color.TRANSPARENT
+                    if (bitMapMatrix.get(x, y)) Color.BLACK else Color.WHITE
             }
         }
 

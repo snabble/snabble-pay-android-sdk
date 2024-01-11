@@ -59,7 +59,7 @@ fun AppBarLayout(
             navigationIcon = {
                 IconButton(onClick = { onBackClick() }) {
                     Icon(
-                        tint = MaterialTheme.colorScheme.onSecondary,
+                        tint = MaterialTheme.colorScheme.onSurface,
                         imageVector = icon,
                         contentDescription = "Back"
                     )

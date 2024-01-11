@@ -3,7 +3,6 @@ package io.snabble.pay.app.feature.detailsaccount.ui.widget
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -13,7 +12,6 @@ import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Edit
-import androidx.compose.material3.Divider
 import androidx.compose.material3.DividerDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -65,16 +63,16 @@ fun EditTextFieldCentered(
                     backgroundColor = MaterialTheme.colorScheme.background,
                     textColor = MaterialTheme.colorScheme.onSurface,
                     cursorColor = MaterialTheme.colorScheme.onPrimary,
-                    focusedIndicatorColor = Transparent,
+                    focusedIndicatorColor = MaterialTheme.colorScheme.onSurface,
                     disabledIndicatorColor = Transparent,
-                    unfocusedIndicatorColor = Transparent
+                    unfocusedIndicatorColor = DividerDefaults.color
                 ),
                 leadingIcon = {
                     Spacer(modifier = Modifier.size(52.dp))
                 },
                 trailingIcon = {
                     Icon(
-                        tint = MaterialTheme.colorScheme.onSecondary,
+                        tint = MaterialTheme.colorScheme.onSurface,
                         imageVector = Icons.Outlined.Edit,
                         contentDescription = ""
                     )
@@ -99,10 +97,6 @@ fun EditTextFieldCentered(
                     fontWeight = FontWeight.Bold,
                     textAlign = TextAlign.Center
                 )
-            )
-            Divider(
-                modifier = Modifier.padding(horizontal = 16.dp),
-                color = if (focusedDivider.value) MaterialTheme.colorScheme.onSecondary else DividerDefaults.color
             )
         }
     }

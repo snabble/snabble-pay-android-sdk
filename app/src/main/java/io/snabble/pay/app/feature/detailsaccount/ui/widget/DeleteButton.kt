@@ -1,6 +1,7 @@
 package io.snabble.pay.app.feature.detailsaccount.ui.widget
 
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.DeleteOutline
 import androidx.compose.material3.Icon
@@ -21,7 +22,8 @@ fun DeleteButton(
 ) {
     TextButton(
         modifier = modifier,
-        onClick = { onClick() }
+        onClick = onClick,
+        shape = RoundedCornerShape(32.dp)
     ) {
         Icon(
             imageVector = Icons.Outlined.DeleteOutline,
@@ -31,6 +33,7 @@ fun DeleteButton(
         Text(
             modifier = Modifier.padding(start = 8.dp),
             text = stringResource(id = R.string.details_delete_account),
+            style = MaterialTheme.typography.labelLarge,
             color = Color.Black
         )
     }

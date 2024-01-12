@@ -6,7 +6,7 @@ data class PurchasesModel(
     val data: ZonedDateTime,
     val amount: String,
     val cardName: String,
-    val state: PurchasesState
+    val state: PurchasesState,
 )
 
 enum class PurchasesState {

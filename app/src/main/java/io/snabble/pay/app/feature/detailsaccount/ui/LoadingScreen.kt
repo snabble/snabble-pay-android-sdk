@@ -18,7 +18,6 @@ fun LoadingScreen(
 ) {
     AppBarLayout(
         title = "",
-        icon = Icons.Filled.Clear,
         onBackClick = { navigator?.navigateUp() }
     ) {
         Box(modifier = Modifier.fillMaxSize()) {

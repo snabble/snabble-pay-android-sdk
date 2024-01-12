@@ -44,10 +44,9 @@ fun EditCardNameDialog(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
+                    .padding(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Spacer(modifier = Modifier.size(16.dp))
                 Text(text = "Titel bearbeiten", style = MaterialTheme.typography.titleLarge)
                 Spacer(modifier = Modifier.size(16.dp))
                 EditTextFieldCentered(
@@ -73,10 +72,6 @@ fun EditCardNameDialog(
                         onSaveNameRequest(editTextValue.value)
                     }
                 ) {
-                    Icon(
-                        imageVector = Icons.Outlined.Edit,
-                        contentDescription = ""
-                    )
                     Text(
                         modifier = Modifier
                             .padding(start = 8.dp),
@@ -84,21 +79,8 @@ fun EditCardNameDialog(
                         style = MaterialTheme.typography.labelLarge
                     )
                 }
-                TextButton(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    shape = RoundedCornerShape(32.dp),
-                    onClick = onDismissRequest
-                ) {
-                    Text(
-                        modifier = Modifier.padding(start = 8.dp),
-                        text = "Abbrechen",
-                        style = MaterialTheme.typography.labelLarge,
-                        color = MaterialTheme.colorScheme.onSurface
-                    )
-                }
             }
-            Spacer(modifier = Modifier.size(8.dp))
+
         }
     }
 }

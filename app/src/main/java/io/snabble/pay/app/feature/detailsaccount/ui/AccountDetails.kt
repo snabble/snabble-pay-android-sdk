@@ -12,7 +12,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.OutlinedButton
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -58,8 +57,7 @@ fun AccountDetails(
 
     SnabblePayTheme {
         AppBarLayout(
-            title = accountCard.name,
-            icon = Icons.Filled.Clear,
+            title = cardName.value,
             onBackClick = {
                 navigator?.navigate(HomeScreenDestination)
             }

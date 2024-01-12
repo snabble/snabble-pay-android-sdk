@@ -17,6 +17,9 @@
 
     <string name="details_delete_account">Bankverbindung löschen</string>
 
+    <string name="account_details_change_title">Titel bearbeiten</string>
+    <string name="change_title_dialog_button">Speichern</string>
+
     <string name="new_account_app_bar">Bankkonto</string>
     <string name="new_account_owner">Kontoinhaber</string>
 

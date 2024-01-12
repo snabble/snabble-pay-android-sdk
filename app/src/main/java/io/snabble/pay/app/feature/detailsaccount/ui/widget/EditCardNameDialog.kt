@@ -19,9 +19,11 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import io.snabble.pay.app.R
 import io.snabble.pay.app.ui.theme.SnabblePayTheme
 
 @Composable
@@ -43,7 +45,7 @@ fun EditCardNameDialog(
                     .padding(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(text = "Titel bearbeiten", style = MaterialTheme.typography.titleLarge)
+                Text(text = stringResource(id = R.string.account_details_change_title), style = MaterialTheme.typography.titleLarge)
                 Spacer(modifier = Modifier.size(16.dp))
                 EditTextFieldCentered(
                     modifier = Modifier
@@ -71,7 +73,7 @@ fun EditCardNameDialog(
                     Text(
                         modifier = Modifier
                             .padding(start = 8.dp),
-                        text = "Speichern",
+                        text = stringResource(id = R.string.change_title_dialog_button),
                         style = MaterialTheme.typography.labelLarge
                     )
                 }

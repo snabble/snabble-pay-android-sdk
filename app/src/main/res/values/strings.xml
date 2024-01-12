@@ -16,6 +16,9 @@
 
     <string name="details_delete_account">Delete Account</string>
 
+    <string name="account_details_change_title">Change title</string>
+    <string name="change_title_dialog_button">Save</string>
+
     <string name="new_account_app_bar">Account</string>
     <string name="new_account_owner">Account holder</string>
 

@@ -21,9 +21,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import io.snabble.pay.app.R
 import io.snabble.pay.app.domain.account.AccountCard
 import io.snabble.pay.app.domain.account.utils.GradiantGenerator
 import io.snabble.pay.app.feature.destinations.HomeScreenDestination
@@ -120,7 +122,7 @@ fun AccountDetails(
                             )
                             Text(
                                 modifier = Modifier.padding(start = 8.dp),
-                                text = "Titel bearbeiten",
+                                text = stringResource(id = R.string.account_details_change_title),
                                 color = Color.Black,
                                 style = MaterialTheme.typography.labelLarge
                             )

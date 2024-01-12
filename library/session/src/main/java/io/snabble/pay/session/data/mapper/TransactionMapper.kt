@@ -12,6 +12,8 @@ internal class TransactionMapper(
         Transaction(
             amount = from.amount,
             currencyCode = from.currencyCode,
+            createdAt = from.createdAt,
+            finalizedAt = from.finalizedAt,
             id = from.id,
             state = stateMapper.map(state)
         )

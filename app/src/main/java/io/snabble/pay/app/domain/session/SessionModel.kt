@@ -41,6 +41,7 @@ data class TransactionModel(
     val id: String,
     val amount: Int,
     val currencyCode: String,
+    @Serializable(with = KZonedDateTimeSerializer::class) val finalizedAt: ZonedDateTime,
     val state: TransactionState,
 ) : Parcelable {
 
@@ -52,6 +53,7 @@ data class TransactionModel(
                 id = transaction.id,
                 amount = transaction.amount,
                 currencyCode = transaction.currencyCode,
+                finalizedAt = transaction.finalizedAt,
                 state = transaction.state
             )
         }

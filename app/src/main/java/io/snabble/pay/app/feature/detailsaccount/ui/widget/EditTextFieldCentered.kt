@@ -27,7 +27,6 @@ fun EditTextFieldCentered(
     onValueChange: (String) -> Unit,
     onAction: () -> Unit,
 ) {
-
     val customTextSelectionColors = TextSelectionColors(
         handleColor = MaterialTheme.colorScheme.onSurface,
         backgroundColor = Transparent

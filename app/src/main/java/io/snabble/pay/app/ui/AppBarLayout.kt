@@ -38,7 +38,6 @@ fun AppBarLayout(
                     fontWeight = FontWeight.Bold,
                     textAlign = TextAlign.Center
                 )
-
             },
             navigationIcon = {
                 IconButton(onClick = { onBackClick() }) {
@@ -51,7 +50,7 @@ fun AppBarLayout(
             },
             colors = TopAppBarDefaults.mediumTopAppBarColors(
                 containerColor = MaterialTheme.colorScheme.background
-            ),
+            )
         )
         Surface(
             modifier = Modifier

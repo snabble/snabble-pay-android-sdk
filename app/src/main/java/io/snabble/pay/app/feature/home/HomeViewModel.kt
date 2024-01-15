@@ -18,14 +18,19 @@ import io.snabble.pay.app.domain.session.SessionTokenModel
 import io.snabble.pay.app.domain.session.usecase.CreateSessionUseCase
 import io.snabble.pay.app.domain.session.usecase.GetCurrentSessionUseCase
 import io.snabble.pay.app.domain.session.usecase.UpdateTokenUseCase
+import io.snabble.pay.app.domain.transactions.GetAllPurchasesUseCase
+import io.snabble.pay.app.domain.transactions.PurchasesModel
 import io.snabble.pay.core.Reason
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.time.Duration
 import java.time.ZonedDateTime
@@ -40,10 +45,11 @@ class HomeViewModel @Inject constructor(
     private val createNewSession: CreateSessionUseCase,
     private val fetchNewToken: UpdateTokenUseCase,
     private val loadSessionFor: GetCurrentSessionUseCase,
+    private val getAllPurchasesUseCase: GetAllPurchasesUseCase,
 ) : ViewModel(), DefaultLifecycleObserver {
 
-    private val _uiState = MutableStateFlow<UiState>(Loading)
-    val uiState = _uiState.asStateFlow()
+    private val _uiState = MutableStateFlow(UiState(isLoading = true))
+    val uiState: StateFlow<UiState> = _uiState.asStateFlow()
 
     private val _validationLink = MutableSharedFlow<String>()
     val validationLink = _validationLink.asSharedFlow()
@@ -54,6 +60,18 @@ class HomeViewModel @Inject constructor(
     private var tokenRefreshJob: Job? = null
     private var sessionRefreshJob: Job? = null
 
+    init {
+        loadPreviousPurchases()
+    }
+
+    private fun loadPreviousPurchases() {
+        viewModelScope.launch {
+            getAllPurchasesUseCase().collectLatest { purchases ->
+                _uiState.update { it.copy(purchases = purchases) }
+            }
+        }
+    }
+
     private fun refresh() {
         viewModelScope.launch {
             getAccounts()
@@ -62,9 +80,14 @@ class HomeViewModel @Inject constructor(
                         .onError { _error.emit(it) }
                         .onSuccess { accountList ->
                             if (accountList.isEmpty()) {
-                                _uiState.tryEmit(AddNewCart)
+                                _uiState.update { it.copy(isLoading = false, isNewUser = true) }
                             } else {
-                                _uiState.tryEmit(ShowAccounts(accountList))
+                                _uiState.update {
+                                    it.copy(
+                                        isLoading = false,
+                                        accountCards = accountList
+                                    )
+                                }
                             }
                         }
                 }
@@ -150,21 +173,19 @@ class HomeViewModel @Inject constructor(
         sessionToken: SessionTokenModel?,
     ) {
         viewModelScope.launch {
-            when (val state = uiState.value) {
-                is ShowAccounts -> {
-                    val accounts = state.accountCards.map { accMod ->
-                        if (accMod.accountId == accountId) {
-                            accMod.copy(sessionToken = sessionToken)
-                        } else {
-                            accMod
-                        }
+            val accountCards = uiState.value.accountCards
+            if (accountCards != null) {
+                val accounts = accountCards.map { accMod ->
+                    if (accMod.accountId == accountId) {
+                        accMod.copy(sessionToken = sessionToken)
+                    } else {
+                        accMod
                     }
-                    delay(1.seconds)
-                    _uiState.tryEmit(ShowAccounts(accounts))
                 }
-
-                else -> Unit
+                delay(1.seconds)
+                _uiState.update { it.copy(accountCards = accounts) }
             }
+
         }
     }
 
@@ -192,12 +213,9 @@ class HomeViewModel @Inject constructor(
     }
 }
 
-sealed interface UiState
-
-object Loading : UiState
-
-object AddNewCart : UiState
-
-data class ShowAccounts(
-    val accountCards: List<AccountCard>,
-) : UiState
+data class UiState(
+    val isLoading: Boolean = false,
+    val isNewUser: Boolean = false,
+    val accountCards: List<AccountCard>? = null,
+    val purchases: List<PurchasesModel>? = null,
+)

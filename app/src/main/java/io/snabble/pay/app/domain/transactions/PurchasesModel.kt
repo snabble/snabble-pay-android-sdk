@@ -4,7 +4,7 @@ import java.time.ZonedDateTime
 
 data class PurchasesModel(
     val data: ZonedDateTime,
-    val amount: String,
+    val amount: Int,
     val cardName: String,
     val state: PurchasesState,
 )

@@ -28,10 +28,7 @@ import io.snabble.pay.app.R
 import io.snabble.pay.app.data.utils.ErrorResponse
 import io.snabble.pay.app.feature.destinations.AccountDetailsScreenDestination
 import io.snabble.pay.app.feature.detailsaccount.ui.AccountDetailsScreenNavArgs
-import io.snabble.pay.app.feature.home.AddNewCart
 import io.snabble.pay.app.feature.home.HomeViewModel
-import io.snabble.pay.app.feature.home.Loading
-import io.snabble.pay.app.feature.home.ShowAccounts
 import io.snabble.pay.app.feature.home.ui.widget.DemoCard
 import io.snabble.pay.app.ui.widgets.AlertWidget
 import io.snabble.pay.app.ui.widgets.accountcard.AccountCardPager
@@ -83,9 +80,9 @@ fun HomeScreen(
         }
     }
 
-    val uiState = homeViewModel.uiState.collectAsState()
-    when (val state = uiState.value) {
-        Loading -> Home(
+    val uiState = homeViewModel.uiState.collectAsState().value
+    if (uiState.isLoading) {
+        Home(
             cardComposable = {
                 Box(
                     modifier = Modifier
@@ -101,11 +98,22 @@ fun HomeScreen(
             },
             onFloatingActionButtonClick = homeViewModel::getValidationLink
         )
-        is ShowAccounts -> Home(
+    } else if (uiState.isNewUser) {
+        Home(
+            cardComposable = {
+                DemoCard(
+                    modifier = Modifier
+                        .padding(horizontal = 16.dp)
+                )
+            },
+            onFloatingActionButtonClick = homeViewModel::getValidationLink
+        )
+    } else if (uiState.accountCards != null) {
+        Home(
             cardComposable = {
                 AccountCardPager(
                     modifier = Modifier,
-                    accountCardList = state.accountCards,
+                    accountCardList = uiState.accountCards,
                     onCurrentPage = { accountId ->
                         homeViewModel.setActiveAccountCard(accountId.trimIndent())
                     }
@@ -121,14 +129,9 @@ fun HomeScreen(
             },
             onFloatingActionButtonClick = homeViewModel::getValidationLink
         )
-        AddNewCart -> Home(
-            cardComposable = {
-                DemoCard(
-                    modifier = Modifier
-                        .padding(horizontal = 16.dp)
-                )
-            },
-            onFloatingActionButtonClick = homeViewModel::getValidationLink
-        )
+    }
+
+    if (uiState.purchases != null){
+
     }
 }

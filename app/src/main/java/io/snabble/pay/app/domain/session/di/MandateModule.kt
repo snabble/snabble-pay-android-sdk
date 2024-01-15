@@ -13,6 +13,8 @@ import io.snabble.pay.app.domain.session.usecase.GetCurrentSessionUseCaseImpl
 import io.snabble.pay.app.domain.session.usecase.GetSessionUseCase
 import io.snabble.pay.app.domain.session.usecase.GetSessionsUseCase
 import io.snabble.pay.app.domain.session.usecase.UpdateTokenUseCase
+import io.snabble.pay.app.domain.transactions.GetAllPurchasesUseCase
+import io.snabble.pay.app.domain.transactions.GetAllPurchasesUseCaseImpl
 
 @InstallIn(SingletonComponent::class)
 @Module
@@ -51,4 +53,9 @@ class MandateModule {
     fun bindGetCurrentSessionUseCase(
         getCurrentSessionUseCase: GetCurrentSessionUseCaseImpl,
     ): GetCurrentSessionUseCase
+
+    @Binds
+    fun bindGetAllPurchasesUseCase(
+        getAllPurchasesUseCaseImpl: GetAllPurchasesUseCaseImpl,
+    ): GetAllPurchasesUseCase
 }

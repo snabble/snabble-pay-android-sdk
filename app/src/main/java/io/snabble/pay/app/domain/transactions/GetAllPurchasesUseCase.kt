@@ -5,24 +5,35 @@ import io.snabble.pay.app.data.utils.AppSuccess
 import io.snabble.pay.app.domain.session.SessionModel
 import io.snabble.pay.app.domain.session.usecase.GetSessionsUseCase
 import io.snabble.pay.session.domain.model.TransactionState
+import kotlinx.coroutines.currentCoroutineContext
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.isActive
 import javax.inject.Inject
+import kotlin.time.Duration.Companion.seconds
 
 interface GetAllPurchasesUseCase {
 
-    suspend operator fun invoke(): List<PurchasesModel>?
+    suspend operator fun invoke(): Flow<List<PurchasesModel>>
 }
 
 class GetAllPurchasesUseCaseImpl @Inject constructor(
     private val getSessionsUseCase: GetSessionsUseCase,
 ) : GetAllPurchasesUseCase {
 
-    override suspend operator fun invoke(): List<PurchasesModel>? {
-        return when (val sessions = getSessionsUseCase()) {
-            is AppSuccess -> {
-                sessions.value.mapToTransactionsModel()
-            }
+    override suspend operator fun invoke(): Flow<List<PurchasesModel>> = flow {
+        while (currentCoroutineContext().isActive) {
+            when (val sessions = getSessionsUseCase()) {
+                is AppSuccess -> {
+                    emit(sessions.value.mapToTransactionsModel())
+                }
 
-            is AppError -> null
+                is AppError -> {
+                    // Don't emit
+                }
+            }
+            delay(20.seconds)
         }
     }
 
@@ -31,7 +42,7 @@ class GetAllPurchasesUseCaseImpl @Inject constructor(
             session.transaction?.let {
                 PurchasesModel(
                     data = it.finalizedAt,
-                    amount = it.amount.toString(),
+                    amount = it.amount,
                     cardName = session.accountCard.name,
                     state = if (it.state == TransactionState.SUCCESSFUL) PurchasesState.SUCCESS else PurchasesState.FAILED
                 )

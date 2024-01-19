@@ -50,9 +50,7 @@ fun AccountDetails(
         mutableStateOf(accountCard.name)
     }
 
-    val showDeleteDialog = remember {
-        mutableStateOf(false)
-    }
+    val showDeleteDialog = remember { mutableStateOf(false) }
 
     AppBarLayout(
         title = "",

@@ -18,6 +18,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -36,6 +38,7 @@ import io.snabble.pay.app.feature.detailsaccount.ui.widget.EditCardNameDialog
 import io.snabble.pay.app.feature.detailsaccount.ui.widget.mandate.MandateState
 import io.snabble.pay.app.feature.newaccount.ui.NewAccountScreenNavArgs
 import io.snabble.pay.app.ui.AppBarLayout
+import io.snabble.pay.app.ui.SnabblePayDialog
 import io.snabble.pay.app.ui.theme.SnabblePayTheme
 import io.snabble.pay.app.ui.widgets.accountcard.AccountCard
 import io.snabble.pay.mandate.domain.model.Mandate
@@ -56,7 +59,7 @@ fun AccountDetails(
     val cardName = rememberSaveable(inputs = arrayOf(accountCard.name)) {
         mutableStateOf(accountCard.name)
     }
-
+    val showDeleteDialog = remember { mutableStateOf(false) }
     SnabblePayTheme {
         AppBarLayout(
             title = cardName.value,
@@ -74,6 +77,18 @@ fun AccountDetails(
                         showChangeTitleDialog.value = false
                     }
                 )
+            }
+            if (showDeleteDialog.value) {
+                SnabblePayDialog(
+                    dialogTitle = stringResource(id = R.string.delete_card_title),
+                    dialogText = stringResource(id = R.string.delete_card_message),
+                    confirmButtonLabel = stringResource(id = R.string.delete_card_confirm),
+                    onConfirm = {
+                        onDeleteAccount()
+                        showDeleteDialog.value = false
+                    },
+                    cancelButtonLabel = stringResource(id = R.string.delete_card_cancel)
+                ) { showDeleteDialog.value = false }
             }
             Column(modifier = Modifier.fillMaxWidth()) {
                 Spacer(modifier = Modifier.height(32.dp))
@@ -129,7 +144,7 @@ fun AccountDetails(
                         }
                         DeleteButton(
                             modifier = Modifier.fillMaxWidth(),
-                            onClick = onDeleteAccount
+                            onClick = { showDeleteDialog.value = true }
                         )
                     }
                 }

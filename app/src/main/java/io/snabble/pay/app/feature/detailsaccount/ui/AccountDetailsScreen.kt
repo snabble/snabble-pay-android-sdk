@@ -11,13 +11,11 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import com.ramcosta.composedestinations.navigation.popUpTo
 import io.snabble.pay.app.R
 import io.snabble.pay.app.data.utils.ErrorResponse
 import io.snabble.pay.app.feature.destinations.HomeScreenDestination
-import io.snabble.pay.app.feature.detailsaccount.AccountDeleted
 import io.snabble.pay.app.feature.detailsaccount.DetailsAccountViewModel
-import io.snabble.pay.app.feature.detailsaccount.Loading
-import io.snabble.pay.app.feature.detailsaccount.ShowAccount
 import io.snabble.pay.app.ui.widgets.AlertWidget
 import io.snabble.pay.core.Reason
 
@@ -58,22 +56,22 @@ fun AccountDetailsScreen(
         }
     }
 
-    val uiState = viewModel.uiState.collectAsState()
+    val uiState = viewModel.uiState.collectAsState().value
 
-    when (val state = uiState.value) {
-        is Loading -> LoadingScreen(navigator = navigator)
-
-        is ShowAccount -> {
-            AccountDetails(
-                navigator = navigator,
-                mandate = state.mandate,
-                accountCard = state.accountCard,
-                onLabelChange = viewModel::updateAccountName,
-                onDeleteAccount = viewModel::deleteAccount
-            )
+    when {
+        uiState.isLoading -> LoadingScreen(navigator = navigator)
+        uiState.accountCard != null -> AccountDetails(
+            navigator = navigator,
+            mandate = uiState.mandate,
+            accountCard = uiState.accountCard,
+            onLabelChange = viewModel::updateAccountName,
+            onDeleteAccount = viewModel::deleteAccount
+        )
+        uiState.isAccountDeleted -> navigator?.navigate(HomeScreenDestination) {
+            popUpTo(HomeScreenDestination) {
+                inclusive = true
+            }
         }
-
-        is AccountDeleted -> navigator?.navigate(HomeScreenDestination)
     }
 }
 

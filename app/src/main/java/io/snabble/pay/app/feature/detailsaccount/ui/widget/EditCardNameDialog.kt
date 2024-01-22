@@ -35,6 +35,7 @@ fun EditCardNameDialog(
     val editTextValue = rememberSaveable(inputs = arrayOf(cardName)) {
         mutableStateOf(cardName)
     }
+
     Dialog(onDismissRequest = onDismissRequest) {
         Surface(
             shape = RoundedCornerShape(24.dp)
@@ -45,7 +46,10 @@ fun EditCardNameDialog(
                     .padding(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(text = stringResource(id = R.string.account_details_change_title), style = MaterialTheme.typography.titleLarge)
+                Text(
+                    text = stringResource(id = R.string.account_details_change_title),
+                    style = MaterialTheme.typography.titleLarge
+                )
                 Spacer(modifier = Modifier.size(16.dp))
                 EditTextFieldCentered(
                     modifier = Modifier

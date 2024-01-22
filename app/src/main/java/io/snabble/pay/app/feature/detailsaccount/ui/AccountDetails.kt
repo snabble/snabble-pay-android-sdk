@@ -13,12 +13,15 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import io.snabble.pay.app.R
 import io.snabble.pay.app.domain.account.AccountCard
 import io.snabble.pay.app.domain.account.utils.GradiantGenerator
 import io.snabble.pay.app.feature.destinations.HomeScreenDestination
@@ -29,6 +32,7 @@ import io.snabble.pay.app.feature.detailsaccount.ui.widget.EditTextFieldCentered
 import io.snabble.pay.app.feature.detailsaccount.ui.widget.mandate.MandateState
 import io.snabble.pay.app.feature.newaccount.ui.NewAccountScreenNavArgs
 import io.snabble.pay.app.ui.AppBarLayout
+import io.snabble.pay.app.ui.SnabblePayDialog
 import io.snabble.pay.app.ui.theme.SnabblePayTheme
 import io.snabble.pay.app.ui.widgets.accountcard.AccountCard
 import io.snabble.pay.mandate.domain.model.Mandate
@@ -46,6 +50,8 @@ fun AccountDetails(
         mutableStateOf(accountCard.name)
     }
 
+    val showDeleteDialog = remember { mutableStateOf(false) }
+
     AppBarLayout(
         title = "",
         icon = Icons.Filled.Clear,
@@ -53,6 +59,18 @@ fun AccountDetails(
             navigator?.navigate(HomeScreenDestination)
         }
     ) {
+        if (showDeleteDialog.value) {
+            SnabblePayDialog(
+                dialogTitle = stringResource(id = R.string.delete_card_title),
+                dialogText = stringResource(id = R.string.delete_card_message),
+                confirmButtonLabel = stringResource(id = R.string.delete_card_confirm),
+                onConfirm = {
+                    onDeleteAccount()
+                    showDeleteDialog.value = false
+                },
+                cancelButtonLabel = stringResource(id = R.string.delete_card_cancel)
+            ) { showDeleteDialog.value = false }
+        }
         Column(modifier = Modifier.fillMaxWidth()) {
             Spacer(modifier = Modifier.height(16.dp))
             EditTextFieldCentered(
@@ -97,7 +115,7 @@ fun AccountDetails(
                     Spacer(modifier = Modifier.weight(1f))
                     DeleteButton(
                         modifier = Modifier.fillMaxWidth(),
-                        onClick = onDeleteAccount
+                        onClick = { showDeleteDialog.value = true }
                     )
                 }
             }

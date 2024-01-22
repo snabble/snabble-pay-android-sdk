@@ -1,53 +1,58 @@
 package io.snabble.pay.app.ui.widgets.accountcard
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color.Companion.Black
 import androidx.compose.ui.text.font.FontWeight.Companion.Bold
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.sp
 
 @Composable
 fun CardInformation(
     modifier: Modifier = Modifier,
     holderName: String,
     iban: String,
-    bank: String,
+    customCardName: String,
 ) {
     Column(
         modifier = modifier
     ) {
         Text(
             modifier = Modifier.fillMaxWidth(),
-            text = holderName,
-            color = Black,
-            fontWeight = Bold,
-            style = MaterialTheme.typography.labelMedium,
-            textAlign = TextAlign.Start
-
-        )
-        Text(
-            modifier = Modifier.fillMaxWidth(),
             text = iban.toIban(),
             color = Black,
-            style = MaterialTheme.typography.bodyMedium,
+            fontWeight = Bold,
+            style = MaterialTheme.typography.labelLarge,
             textAlign = TextAlign.Start
 
         )
-        Text(
-            modifier = Modifier.fillMaxWidth(),
-            text = bank,
-            color = Black,
-            fontWeight = Bold,
-            style = MaterialTheme.typography.labelMedium,
-            letterSpacing = 1.5.sp,
-            textAlign = TextAlign.Start
-        )
+        Row(
+            Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                modifier = Modifier.weight(1f),
+                text = holderName,
+                color = Black,
+                textAlign = TextAlign.Start,
+                fontWeight = Bold,
+                style = MaterialTheme.typography.labelSmall
+            )
+            Text(
+                modifier = Modifier.weight(1f),
+                text = customCardName,
+                color = Black,
+                fontWeight = Bold,
+                style = MaterialTheme.typography.labelSmall,
+                textAlign = TextAlign.End
+            )
+        }
     }
 }
 
@@ -59,7 +64,7 @@ fun AccountInformationPreview() {
     CardInformation(
         holderName = "Max Mustermann",
         iban = "DE12 3456 7891 0112 13",
-        bank = "Mustermann Bank"
+        customCardName = "Mustermann Bank"
     )
 }
 

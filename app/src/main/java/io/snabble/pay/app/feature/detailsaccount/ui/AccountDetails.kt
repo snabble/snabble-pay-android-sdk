@@ -19,11 +19,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -34,7 +34,7 @@ import io.snabble.pay.app.feature.destinations.HomeScreenDestination
 import io.snabble.pay.app.feature.destinations.NewAccountScreenDestination
 import io.snabble.pay.app.feature.detailsaccount.ui.widget.DeleteButton
 import io.snabble.pay.app.feature.detailsaccount.ui.widget.DetailsBackground
-import io.snabble.pay.app.feature.detailsaccount.ui.widget.EditCardNameDialog
+import io.snabble.pay.app.feature.detailsaccount.ui.widget.EditTextFieldCentered
 import io.snabble.pay.app.feature.detailsaccount.ui.widget.mandate.MandateState
 import io.snabble.pay.app.feature.newaccount.ui.NewAccountScreenNavArgs
 import io.snabble.pay.app.ui.AppBarLayout
@@ -68,26 +68,45 @@ fun AccountDetails(
             }
         ) {
             if (showChangeTitleDialog.value) {
-                EditCardNameDialog(
-                    cardName = accountCard.name,
-                    onDismissRequest = { showChangeTitleDialog.value = false },
-                    onSaveNameRequest = {
-                        onLabelChange(it, accountCard.cardBackgroundColor)
-                        cardName.value = it
-                        showChangeTitleDialog.value = false
-                    }
-                )
+                SnabblePayDialog(
+                    dialogTitle = stringResource(id = R.string.account_details_change_title),
+                    message = {
+                        EditTextFieldCentered(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp),
+                            value = cardName.value,
+                            onValueChange = { cardName.value = it },
+                            onAction = {
+                                onLabelChange(cardName.value, accountCard.cardBackgroundColor)
+                                showChangeTitleDialog.value = false
+                            }
+                        )
+                    },
+                    secondaryButtonLabel = stringResource(id = R.string.change_title_dialog_button)
+                ) {
+                    onLabelChange(cardName.value, accountCard.cardBackgroundColor)
+                    showChangeTitleDialog.value = false
+                }
             }
             if (showDeleteDialog.value) {
                 SnabblePayDialog(
                     dialogTitle = stringResource(id = R.string.delete_card_title),
-                    dialogText = stringResource(id = R.string.delete_card_message),
-                    confirmButtonLabel = stringResource(id = R.string.delete_card_confirm),
-                    onConfirm = {
+                    message = {
+                        Text(
+                            modifier = Modifier.fillMaxWidth(),
+                            color = MaterialTheme.colorScheme.onSurface,
+                            text = stringResource(id = R.string.delete_card_message),
+                            textAlign = TextAlign.Center,
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                    },
+                    primaryButtonLabel = stringResource(id = R.string.delete_card_confirm),
+                    onPrimaryClick = {
                         onDeleteAccount()
                         showDeleteDialog.value = false
                     },
-                    cancelButtonLabel = stringResource(id = R.string.delete_card_cancel)
+                    secondaryButtonLabel = stringResource(id = R.string.delete_card_cancel)
                 ) { showDeleteDialog.value = false }
             }
             Column(modifier = Modifier.fillMaxWidth()) {

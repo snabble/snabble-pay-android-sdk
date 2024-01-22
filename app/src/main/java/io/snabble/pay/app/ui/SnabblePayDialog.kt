@@ -1,12 +1,8 @@
 package io.snabble.pay.app.ui
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -24,20 +20,14 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.ripple.LocalRippleTheme
 import androidx.compose.material.ripple.RippleTheme
-import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.compositeOver
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import io.snabble.pay.app.R
 import io.snabble.pay.app.ui.theme.SnabblePayTheme
 
 @Composable
@@ -58,23 +48,8 @@ fun SnabblePayDialog(
                 color = MaterialTheme.colorScheme.surface,
                 shape = RoundedCornerShape(size = 28.dp)
             ) {
-                Box(modifier = Modifier.padding(top = 16.dp, end = 16.dp)) {
-                    Image(
-                        modifier = Modifier
-                            .align(Alignment.TopEnd)
-                            .clickable(
-                                interactionSource = remember { MutableInteractionSource() },
-                                indication = rememberRipple(bounded = false)
-                            ) {
-                                onDismiss()
-                            },
-                        painter = painterResource(id = R.drawable.ic_clear),
-                        colorFilter = ColorFilter.tint(color = MaterialTheme.colorScheme.onSurface),
-                        contentDescription = null
-                    )
-                }
                 Column(
-                    modifier = Modifier.padding(all = 24.dp)
+                    modifier = Modifier.padding(all = 16.dp)
                 ) {
                     Text(
                         modifier = Modifier.fillMaxWidth(),

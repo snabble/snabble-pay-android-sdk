@@ -70,8 +70,11 @@ fun AccountDetails(
                 SnabblePayDialog(
                     dialogTitle = stringResource(id = R.string.account_details_change_title),
                     secondaryButtonLabel = stringResource(id = R.string.change_title_dialog_button),
-                    onDismiss = {
+                    onSecondaryClick = {
                         onLabelChange(cardName.value, accountCard.cardBackgroundColor)
+                        showChangeTitleDialog.value = false
+                    },
+                    onDismiss = {
                         showChangeTitleDialog.value = false
                     }
                 ) {
@@ -98,6 +101,7 @@ fun AccountDetails(
                         showDeleteDialog.value = false
                     },
                     secondaryButtonLabel = stringResource(id = R.string.delete_card_cancel),
+                    onSecondaryClick = { showDeleteDialog.value = false },
                     onDismiss = { showDeleteDialog.value = false }
                 )
             }

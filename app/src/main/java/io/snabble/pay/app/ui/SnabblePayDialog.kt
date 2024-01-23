@@ -37,6 +37,7 @@ fun SnabblePayDialog(
     primaryButtonLabel: String? = null,
     onPrimaryClick: (() -> Unit)? = null,
     secondaryButtonLabel: String? = null,
+    onSecondaryClick: (() -> Unit)? = null,
     onDismiss: () -> Unit,
     content: (@Composable () -> Unit)? = null,
 ) {
@@ -76,8 +77,11 @@ fun SnabblePayDialog(
                     Row(
                         horizontalArrangement = Arrangement.spacedBy(space = 32.dp)
                     ) {
-                        if (secondaryButtonLabel != null) {
-                            SecondaryButton(label = secondaryButtonLabel, onClick = onDismiss)
+                        if (secondaryButtonLabel != null && onSecondaryClick != null) {
+                            SecondaryButton(
+                                label = secondaryButtonLabel,
+                                onClick = onSecondaryClick
+                            )
                         }
                         if (primaryButtonLabel != null && onPrimaryClick != null) {
                             PrimaryButton(label = primaryButtonLabel, onClick = onPrimaryClick)

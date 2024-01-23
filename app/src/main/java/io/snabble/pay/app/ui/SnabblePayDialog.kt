@@ -33,11 +33,12 @@ import io.snabble.pay.app.ui.theme.SnabblePayTheme
 @Composable
 fun SnabblePayDialog(
     dialogTitle: String,
-    message: @Composable () -> Unit,
+    message: String? = null,
     primaryButtonLabel: String? = null,
     onPrimaryClick: (() -> Unit)? = null,
     secondaryButtonLabel: String? = null,
     onDismiss: () -> Unit,
+    content: (@Composable () -> Unit)? = null,
 ) {
     SnabblePayTheme {
         Dialog(onDismissRequest = onDismiss) {
@@ -59,7 +60,18 @@ fun SnabblePayDialog(
                         style = MaterialTheme.typography.titleLarge
                     )
                     Spacer(modifier = Modifier.height(16.dp))
-                    message()
+                    if (message != null) {
+                        Text(
+                            modifier = Modifier.fillMaxWidth(),
+                            color = MaterialTheme.colorScheme.onSurface,
+                            text = message,
+                            textAlign = TextAlign.Center,
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                    }
+                    if (content != null) {
+                        content()
+                    }
                     Spacer(modifier = Modifier.height(24.dp))
                     Row(
                         horizontalArrangement = Arrangement.spacedBy(space = 32.dp)
@@ -68,7 +80,7 @@ fun SnabblePayDialog(
                             SecondaryButton(label = secondaryButtonLabel, onClick = onDismiss)
                         }
                         if (primaryButtonLabel != null && onPrimaryClick != null) {
-                            PrimaryButton(primaryButtonLabel, onPrimaryClick)
+                            PrimaryButton(label = primaryButtonLabel, onClick = onPrimaryClick)
                         }
                     }
                 }

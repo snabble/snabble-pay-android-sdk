@@ -23,7 +23,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -70,44 +69,37 @@ fun AccountDetails(
             if (showChangeTitleDialog.value) {
                 SnabblePayDialog(
                     dialogTitle = stringResource(id = R.string.account_details_change_title),
-                    message = {
-                        EditTextFieldCentered(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = 16.dp),
-                            value = cardName.value,
-                            onValueChange = { cardName.value = it },
-                            onAction = {
-                                onLabelChange(cardName.value, accountCard.cardBackgroundColor)
-                                showChangeTitleDialog.value = false
-                            }
-                        )
-                    },
-                    secondaryButtonLabel = stringResource(id = R.string.change_title_dialog_button)
+                    secondaryButtonLabel = stringResource(id = R.string.change_title_dialog_button),
+                    onDismiss = {
+                        onLabelChange(cardName.value, accountCard.cardBackgroundColor)
+                        showChangeTitleDialog.value = false
+                    }
                 ) {
-                    onLabelChange(cardName.value, accountCard.cardBackgroundColor)
-                    showChangeTitleDialog.value = false
+                    EditTextFieldCentered(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp),
+                        value = cardName.value,
+                        onValueChange = { cardName.value = it },
+                        onAction = {
+                            onLabelChange(cardName.value, accountCard.cardBackgroundColor)
+                            showChangeTitleDialog.value = false
+                        }
+                    )
                 }
             }
             if (showDeleteDialog.value) {
                 SnabblePayDialog(
                     dialogTitle = stringResource(id = R.string.delete_card_title),
-                    message = {
-                        Text(
-                            modifier = Modifier.fillMaxWidth(),
-                            color = MaterialTheme.colorScheme.onSurface,
-                            text = stringResource(id = R.string.delete_card_message),
-                            textAlign = TextAlign.Center,
-                            style = MaterialTheme.typography.bodyMedium
-                        )
-                    },
+                    message = stringResource(id = R.string.delete_card_message),
                     primaryButtonLabel = stringResource(id = R.string.delete_card_confirm),
                     onPrimaryClick = {
                         onDeleteAccount()
                         showDeleteDialog.value = false
                     },
-                    secondaryButtonLabel = stringResource(id = R.string.delete_card_cancel)
-                ) { showDeleteDialog.value = false }
+                    secondaryButtonLabel = stringResource(id = R.string.delete_card_cancel),
+                    onDismiss = { showDeleteDialog.value = false }
+                )
             }
             Column(modifier = Modifier.fillMaxWidth()) {
                 Spacer(modifier = Modifier.height(32.dp))

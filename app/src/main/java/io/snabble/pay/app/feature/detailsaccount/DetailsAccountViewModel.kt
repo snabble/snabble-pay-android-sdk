@@ -55,8 +55,8 @@ class DetailsAccountViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
 ) : ViewModel(), DefaultLifecycleObserver {
 
-    private var _uiState = MutableStateFlow(UiState2(isLoading = true))
-    val uiState: StateFlow<UiState2> = _uiState.asStateFlow()
+    private var _uiState = MutableStateFlow(UiState(isLoading = true))
+    val uiState: StateFlow<UiState> = _uiState.asStateFlow()
 
     private val _error = MutableSharedFlow<ErrorResponse?>()
     val error: SharedFlow<ErrorResponse?> = _error.asSharedFlow()
@@ -204,7 +204,7 @@ class DetailsAccountViewModel @Inject constructor(
     }
 }
 
-data class UiState2(
+data class UiState(
     val isLoading: Boolean = false,
     val isAccountDeleted: Boolean = false,
     val accountCard: AccountCard? = null,

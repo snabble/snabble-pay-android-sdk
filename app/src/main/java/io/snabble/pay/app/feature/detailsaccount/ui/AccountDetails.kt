@@ -61,7 +61,7 @@ fun AccountDetails(
     val showDeleteDialog = remember { mutableStateOf(false) }
     SnabblePayTheme {
         AppBarLayout(
-            title = cardName.value,
+            title = accountCard.name,
             onBackClick = {
                 navigator?.navigate(HomeScreenDestination)
             }
@@ -82,10 +82,11 @@ fun AccountDetails(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(horizontal = 16.dp),
-                        value = cardName.value,
+                        value = accountCard.name,
                         onValueChange = { cardName.value = it },
                         onAction = {
-                            onLabelChange(cardName.value, accountCard.cardBackgroundColor)
+                            cardName.value = it
+                            onLabelChange(it, accountCard.cardBackgroundColor)
                             showChangeTitleDialog.value = false
                         }
                     )

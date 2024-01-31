@@ -11,6 +11,10 @@ import androidx.compose.material3.DividerDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color.Companion.Transparent
 import androidx.compose.ui.text.font.FontWeight
@@ -25,12 +29,15 @@ fun EditTextFieldCentered(
     modifier: Modifier = Modifier,
     value: String = "",
     onValueChange: (String) -> Unit,
-    onAction: () -> Unit,
+    onAction: (String) -> Unit,
 ) {
     val customTextSelectionColors = TextSelectionColors(
         handleColor = MaterialTheme.colorScheme.onSurface,
         backgroundColor = Transparent
     )
+
+    var inputValue by remember { mutableStateOf(value) }
+
     CompositionLocalProvider(
         LocalTextSelectionColors provides customTextSelectionColors
     ) {
@@ -49,13 +56,12 @@ fun EditTextFieldCentered(
                 imeAction = ImeAction.Done
             ),
             keyboardActions = KeyboardActions(
-                onDone = {
-                    onAction()
-                }
+                onDone = { onAction(inputValue) }
             ),
-            value = value,
+            value = inputValue,
             onValueChange = {
                 onValueChange(it)
+                inputValue = it
             },
             maxLines = 1,
             textStyle = MaterialTheme.typography.titleMedium.copy(

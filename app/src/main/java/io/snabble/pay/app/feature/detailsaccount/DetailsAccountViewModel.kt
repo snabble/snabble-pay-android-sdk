@@ -30,8 +30,11 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.time.Duration
 import java.time.ZonedDateTime
@@ -52,11 +55,11 @@ class DetailsAccountViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
 ) : ViewModel(), DefaultLifecycleObserver {
 
-    private var _uiState = MutableStateFlow<UiState>(Loading)
-    val uiState = _uiState.asStateFlow()
+    private var _uiState = MutableStateFlow(UiState(isLoading = true))
+    val uiState: StateFlow<UiState> = _uiState.asStateFlow()
 
     private val _error = MutableSharedFlow<ErrorResponse?>()
-    val error = _error.asSharedFlow()
+    val error: SharedFlow<ErrorResponse?> = _error.asSharedFlow()
 
     val accountId: String = requireNotNull(savedStateHandle["accountId"])
     private var tokenRefreshJob: Job? = null
@@ -72,7 +75,13 @@ class DetailsAccountViewModel @Inject constructor(
                     }
                     val mandate = getMandateFor(accountId)
 
-                    _uiState.tryEmit(ShowAccount(account, mandate))
+                    _uiState.update {
+                        it.copy(
+                            isLoading = false,
+                            accountCard = account,
+                            mandate = mandate
+                        )
+                    }
                     loadSessionToken()
                 }
         }
@@ -163,20 +172,14 @@ class DetailsAccountViewModel @Inject constructor(
     private suspend fun addSessionTokenToAccount(
         sessionToken: SessionTokenModel?,
     ) {
-        when (val state = uiState.value) {
-            is ShowAccount -> {
-                val account = state.accountCard.copy(sessionToken = sessionToken)
-                delay(1.seconds)
-                _uiState.tryEmit(ShowAccount(account, state.mandate))
-            }
-
-            else -> {}
-        }
+        delay(1.seconds)
+        _uiState.update { it.copy(accountCard = uiState.value.accountCard?.copy(sessionToken = sessionToken)) }
     }
 
     fun updateAccountName(name: String, colors: List<String>) {
         viewModelScope.launch {
             setCardLabelAndColors(accountId = accountId, name = name, colors = colors)
+            _uiState.update { it.copy(accountCard = uiState.value.accountCard?.copy(name = name)) }
         }
     }
 
@@ -184,7 +187,11 @@ class DetailsAccountViewModel @Inject constructor(
         viewModelScope.launch {
             removeAccount(accountId = accountId)
                 .onError { _error.emit(it) }
-                .onSuccess { _uiState.tryEmit(AccountDeleted(it)) }
+                .onSuccess {
+                    _uiState.update {
+                        it.copy(accountCard = null, mandate = null, isAccountDeleted = true)
+                    }
+                }
         }
     }
 
@@ -197,15 +204,9 @@ class DetailsAccountViewModel @Inject constructor(
     }
 }
 
-sealed interface UiState
-
-object Loading : UiState
-
-data class ShowAccount(
-    val accountCard: AccountCard,
-    val mandate: Mandate?,
-) : UiState
-
-data class AccountDeleted(
-    val accountCard: AccountCard,
-) : UiState
+data class UiState(
+    val isLoading: Boolean = false,
+    val isAccountDeleted: Boolean = false,
+    val accountCard: AccountCard? = null,
+    val mandate: Mandate? = null,
+)

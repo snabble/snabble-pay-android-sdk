@@ -33,11 +33,13 @@ import io.snabble.pay.app.ui.theme.SnabblePayTheme
 @Composable
 fun SnabblePayDialog(
     dialogTitle: String,
-    dialogText: String,
-    confirmButtonLabel: String,
-    onConfirm: () -> Unit,
-    cancelButtonLabel: String,
+    message: String? = null,
+    primaryButtonLabel: String? = null,
+    onPrimaryClick: (() -> Unit)? = null,
+    secondaryButtonLabel: String? = null,
+    onSecondaryClick: (() -> Unit)? = null,
     onDismiss: () -> Unit,
+    content: (@Composable () -> Unit)? = null,
 ) {
     SnabblePayTheme {
         Dialog(onDismissRequest = onDismiss) {
@@ -59,19 +61,31 @@ fun SnabblePayDialog(
                         style = MaterialTheme.typography.titleLarge
                     )
                     Spacer(modifier = Modifier.height(16.dp))
-                    Text(
-                        modifier = Modifier.fillMaxWidth(),
-                        color = MaterialTheme.colorScheme.onSurface,
-                        text = dialogText,
-                        textAlign = TextAlign.Center,
-                        style = MaterialTheme.typography.bodyMedium
-                    )
+                    if (message != null) {
+                        Text(
+                            modifier = Modifier.fillMaxWidth(),
+                            color = MaterialTheme.colorScheme.onSurface,
+                            text = message,
+                            textAlign = TextAlign.Center,
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                    }
+                    if (content != null) {
+                        content()
+                    }
                     Spacer(modifier = Modifier.height(24.dp))
                     Row(
                         horizontalArrangement = Arrangement.spacedBy(space = 32.dp)
                     ) {
-                        CancelButton(label = cancelButtonLabel, onClick = onDismiss)
-                        ConfirmButton(confirmButtonLabel, onConfirm)
+                        if (secondaryButtonLabel != null && onSecondaryClick != null) {
+                            SecondaryButton(
+                                label = secondaryButtonLabel,
+                                onClick = onSecondaryClick
+                            )
+                        }
+                        if (primaryButtonLabel != null && onPrimaryClick != null) {
+                            PrimaryButton(label = primaryButtonLabel, onClick = onPrimaryClick)
+                        }
                     }
                 }
             }
@@ -80,7 +94,7 @@ fun SnabblePayDialog(
 }
 
 @Composable
-private fun RowScope.ConfirmButton(confirmButtonLabel: String, onConfirmation: () -> Unit) {
+private fun RowScope.PrimaryButton(label: String, onClick: () -> Unit) {
     CompositionLocalProvider(LocalRippleTheme provides OkButtonRippleTheme) {
         OutlinedButton(
             modifier = Modifier
@@ -96,10 +110,10 @@ private fun RowScope.ConfirmButton(confirmButtonLabel: String, onConfirmation: (
             ),
             shape = RoundedCornerShape(percent = 100),
             contentPadding = PaddingValues(horizontal = 24.dp, vertical = 10.dp),
-            onClick = { onConfirmation() }
+            onClick = { onClick() }
         ) {
             Text(
-                text = confirmButtonLabel,
+                text = label,
                 style = MaterialTheme.typography.labelLarge
             )
         }
@@ -107,7 +121,7 @@ private fun RowScope.ConfirmButton(confirmButtonLabel: String, onConfirmation: (
 }
 
 @Composable
-private fun RowScope.CancelButton(label: String, onClick: () -> Unit) {
+private fun RowScope.SecondaryButton(label: String, onClick: () -> Unit) {
     OutlinedButton(
         modifier = Modifier
             .fillMaxWidth()

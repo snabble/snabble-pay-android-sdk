@@ -1,17 +1,17 @@
 package io.snabble.pay.app.feature.detailsaccount.ui.widget
 
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.ButtonDefaults
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.TextButton
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.DeleteOutline
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import io.snabble.pay.app.R
 
@@ -22,19 +22,19 @@ fun DeleteButton(
 ) {
     TextButton(
         modifier = modifier,
-        colors = ButtonDefaults.elevatedButtonColors(
-            containerColor = colorResource(id = R.color.gray),
-            contentColor = MaterialTheme.colorScheme.onPrimary
-        ),
-        onClick = { onClick() }
+        onClick = onClick,
+        shape = RoundedCornerShape(32.dp)
     ) {
         Icon(
-            imageVector = ImageVector.vectorResource(id = R.drawable.ic_snabble_delete),
-            contentDescription = ""
+            imageVector = Icons.Outlined.DeleteOutline,
+            contentDescription = "",
+            tint = Color.Black
         )
         Text(
             modifier = Modifier.padding(start = 8.dp),
-            text = stringResource(id = R.string.details_delete_account)
+            text = stringResource(id = R.string.details_delete_account),
+            style = MaterialTheme.typography.labelLarge,
+            color = Color.Black
         )
     }
 }

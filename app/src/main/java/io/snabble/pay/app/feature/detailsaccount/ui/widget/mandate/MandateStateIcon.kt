@@ -1,5 +1,6 @@
 package io.snabble.pay.app.feature.detailsaccount.ui.widget.mandate
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -31,17 +32,18 @@ fun MandateStateIcon(
     Surface(
         modifier = Modifier
             .defaultMinSize(
-                minWidth = 33.dp,
-                minHeight = 33.dp
+                minWidth = 24.dp,
+                minHeight = 24.dp
             )
             .then(modifier),
         shape = CircleShape,
-        color = colorResource(id = R.color.gray)
+        color = colorResource(id = R.color.gray),
+        border = BorderStroke(1.5.dp, Color.Black)
     ) {
         Icon(
             modifier = Modifier
-                .padding(8.dp)
-                .size(24.dp),
+                .padding(4.dp)
+                .size(10.dp),
             imageVector = when (mandateState) {
                 ACCEPTED -> Icons.Filled.Check
                 DECLINED -> Icons.Filled.Clear

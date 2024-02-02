@@ -1,5 +1,6 @@
 package io.snabble.pay.app.feature.detailsaccount.ui
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -7,10 +8,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.OutlinedButton
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Clear
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ElevatedCard
+import androidx.compose.material.icons.outlined.Edit
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -46,77 +51,118 @@ fun AccountDetails(
     onLabelChange: (label: String, colors: List<String>) -> Unit,
     onDeleteAccount: () -> Unit,
 ) {
+    val showChangeTitleDialog = rememberSaveable {
+        mutableStateOf(false)
+    }
+
     val cardName = rememberSaveable(inputs = arrayOf(accountCard.name)) {
         mutableStateOf(accountCard.name)
     }
-
     val showDeleteDialog = remember { mutableStateOf(false) }
-
-    AppBarLayout(
-        title = "",
-        icon = Icons.Filled.Clear,
-        onBackClick = {
-            navigator?.navigate(HomeScreenDestination)
-        }
-    ) {
-        if (showDeleteDialog.value) {
-            SnabblePayDialog(
-                dialogTitle = stringResource(id = R.string.delete_card_title),
-                dialogText = stringResource(id = R.string.delete_card_message),
-                confirmButtonLabel = stringResource(id = R.string.delete_card_confirm),
-                onConfirm = {
-                    onDeleteAccount()
-                    showDeleteDialog.value = false
-                },
-                cancelButtonLabel = stringResource(id = R.string.delete_card_cancel)
-            ) { showDeleteDialog.value = false }
-        }
-        Column(modifier = Modifier.fillMaxWidth()) {
-            Spacer(modifier = Modifier.height(16.dp))
-            EditTextFieldCentered(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
-                value = cardName.value,
-                onValueChange = { cardName.value = it },
-                onAction = { onLabelChange(cardName.value, accountCard.cardBackgroundColor) }
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            Box(modifier = Modifier.fillMaxWidth()) {
-                DetailsBackground(modifier = Modifier.fillMaxWidth())
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
+    SnabblePayTheme {
+        AppBarLayout(
+            title = accountCard.name,
+            onBackClick = {
+                navigator?.navigate(HomeScreenDestination)
+            }
+        ) {
+            if (showChangeTitleDialog.value) {
+                SnabblePayDialog(
+                    dialogTitle = stringResource(id = R.string.account_details_change_title),
+                    secondaryButtonLabel = stringResource(id = R.string.change_title_dialog_button),
+                    onSecondaryClick = {
+                        onLabelChange(cardName.value, accountCard.cardBackgroundColor)
+                        showChangeTitleDialog.value = false
+                    },
+                    onDismiss = {
+                        showChangeTitleDialog.value = false
+                    }
                 ) {
-                    AccountCard(
-                        accountCard = accountCard,
-                        onClick = {
-                            navigator?.navigate(
-                                NewAccountScreenDestination(
-                                    navArgs = NewAccountScreenNavArgs(
-                                        accountCard.accountId
+                    EditTextFieldCentered(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp),
+                        value = accountCard.name,
+                        onValueChange = { cardName.value = it },
+                        onAction = {
+                            cardName.value = it
+                            onLabelChange(it, accountCard.cardBackgroundColor)
+                            showChangeTitleDialog.value = false
+                        }
+                    )
+                }
+            }
+            if (showDeleteDialog.value) {
+                SnabblePayDialog(
+                    dialogTitle = stringResource(id = R.string.delete_card_title),
+                    message = stringResource(id = R.string.delete_card_message),
+                    primaryButtonLabel = stringResource(id = R.string.delete_card_confirm),
+                    onPrimaryClick = {
+                        onDeleteAccount()
+                        showDeleteDialog.value = false
+                    },
+                    secondaryButtonLabel = stringResource(id = R.string.delete_card_cancel),
+                    onSecondaryClick = { showDeleteDialog.value = false },
+                    onDismiss = { showDeleteDialog.value = false }
+                )
+            }
+            Column(modifier = Modifier.fillMaxWidth()) {
+                Spacer(modifier = Modifier.height(32.dp))
+                Box(modifier = Modifier.fillMaxWidth()) {
+                    DetailsBackground(modifier = Modifier.fillMaxWidth())
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
+                    ) {
+                        AccountCard(
+                            accountCard = accountCard,
+                            onClick = {
+                                navigator?.navigate(
+                                    NewAccountScreenDestination(
+                                        navArgs = NewAccountScreenNavArgs(
+                                            accountCard.accountId
+                                        )
                                     )
                                 )
-                            )
-                        },
-                        qrCodeString = accountCard.sessionToken?.value
-                    )
-                    Spacer(modifier = Modifier.height(16.dp))
-                    ElevatedCard(
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        colors = CardDefaults.cardColors(
-                            containerColor = Color.White
+                            },
+                            qrCodeString = accountCard.sessionToken?.value
                         )
-                    ) {
-                        MandateState(mandateState = mandate?.state ?: Mandate.State.PENDING)
+                        Spacer(modifier = Modifier.height(16.dp))
+                        MandateState(
+                            mandateState = mandate?.state ?: Mandate.State.PENDING,
+                            mandateNumber = mandate?.id ?: ""
+                        )
+                        Spacer(modifier = Modifier.weight(1f))
+                        OutlinedButton(
+                            enabled = true,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 4.dp),
+                            shape = RoundedCornerShape(32.dp),
+                            border = BorderStroke(1.dp, Color.Black),
+                            colors = ButtonDefaults.outlinedButtonColors(
+                                backgroundColor = Color.Transparent
+                            ),
+                            onClick = { showChangeTitleDialog.value = true }
+                        ) {
+                            Icon(
+                                imageVector = Icons.Outlined.Edit,
+                                contentDescription = "",
+                                tint = Color.Black
+                            )
+                            Text(
+                                modifier = Modifier.padding(start = 8.dp),
+                                text = stringResource(id = R.string.account_details_change_title),
+                                color = Color.Black,
+                                style = MaterialTheme.typography.labelLarge
+                            )
+                        }
+                        DeleteButton(
+                            modifier = Modifier.fillMaxWidth(),
+                            onClick = { showDeleteDialog.value = true }
+                        )
                     }
-                    Spacer(modifier = Modifier.weight(1f))
-                    DeleteButton(
-                        modifier = Modifier.fillMaxWidth(),
-                        onClick = { showDeleteDialog.value = true }
-                    )
                 }
             }
         }
